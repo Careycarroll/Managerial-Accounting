@@ -1,0 +1,36 @@
+# ========================
+# OS & System Files
+# ========================.DS_Store               # Mac
+Thumbs.db               # Windows
+desktop.ini
+audit.txt               # used to upload to AI to show code/errors
+
+# ========================
+# Editor & IDE
+# ========================.vscode/.idea/
+*.swp
+*.swo
+
+# ========================
+# Environment & Secrets
+# ========================.env.env.local.env.*
+*.key
+*.pem
+secrets/
+
+# ========================
+# Logs & Temp Files
+# ========================
+*.log
+*.tmp
+*.cache
+/tmp/
+
+# ========================
+# Dependencies (uncomment what applies)
+# ========================
+# node_modules/         # Node/JS
+# __pycache__/          # Python
+# *.pyc                 # Python
+#.venv/                # Python virtual env
+# venv/                 # Python virtual env
