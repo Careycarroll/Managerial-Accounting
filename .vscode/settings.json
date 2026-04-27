@@ -1,7 +1,13 @@
 {
-  "editor.tabSize": 2,
   "editor.formatOnSave": true,
-  "editor.wordWrap": "on",
-  "files.trimTrailingWhitespace": true,
-  "files.insertFinalNewline": true
+  "editor.defaultFormatter": "esbenp.prettier-vscode",
+  "editor.tabSize": 2,
+  "files.associations": {
+    "*.css": "css",
+    "*.js": "javascript"
+  },
+  "emmet.includeLanguages": {
+    "javascript": "html"
+  },
+  "css.customData": [".vscode/css-custom-data.json"]
 }

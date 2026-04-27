@@ -1,0 +1,85 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <meta name="description" content="Interactive learning tools for Horngren's Cost Accounting, 17th Edition" />
+  <title>Managerial Accounting Interactive</title>
+  <link rel="stylesheet" href="/css/base.css" />
+  <link rel="stylesheet" href="/css/components.css" />
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet" />
+</head>
+<body>
+  <header class="site-header" role="banner">
+    <div class="site-header__inner">
+      <a href="/" class="site-header__logo">
+        <span>📊</span>
+        <span>Managerial Accounting</span>
+      </a>
+      <nav class="site-header__nav" role="navigation" aria-label="Main navigation">
+        <a href="/pages/learn/" class="site-header__nav-link">Learn</a>
+        <a href="/pages/apply/" class="site-header__nav-link">Apply</a>
+      </nav>
+    </div>
+  </header>
+  <main>
+    <section class="page__hero">
+      <div class="container">
+        <p class="page__hero-label">Horngren's Cost Accounting · 17th Edition</p>
+        <h1 class="page__hero-title">Managerial Accounting<br>Interactive</h1>
+        <p class="page__hero-subtitle">
+          Learn concepts chapter by chapter, then apply them to real business decisions.
+        </p>
+      </div>
+    </section>
+    <section class="page__body">
+      <div class="container">
+        <div class="landing-grid">
+          <a href="/pages/learn/" class="card card--raised landing-card landing-card--learn">
+            <div class="landing-card__icon">📖</div>
+            <h2 class="landing-card__title">Learn</h2>
+            <p class="landing-card__desc">Study concepts chapter by chapter. Interactive tools, worked examples, and practice problems tied directly to the textbook.</p>
+            <div class="landing-card__meta">
+              <span>24 chapters · 180+ tools</span>
+              <span class="landing-card__cta">Start learning →</span>
+            </div>
+            <div class="progress-bar">
+              <div class="progress-bar__fill" id="learn-progress" style="width:0%"></div>
+            </div>
+            <p class="landing-card__progress-label" id="learn-progress-label">0 of 24 chapters completed</p>
+          </a>
+          <a href="/pages/apply/" class="card card--raised landing-card landing-card--apply">
+            <div class="landing-card__icon">⚡</div>
+            <h2 class="landing-card__title">Apply</h2>
+            <p class="landing-card__desc">Make real business decisions using what you've learned. Three depth levels — from quick concept checks to full management simulations.</p>
+            <div class="landing-card__meta">
+              <span>12 scenarios · 3 depth levels</span>
+              <span class="landing-card__cta">Start applying →</span>
+            </div>
+            <div class="depth-badges">
+              <span class="depth-badge depth-badge--concept">💡 Concept</span>
+              <span class="depth-badge depth-badge--analysis">📊 Analysis</span>
+              <span class="depth-badge depth-badge--simulation">🎮 Simulation</span>
+            </div>
+          </a>
+        </div>
+        <div class="card suggested-path">
+          <p class="suggested-path__label">Suggested Starting Point</p>
+          <div class="suggested-path__links">
+            <a href="/pages/learn/ch01.html" class="suggested-path__link">Ch. 1 · The Manager</a>
+            <span class="suggested-path__arrow">→</span>
+            <a href="/pages/learn/ch02.html" class="suggested-path__link">Ch. 2 · Cost Terms</a>
+            <span class="suggested-path__arrow">→</span>
+            <a href="/pages/learn/ch03.html" class="suggested-path__link">Ch. 3 · CVP Analysis</a>
+            <span class="suggested-path__arrow">→</span>
+            <span class="suggested-path__more">and so on...</span>
+          </div>
+        </div>
+      </div>
+    </section>
+  </main>
+  <script type="module" src="/js/core/main.js"></script>
+</body>
+</html>

@@ -1,0 +1,19 @@
+=== root ===
+README.md
+audit.txt
+css
+index.html
+js
+node_modules
+package-lock.json
+package.json
+pages
+public
+vite.config.js
+=== css ===
+base.css
+components.css
+=== js/core ===
+main.js
+progress-tracker.js
+=== js/components ===
