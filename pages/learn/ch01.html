@@ -1,0 +1,257 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <meta name="description" content="Chapter 1: The Manager and Management Accounting — Interactive learning tools" />
+  <title>Ch. 1 · The Manager and Management Accounting</title>
+  <link rel="stylesheet" href="/css/base.css" />
+  <link rel="stylesheet" href="/css/components.css" />
+  <link rel="stylesheet" href="/css/learn.css" />
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet" />
+</head>
+<body>
+
+  <header class="site-header" role="banner">
+    <div class="site-header__inner">
+      <a href="/" class="site-header__logo">
+        <span>📊</span>
+        <span>Managerial Accounting</span>
+      </a>
+      <nav class="site-header__nav" role="navigation" aria-label="Main navigation">
+        <a href="/pages/learn/" class="site-header__nav-link site-header__nav-link--active">Learn</a>
+        <a href="/pages/apply/" class="site-header__nav-link">Apply</a>
+      </nav>
+    </div>
+  </header>
+
+  <main>
+
+    <!-- Hero -->
+    <section class="page__hero">
+      <div class="container">
+        <div class="chapter-nav">
+          <a href="/pages/learn/" class="chapter-nav__back">← All Chapters</a>
+          <div class="chapter-nav__position">
+            <span>Chapter 1 of 24</span>
+            <a href="/pages/learn/ch02.html" class="chapter-nav__next">Ch. 2 →</a>
+          </div>
+        </div>
+        <div class="chapter-hero__meta">
+          <span class="chapter-badge chapter-badge--foundations">Foundations</span>
+          <span class="chapter-hero__number">Chapter 1</span>
+        </div>
+        <h1 class="page__hero-title">The Manager and<br>Management Accounting</h1>
+        <p class="page__hero-subtitle">
+          How managers use accounting information to plan, control, and make decisions —
+          and the ethical framework that guides them.
+        </p>
+        <div class="chapter-hero__progress" id="ch01-progress-indicator">
+          <span class="chapter-hero__progress-label" id="ch01-status">Not started</span>
+        </div>
+      </div>
+    </section>
+
+    <!-- Learning Objectives -->
+    <section class="learn-section">
+      <div class="container container--tool">
+        <div class="objectives-card card">
+          <h2 class="objectives-card__title">Learning Objectives</h2>
+          <ol class="objectives-list">
+            <li>Distinguish financial, management, and cost accounting</li>
+            <li>Understand the value chain and supply chain</li>
+            <li>Apply the five-step decision-making process</li>
+            <li>Identify key success factors managers focus on</li>
+            <li>Describe the organizational structure and roles</li>
+            <li>Understand professional ethics and the IMA standards</li>
+          </ol>
+        </div>
+      </div>
+    </section>
+
+    <!-- Tool 1: Accounting Types Comparison -->
+    <section class="learn-section learn-section--alt">
+      <div class="container container--tool">
+        <div class="tool-header">
+          <div class="tool-header__label">Tool 1 of 4</div>
+          <h2 class="tool-header__title">Financial vs. Management vs. Cost Accounting</h2>
+          <p class="tool-header__desc">
+            These three types of accounting serve different purposes and different audiences.
+            Click each cell to learn more.
+          </p>
+        </div>
+
+        <div class="comparison-table-wrapper">
+          <table class="comparison-table" role="table" aria-label="Accounting types comparison">
+            <thead>
+              <tr>
+                <th scope="col">Dimension</th>
+                <th scope="col" class="comparison-table__col--financial">Financial Accounting</th>
+                <th scope="col" class="comparison-table__col--management">Management Accounting</th>
+                <th scope="col" class="comparison-table__col--cost">Cost Accounting</th>
+              </tr>
+            </thead>
+            <tbody id="comparison-table-body">
+              <!-- Populated by JS -->
+            </tbody>
+          </table>
+        </div>
+
+        <div class="comparison-detail card" id="comparison-detail" hidden>
+          <p class="comparison-detail__text" id="comparison-detail-text"></p>
+        </div>
+      </div>
+    </section>
+
+    <!-- Tool 2: Value Chain Builder -->
+    <section class="learn-section">
+      <div class="container container--tool">
+        <div class="tool-header">
+          <div class="tool-header__label">Tool 2 of 4</div>
+          <h2 class="tool-header__title">The Value Chain</h2>
+          <p class="tool-header__desc">
+            The value chain is the sequence of business functions by which a product becomes
+            progressively more useful to customers. Drag each activity to its correct function,
+            or click an activity to classify it.
+          </p>
+        </div>
+
+        <div class="value-chain-diagram" id="value-chain-diagram" aria-label="Value chain diagram">
+          <!-- Populated by JS -->
+        </div>
+
+        <div class="value-chain-activities card" style="margin-top: var(--space-6);">
+          <h3 class="value-chain-activities__title">Classify These Activities</h3>
+          <p class="value-chain-activities__hint">Click an activity, then click the value chain function it belongs to.</p>
+          <div class="activity-chips" id="activity-chips">
+            <!-- Populated by JS -->
+          </div>
+        </div>
+
+        <div class="result-panel" id="value-chain-result" hidden>
+          <div class="result-panel__label">Result</div>
+          <p class="result-panel__interpretation" id="value-chain-result-text"></p>
+        </div>
+      </div>
+    </section>
+
+    <!-- Tool 3: Five-Step Decision Process -->
+    <section class="learn-section learn-section--alt">
+      <div class="container container--tool">
+        <div class="tool-header">
+          <div class="tool-header__label">Tool 3 of 4</div>
+          <h2 class="tool-header__title">The Five-Step Decision-Making Process</h2>
+          <p class="tool-header__desc">
+            Managers follow a structured process when making decisions. Walk through each step
+            using the Daily News Company example from the textbook.
+          </p>
+        </div>
+
+        <div class="five-step-container">
+          <div class="five-step-nav" role="tablist" aria-label="Decision process steps">
+            <!-- Populated by JS -->
+          </div>
+          <div class="five-step-content card" id="five-step-content">
+            <!-- Populated by JS -->
+          </div>
+        </div>
+
+        <!-- Worked Example -->
+        <div class="worked-example" id="five-step-example">
+          <div class="worked-example__header" role="button" tabindex="0"
+               aria-expanded="false" aria-controls="five-step-example-body"
+               id="five-step-example-toggle">
+            <span class="worked-example__title">📖 Worked Example — Daily News Company</span>
+            <span class="worked-example__chevron">▼</span>
+          </div>
+          <div class="worked-example__body" id="five-step-example-body" role="region">
+            <div class="example-scenario">
+              <p class="example-scenario__context">
+                The Daily News is considering whether to add a Sunday edition. The publisher
+                must work through the five-step decision process to make this choice.
+              </p>
+              <div class="example-steps" id="example-steps">
+                <!-- Populated by JS -->
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- Tool 4: IMA Ethics Framework -->
+    <section class="learn-section">
+      <div class="container container--tool">
+        <div class="tool-header">
+          <div class="tool-header__label">Tool 4 of 4</div>
+          <h2 class="tool-header__title">IMA Ethics Standards</h2>
+          <p class="tool-header__desc">
+            The Institute of Management Accountants sets four standards of ethical conduct.
+            Read each scenario and identify which standard is being violated.
+          </p>
+        </div>
+
+        <div class="ethics-standards" id="ethics-standards">
+          <!-- Populated by JS -->
+        </div>
+
+        <div class="ethics-scenarios card" style="margin-top: var(--space-8);">
+          <h3 style="margin-bottom: var(--space-4);">Ethics Scenario Practice</h3>
+          <div class="ethics-scenario-display" id="ethics-scenario-display">
+            <!-- Populated by JS -->
+          </div>
+          <div class="ethics-scenario-options" id="ethics-scenario-options">
+            <!-- Populated by JS -->
+          </div>
+          <div class="result-panel" id="ethics-result" hidden>
+            <div class="result-panel__label">Feedback</div>
+            <p class="result-panel__interpretation" id="ethics-result-text"></p>
+          </div>
+          <div class="ethics-scenario-nav" style="margin-top: var(--space-4);">
+            <button class="btn btn--secondary btn--sm" id="ethics-prev" disabled>← Previous</button>
+            <span class="ethics-scenario-counter" id="ethics-counter">Scenario 1 of 5</span>
+            <button class="btn btn--secondary btn--sm" id="ethics-next">Next →</button>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- Key Terms -->
+    <section class="learn-section learn-section--alt">
+      <div class="container container--tool">
+        <div class="tool-header">
+          <h2 class="tool-header__title">Key Terms</h2>
+          <p class="tool-header__desc">Click any term to see its definition from the textbook.</p>
+        </div>
+        <div class="key-terms-grid" id="key-terms-grid">
+          <!-- Populated by JS -->
+        </div>
+      </div>
+    </section>
+
+    <!-- Chapter Complete -->
+    <section class="learn-section">
+      <div class="container container--tool">
+        <div class="chapter-complete card" id="chapter-complete">
+          <div class="chapter-complete__icon">✅</div>
+          <h2 class="chapter-complete__title">Chapter 1 Complete</h2>
+          <p class="chapter-complete__desc">
+            You've covered the foundations of management accounting — the roles, the value chain,
+            the decision process, and the ethical framework. These concepts underpin every chapter
+            that follows.
+          </p>
+          <div class="chapter-complete__actions">
+            <button class="btn btn--primary" id="mark-complete-btn">Mark as Complete</button>
+            <a href="/pages/learn/ch02.html" class="btn btn--secondary">Next: Ch. 2 — Cost Terms →</a>
+          </div>
+        </div>
+      </div>
+    </section>
+
+  </main>
+
+  <script type="module" src="/js/learn/ch01.js"></script>
+</body>
+</html>

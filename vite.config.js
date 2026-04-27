@@ -23,7 +23,7 @@ function getPages() {
 }
 
 export default defineConfig({
-  base: '/Managerial-Accounting/',
+  base: process.env.NODE_ENV === 'production' ? '/Managerial-Accounting/' : '/',
   build: {
     rollupOptions: { input: getPages() },
     outDir: 'dist',

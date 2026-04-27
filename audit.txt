@@ -10,10 +10,15 @@ package.json
 pages
 public
 vite.config.js
-=== css ===
-base.css
-components.css
-=== js/core ===
+=== pages/ ===
+apply
+learn
+=== pages/learn/ ===
+=== js/learn/ ===
+=== js/core/ ===
 main.js
 progress-tracker.js
-=== js/components ===
+=== js/components/ ===
+=== css/ ===
+base.css
+components.css

@@ -1,0 +1,140 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <meta name="description" content="Learn — All 24 chapters of Horngren's Cost Accounting" />
+  <title>Learn · Managerial Accounting Interactive</title>
+  <link rel="stylesheet" href="/css/base.css" />
+  <link rel="stylesheet" href="/css/components.css" />
+  <link rel="stylesheet" href="/css/learn.css" />
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet" />
+</head>
+<body>
+
+  <header class="site-header" role="banner">
+    <div class="site-header__inner">
+      <a href="/" class="site-header__logo">
+        <span>📊</span>
+        <span>Managerial Accounting</span>
+      </a>
+      <nav class="site-header__nav" role="navigation" aria-label="Main navigation">
+        <a href="/pages/learn/" class="site-header__nav-link site-header__nav-link--active">Learn</a>
+        <a href="/pages/apply/" class="site-header__nav-link">Apply</a>
+      </nav>
+    </div>
+  </header>
+
+  <main>
+
+    <section class="page__hero">
+      <div class="container">
+        <a href="/" class="chapter-nav__back" style="display:inline-block;margin-bottom:var(--space-4);">← Home</a>
+        <p class="page__hero-label">Horngren's Cost Accounting · 17th Edition</p>
+        <h1 class="page__hero-title">Learn</h1>
+        <p class="page__hero-subtitle">
+          24 chapters. Study each one with interactive tools, worked examples, and practice problems tied directly to the textbook.
+        </p>
+        <div style="margin-top:var(--space-6);display:flex;align-items:center;gap:var(--space-4);">
+          <div style="flex:1;max-width:320px;">
+            <div class="progress-bar" style="height:8px;">
+              <div class="progress-bar__fill" id="overall-progress-bar" style="width:0%"></div>
+            </div>
+          </div>
+          <span style="font-size:var(--font-size-sm);color:rgba(255,255,255,0.7);" id="overall-progress-label">0 of 24 chapters completed</span>
+        </div>
+      </div>
+    </section>
+
+    <section class="page__body">
+      <div class="container">
+
+        <!-- Foundations -->
+        <!-- View Toggle -->
+        <div class="view-toggle" role="group" aria-label="Chapter view">
+          <button class="view-toggle__btn view-toggle__btn--active" data-view="group" id="view-group">
+            🗂 By Topic
+          </button>
+          <button class="view-toggle__btn" data-view="sequence" id="view-sequence">
+            🔢 By Chapter
+          </button>
+        </div>
+
+        <!-- Sequential View (hidden by default) -->
+        <div id="view-sequence-panel" hidden>
+          <div class="chapter-grid" id="group-sequence"></div>
+        </div>
+
+        <!-- Grouped View (shown by default) -->
+        <div id="view-group-panel">
+        <div class="chapter-group">
+          <div class="chapter-group__header">
+            <span class="chapter-group__badge chapter-group__badge--foundations">Foundations</span>
+            <h2 class="chapter-group__title">Understanding Costs</h2>
+            <p class="chapter-group__desc">The vocabulary and frameworks every other chapter builds on.</p>
+          </div>
+          <div class="chapter-grid" id="group-foundations"></div>
+        </div>
+
+        <!-- Costing Systems -->
+        <div class="chapter-group">
+          <div class="chapter-group__header">
+            <span class="chapter-group__badge chapter-group__badge--costing">Costing</span>
+            <h2 class="chapter-group__title">Costing Systems</h2>
+            <p class="chapter-group__desc">How to assign costs to products, services, and processes.</p>
+          </div>
+          <div class="chapter-grid" id="group-costing"></div>
+        </div>
+
+        <!-- Planning & Budgeting -->
+        <div class="chapter-group">
+          <div class="chapter-group__header">
+            <span class="chapter-group__badge chapter-group__badge--planning">Planning</span>
+            <h2 class="chapter-group__title">Planning & Budgeting</h2>
+            <p class="chapter-group__desc">Building plans, estimating costs, and preparing for the future.</p>
+          </div>
+          <div class="chapter-grid" id="group-planning"></div>
+        </div>
+
+        <!-- Control & Variance -->
+        <div class="chapter-group">
+          <div class="chapter-group__header">
+            <span class="chapter-group__badge chapter-group__badge--control">Control</span>
+            <h2 class="chapter-group__title">Control & Performance</h2>
+            <p class="chapter-group__desc">Measuring actual results against plans and managing quality.</p>
+          </div>
+          <div class="chapter-grid" id="group-control"></div>
+        </div>
+
+        <!-- Decisions -->
+        <div class="chapter-group">
+          <div class="chapter-group__header">
+            <span class="chapter-group__badge chapter-group__badge--decisions">Decisions</span>
+            <h2 class="chapter-group__title">Decision Making</h2>
+            <p class="chapter-group__desc">Using cost information to make better business decisions.</p>
+          </div>
+          <div class="chapter-grid" id="group-decisions"></div>
+        </div>
+
+        <!-- Strategy -->
+        <div class="chapter-group">
+          <div class="chapter-group__header">
+            <span class="chapter-group__badge chapter-group__badge--strategy">Strategy</span>
+            <h2 class="chapter-group__title">Strategy & Performance</h2>
+            <p class="chapter-group__desc">Long-run strategy, investment decisions, and performance measurement.</p>
+          </div>
+          <div class="chapter-grid" id="group-strategy"></div>
+        </div>
+
+      </div>
+    </section>
+
+  </main>
+
+        </div><!-- end view-group-panel -->
+
+  <script type="module" src="/js/learn/index.js"></script>
+</body>
+</html>
