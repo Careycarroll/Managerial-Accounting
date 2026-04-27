@@ -1,0 +1,182 @@
+# Managerial Accounting Interactive -- Agent Prompt
+
+You are a code agent for the Managerial Accounting Interactive project. This is a Vite-based multi-page web application that teaches Horngren's Cost Accounting (17th Edition) through interactive tools.
+
+---
+
+## Project Context
+
+Goal: Build a comprehensive interactive learning companion covering all 24 chapters of Horngren's Cost Accounting. Students learn concepts chapter by chapter (Learn section), then apply them to real business decisions (Apply section).
+
+Live site: https://careycarroll.github.io/Managerial-Accounting/
+Repo: ~/Github Projects/Managerial-Accounting/
+Stack: Vite 7, vanilla JS (ES modules), CSS custom properties, KaTeX, vite-plugin-pwa
+
+---
+
+## Architecture
+
+### Two Sections
+- Learn -- 24 chapter pages (pages/learn/ch01.html through ch24.html). Each page: hero, learning objectives, 3-5 interactive tools, worked example, key terms panel, chapter complete marker.
+- Apply -- 12 scenario pages (pages/apply/*.html). Each scenario has three depth levels toggled by depth-selector.js: Concept / Analysis / Simulation.
+
+### File Structure
+
+    pages/learn/          One HTML per chapter
+    pages/apply/          One HTML per scenario
+    js/core/              main.js, progress-tracker.js
+    js/components/        depth-selector.js (built), others stubbed
+    js/charts/            Canvas chart components (not yet built)
+    js/engine/            scenario-engine.js + scenarios/*.json (not yet built)
+    js/learn/             index.js (built), ch01.js (built), ch02-ch24 (not built)
+    js/apply/             Not yet built
+    js/data/              managerial-terms.js (not yet built)
+    css/base.css          Full custom property system (built)
+    css/components.css    Shared UI components (built)
+    css/learn.css         Learn section styles (built)
+    css/apply.css         Not yet built
+
+### Key Patterns
+- Vite multi-page -- vite.config.js auto-discovers all HTML files in pages/learn/ and pages/apply/
+- Base path -- process.env.NODE_ENV === 'production' ? '/Managerial-Accounting/' : '/'
+- Progress tracking -- js/core/progress-tracker.js uses localStorage. Import markChapterComplete, isChapterComplete, getProgress.
+- Depth selector -- js/components/depth-selector.js. Call initDepthSelector({ defaultDepth: 'concept', pageId: 'scenario-id' }) on Apply pages.
+- No canvas yet -- Ch. 1 is HTML/CSS only. Canvas charts begin at Ch. 3 (CVP) and Ch. 10 (scatter/regression).
+- KaTeX -- installed as a dependency for formula rendering across chapter tools.
+
+### CSS Design System
+All custom properties defined in css/base.css:
+- Colors: --color-primary (#1a365d navy), --color-accent (#c8973a gold), semantic colors (success/warning/danger/info), gray scale
+- Depth colors: --color-concept (blue), --color-analysis (green), --color-simulation (purple)
+- Spacing: --space-1 through --space-16
+- Typography: --font-sans (Inter), --font-mono (JetBrains Mono), --font-size-xs through --font-size-4xl
+- Shadows, radii, transitions all defined
+
+---
+
+## What's Built
+
+### Completed
+- index.html -- landing page with Learn/Apply two-path navigation, progress bar
+- pages/learn/index.html -- chapter grid with By Topic / By Chapter toggle, progress indicators
+- pages/learn/ch01.html -- Chapter 1 fully interactive (4 tools, worked example, key terms)
+- js/learn/index.js -- chapter grid renderer, view toggle, progress display
+- js/learn/ch01.js -- accounting comparison table, value chain builder, five-step process, IMA ethics scenarios, key terms
+- js/core/progress-tracker.js -- localStorage progress tracking
+- js/core/main.js -- landing page entry point
+- js/components/depth-selector.js -- Concept/Analysis/Simulation toggle
+- css/base.css -- full design system
+- css/components.css -- all shared UI components
+- css/learn.css -- Learn section layout, chapter cards, view toggle
+
+### Not Yet Built
+- pages/learn/ch02.html through ch24.html -- 23 remaining chapter pages
+- pages/apply/index.html -- Apply section index
+- pages/apply/*.html -- 12 Apply scenario pages
+- js/charts/ -- canvas chart library
+- js/engine/ -- simulation state machine
+- js/components/journal-entry.js, formula-display.js, worked-example.js, term-tooltip.js
+- js/data/managerial-terms.js -- 200+ glossary terms
+- css/apply.css
+
+---
+
+## Learn Page Template
+
+Every chapter page follows this structure. Use Ch. 1 as the reference implementation.
+
+HTML structure:
+    Hero with chapter nav, badge, title, progress indicator
+    Learning Objectives card
+    Tool 1 of N... Tool N of N (alternating learn-section / learn-section--alt)
+    Key Terms grid
+    Chapter Complete card with mark-complete button and next chapter link
+    script type="module" src="/js/learn/chXX.js"
+
+JS file pattern:
+    import { markChapterComplete, isChapterComplete } from '/js/core/progress-tracker.js';
+    DATA constants at top
+    One init function per tool
+    initChapterComplete() wires the mark-complete button
+    document.addEventListener('DOMContentLoaded', () => { init all tools });
+
+---
+
+## Chapter Build Priority
+
+1. Ch. 2 -- Cost Terms (vocabulary foundation, no canvas)
+2. Ch. 3 -- CVP Analysis (first canvas chart: CVP/PV graph)
+3. Ch. 12 -- Relevant Costs (most cross-referenced chapter)
+4. Ch. 6 -- Master Budget (most complex single tool)
+5. Ch. 7 + Ch. 8 -- Variance Analysis (companion chapters)
+6. Remaining chapters in textbook order
+
+---
+
+## Apply Section Design
+
+Each Apply page has:
+- Hero with scenario title and chapters covered badges
+- Depth selector toggle (Concept / Analysis / Simulation)
+- Three div.depth-panel[data-depth] panels -- only active panel visible
+
+Depth levels:
+- Concept -- 2-3 inputs, single answer, plain-language explanation
+- Analysis -- 8-15 inputs, structured comparison table, sensitivity output
+- Simulation -- scenario-driven, sequential decisions, consequence rendering, debrief
+
+---
+
+## Textbook Reference
+
+Source: Horngren, Datar & Rajan -- Cost Accounting: A Managerial Emphasis, 17th Edition
+All 24 chapters have been read and catalogued.
+
+Key chapter dependencies:
+- Ch. 12 (relevant costs) is referenced by Ch. 14, 17, 20, 21, 22, 23 -- build early
+- Ch. 7 and Ch. 8 are companion chapters (direct costs then overhead) -- build together
+- Ch. 18 (process costing) is prerequisite for Ch. 19 (spoilage)
+- Ch. 4 (job costing) is prerequisite for Ch. 5 (ABC)
+
+---
+
+## Development Rules
+
+Discovery first. Before touching unfamiliar files, run discovery commands to map current state. Never assume file contents.
+
+File creation. Always use tee or python3 EOF blocks to create files. Never assume a file exists -- use mkdir -p before writing to new directories.
+
+Terminal commands only. All changes delivered as executable zsh commands. No "copy and paste this" prose.
+
+No inline comments in zsh. Do not put # comment lines inside command blocks -- they cause failures in zsh heredocs.
+
+Kill dev server:
+    lsof -ti :5173,:5174,:5175,:5176 | xargs kill -9 2>/dev/null; pkill -9 -f vite 2>/dev/null; echo done
+
+Audit pattern:
+    { commands; } > ~/Github\ Projects/Managerial-Accounting/audit.txt
+    Then share audit.txt.
+
+Commit after each chapter. One commit per completed chapter page. Message format:
+    feat: Chapter N -- Title
+    - pages/learn/chNN.html: what is in it
+    - js/learn/chNN.js: tools built
+    - css changes if any
+
+Python3 for file writes with special characters. Use python3 EOF blocks when file content contains backticks, single quotes, or other characters that break heredocs.
+
+---
+
+## Known Issues / Polish Backlog
+
+- View toggle buttons on Learn index need styling refinement
+- Apply section not yet started
+- No canvas chart components built yet
+- Component stubs in js/components/ not yet implemented
+
+---
+
+## Completed Phases
+
+Phase 0 -- Foundation (April 2026)
+Vite 7 + vite-plugin-pwa setup, CSS design system (base.css, components.css), landing page, Learn index with chapter grid and view toggle, Chapter 1 fully interactive, progress tracking system, depth selector component, README and agent prompt.
