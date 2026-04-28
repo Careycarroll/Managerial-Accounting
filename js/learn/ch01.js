@@ -2,7 +2,7 @@
  * ch01.js — Chapter 1: The Manager and Management Accounting
  * Interactive tools: accounting comparison, value chain, five-step process, IMA ethics
  */
-import { markChapterComplete, isChapterComplete } from '/js/core/progress-tracker.js';
+import { markChapterComplete, isChapterComplete, resetChapter } from '/js/core/progress-tracker.js';
 
 // ── Data ──────────────────────────────────────────────────────
 
@@ -525,11 +525,9 @@ function initKeyTerms() {
 function initChapterComplete() {
   const btn       = document.getElementById('mark-complete-btn');
   const statusEl  = document.getElementById('ch01-status');
-  const indicator = document.getElementById('ch01-progress-indicator');
+  const actionsEl = btn?.closest('.chapter-complete__actions');
 
-  if (isChapterComplete('ch01')) {
-    setCompleteUI();
-  }
+  if (isChapterComplete('ch01')) setCompleteUI();
 
   btn?.addEventListener('click', () => {
     markChapterComplete('ch01');
@@ -544,6 +542,18 @@ function initChapterComplete() {
     if (btn) {
       btn.textContent = '✓ Completed';
       btn.disabled = true;
+    }
+    if (actionsEl && !actionsEl.querySelector('.reset-chapter-btn')) {
+      const resetBtn = document.createElement('button');
+      resetBtn.className = 'btn btn--ghost-danger reset-chapter-btn';
+      resetBtn.textContent = 'Reset Chapter';
+      resetBtn.addEventListener('click', () => {
+        if (confirm('Reset Chapter 1? This will clear your completion status and reload the page.')) {
+          resetChapter('ch01');
+          window.location.reload();
+        }
+      });
+      actionsEl.appendChild(resetBtn);
     }
   }
 }

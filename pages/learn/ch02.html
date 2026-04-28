@@ -1,0 +1,469 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <meta name="description" content="Chapter 2: An Introduction to Cost Terms and Purposes — Interactive learning tools" />
+  <title>Ch. 2 · An Introduction to Cost Terms and Purposes</title>
+  <link rel="stylesheet" href="/css/base.css" />
+  <link rel="stylesheet" href="/css/components.css" />
+  <link rel="stylesheet" href="/css/learn.css" />
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet" />
+</head>
+<body>
+
+  <header class="site-header" role="banner">
+    <div class="site-header__inner">
+      <a href="/" class="site-header__logo">
+        <span>📊</span>
+        <span>Managerial Accounting</span>
+      </a>
+      <nav class="site-header__nav" role="navigation" aria-label="Main navigation">
+        <a href="/pages/learn/" class="site-header__nav-link site-header__nav-link--active">Learn</a>
+        <a href="/pages/apply/" class="site-header__nav-link">Apply</a>
+      </nav>
+    </div>
+  </header>
+
+  <main>
+
+    <!-- Hero -->
+    <section class="page__hero">
+      <div class="container">
+        <div class="chapter-nav">
+          <a href="/pages/learn/" class="chapter-nav__back">← All Chapters</a>
+          <div class="chapter-nav__position">
+            <span>Chapter 2 of 24</span>
+            <a href="/pages/learn/ch03.html" class="chapter-nav__next">Ch. 3 →</a>
+          </div>
+        </div>
+        <div class="chapter-hero__meta">
+          <span class="chapter-badge chapter-badge--foundations">Foundations</span>
+          <span class="chapter-hero__number">Chapter 2</span>
+        </div>
+        <h1 class="page__hero-title">An Introduction to<br>Cost Terms and Purposes</h1>
+        <p class="page__hero-subtitle">
+          The vocabulary every manager needs — cost objects, direct vs. indirect, variable vs. fixed,
+          and why unit costs can mislead you.
+        </p>
+        <div class="chapter-hero__progress" id="ch02-progress-indicator">
+          <span class="chapter-hero__progress-label" id="ch02-status">Not started</span>
+        </div>
+      </div>
+    </section>
+
+    <!-- Learning Objectives -->
+    <section class="learn-section">
+      <div class="container container--tool">
+        <div class="objectives-card card">
+          <h2 class="objectives-card__title">Learning Objectives</h2>
+          <ol class="objectives-list">
+            <li>Define and illustrate a cost object</li>
+            <li>Distinguish between direct costs and indirect costs</li>
+            <li>Explain variable costs and fixed costs</li>
+            <li>Interpret unit costs cautiously</li>
+            <li>Distinguish inventoriable costs and period costs</li>
+            <li>Illustrate the flow of inventoriable and period costs</li>
+            <li>Explain why product costs are computed differently for different purposes</li>
+            <li>Describe a framework for cost accounting and cost management</li>
+          </ol>
+        </div>
+      </div>
+    </section>
+
+    <!-- Tool 1: Cost Classifier -->
+    <section class="learn-section learn-section--alt">
+      <div class="container container--tool">
+        <div class="tool-header">
+          <div class="tool-header__label">Tool 1 of 4</div>
+          <h2 class="tool-header__title">Cost Classifier</h2>
+          <p class="tool-header__desc">
+            Every cost has two independent dimensions: how it is assigned (direct or indirect)
+            and how it behaves (variable or fixed). Classify each cost item on both dimensions.
+          </p>
+        </div>
+
+        <div class="cost-classifier-container">
+          <div class="cost-classifier-progress-bar">
+            <div class="cost-classifier-progress-bar__fill" id="classifier-progress-fill"></div>
+          </div>
+          <p class="cost-classifier-progress-label" id="classifier-progress-label">0 of 10 classified correctly</p>
+
+          <div class="cost-classifier-card card" id="classifier-card">
+            <div class="classifier-card__scenario" id="classifier-scenario"></div>
+            <div class="classifier-card__item" id="classifier-item"></div>
+
+            <div class="classifier-dimensions">
+              <div class="classifier-dimension">
+                <div class="classifier-dimension__label">Assignment to Cost Object</div>
+                <div class="classifier-dimension__buttons" id="classifier-assign-btns">
+                  <button class="classifier-btn" data-dim="assign" data-val="direct">Direct</button>
+                  <button class="classifier-btn" data-dim="assign" data-val="indirect">Indirect</button>
+                </div>
+              </div>
+              <div class="classifier-dimension">
+                <div class="classifier-dimension__label">Cost Behavior</div>
+                <div class="classifier-dimension__buttons" id="classifier-behavior-btns">
+                  <button class="classifier-btn" data-dim="behavior" data-val="variable">Variable</button>
+                  <button class="classifier-btn" data-dim="behavior" data-val="fixed">Fixed</button>
+                </div>
+              </div>
+            </div>
+
+            <div class="classifier-feedback" id="classifier-feedback" hidden>
+              <div class="classifier-feedback__text" id="classifier-feedback-text"></div>
+            </div>
+
+            <div class="classifier-nav">
+              <button class="btn btn--secondary btn--sm" id="classifier-prev" disabled>← Prev</button>
+              <span class="classifier-counter" id="classifier-counter">1 of 10</span>
+              <button class="btn btn--secondary btn--sm" id="classifier-next" disabled>Next →</button>
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- Tool 2: Relevant Range Visualizer -->
+    <section class="learn-section">
+      <div class="container container--tool">
+        <div class="tool-header">
+          <div class="tool-header__label">Tool 2 of 4</div>
+          <h2 class="tool-header__title">Relevant Range Visualizer</h2>
+          <p class="tool-header__desc">
+            Fixed costs are only fixed within a relevant range. Drag the volume slider to see how
+            total fixed costs step up when capacity is exceeded — and how unit fixed cost changes
+            even though total fixed cost does not.
+          </p>
+        </div>
+
+        <div class="relevant-range-container card">
+          <div class="relevant-range-scenario">
+            <p>
+              <strong>Thomas Transport Company</strong> hauls Tesla Model 3s from the factory to
+              service centers. Each truck costs <strong>$40,000/year</strong> and can haul up to
+              <strong>120,000 miles/year</strong>. Adjust the miles hauled below.
+            </p>
+          </div>
+
+          <div class="relevant-range-controls">
+            <label class="form-label" for="miles-slider">
+              Miles Hauled Per Year: <strong id="miles-display">170,000</strong>
+            </label>
+            <input type="range" id="miles-slider" class="range-slider"
+              min="10000" max="360000" step="10000" value="170000"
+              aria-label="Miles hauled per year" />
+            <div class="range-labels">
+              <span>10,000</span>
+              <span>120,000</span>
+              <span>240,000</span>
+              <span>360,000</span>
+            </div>
+          </div>
+
+          <div class="relevant-range-results" id="rr-results">
+            <div class="rr-result-card">
+              <div class="rr-result-card__label">Trucks Required</div>
+              <div class="rr-result-card__value" id="rr-trucks">2</div>
+            </div>
+            <div class="rr-result-card rr-result-card--highlight">
+              <div class="rr-result-card__label">Total Fixed Cost</div>
+              <div class="rr-result-card__value" id="rr-total-fixed">$80,000</div>
+            </div>
+            <div class="rr-result-card">
+              <div class="rr-result-card__label">Unit Fixed Cost</div>
+              <div class="rr-result-card__value" id="rr-unit-fixed">$0.471</div>
+              <div class="rr-result-card__sub">per mile</div>
+            </div>
+            <div class="rr-result-card">
+              <div class="rr-result-card__label">Relevant Range</div>
+              <div class="rr-result-card__value" id="rr-range">120,001–240,000</div>
+              <div class="rr-result-card__sub">miles</div>
+            </div>
+          </div>
+
+          <div class="relevant-range-diagram" id="rr-diagram" aria-label="Step cost diagram">
+            <!-- Rendered by JS -->
+          </div>
+
+          <div class="relevant-range-insight card" id="rr-insight">
+            <div class="result-panel__label">Key Insight</div>
+            <p id="rr-insight-text"></p>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- Tool 3: Manufacturing Cost Flow -->
+    <section class="learn-section learn-section--alt">
+      <div class="container container--tool">
+        <div class="tool-header">
+          <div class="tool-header__label">Tool 3 of 4</div>
+          <h2 class="tool-header__title">Manufacturing Cost Flow</h2>
+          <p class="tool-header__desc">
+            Inventoriable costs flow through three balance sheet accounts before becoming an expense.
+            Enter the values below to trace costs from raw materials through to cost of goods sold.
+          </p>
+        </div>
+
+        <div class="cost-flow-container">
+          <div class="cost-flow-inputs card">
+            <h3 class="cost-flow-inputs__title">Enter Cost Data</h3>
+            <div class="cost-flow-inputs__grid">
+              <div class="form-group">
+                <label class="form-label" for="cf-dm-begin">Direct Materials — Beginning Inventory ($)</label>
+                <input type="number" id="cf-dm-begin" class="form-input" value="11000" min="0" />
+              </div>
+              <div class="form-group">
+                <label class="form-label" for="cf-dm-purchases">Direct Materials — Purchases ($)</label>
+                <input type="number" id="cf-dm-purchases" class="form-input" value="73000" min="0" />
+              </div>
+              <div class="form-group">
+                <label class="form-label" for="cf-dm-end">Direct Materials — Ending Inventory ($)</label>
+                <input type="number" id="cf-dm-end" class="form-input" value="8000" min="0" />
+              </div>
+              <div class="form-group">
+                <label class="form-label" for="cf-labor">Direct Manufacturing Labor ($)</label>
+                <input type="number" id="cf-labor" class="form-input" value="9000" min="0" />
+              </div>
+              <div class="form-group">
+                <label class="form-label" for="cf-overhead">Manufacturing Overhead ($)</label>
+                <input type="number" id="cf-overhead" class="form-input" value="20000" min="0" />
+              </div>
+              <div class="form-group">
+                <label class="form-label" for="cf-wip-begin">WIP — Beginning Inventory ($)</label>
+                <input type="number" id="cf-wip-begin" class="form-input" value="6000" min="0" />
+              </div>
+              <div class="form-group">
+                <label class="form-label" for="cf-wip-end">WIP — Ending Inventory ($)</label>
+                <input type="number" id="cf-wip-end" class="form-input" value="7000" min="0" />
+              </div>
+              <div class="form-group">
+                <label class="form-label" for="cf-fg-begin">Finished Goods — Beginning Inventory ($)</label>
+                <input type="number" id="cf-fg-begin" class="form-input" value="22000" min="0" />
+              </div>
+              <div class="form-group">
+                <label class="form-label" for="cf-fg-end">Finished Goods — Ending Inventory ($)</label>
+                <input type="number" id="cf-fg-end" class="form-input" value="18000" min="0" />
+              </div>
+            </div>
+            <button class="btn btn--primary" id="cf-calculate">Calculate Flow →</button>
+          </div>
+
+          <div class="cost-flow-diagram" id="cf-diagram" hidden>
+            <div class="flow-accounts">
+              <div class="flow-account">
+                <div class="flow-account__title">Direct Materials</div>
+                <div class="flow-account__body">
+                  <div class="flow-account__row">
+                    <span>Beg. Inventory</span>
+                    <span class="flow-account__num" id="cf-out-dm-begin"></span>
+                  </div>
+                  <div class="flow-account__row">
+                    <span>+ Purchases</span>
+                    <span class="flow-account__num" id="cf-out-dm-purchases"></span>
+                  </div>
+                  <div class="flow-account__row flow-account__row--subtotal">
+                    <span>Available</span>
+                    <span class="flow-account__num" id="cf-out-dm-available"></span>
+                  </div>
+                  <div class="flow-account__row">
+                    <span>− End. Inventory</span>
+                    <span class="flow-account__num" id="cf-out-dm-end"></span>
+                  </div>
+                  <div class="flow-account__row flow-account__row--total">
+                    <span>= DM Used</span>
+                    <span class="flow-account__num" id="cf-out-dm-used"></span>
+                  </div>
+                </div>
+              </div>
+
+              <div class="flow-arrow">→</div>
+
+              <div class="flow-account flow-account--wip">
+                <div class="flow-account__title">Work in Process</div>
+                <div class="flow-account__body">
+                  <div class="flow-account__row">
+                    <span>Beg. Inventory</span>
+                    <span class="flow-account__num" id="cf-out-wip-begin"></span>
+                  </div>
+                  <div class="flow-account__row">
+                    <span>+ DM Used</span>
+                    <span class="flow-account__num" id="cf-out-wip-dm"></span>
+                  </div>
+                  <div class="flow-account__row">
+                    <span>+ DL</span>
+                    <span class="flow-account__num" id="cf-out-wip-dl"></span>
+                  </div>
+                  <div class="flow-account__row">
+                    <span>+ Overhead</span>
+                    <span class="flow-account__num" id="cf-out-wip-oh"></span>
+                  </div>
+                  <div class="flow-account__row flow-account__row--subtotal">
+                    <span>To Account For</span>
+                    <span class="flow-account__num" id="cf-out-wip-total"></span>
+                  </div>
+                  <div class="flow-account__row">
+                    <span>− End. Inventory</span>
+                    <span class="flow-account__num" id="cf-out-wip-end"></span>
+                  </div>
+                  <div class="flow-account__row flow-account__row--total">
+                    <span>= COGM</span>
+                    <span class="flow-account__num" id="cf-out-cogm"></span>
+                  </div>
+                </div>
+              </div>
+
+              <div class="flow-arrow">→</div>
+
+              <div class="flow-account flow-account--fg">
+                <div class="flow-account__title">Finished Goods</div>
+                <div class="flow-account__body">
+                  <div class="flow-account__row">
+                    <span>Beg. Inventory</span>
+                    <span class="flow-account__num" id="cf-out-fg-begin"></span>
+                  </div>
+                  <div class="flow-account__row">
+                    <span>+ COGM</span>
+                    <span class="flow-account__num" id="cf-out-fg-cogm"></span>
+                  </div>
+                  <div class="flow-account__row flow-account__row--subtotal">
+                    <span>Available</span>
+                    <span class="flow-account__num" id="cf-out-fg-available"></span>
+                  </div>
+                  <div class="flow-account__row">
+                    <span>− End. Inventory</span>
+                    <span class="flow-account__num" id="cf-out-fg-end"></span>
+                  </div>
+                  <div class="flow-account__row flow-account__row--total">
+                    <span>= COGS</span>
+                    <span class="flow-account__num" id="cf-out-cogs"></span>
+                  </div>
+                </div>
+              </div>
+            </div>
+
+            <div class="flow-summary card">
+              <div class="flow-summary__row">
+                <span class="flow-summary__label">Direct Materials Used</span>
+                <span class="flow-summary__value" id="cf-sum-dm-used"></span>
+              </div>
+              <div class="flow-summary__row">
+                <span class="flow-summary__label">Total Manufacturing Costs Incurred</span>
+                <span class="flow-summary__value" id="cf-sum-mfg-costs"></span>
+              </div>
+              <div class="flow-summary__row flow-summary__row--highlight">
+                <span class="flow-summary__label">Cost of Goods Manufactured</span>
+                <span class="flow-summary__value" id="cf-sum-cogm"></span>
+              </div>
+              <div class="flow-summary__row flow-summary__row--total">
+                <span class="flow-summary__label">Cost of Goods Sold</span>
+                <span class="flow-summary__value" id="cf-sum-cogs"></span>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- Tool 4: Unit Cost Trap -->
+    <section class="learn-section">
+      <div class="container container--tool">
+        <div class="tool-header">
+          <div class="tool-header__label">Tool 4 of 4</div>
+          <h2 class="tool-header__title">The Unit Cost Trap</h2>
+          <p class="tool-header__desc">
+            Unit costs include both variable and fixed components. Using a unit cost calculated at
+            one volume to predict costs at a different volume leads to serious errors. See it happen.
+          </p>
+        </div>
+
+        <div class="unit-cost-container card">
+          <div class="unit-cost-inputs">
+            <div class="form-group">
+              <label class="form-label" for="uc-fixed">Total Fixed Costs ($)</label>
+              <input type="number" id="uc-fixed" class="form-input" value="10000000" min="0" step="100000" />
+            </div>
+            <div class="form-group">
+              <label class="form-label" for="uc-variable">Variable Cost per Unit ($)</label>
+              <input type="number" id="uc-variable" class="form-input" value="60" min="0" step="1" />
+            </div>
+            <div class="form-group">
+              <label class="form-label" for="uc-base-volume">Base Volume (units — where unit cost is calculated)</label>
+              <input type="number" id="uc-base-volume" class="form-input" value="500000" min="1" step="10000" />
+            </div>
+            <div class="form-group">
+              <label class="form-label" for="uc-predict-volume">Predicted Volume (units — what you actually produce)</label>
+              <input type="number" id="uc-predict-volume" class="form-input" value="200000" min="1" step="10000" />
+            </div>
+            <button class="btn btn--primary" id="uc-calculate">Show the Trap →</button>
+          </div>
+
+          <div class="unit-cost-results" id="uc-results" hidden>
+            <div class="uc-table-wrapper">
+              <table class="data-table uc-table">
+                <thead>
+                  <tr>
+                    <th>Item</th>
+                    <th class="num">Base Volume</th>
+                    <th class="num">Predicted Volume</th>
+                  </tr>
+                </thead>
+                <tbody id="uc-table-body"></tbody>
+              </table>
+            </div>
+
+            <div class="uc-trap-panel" id="uc-trap-panel">
+              <div class="uc-trap-panel__icon">⚠️</div>
+              <div class="uc-trap-panel__content">
+                <div class="uc-trap-panel__title">The Trap</div>
+                <p id="uc-trap-text"></p>
+              </div>
+            </div>
+
+            <div class="uc-rule card">
+              <strong>The Rule:</strong> Always separate fixed and variable costs.
+              Calculate total costs as <em>Total Fixed + (Variable per unit × Units)</em>.
+              Only convert to unit cost at the end, if needed for a specific decision.
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- Key Terms -->
+    <section class="learn-section learn-section--alt">
+      <div class="container container--tool">
+        <div class="tool-header">
+          <h2 class="tool-header__title">Key Terms</h2>
+          <p class="tool-header__desc">Click any term to see its definition.</p>
+        </div>
+        <div class="key-terms-grid" id="key-terms-grid"></div>
+      </div>
+    </section>
+
+    <!-- Chapter Complete -->
+    <section class="learn-section">
+      <div class="container container--tool">
+        <div class="chapter-complete card" id="chapter-complete">
+          <div class="chapter-complete__icon">✅</div>
+          <h2 class="chapter-complete__title">Chapter 2 Complete</h2>
+          <p class="chapter-complete__desc">
+            You now have the vocabulary foundation every other chapter builds on — cost objects,
+            direct vs. indirect, variable vs. fixed, manufacturing cost flow, and the unit cost trap.
+          </p>
+          <div class="chapter-complete__actions">
+            <button class="btn btn--primary" id="mark-complete-btn">Mark as Complete</button>
+            <a href="/pages/learn/ch03.html" class="btn btn--secondary">Next: Ch. 3 — CVP Analysis →</a>
+          </div>
+        </div>
+      </div>
+    </section>
+
+  </main>
+
+  <script type="module" src="/js/learn/ch02.js"></script>
+</body>
+</html>

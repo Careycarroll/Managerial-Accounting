@@ -61,6 +61,14 @@ export function resetProgress() {
   localStorage.removeItem(STORAGE_KEY);
 }
 
+
+export function resetChapter(chapterId) {
+  const p = getProgress();
+  if (p.chapters.hasOwnProperty(chapterId)) {
+    p.chapters[chapterId] = false;
+    _save(p);
+  }
+}
 function _save(p) {
   try { localStorage.setItem(STORAGE_KEY, JSON.stringify(p)); } catch {}
 }

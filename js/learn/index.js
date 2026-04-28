@@ -2,7 +2,7 @@
  * js/learn/index.js — Learn section index page
  * Renders chapter cards grouped by category with progress indicators
  */
-import { getProgress } from '/js/core/progress-tracker.js';
+import { getProgress, resetProgress } from '/js/core/progress-tracker.js';
 
 const CHAPTERS = [
   // Foundations
@@ -286,3 +286,16 @@ function initViewToggle() {
 }
 
 initViewToggle();
+
+function initResetAll() {
+  const btn = document.getElementById('reset-all-btn');
+  if (!btn) return;
+  btn.addEventListener('click', () => {
+    if (confirm('Reset all progress? This will clear completion status for all chapters and scenarios. This cannot be undone.')) {
+      resetProgress();
+      window.location.reload();
+    }
+  });
+}
+
+initResetAll();
