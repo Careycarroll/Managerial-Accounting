@@ -1,0 +1,328 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <meta name="description" content="Chapter 3: Cost-Volume-Profit Analysis — Interactive learning tools" />
+  <title>Ch. 3 · Cost-Volume-Profit Analysis</title>
+  <link rel="stylesheet" href="/css/base.css" />
+  <link rel="stylesheet" href="/css/components.css" />
+  <link rel="stylesheet" href="/css/learn.css" />
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet" />
+</head>
+<body>
+
+  <header class="site-header" role="banner">
+    <div class="site-header__inner">
+      <a href="/" class="site-header__logo">
+        <span>📊</span>
+        <span>Managerial Accounting</span>
+      </a>
+      <nav class="site-header__nav" role="navigation" aria-label="Main navigation">
+        <a href="/pages/learn/" class="site-header__nav-link site-header__nav-link--active">Learn</a>
+        <a href="/pages/apply/" class="site-header__nav-link">Apply</a>
+      </nav>
+    </div>
+  </header>
+
+  <main>
+
+    <!-- Hero -->
+    <section class="page__hero">
+      <div class="container">
+        <div class="chapter-nav">
+          <a href="/pages/learn/" class="chapter-nav__back">← All Chapters</a>
+          <div class="chapter-nav__position">
+            <span>Chapter 3 of 24</span>
+            <a href="/pages/learn/ch04.html" class="chapter-nav__next">Ch. 4 →</a>
+          </div>
+        </div>
+        <div class="chapter-hero__meta">
+          <span class="chapter-badge chapter-badge--planning">Planning</span>
+          <span class="chapter-hero__number">Chapter 3</span>
+        </div>
+        <h1 class="page__hero-title">Cost–Volume–Profit<br>Analysis</h1>
+        <p class="page__hero-subtitle">
+          How profits change as volume, price, and costs change — breakeven, target income,
+          margin of safety, and sales mix.
+        </p>
+        <div class="chapter-hero__progress" id="ch03-progress-indicator">
+          <span class="chapter-hero__progress-label" id="ch03-status">Not started</span>
+        </div>
+      </div>
+    </section>
+
+    <!-- Learning Objectives -->
+    <section class="learn-section">
+      <div class="container container--tool">
+        <div class="objectives-card card">
+          <h2 class="objectives-card__title">Learning Objectives</h2>
+          <ol class="objectives-list">
+            <li>Explain the features of cost-volume-profit (CVP) analysis</li>
+            <li>Determine the breakeven point and output level needed to achieve a target operating income</li>
+            <li>Understand how income taxes affect CVP analysis</li>
+            <li>Explain how managers use CVP analysis to make decisions</li>
+            <li>Explain how sensitivity analysis helps managers cope with uncertainty</li>
+            <li>Use CVP analysis to plan variable and fixed costs</li>
+            <li>Apply CVP analysis to a company producing multiple products</li>
+          </ol>
+        </div>
+      </div>
+    </section>
+
+    <!-- Tool 1: CVP Dashboard -->
+    <section class="learn-section learn-section--alt">
+      <div class="container container--tool">
+        <div class="tool-header">
+          <div class="tool-header__label">Tool 1 of 4</div>
+          <h2 class="tool-header__title">CVP Dashboard</h2>
+          <p class="tool-header__desc">
+            Enter the cost structure for any product or service. The dashboard calculates
+            contribution margin, breakeven point, and units needed to hit a target income —
+            and drives the CVP graph in Tool 2.
+          </p>
+        </div>
+
+        <div class="cvp-dashboard">
+          <div class="cvp-inputs card">
+            <div class="cvp-inputs__header">
+              <h3 class="cvp-inputs__title">Cost Structure</h3>
+              <button class="btn btn--secondary btn--sm" id="cvp-randomize-btn">🎲 Randomize</button>
+            </div>
+            <div class="cvp-inputs__grid">
+              <div class="form-group">
+                <label class="form-label" for="cvp-price">Selling Price per Unit ($)</label>
+                <input type="number" id="cvp-price" class="form-input" value="200" min="0.01" step="1" />
+              </div>
+              <div class="form-group">
+                <label class="form-label" for="cvp-vc">Variable Cost per Unit ($)</label>
+                <input type="number" id="cvp-vc" class="form-input" value="120" min="0" step="1" />
+              </div>
+              <div class="form-group">
+                <label class="form-label" for="cvp-fc">Total Fixed Costs ($)</label>
+                <input type="number" id="cvp-fc" class="form-input" value="2000" min="0" step="100" />
+              </div>
+              <div class="form-group">
+                <label class="form-label" for="cvp-target">Target Operating Income ($)</label>
+                <input type="number" id="cvp-target" class="form-input" value="1200" min="0" step="100" />
+              </div>
+              <div class="form-group">
+                <label class="form-label" for="cvp-tax">Income Tax Rate (%) — optional</label>
+                <input type="number" id="cvp-tax" class="form-input" value="0" min="0" max="99" step="1" />
+              </div>
+              <div class="form-group">
+                <label class="form-label" for="cvp-budgeted">Budgeted Units Sold</label>
+                <input type="number" id="cvp-budgeted" class="form-input" value="40" min="1" step="1" />
+              </div>
+            </div>
+          </div>
+
+          <div class="cvp-results" id="cvp-results">
+            <div class="cvp-result-card">
+              <div class="cvp-result-card__label">CM per Unit</div>
+              <div class="cvp-result-card__value" id="cvp-out-cm-unit">$80</div>
+            </div>
+            <div class="cvp-result-card">
+              <div class="cvp-result-card__label">CM Ratio</div>
+              <div class="cvp-result-card__value" id="cvp-out-cm-pct">40%</div>
+            </div>
+            <div class="cvp-result-card cvp-result-card--highlight">
+              <div class="cvp-result-card__label">Breakeven (Units)</div>
+              <div class="cvp-result-card__value" id="cvp-out-bep-units">25</div>
+            </div>
+            <div class="cvp-result-card cvp-result-card--highlight">
+              <div class="cvp-result-card__label">Breakeven (Revenue)</div>
+              <div class="cvp-result-card__value" id="cvp-out-bep-rev">$5,000</div>
+            </div>
+            <div class="cvp-result-card">
+              <div class="cvp-result-card__label">Units for Target Income</div>
+              <div class="cvp-result-card__value" id="cvp-out-target-units">40</div>
+            </div>
+            <div class="cvp-result-card">
+              <div class="cvp-result-card__label">Margin of Safety</div>
+              <div class="cvp-result-card__value" id="cvp-out-mos">37.5%</div>
+            </div>
+          </div>
+
+          <div class="cvp-income-statement card" id="cvp-income-statement">
+            <h3 class="cvp-income-statement__title">Contribution Income Statement</h3>
+            <div class="cvp-income-statement__body" id="cvp-is-body"></div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- Tool 2: CVP Graph -->
+    <section class="learn-section">
+      <div class="container container--tool">
+        <div class="tool-header">
+          <div class="tool-header__label">Tool 2 of 4</div>
+          <h2 class="tool-header__title">CVP Graph</h2>
+          <p class="tool-header__desc">
+            The graph method visualizes the relationship between units sold, total revenue,
+            and total costs. The breakeven point is where the two lines cross. Change the
+            inputs in Tool 1 to see the graph update live.
+          </p>
+        </div>
+
+        <div class="cvp-chart-container card">
+          <div class="cvp-chart-controls">
+            <div class="form-group">
+              <label class="form-label" for="cvp-max-units">Chart Range (max units)</label>
+              <input type="number" id="cvp-max-units" class="form-input" value="60" min="10" step="5" style="max-width:140px;" />
+            </div>
+          </div>
+          <div class="cvp-canvas-wrapper">
+            <canvas id="cvp-canvas" aria-label="CVP chart showing revenue and cost lines"></canvas>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- Tool 3: Margin of Safety & Sensitivity -->
+    <section class="learn-section learn-section--alt">
+      <div class="container container--tool">
+        <div class="tool-header">
+          <div class="tool-header__label">Tool 3 of 4</div>
+          <h2 class="tool-header__title">Sensitivity Analysis</h2>
+          <p class="tool-header__desc">
+            Sensitivity analysis asks "what if?" — how does the breakeven point change if
+            fixed costs rise, or if variable costs fall? Uses your Tool 1 inputs as the base case.
+          </p>
+        </div>
+
+        <div class="sensitivity-container card">
+          <div class="sensitivity-base">
+            <div class="sensitivity-base__label">Base Case (from Tool 1)</div>
+            <div class="sensitivity-base__values" id="sens-base-values"></div>
+          </div>
+
+          <div class="sensitivity-table-wrapper">
+            <table class="data-table sensitivity-table" id="sensitivity-table">
+              <thead>
+                <tr>
+                  <th>Scenario</th>
+                  <th class="num">Fixed Costs</th>
+                  <th class="num">Variable Cost/Unit</th>
+                  <th class="num">BEP (Units)</th>
+                  <th class="num">BEP (Revenue)</th>
+                  <th class="num">Operating Income at Budgeted Volume</th>
+                </tr>
+              </thead>
+              <tbody id="sensitivity-tbody"></tbody>
+            </table>
+          </div>
+
+          <div class="sensitivity-insight" id="sensitivity-insight"></div>
+        </div>
+      </div>
+    </section>
+
+    <!-- Tool 4: Sales Mix CVP -->
+    <section class="learn-section">
+      <div class="container container--tool">
+        <div class="tool-header">
+          <div class="tool-header__label">Tool 4 of 4</div>
+          <h2 class="tool-header__title">Sales Mix CVP</h2>
+          <p class="tool-header__desc">
+            When a company sells multiple products, breakeven depends on the sales mix.
+            Enter two products and their mix ratio to compute the bundle breakeven point.
+          </p>
+        </div>
+
+        <div class="salesmix-container card">
+          <div class="salesmix-inputs">
+            <div class="salesmix-product">
+              <h3 class="salesmix-product__title">Product A</h3>
+              <div class="form-group">
+                <label class="form-label" for="sm-a-name">Name</label>
+                <input type="text" id="sm-a-name" class="form-input" value="GMAT Success" />
+              </div>
+              <div class="form-group">
+                <label class="form-label" for="sm-a-price">Selling Price ($)</label>
+                <input type="number" id="sm-a-price" class="form-input" value="200" min="0.01" step="1" />
+              </div>
+              <div class="form-group">
+                <label class="form-label" for="sm-a-vc">Variable Cost ($)</label>
+                <input type="number" id="sm-a-vc" class="form-input" value="120" min="0" step="1" />
+              </div>
+              <div class="form-group">
+                <label class="form-label" for="sm-a-mix">Units in Bundle</label>
+                <input type="number" id="sm-a-mix" class="form-input" value="3" min="1" step="1" />
+              </div>
+            </div>
+
+            <div class="salesmix-product">
+              <h3 class="salesmix-product__title">Product B</h3>
+              <div class="form-group">
+                <label class="form-label" for="sm-b-name">Name</label>
+                <input type="text" id="sm-b-name" class="form-input" value="GRE Guarantee" />
+              </div>
+              <div class="form-group">
+                <label class="form-label" for="sm-b-price">Selling Price ($)</label>
+                <input type="number" id="sm-b-price" class="form-input" value="100" min="0.01" step="1" />
+              </div>
+              <div class="form-group">
+                <label class="form-label" for="sm-b-vc">Variable Cost ($)</label>
+                <input type="number" id="sm-b-vc" class="form-input" value="70" min="0" step="1" />
+              </div>
+              <div class="form-group">
+                <label class="form-label" for="sm-b-mix">Units in Bundle</label>
+                <input type="number" id="sm-b-mix" class="form-input" value="2" min="1" step="1" />
+              </div>
+            </div>
+
+            <div class="salesmix-fixed">
+              <button class="btn btn--secondary btn--sm" id="sm-randomize-btn">🎲 Randomize</button>
+              <div class="form-group">
+                <label class="form-label" for="sm-fc">Total Fixed Costs ($)</label>
+                <input type="number" id="sm-fc" class="form-input" value="4500" min="0" step="100" />
+              </div>
+              <button class="btn btn--primary" id="sm-calculate">Calculate →</button>
+            </div>
+          </div>
+
+          <div class="salesmix-results" id="salesmix-results" hidden>
+            <div class="salesmix-results__grid" id="salesmix-results-grid"></div>
+            <div class="salesmix-breakdown card" id="salesmix-breakdown"></div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- Key Terms -->
+    <section class="learn-section learn-section--alt">
+      <div class="container container--tool">
+        <div class="tool-header">
+          <h2 class="tool-header__title">Key Terms</h2>
+          <p class="tool-header__desc">Click any term to see its definition.</p>
+        </div>
+        <div class="key-terms-grid" id="key-terms-grid"></div>
+      </div>
+    </section>
+
+    <!-- Chapter Complete -->
+    <section class="learn-section">
+      <div class="container container--tool">
+        <div class="chapter-complete card" id="chapter-complete">
+          <div class="chapter-complete__icon">✅</div>
+          <h2 class="chapter-complete__title">Chapter 3 Complete</h2>
+          <p class="chapter-complete__desc">
+            You can now calculate breakeven points, target income volumes, margin of safety,
+            and multi-product CVP — the analytical foundation for every planning decision.
+          </p>
+          <div class="chapter-complete__actions">
+            <button class="btn btn--primary" id="mark-complete-btn">Mark as Complete</button>
+            <a href="/pages/learn/ch04.html" class="btn btn--secondary">Next: Ch. 4 — Job Costing →</a>
+          </div>
+        </div>
+      </div>
+    </section>
+
+  </main>
+
+  <script type="module" src="/js/learn/ch03.js"></script>
+</body>
+</html>

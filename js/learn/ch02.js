@@ -3,6 +3,7 @@
  * Tools: Cost Classifier, Relevant Range Visualizer, Manufacturing Cost Flow, Unit Cost Trap
  */
 import { markChapterComplete, isChapterComplete, resetChapter } from '/js/core/progress-tracker.js';
+import { initRandomizer } from '/js/components/randomizer.js';
 
 const CLASSIFIER_ITEMS = [
   {
@@ -331,7 +332,6 @@ function initCostFlow() {
     set('cf-sum-cogs',         cogs);
 
     diagram.hidden = false;
-    diagram.scrollIntoView({ behavior: 'smooth', block: 'nearest' });
   });
 }
 
@@ -394,7 +394,6 @@ function initUnitCostTrap() {
       + `The unit cost of ${fmtDollar(baseUnitCost)} is only valid at exactly ${fmtUnits(baseVol)}.`;
 
     resultsEl.hidden = false;
-    resultsEl.scrollIntoView({ behavior: 'smooth', block: 'nearest' });
   });
 }
 
@@ -449,7 +448,24 @@ document.addEventListener('DOMContentLoaded', () => {
   initCostClassifier();
   initRelevantRange();
   initCostFlow();
+  initRandomizer('cf-randomize-btn', [
+    { id: 'cf-dm-begin',     min: 0,     max: 50000,  step: 1000, integer: true },
+    { id: 'cf-dm-purchases', min: 10000, max: 200000, step: 5000, integer: true },
+    { id: 'cf-dm-end',       min: 0,     max: 30000,  step: 1000, integer: true },
+    { id: 'cf-labor',        min: 5000,  max: 100000, step: 1000, integer: true },
+    { id: 'cf-overhead',     min: 5000,  max: 80000,  step: 1000, integer: true },
+    { id: 'cf-wip-begin',    min: 0,     max: 20000,  step: 1000, integer: true },
+    { id: 'cf-wip-end',      min: 0,     max: 20000,  step: 1000, integer: true },
+    { id: 'cf-fg-begin',     min: 0,     max: 50000,  step: 1000, integer: true },
+    { id: 'cf-fg-end',       min: 0,     max: 50000,  step: 1000, integer: true },
+  ], () => document.getElementById('cf-calculate').click());
   initUnitCostTrap();
+  initRandomizer('uc-randomize-btn', [
+    { id: 'uc-fixed',          min: 100000,  max: 20000000, step: 100000,  integer: true },
+    { id: 'uc-variable',       min: 5,       max: 500,      step: 5,       integer: true },
+    { id: 'uc-base-volume',    min: 10000,   max: 1000000,  step: 10000,   integer: true },
+    { id: 'uc-predict-volume', min: 5000,    max: 900000,   step: 5000,    integer: true, constraint: 'lessThan:uc-base-volume' },
+  ], () => document.getElementById('uc-calculate').click());
   initKeyTerms();
   initChapterComplete();
 });

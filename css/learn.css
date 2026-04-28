@@ -837,3 +837,63 @@
 
 @media (max-width: 768px) {.classifier-dimensions { grid-template-columns: 1fr; }.relevant-range-results { grid-template-columns: repeat(2, 1fr); }.cost-flow-inputs__grid { grid-template-columns: 1fr; }.flow-accounts { flex-direction: column; }.flow-arrow { padding-top: 0; transform: rotate(90deg); align-self: center; }.unit-cost-inputs { grid-template-columns: 1fr; }
 }
+
+/* ── Ch. 3: CVP Dashboard ───────────────────────────────────── */.cvp-dashboard { display: flex; flex-direction: column; gap: var(--space-6); }.cvp-inputs__title { font-size: var(--font-size-base); font-weight: 700; margin-bottom: var(--space-5); color: var(--color-gray-900); }.cvp-inputs__grid {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: var(--space-4);
+  margin-bottom: var(--space-5);
+}.cvp-results {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: var(--space-3);
+}.cvp-result-card {
+  background: var(--color-gray-50);
+  border: 1px solid var(--color-border);
+  border-radius: var(--radius-md);
+  padding: var(--space-4);
+  text-align: center;
+}.cvp-result-card--highlight { border-color: var(--color-primary); background: var(--color-info-light); }.cvp-result-card__label { font-size: var(--font-size-xs); font-weight: 700; text-transform: uppercase; letter-spacing: 0.06em; color: var(--color-text-muted); margin-bottom: var(--space-2); }.cvp-result-card__value { font-size: var(--font-size-xl); font-weight: 700; color: var(--color-gray-900); font-family: var(--font-mono); }.cvp-income-statement__title { font-size: var(--font-size-sm); font-weight: 700; margin-bottom: var(--space-4); color: var(--color-gray-900); }.is-row { display: flex; justify-content: space-between; padding: var(--space-2) 0; font-size: var(--font-size-sm); border-bottom: 1px solid var(--color-border-subtle); }.is-row:last-child { border-bottom: none; }.is-row--indent { padding-left: var(--space-4); color: var(--color-text-secondary); }.is-row--subtotal { font-weight: 600; border-top: 1px solid var(--color-border); border-bottom: 2px solid var(--color-border); }.is-row--total { font-weight: 700; font-size: var(--font-size-base); padding-top: var(--space-3); }.is-row--profit { color: var(--color-success); }.is-row--loss   { color: var(--color-danger); }
+
+/* ── Ch. 3: CVP Chart ───────────────────────────────────────── */.cvp-chart-container { display: flex; flex-direction: column; gap: var(--space-4); }.cvp-chart-controls { display: flex; align-items: flex-end; gap: var(--space-4); }.cvp-canvas-wrapper {
+  width: 100%;
+  height: 360px;
+  position: relative;
+}.cvp-canvas-wrapper canvas { width: 100%; height: 100%; display: block; }
+
+/* ── Ch. 3: Sensitivity ─────────────────────────────────────── */.sensitivity-container { display: flex; flex-direction: column; gap: var(--space-5); }.sensitivity-base { background: var(--color-gray-50); border-radius: var(--radius-md); padding: var(--space-4); }.sensitivity-base__label { font-size: var(--font-size-xs); font-weight: 700; text-transform: uppercase; letter-spacing: 0.08em; color: var(--color-text-muted); margin-bottom: var(--space-3); }.sensitivity-base__values { display: flex; gap: var(--space-6); flex-wrap: wrap; font-size: var(--font-size-sm); color: var(--color-text-secondary); }.sensitivity-table-wrapper { overflow-x: auto; border-radius: var(--radius-lg); border: 1px solid var(--color-border); }.sensitivity-insight {
+  padding: var(--space-4);
+  background: var(--color-info-light);
+  border: 1px solid var(--color-info);
+  border-radius: var(--radius-md);
+  font-size: var(--font-size-sm);
+  color: var(--color-text);
+  line-height: 1.6;
+}
+
+/* ── Ch. 3: Sales Mix ───────────────────────────────────────── */.salesmix-container { display: flex; flex-direction: column; gap: var(--space-6); }.salesmix-inputs {
+  display: grid;
+  grid-template-columns: 1fr 1fr 1fr;
+  gap: var(--space-6);
+  align-items: start;
+}.salesmix-product__title { font-size: var(--font-size-sm); font-weight: 700; color: var(--color-primary); margin-bottom: var(--space-4); }.salesmix-fixed { display: flex; flex-direction: column; gap: var(--space-4); justify-content: flex-end; padding-top: var(--space-8); }.salesmix-results { display: flex; flex-direction: column; gap: var(--space-5); }.salesmix-results__grid {
+  display: grid;
+  grid-template-columns: repeat(4, 1fr);
+  gap: var(--space-3);
+}.sm-result-card {
+  background: var(--color-gray-50);
+  border: 1px solid var(--color-border);
+  border-radius: var(--radius-md);
+  padding: var(--space-4);
+  text-align: center;
+}.sm-result-card--highlight { border-color: var(--color-primary); background: var(--color-info-light); }.sm-result-card__label { font-size: var(--font-size-xs); font-weight: 700; text-transform: uppercase; letter-spacing: 0.06em; color: var(--color-text-muted); margin-bottom: var(--space-2); }.sm-result-card__value { font-size: var(--font-size-xl); font-weight: 700; color: var(--color-gray-900); font-family: var(--font-mono); }.salesmix-breakdown { background: var(--color-gray-50); }
+
+@media (max-width: 768px) {.cvp-inputs__grid  { grid-template-columns: 1fr 1fr; }.cvp-results       { grid-template-columns: repeat(2, 1fr); }.salesmix-inputs   { grid-template-columns: 1fr; }.salesmix-results__grid { grid-template-columns: repeat(2, 1fr); }
+}
+
+/* ── CVP Inputs Header ──────────────────────────────────────── */.cvp-inputs__header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  margin-bottom: var(--space-5);
+}.cvp-inputs__header.cvp-inputs__title { margin-bottom: 0; }
