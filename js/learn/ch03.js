@@ -67,7 +67,16 @@ function calcCVP(price, vc, fc, target, tax, budgeted) {
 }
 
 function updateDashboard() {
-  const { price, vc, fc, target, tax, budgeted, maxUnits } = getInputs();
+  const { price, vc, fc, target, tax, budgeted } = getInputs();
+
+  const cm          = price - vc;
+  const bepUnits    = cm > 0 ? fc / cm : 0;
+  const targetUnits = cm > 0 ? Math.ceil((fc + (tax > 0 ? target / (1 - tax) : target)) / cm) : 0;
+  const autoMax     = Math.ceil(Math.max(bepUnits * 2, targetUnits * 1.5, budgeted * 1.5, 10) / 5) * 5;
+  const maxUnitsEl  = document.getElementById('cvp-max-units');
+  if (maxUnitsEl) maxUnitsEl.value = autoMax;
+  const maxUnits = autoMax;
+
   const r = calcCVP(price, vc, fc, target, tax, budgeted);
 
   const set = (id, val) => { const el = document.getElementById(id); if (el) el.textContent = val; };
