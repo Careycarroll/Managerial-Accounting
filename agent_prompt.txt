@@ -17,18 +17,18 @@ Stack: Vite 7, vanilla JS (ES modules), CSS custom properties, KaTeX, vite-plugi
 ## Architecture
 
 ### Two Sections
-- Learn -- 24 chapter pages (pages/learn/ch01.html through ch24.html). Each page: hero, learning objectives, 3-5 interactive tools, worked example, key terms panel, chapter complete marker.
-- Apply -- 12 scenario pages (pages/apply/*.html). Each scenario has three depth levels toggled by depth-selector.js: Concept / Analysis / Simulation.
+- Learn -- 24 chapter pages (pages/learn/ch01.html through ch24.html). Each page: hero, learning objectives, 3-5 interactive tools, show-work panels, key terms panel, chapter complete marker.
+- Apply -- 12 scenario pages (pages/apply/*.html). Each scenario has three depth levels: Concept / Analysis / Simulation.
 
 ### File Structure
 
     pages/learn/          One HTML per chapter
     pages/apply/          One HTML per scenario
     js/core/              main.js, progress-tracker.js
-    js/components/        depth-selector.js (built), others stubbed
-    js/charts/            Canvas chart components (not yet built)
+    js/components/        randomizer.js, journal-entry.js, show-work.js (all built)
+    js/charts/            chart-core.js (built), cvp-chart.js (built)
     js/engine/            scenario-engine.js + scenarios/*.json (not yet built)
-    js/learn/             index.js (built), ch01.js (built), ch02-ch24 (not built)
+    js/learn/             index.js, ch01.js, ch02.js, ch03.js, ch04.js (all built)
     js/apply/             Not yet built
     js/data/              managerial-terms.js (not yet built)
     css/base.css          Full custom property system (built)
@@ -39,9 +39,12 @@ Stack: Vite 7, vanilla JS (ES modules), CSS custom properties, KaTeX, vite-plugi
 ### Key Patterns
 - Vite multi-page -- vite.config.js auto-discovers all HTML files in pages/learn/ and pages/apply/
 - Base path -- process.env.NODE_ENV === 'production' ? '/Managerial-Accounting/' : '/'
-- Progress tracking -- js/core/progress-tracker.js uses localStorage. Import markChapterComplete, isChapterComplete, getProgress.
-- Depth selector -- js/components/depth-selector.js. Call initDepthSelector({ defaultDepth: 'concept', pageId: 'scenario-id' }) on Apply pages.
-- No canvas yet -- Ch. 1 is HTML/CSS only. Canvas charts begin at Ch. 3 (CVP) and Ch. 10 (scatter/regression).
+- Progress tracking -- js/core/progress-tracker.js uses localStorage. Import markChapterComplete, isChapterComplete, resetChapter, getProgress.
+- Randomizer -- js/components/randomizer.js. Call initRandomizer(buttonId, fields, onRandomize?) on any tool with numeric inputs.
+- Show Work -- js/components/show-work.js. Call renderShowWork(containerEl, steps, options) after any calculation.
+- Journal Entry -- js/components/journal-entry.js. Call renderJournalEntry(containerEl, entries, options).
+- Canvas charts -- chart-core.js provides base Chart class. cvp-chart.js extends it. All charts: crosshair, tooltip, click-to-pin, scroll-to-zoom, drag-to-pan, double-click-to-reset.
+- Full-bleed layout --.full-bleed class in components.css for elements that need to break out of container--tool width.
 - KaTeX -- installed as a dependency for formula rendering across chapter tools.
 
 ### CSS Design System
@@ -51,6 +54,7 @@ All custom properties defined in css/base.css:
 - Spacing: --space-1 through --space-16
 - Typography: --font-sans (Inter), --font-mono (JetBrains Mono), --font-size-xs through --font-size-4xl
 - Shadows, radii, transitions all defined
+- Max widths use min() for responsive scaling: min(900px, 92vw) for tools, min(1200px, 92vw) for content
 
 ---
 
@@ -58,24 +62,33 @@ All custom properties defined in css/base.css:
 
 ### Completed
 - index.html -- landing page with Learn/Apply two-path navigation, progress bar
-- pages/learn/index.html -- chapter grid with By Topic / By Chapter toggle, progress indicators
-- pages/learn/ch01.html -- Chapter 1 fully interactive (4 tools, worked example, key terms)
-- js/learn/index.js -- chapter grid renderer, view toggle, progress display
+- pages/learn/index.html -- chapter grid with By Topic / By Chapter toggle, progress indicators, Reset All button
+- pages/learn/ch01.html -- Chapter 1 fully interactive (4 tools, key terms, chapter complete + reset)
+- pages/learn/ch02.html -- Chapter 2 fully interactive (4 tools, randomizers, show-work, key terms, chapter complete + reset)
+- pages/learn/ch03.html -- Chapter 3 fully interactive (4 tools including canvas CVP chart, randomizers, show-work, key terms, chapter complete + reset)
+- pages/learn/ch04.html -- Chapter 4 fully interactive (4 tools, full-bleed overhead disposal, journal entry, randomizers, show-work, key terms, chapter complete + reset)
+- js/learn/index.js -- chapter grid renderer, view toggle, progress display, Reset All
 - js/learn/ch01.js -- accounting comparison table, value chain builder, five-step process, IMA ethics scenarios, key terms
-- js/core/progress-tracker.js -- localStorage progress tracking
+- js/learn/ch02.js -- cost classifier, relevant range visualizer (SVG), manufacturing cost flow, unit cost trap
+- js/learn/ch03.js -- CVP dashboard (live calc, auto-range), CVP graph (canvas), sensitivity analysis, sales mix CVP
+- js/learn/ch04.js -- job cost record builder, normal vs actual costing, overhead disposal calculator, job vs process classifier
+- js/core/progress-tracker.js -- localStorage progress tracking, resetChapter() per chapter
 - js/core/main.js -- landing page entry point
-- js/components/depth-selector.js -- Concept/Analysis/Simulation toggle
-- css/base.css -- full design system
-- css/components.css -- all shared UI components
-- css/learn.css -- Learn section layout, chapter cards, view toggle
+- js/components/randomizer.js -- universal input randomizer, fires input events to trigger existing listeners
+- js/components/journal-entry.js -- journal entry renderer, T-account renderer, multi T-account grid
+- js/components/show-work.js -- step-by-step calculation renderer, collapsible panel
+- js/charts/chart-core.js -- base Chart class with full interaction layer
+- js/charts/cvp-chart.js -- CVP line chart extending Chart base
+- css/base.css -- full design system, responsive min() max-widths
+- css/components.css -- all shared UI components, full-bleed utility
+- css/learn.css -- Learn section layout, all chapter tool styles
 
 ### Not Yet Built
-- pages/learn/ch02.html through ch24.html -- 23 remaining chapter pages
+- pages/learn/ch05.html through ch24.html -- 20 remaining chapter pages
 - pages/apply/index.html -- Apply section index
 - pages/apply/*.html -- 12 Apply scenario pages
-- js/charts/ -- canvas chart library
+- js/charts/ -- scatter-chart.js, variance-chart.js, control-chart.js, pareto-chart.js (planned)
 - js/engine/ -- simulation state machine
-- js/components/journal-entry.js, formula-display.js, worked-example.js, term-tooltip.js
 - js/data/managerial-terms.js -- 200+ glossary terms
 - css/apply.css
 
@@ -83,7 +96,7 @@ All custom properties defined in css/base.css:
 
 ## Learn Page Template
 
-Every chapter page follows this structure. Use Ch. 1 as the reference implementation.
+Every chapter page follows this structure. Use Ch. 4 as the reference implementation.
 
 HTML structure:
     Hero with chapter nav, badge, title, progress indicator
@@ -91,25 +104,67 @@ HTML structure:
     Tool 1 of N... Tool N of N (alternating learn-section / learn-section--alt)
     Key Terms grid
     Chapter Complete card with mark-complete button and next chapter link
-    script type="module" src="/js/learn/chXX.js"
+    script type=module src=/js/learn/chXX.js
+
+HTML rules:
+    No placeholder output divs in HTML. JS creates and appends all output elements dynamically.
+    Only inputs, labels, buttons, and static structure belong in HTML.
+    Output divs created in JS using getOrCreate(id, tag, className, parent) pattern.
 
 JS file pattern:
-    import { markChapterComplete, isChapterComplete } from '/js/core/progress-tracker.js';
+    import { markChapterComplete, isChapterComplete, resetChapter } from '/js/core/progress-tracker.js';
+    import { initRandomizer } from '/js/components/randomizer.js';
+    import { renderShowWork } from '/js/components/show-work.js';
     DATA constants at top
+    const fmt = n => '$' + Math.round(n).toLocaleString();
+    const fmtPct = n => (n * 100).toFixed(1) + '%';
+    function getOrCreate(id, tag, className, parent) -- helper for dynamic output elements
     One init function per tool
-    initChapterComplete() wires the mark-complete button
+    Every numeric tool gets a randomizer button and a show-work panel
+    initChapterComplete() wires mark-complete button and injects reset button after completion
     document.addEventListener('DOMContentLoaded', () => { init all tools });
 
 ---
 
 ## Chapter Build Priority
 
-1. Ch. 2 -- Cost Terms (vocabulary foundation, no canvas)
-2. Ch. 3 -- CVP Analysis (first canvas chart: CVP/PV graph)
-3. Ch. 12 -- Relevant Costs (most cross-referenced chapter)
-4. Ch. 6 -- Master Budget (most complex single tool)
-5. Ch. 7 + Ch. 8 -- Variance Analysis (companion chapters)
-6. Remaining chapters in textbook order
+1. Ch. 5 -- Activity-Based Costing (prerequisite: Ch. 4 done)
+2. Ch. 12 -- Relevant Costs (most cross-referenced chapter)
+3. Ch. 6 -- Master Budget (most complex single tool)
+4. Ch. 7 + Ch. 8 -- Variance Analysis (companion chapters)
+5. Remaining chapters in textbook order
+
+---
+
+## Component Reference
+
+### initRandomizer(buttonId, fields, onRandomize?)
+    fields: [{ id, min, max, step, integer?, constraint? }]
+    constraint: 'lessThan:otherId' or 'greaterThan:otherId'
+    onRandomize: callback fired after all fields are set (use to trigger calculate)
+
+### renderShowWork(containerEl, steps, options?)
+    steps: [{ label, formula, values, result, highlight?, note?, step? }]
+    options: { title, defaultOpen, id }
+    highlight: true = blue background, marks key result
+    Always call after output is rendered, never before
+
+### renderJournalEntry(containerEl, entries, options?)
+    entries: [{ account, debit, credit, indent }]
+    options: { title, subtitle, showTotals, balanced }
+
+### CVPChart(canvasEl, config)
+    config: { sellingPrice, variableCost, fixedCosts, maxUnits, currentUnits? }
+    chart.update(config) -- redraws with new config, resets zoom and pins
+
+### getOrCreate(id, tag, className, parent)
+    const el = document.getElementById(id) || (() => {
+      const e = document.createElement(tag || 'div');
+      e.id = id;
+      if (className) e.className = className;
+      if (parent) parent.appendChild(e);
+      return e;
+    })();
 
 ---
 
@@ -144,18 +199,21 @@ Key chapter dependencies:
 
 Discovery first. Before touching unfamiliar files, run discovery commands to map current state. Never assume file contents.
 
-File creation. Always use tee or python3 EOF blocks to create files. Never assume a file exists -- use mkdir -p before writing to new directories.
+Always audit before building. Clear audit.txt first:
+    > audit.txt && { commands; } >> audit.txt && echo audit.txt written
 
-Terminal commands only. All changes delivered as executable zsh commands. No "copy and paste this" prose.
+File creation. Always use python3 for all file writes. Never use heredocs for JS or CSS -- they break on backticks and special characters.
 
-No inline comments in zsh. Do not put # comment lines inside command blocks -- they cause failures in zsh heredocs.
+Terminal commands only. All changes delivered as executable zsh commands.
+
+No inline comments in zsh. Do not put # comment lines inside command blocks.
+
+No placeholder divs in HTML. JS creates all output elements dynamically after user action.
+
+ls -R works. find does not. Use ls -R for directory listing.
 
 Kill dev server:
     lsof -ti :5173,:5174,:5175,:5176 | xargs kill -9 2>/dev/null; pkill -9 -f vite 2>/dev/null; echo done
-
-Audit pattern:
-    { commands; } > ~/Github\ Projects/Managerial-Accounting/audit.txt
-    Then share audit.txt.
 
 Commit after each chapter. One commit per completed chapter page. Message format:
     feat: Chapter N -- Title
@@ -163,7 +221,14 @@ Commit after each chapter. One commit per completed chapter page. Message format
     - js/learn/chNN.js: tools built
     - css changes if any
 
-Python3 for file writes with special characters. Use python3 EOF blocks when file content contains backticks, single quotes, or other characters that break heredocs.
+Python3 for all file verification:
+    python3 -c "
+    import os
+    path = os.path.expanduser('~/Github Projects/Managerial-Accounting/file.js')
+    with open(path) as f: lines = f.readlines()
+    for i, l in enumerate(lines, 1):
+        if 'search term' in l: print(i, l.rstrip())
+    "
 
 ---
 
@@ -171,8 +236,10 @@ Python3 for file writes with special characters. Use python3 EOF blocks when fil
 
 - View toggle buttons on Learn index need styling refinement
 - Apply section not yet started
-- No canvas chart components built yet
-- Component stubs in js/components/ not yet implemented
+- depth-selector.js built but not yet used (Apply section pending)
+- formula-display.js, worked-example.js, term-tooltip.js not yet built
+- js/data/managerial-terms.js not yet built
+- show-work not yet added to Ch. 1 (no numeric tools -- low priority)
 
 ---
 
@@ -180,3 +247,9 @@ Python3 for file writes with special characters. Use python3 EOF blocks when fil
 
 Phase 0 -- Foundation (April 2026)
 Vite 7 + vite-plugin-pwa setup, CSS design system (base.css, components.css), landing page, Learn index with chapter grid and view toggle, Chapter 1 fully interactive, progress tracking system, depth selector component, README and agent prompt.
+
+Phase 1 -- Learn Section Chapters 2-4 (April 2026)
+Chapter 2 (Cost Terms), Chapter 3 (CVP Analysis with canvas chart), Chapter 4 (Job Costing).
+Shared components built: randomizer.js, journal-entry.js, show-work.js.
+Chart library started: chart-core.js (base class with full interaction layer), cvp-chart.js.
+Patterns established: randomizer on all numeric tools, show-work on all calculators, JS-owned output elements, full-bleed layout for wide content, getOrCreate helper, responsive min() widths.
