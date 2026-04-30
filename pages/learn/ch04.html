@@ -1,0 +1,371 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <meta name="description" content="Chapter 4: Job Costing — Interactive learning tools" />
+  <title>Ch. 4 · Job Costing</title>
+  <link rel="stylesheet" href="/css/base.css" />
+  <link rel="stylesheet" href="/css/components.css" />
+  <link rel="stylesheet" href="/css/learn.css" />
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet" />
+</head>
+<body>
+
+  <header class="site-header" role="banner">
+    <div class="site-header__inner">
+      <a href="/" class="site-header__logo">
+        <span>📊</span>
+        <span>Managerial Accounting</span>
+      </a>
+      <nav class="site-header__nav" role="navigation" aria-label="Main navigation">
+        <a href="/pages/learn/" class="site-header__nav-link site-header__nav-link--active">Learn</a>
+        <a href="/pages/apply/" class="site-header__nav-link">Apply</a>
+      </nav>
+    </div>
+  </header>
+
+  <main>
+
+    <!-- Hero -->
+    <section class="page__hero">
+      <div class="container">
+        <div class="chapter-nav">
+          <a href="/pages/learn/" class="chapter-nav__back">← All Chapters</a>
+          <div class="chapter-nav__position">
+            <span>Chapter 4 of 24</span>
+            <a href="/pages/learn/ch05.html" class="chapter-nav__next">Ch. 5 →</a>
+          </div>
+        </div>
+        <div class="chapter-hero__meta">
+          <span class="chapter-badge chapter-badge--costing">Costing</span>
+          <span class="chapter-hero__number">Chapter 4</span>
+        </div>
+        <h1 class="page__hero-title">Job Costing</h1>
+        <p class="page__hero-subtitle">
+          How to assign costs to distinct products and services — direct materials,
+          direct labor, overhead allocation, and end-of-year adjustments.
+        </p>
+        <div class="chapter-hero__progress" id="ch04-progress-indicator">
+          <span class="chapter-hero__progress-label" id="ch04-status">Not started</span>
+        </div>
+      </div>
+    </section>
+
+    <!-- Learning Objectives -->
+    <section class="learn-section">
+      <div class="container container--tool">
+        <div class="objectives-card card">
+          <h2 class="objectives-card__title">Learning Objectives</h2>
+          <ol class="objectives-list">
+            <li>Describe the building-block concepts of costing systems</li>
+            <li>Distinguish job costing from process costing</li>
+            <li>Describe the approaches to evaluating and implementing job-costing systems</li>
+            <li>Outline the seven-step approach to normal costing</li>
+            <li>Distinguish actual costing from normal costing</li>
+            <li>Track the flow of costs in a job-costing system</li>
+            <li>Adjust for under- or overallocated manufacturing overhead costs at year-end</li>
+            <li>Understand variations of normal costing</li>
+          </ol>
+        </div>
+      </div>
+    </section>
+
+    <!-- Tool 1: Job Cost Record Builder -->
+    <section class="learn-section learn-section--alt">
+      <div class="container container--tool">
+        <div class="tool-header">
+          <div class="tool-header__label">Tool 1 of 4</div>
+          <h2 class="tool-header__title">Job Cost Record Builder</h2>
+          <p class="tool-header__desc">
+            A job-cost record accumulates all costs assigned to a specific job. Enter the
+            direct materials, direct labor, and overhead parameters to build a complete
+            job-cost record — just like Robinson Company's WPP 298 job.
+          </p>
+        </div>
+
+        <div class="jcr-container">
+          <div class="jcr-inputs card">
+            <div class="jcr-inputs__header">
+              <h3 class="jcr-inputs__title">Job Parameters</h3>
+              <button class="btn btn--secondary btn--sm" id="jcr-randomize-btn">🎲 Randomize</button>
+            </div>
+            <div class="jcr-inputs__grid">
+              <div class="form-group">
+                <label class="form-label" for="jcr-job-name">Job Name / Number</label>
+                <input type="text" id="jcr-job-name" class="form-input" value="WPP 298" />
+              </div>
+              <div class="form-group">
+                <label class="form-label" for="jcr-customer">Customer</label>
+                <input type="text" id="jcr-customer" class="form-input" value="Western Pulp and Paper" />
+              </div>
+              <div class="form-group">
+                <label class="form-label" for="jcr-dm">Direct Materials ($)</label>
+                <input type="number" id="jcr-dm" class="form-input" value="4606" min="0" step="100" />
+              </div>
+              <div class="form-group">
+                <label class="form-label" for="jcr-dl-hours">Direct Labor Hours</label>
+                <input type="number" id="jcr-dl-hours" class="form-input" value="88" min="0" step="1" />
+              </div>
+              <div class="form-group">
+                <label class="form-label" for="jcr-dl-rate">Direct Labor Rate ($/hr)</label>
+                <input type="number" id="jcr-dl-rate" class="form-input" value="17.94" min="0" step="0.50" />
+              </div>
+              <div class="form-group">
+                <label class="form-label" for="jcr-oh-rate">Budgeted Overhead Rate ($/DL-hr)</label>
+                <input type="number" id="jcr-oh-rate" class="form-input" value="40" min="0" step="1" />
+              </div>
+              <div class="form-group">
+                <label class="form-label" for="jcr-price">Contract Price ($)</label>
+                <input type="number" id="jcr-price" class="form-input" value="15000" min="0" step="100" />
+              </div>
+            </div>
+            <button class="btn btn--primary" id="jcr-build-btn">Build Job-Cost Record →</button>
+          </div>
+
+          <div class="jcr-output" id="jcr-output" hidden>
+            <div class="jcr-record card">
+              <div class="jcr-record__header">
+                <div>
+                  <div class="jcr-record__label">JOB-COST RECORD</div>
+                  <div class="jcr-record__job" id="jcr-out-job"></div>
+                </div>
+                <div class="jcr-record__customer" id="jcr-out-customer"></div>
+              </div>
+
+              <div class="jcr-section">
+                <div class="jcr-section__title">Direct Materials</div>
+                <div class="jcr-section__body" id="jcr-out-dm"></div>
+              </div>
+
+              <div class="jcr-section">
+                <div class="jcr-section__title">Direct Manufacturing Labor</div>
+                <div class="jcr-section__body" id="jcr-out-dl"></div>
+              </div>
+
+              <div class="jcr-section">
+                <div class="jcr-section__title">Manufacturing Overhead</div>
+                <div class="jcr-section__body" id="jcr-out-oh"></div>
+              </div>
+
+              <div class="jcr-total" id="jcr-out-total"></div>
+            </div>
+
+            </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- Tool 2: Normal vs Actual Costing -->
+    <section class="learn-section">
+      <div class="container container--tool">
+        <div class="tool-header">
+          <div class="tool-header__label">Tool 2 of 4</div>
+          <h2 class="tool-header__title">Normal vs. Actual Costing</h2>
+          <p class="tool-header__desc">
+            Normal costing uses a budgeted overhead rate set at the start of the year.
+            Actual costing uses the rate calculated at year-end. Enter both sets of data
+            to see how the two methods produce different job costs.
+          </p>
+        </div>
+
+        <div class="nva-container card">
+          <div class="nva-inputs">
+            <div class="nva-inputs__header">
+              <h3 class="nva-inputs__title">Cost Data</h3>
+              <button class="btn btn--secondary btn--sm" id="nva-randomize-btn">🎲 Randomize</button>
+            </div>
+            <div class="nva-inputs__grid">
+              <div class="nva-col">
+                <h4 class="nva-col__title">Budgeted (set at year start)</h4>
+                <div class="form-group">
+                  <label class="form-label" for="nva-budg-oh">Budgeted Annual Overhead ($)</label>
+                  <input type="number" id="nva-budg-oh" class="form-input" value="1120000" min="0" step="10000" />
+                </div>
+                <div class="form-group">
+                  <label class="form-label" for="nva-budg-hours">Budgeted Annual DL-Hours</label>
+                  <input type="number" id="nva-budg-hours" class="form-input" value="28000" min="1" step="500" />
+                </div>
+              </div>
+              <div class="nva-col">
+                <h4 class="nva-col__title">Actual (known at year end)</h4>
+                <div class="form-group">
+                  <label class="form-label" for="nva-act-oh">Actual Annual Overhead ($)</label>
+                  <input type="number" id="nva-act-oh" class="form-input" value="1215000" min="0" step="10000" />
+                </div>
+                <div class="form-group">
+                  <label class="form-label" for="nva-act-hours">Actual Annual DL-Hours</label>
+                  <input type="number" id="nva-act-hours" class="form-input" value="27000" min="1" step="500" />
+                </div>
+              </div>
+              <div class="nva-col">
+                <h4 class="nva-col__title">This Job</h4>
+                <div class="form-group">
+                  <label class="form-label" for="nva-job-dm">Direct Materials ($)</label>
+                  <input type="number" id="nva-job-dm" class="form-input" value="4606" min="0" step="100" />
+                </div>
+                <div class="form-group">
+                  <label class="form-label" for="nva-job-dl">Direct Labor ($)</label>
+                  <input type="number" id="nva-job-dl" class="form-input" value="1579" min="0" step="100" />
+                </div>
+                <div class="form-group">
+                  <label class="form-label" for="nva-job-hours">Job DL-Hours</label>
+                  <input type="number" id="nva-job-hours" class="form-input" value="88" min="1" step="1" />
+                </div>
+              </div>
+            </div>
+            <button class="btn btn--primary" id="nva-calculate-btn">Compare Methods →</button>
+          </div>
+
+          <div class="nva-results" id="nva-results" hidden>
+              </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- Tool 3: Overhead Allocation & Disposal -->
+    <section class="learn-section learn-section--alt">
+      <div class="container container--tool">
+        <div class="tool-header">
+          <div class="tool-header__label">Tool 3 of 4</div>
+          <h2 class="tool-header__title">Overhead Allocation &amp; Year-End Disposal</h2>
+          <p class="tool-header__desc">
+            At year-end, allocated overhead rarely equals actual overhead. The difference
+            must be disposed of using one of three methods. Enter the data and compare
+            all three approaches.
+          </p>
+        </div>
+
+        <div class="ohd-container card">
+          <div class="ohd-inputs">
+            <div class="ohd-inputs__header">
+              <h3 class="ohd-inputs__title">Year-End Data</h3>
+              <button class="btn btn--secondary btn--sm" id="ohd-randomize-btn">🎲 Randomize</button>
+            </div>
+            <div class="ohd-inputs__grid">
+              <div class="form-group">
+                <label class="form-label" for="ohd-budg-rate">Budgeted OH Rate ($/DL-hr)</label>
+                <input type="number" id="ohd-budg-rate" class="form-input" value="40" min="0" step="1" />
+              </div>
+              <div class="form-group">
+                <label class="form-label" for="ohd-act-hours">Actual DL-Hours Used</label>
+                <input type="number" id="ohd-act-hours" class="form-input" value="27000" min="1" step="500" />
+              </div>
+              <div class="form-group">
+                <label class="form-label" for="ohd-act-oh">Actual Overhead Incurred ($)</label>
+                <input type="number" id="ohd-act-oh" class="form-input" value="1215000" min="0" step="10000" />
+              </div>
+              <div class="form-group">
+                <label class="form-label" for="ohd-wip">WIP Ending Balance ($)</label>
+                <input type="number" id="ohd-wip" class="form-input" value="50000" min="0" step="1000" />
+              </div>
+              <div class="form-group">
+                <label class="form-label" for="ohd-fg">Finished Goods Ending Balance ($)</label>
+                <input type="number" id="ohd-fg" class="form-input" value="75000" min="0" step="1000" />
+              </div>
+              <div class="form-group">
+                <label class="form-label" for="ohd-cogs">COGS Ending Balance ($)</label>
+                <input type="number" id="ohd-cogs" class="form-input" value="2375000" min="0" step="10000" />
+              </div>
+              <div class="form-group">
+                <label class="form-label" for="ohd-wip-alloc">OH Allocated in WIP ($)</label>
+                <input type="number" id="ohd-wip-alloc" class="form-input" value="16200" min="0" step="1000" />
+              </div>
+              <div class="form-group">
+                <label class="form-label" for="ohd-fg-alloc">OH Allocated in FG ($)</label>
+                <input type="number" id="ohd-fg-alloc" class="form-input" value="31320" min="0" step="1000" />
+              </div>
+              <div class="form-group">
+                <label class="form-label" for="ohd-cogs-alloc">OH Allocated in COGS ($)</label>
+                <input type="number" id="ohd-cogs-alloc" class="form-input" value="1032480" min="0" step="10000" />
+              </div>
+            </div>
+            <button class="btn btn--primary" id="ohd-calculate-btn">Calculate Disposal →</button>
+          </div>
+
+          <div class="ohd-results" id="ohd-results" hidden>
+                </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- Tool 4: Job vs Process Costing Classifier -->
+    <section class="learn-section">
+      <div class="container container--tool">
+        <div class="tool-header">
+          <div class="tool-header__label">Tool 4 of 4</div>
+          <h2 class="tool-header__title">Job vs. Process Costing Classifier</h2>
+          <p class="tool-header__desc">
+            Job costing is used for distinct, unique products or services. Process costing
+            is used for masses of identical or similar units. Classify each scenario.
+          </p>
+        </div>
+
+        <div class="jpc-container">
+          <div class="jpc-progress-bar">
+            <div class="jpc-progress-bar__fill" id="jpc-progress-fill"></div>
+          </div>
+          <p class="jpc-progress-label" id="jpc-progress-label">0 of 10 classified correctly</p>
+
+          <div class="jpc-card card">
+            <div class="jpc-scenario" id="jpc-scenario"></div>
+            <div class="jpc-buttons">
+              <button class="jpc-btn jpc-btn--job" id="jpc-btn-job">
+                <span class="jpc-btn__icon">🔧</span>
+                <span class="jpc-btn__label">Job Costing</span>
+                <span class="jpc-btn__sub">Distinct units</span>
+              </button>
+              <button class="jpc-btn jpc-btn--process" id="jpc-btn-process">
+                <span class="jpc-btn__icon">🏭</span>
+                <span class="jpc-btn__label">Process Costing</span>
+                <span class="jpc-btn__sub">Identical units</span>
+              </button>
+            </div>
+            <div class="jpc-feedback" id="jpc-feedback" hidden></div>
+            <div class="jpc-nav">
+              <button class="btn btn--secondary btn--sm" id="jpc-prev" disabled>← Prev</button>
+              <span class="jpc-counter" id="jpc-counter">1 of 10</span>
+              <button class="btn btn--secondary btn--sm" id="jpc-next" disabled>Next →</button>
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- Key Terms -->
+    <section class="learn-section learn-section--alt">
+      <div class="container container--tool">
+        <div class="tool-header">
+          <h2 class="tool-header__title">Key Terms</h2>
+          <p class="tool-header__desc">Click any term to see its definition.</p>
+        </div>
+        <div class="key-terms-grid" id="key-terms-grid"></div>
+      </div>
+    </section>
+
+    <!-- Chapter Complete -->
+    <section class="learn-section">
+      <div class="container container--tool">
+        <div class="chapter-complete card" id="chapter-complete">
+          <div class="chapter-complete__icon">✅</div>
+          <h2 class="chapter-complete__title">Chapter 4 Complete</h2>
+          <p class="chapter-complete__desc">
+            You can now build a job-cost record, compare normal and actual costing,
+            dispose of under- or overallocated overhead, and classify costing systems.
+            Chapter 5 builds directly on this with Activity-Based Costing.
+          </p>
+          <div class="chapter-complete__actions">
+            <button class="btn btn--primary" id="mark-complete-btn">Mark as Complete</button>
+            <a href="/pages/learn/ch05.html" class="btn btn--secondary">Next: Ch. 5 — Activity-Based Costing →</a>
+          </div>
+        </div>
+      </div>
+    </section>
+
+  </main>
+
+  <script type="module" src="/js/learn/ch04.js"></script>
+</body>
+</html>
