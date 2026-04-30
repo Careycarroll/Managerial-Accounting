@@ -3,6 +3,7 @@
  * Tools: Cost Classifier, Relevant Range Visualizer, Manufacturing Cost Flow, Unit Cost Trap
  */
 import { markChapterComplete, isChapterComplete, resetChapter } from '/js/core/progress-tracker.js';
+import { renderShowWork } from '/js/components/show-work.js';
 import { initRandomizer } from '/js/components/randomizer.js';
 
 const CLASSIFIER_ITEMS = [
@@ -332,6 +333,42 @@ function initCostFlow() {
     set('cf-sum-cogs',         cogs);
 
     diagram.hidden = false;
+
+    const cfSW = document.getElementById('cf-show-work') || (() => {
+      const el = document.createElement('div');
+      el.id = 'cf-show-work';
+      diagram.parentElement.appendChild(el);
+      return el;
+    })();
+    renderShowWork(cfSW, [
+      {
+        label:   'Direct Materials Used',
+        formula: 'DM Used = Beginning Inventory + Purchases − Ending Inventory',
+        values:  `$${dmBegin.toLocaleString()} + $${dmPurchases.toLocaleString()} − $${dmEnd.toLocaleString()}`,
+        result:  '$' + dmUsed.toLocaleString(),
+      },
+      {
+        label:   'Total Manufacturing Costs Incurred',
+        formula: 'Total Mfg Costs = DM Used + Direct Labor + Manufacturing Overhead',
+        values:  `$${dmUsed.toLocaleString()} + $${labor.toLocaleString()} + $${overhead.toLocaleString()}`,
+        result:  '$' + mfgCosts.toLocaleString(),
+      },
+      {
+        label:   'Cost of Goods Manufactured (COGM)',
+        formula: 'COGM = Beginning WIP + Total Mfg Costs − Ending WIP',
+        values:  `$${wipBegin.toLocaleString()} + $${mfgCosts.toLocaleString()} − $${wipEnd.toLocaleString()}`,
+        result:  '$' + cogm.toLocaleString(),
+        highlight: true,
+      },
+      {
+        label:   'Cost of Goods Sold (COGS)',
+        formula: 'COGS = Beginning Finished Goods + COGM − Ending Finished Goods',
+        values:  `$${fgBegin.toLocaleString()} + $${cogm.toLocaleString()} − $${fgEnd.toLocaleString()}`,
+        result:  '$' + cogs.toLocaleString(),
+        highlight: true,
+        note:    'COGS flows to the income statement as an expense only when goods are sold.',
+      },
+    ], { title: 'Show Work — Manufacturing Cost Flow' });
   });
 }
 
@@ -394,6 +431,42 @@ function initUnitCostTrap() {
       + `The unit cost of ${fmtDollar(baseUnitCost)} is only valid at exactly ${fmtUnits(baseVol)}.`;
 
     resultsEl.hidden = false;
+
+    const ucSW = document.getElementById('uc-show-work') || (() => {
+      const el = document.createElement('div');
+      el.id = 'uc-show-work';
+      resultsEl.parentElement.appendChild(el);
+      return el;
+    })();
+    renderShowWork(ucSW, [
+      {
+        label:   'Base Unit Cost',
+        formula: 'Unit Cost = Total Costs ÷ Units Produced',
+        values:  `($${fixed.toLocaleString()} + $${(variable * baseVol).toLocaleString()}) ÷ ${baseVol.toLocaleString()} units`,
+        result:  '$' + baseUnitCost.toFixed(2) + '/unit',
+      },
+      {
+        label:   'Correct Total Cost at Predicted Volume',
+        formula: 'Total Cost = Fixed Costs + (Variable Cost/unit × Units)',
+        values:  `$${fixed.toLocaleString()} + ($${variable.toLocaleString()} × ${predictVol.toLocaleString()})`,
+        result:  '$' + predictTotalCost.toLocaleString(),
+        highlight: true,
+      },
+      {
+        label:   'Wrong Estimate Using Base Unit Cost',
+        formula: 'Wrong Estimate = Base Unit Cost × Predicted Volume',
+        values:  `$${baseUnitCost.toFixed(2)} × ${predictVol.toLocaleString()} units`,
+        result:  '$' + wrongEstimate.toLocaleString(),
+      },
+      {
+        label:   'The Error',
+        formula: 'Error = Wrong Estimate − Correct Total Cost',
+        values:  `$${wrongEstimate.toLocaleString()} − $${predictTotalCost.toLocaleString()}`,
+        result:  '$' + error.toLocaleString() + ' ' + (wrongEstimate > predictTotalCost ? 'overestimate' : 'underestimate'),
+        highlight: true,
+        note:    'The unit cost of $' + baseUnitCost.toFixed(2) + ' is only valid at exactly ' + baseVol.toLocaleString() + ' units. Fixed costs spread differently at every other volume.',
+      },
+    ], { title: 'Show Work — Unit Cost Trap' });
   });
 }
 

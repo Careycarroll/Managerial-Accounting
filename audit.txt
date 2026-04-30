@@ -1,144 +1,18 @@
-====== PROGRESS-TRACKER.JS ======
-/**
- * progress-tracker.js
- * Tracks student progress through Learn chapters and Apply scenarios.
- */
-const STORAGE_KEY = 'ma-progress';
-
-const DEFAULT_PROGRESS = {
-  chapters: {
-    ch01:false,ch02:false,ch03:false,ch04:false,ch05:false,ch06:false,
-    ch07:false,ch08:false,ch09:false,ch10:false,ch11:false,ch12:false,
-    ch13:false,ch14:false,ch15:false,ch16:false,ch17:false,ch18:false,
-    ch19:false,ch20:false,ch21:false,ch22:false,ch23:false,ch24:false,
-  },
-  scenarios: {
-    'what-does-it-cost':       {concept:false,analysis:false,simulation:false},
-    'will-we-break-even':      {concept:false,analysis:false,simulation:false},
-    'whats-our-plan':          {concept:false,analysis:false,simulation:false},
-    'did-we-hit-our-plan':     {concept:false,analysis:false,simulation:false},
-    'make-or-buy':             {concept:false,analysis:false,simulation:false},
-    'what-should-we-charge':   {concept:false,analysis:false,simulation:false},
-    'which-customers':         {concept:false,analysis:false,simulation:false},
-    'managing-inventory':      {concept:false,analysis:false,simulation:false},
-    'is-investment-worth-it':  {concept:false,analysis:false,simulation:false},
-    'measuring-performance':   {concept:false,analysis:false,simulation:false},
-    'what-do-costs-tell-us':   {concept:false,analysis:false,simulation:false},
-    'are-we-producing-quality':{concept:false,analysis:false,simulation:false},
-  },
-  lastVisited: null,
-};
-
-export function getProgress() {
-  try {
-    const stored = localStorage.getItem(STORAGE_KEY);
-    if (!stored) return structuredClone(DEFAULT_PROGRESS);
-    return {...structuredClone(DEFAULT_PROGRESS),...JSON.parse(stored) };
-  } catch { return structuredClone(DEFAULT_PROGRESS); }
-}
-
-export function markChapterComplete(chapterId) {
-  const p = getProgress();
-  p.chapters[chapterId] = true;
-  p.lastVisited = chapterId;
-  _save(p);
-}
-
-export function markScenarioComplete(scenarioId, depth) {
-  const p = getProgress();
-  if (p.scenarios[scenarioId]) p.scenarios[scenarioId][depth] = true;
-  _save(p);
-}
-
-export function isChapterComplete(chapterId) {
-  return getProgress().chapters[chapterId] === true;
-}
-
-export function getCompletedChapterCount() {
-  return Object.values(getProgress().chapters).filter(Boolean).length;
-}
-
-export function resetProgress() {
-  localStorage.removeItem(STORAGE_KEY);
-}
-
-function _save(p) {
-  try { localStorage.setItem(STORAGE_KEY, JSON.stringify(p)); } catch {}
-}
-
-====== CH01.JS - CHAPTER COMPLETE FUNCTION ======
-5:import { markChapterComplete, isChapterComplete } from '/js/core/progress-tracker.js';
-525:function initChapterComplete() {
-526:  const btn       = document.getElementById('mark-complete-btn');
-530:  if (isChapterComplete('ch01')) {
-535:    markChapterComplete('ch01');
-559:  initChapterComplete();
-
-====== CH02.JS - CHAPTER COMPLETE FUNCTION ======
-5:import { markChapterComplete, isChapterComplete } from '/js/core/progress-tracker.js';
-422:function initChapterComplete() {
-423:  const btn      = document.getElementById('mark-complete-btn');
-425:  if (isChapterComplete('ch02')) setCompleteUI();
-426:  btn?.addEventListener('click', () => { markChapterComplete('ch02'); setCompleteUI(); });
-439:  initChapterComplete();
-
-====== CH01 CHAPTER COMPLETE HTML BLOCK ======
-237:        <div class="chapter-complete card" id="chapter-complete">
-238:          <div class="chapter-complete__icon">✅</div>
-239:          <h2 class="chapter-complete__title">Chapter 1 Complete</h2>
-240:          <p class="chapter-complete__desc">
-245:          <div class="chapter-complete__actions">
-246:            <button class="btn btn--primary" id="mark-complete-btn">Mark as Complete</button>
-
-====== CH02 CHAPTER COMPLETE HTML BLOCK ======
-450:        <div class="chapter-complete card" id="chapter-complete">
-451:          <div class="chapter-complete__icon">✅</div>
-452:          <h2 class="chapter-complete__title">Chapter 2 Complete</h2>
-453:          <p class="chapter-complete__desc">
-457:          <div class="chapter-complete__actions">
-458:            <button class="btn btn--primary" id="mark-complete-btn">Mark as Complete</button>
-
-====== LEARN INDEX HTML - HERO/HEADER AREA ======
-32:    <section class="page__hero">
-35:        <p class="page__hero-label">Horngren's Cost Accounting · 17th Edition</p>
-36:        <h1 class="page__hero-title">Learn</h1>
-37:        <p class="page__hero-subtitle">
-42:            <div class="progress-bar" style="height:8px;">
-43:              <div class="progress-bar__fill" id="overall-progress-bar" style="width:0%"></div>
-46:          <span style="font-size:var(--font-size-sm);color:rgba(255,255,255,0.7);" id="overall-progress-label">0 of 24 chapters completed</span>
-57:          <button class="view-toggle__btn view-toggle__btn--active" data-view="group" id="view-group">
-59:          </button>
-60:          <button class="view-toggle__btn" data-view="sequence" id="view-sequence">
-62:          </button>
-
-====== LEARN INDEX JS - LAST 30 LINES ======
-      </div>
-      <h3 class="chapter-card__title">${ch.title}</h3>
-      <p class="chapter-card__desc">${ch.desc}</p>
-      <div class="chapter-card__tools">
-        ${ch.tools.map(t => `<span class="chapter-card__tool">${t}</span>`).join('')}
-      </div>
-      <div class="chapter-card__footer">
-        <span class="chapter-card__cta">${done ? 'Review →' : 'Start →'}</span>
-      </div>
-    `;
-    sequenceContainer.appendChild(card);
-  });
-
-  function setView(view) {
-    const isGroup = view === 'group';
-    groupPanel.hidden    = !isGroup;
-    sequencePanel.hidden =  isGroup;
-    btnGroup.classList.toggle('view-toggle__btn--active',    isGroup);
-    btnSequence.classList.toggle('view-toggle__btn--active', !isGroup);
-    try { localStorage.setItem(STORAGE_KEY, view); } catch {}
-  }
-
-  btnGroup.addEventListener('click',    () => setView('group'));
-  btnSequence.addEventListener('click', () => setView('sequence'));
-
-  const saved = (() => { try { return localStorage.getItem(STORAGE_KEY); } catch { return null; } })();
-  setView(saved === 'sequence' ? 'sequence' : 'group');
-}
-
-initViewToggle();
+909 /* ── Ch. 4: Overhead Disposal ────────────────────────────────── */.ohd-inputs__header { display: flex; align-items: center; justify-content: space-between; margin-bottom: var(--space-5); }.ohd-inputs__title { font-size: var(--font-size-base); font-weight: 700; color: var(--color-gray-900); margin: 0; }.ohd-inputs__grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: var(--space-4); margin-bottom: var(--space-5); }.ohd-summary__grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: var(--space-3); margin-bottom: var(--space-6); }.ohd-summary__item { background: var(--color-gray-50); border: 1px solid var(--color-border); border-radius: var(--radius-md); padding: var(--space-4); text-align: center; }.ohd-summary__item--highlight { border-color: var(--color-accent); background: #fffdf7; }.ohd-summary__label { font-size: var(--font-size-xs); font-weight: 700; text-transform: uppercase; letter-spacing: 0.06em; color: var(--color-text-muted); margin-bottom: var(--space-2); }.ohd-summary__value { font-size: var(--font-size-xl); font-weight: 700; font-family: var(--font-mono); color: var(--color-gray-900); }.ohd-summary__sub { font-size: var(--font-size-xs); color: var(--color-text-muted); margin-top: var(--space-1); }.ohd-methods-section {
+910   width: 100%;
+911   background: var(--color-gray-50);
+912   padding: var(--space-8) max(var(--space-6), calc((100vw - min(1200px, 92vw)) / 2));
+913   box-sizing: border-box;
+914 }.ohd-methods-grid {
+915   display: grid;
+916   grid-template-columns: repeat(3, 1fr);
+917   gap: var(--space-6);
+918   width: 100%;
+919   max-width: min(1200px, 92vw);
+920   margin: 0 auto;
+921   box-sizing: border-box;
+922 }.ohd-method { box-sizing: border-box; min-width: 0; }.ohd-method.data-table { font-size: 0.7rem; }.ohd-method.data-table th,.ohd-method.data-table td { padding: var(--space-2) var(--space-2); }.ohd-method__title { font-size: var(--font-size-xs) !important; }.ohd-method__desc  { font-size: 0.65rem !important; }.ohd-method__title { font-size: var(--font-size-sm); font-weight: 700; color: var(--color-primary); margin-bottom: var(--space-2); }.ohd-method__desc { font-size: var(--font-size-xs); color: var(--color-text-secondary); line-height: 1.5; margin-bottom: var(--space-3); }
+923 
+924 /* ── Ch. 4: Job vs Process Classifier ───────────────────────── */.jpc-container { display: flex; flex-direction: column; gap: var(--space-4); }.jpc-progress-bar { height: 6px; background: var(--color-gray-200); border-radius: var(--radius-full); overflow: hidden; }.jpc-progress-bar__fill { height: 100%; background: var(--color-success); border-radius: var(--radius-full); transition: width var(--transition-slow); width: 0%; }.jpc-progress-label { font-size: var(--font-size-xs); color: var(--color-text-muted); font-weight: 500; }.jpc-scenario { font-size: var(--font-size-base); color: var(--color-text); line-height: 1.7; padding: var(--space-5); background: var(--color-gray-50); border-radius: var(--radius-md); border-left: 3px solid var(--color-primary); margin-bottom: var(--space-6); }.jpc-buttons { display: grid; grid-template-columns: 1fr 1fr; gap: var(--space-4); margin-bottom: var(--space-5); }.jpc-btn { display: flex; flex-direction: column; align-items: center; gap: var(--space-2); padding: var(--space-5); border: 2px solid var(--color-border); border-radius: var(--radius-lg); background: var(--color-surface); cursor: pointer; transition: all var(--transition-fast); }.jpc-btn:hover { border-color: var(--color-primary); transform: translateY(-2px); box-shadow: var(--shadow-md); }.jpc-btn__icon { font-size: 2rem; }.jpc-btn__label { font-size: var(--font-size-base); font-weight: 700; color: var(--color-gray-900); }.jpc-btn__sub { font-size: var(--font-size-xs); color: var(--color-text-muted); }.jpc-btn--correct  { border-color: var(--color-success); background: var(--color-success-light); }.jpc-btn--incorrect{ border-color: var(--color-danger);  background: var(--color-danger-light); }.jpc-feedback { padding: var(--space-4); border-radius: var(--radius-md); font-size: var(--font-size-sm); line-height: 1.6; margin-bottom: var(--space-4); }.jpc-feedback--success { background: var(--color-success-light); border: 1px solid var(--color-success); color: var(--color-success); }.jpc-feedback--error   { background: var(--color-danger-light);  border: 1px solid var(--color-danger);  color: var(--color-text); }.jpc-nav { display: flex; align-items: center; justify-content: space-between; }.jpc-counter { font-size: var(--font-size-sm); color: var(--color-text-muted); font-weight: 500; }
+925 
+926 @media (max-width: 768px) {.jcr-inputs__grid  { grid-template-columns: 1fr 1fr; }.jcr-analysis__grid{ grid-template-columns: 1fr 1fr; }.nva-inputs__grid  { grid-template-columns: 1fr; }.ohd-inputs__grid  { grid-template-columns: 1fr 1fr; }.ohd-summary__grid { grid-template-columns: 1fr; }.ohd-methods-grid  { grid-template-columns: 1fr; }.jpc-buttons       { grid-template-columns: 1fr; }

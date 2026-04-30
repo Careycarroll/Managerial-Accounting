@@ -5,6 +5,7 @@
 import { markChapterComplete, isChapterComplete, resetChapter } from '/js/core/progress-tracker.js';
 import { CVPChart } from '/js/charts/cvp-chart.js';
 import { initRandomizer } from '/js/components/randomizer.js';
+import { renderShowWork } from '/js/components/show-work.js';
 
 // ── Data ──────────────────────────────────────────────────────
 
@@ -90,6 +91,54 @@ function updateDashboard() {
 
   renderIncomeStatement(price, vc, fc, budgeted, r);
   updateSensitivity();
+
+  const cvpSW = document.getElementById('cvp-show-work') || (() => {
+    const el = document.createElement('div');
+    el.id = 'cvp-show-work';
+    document.getElementById('cvp-income-statement')?.after(el);
+    return el;
+  })();
+  renderShowWork(cvpSW, [
+    {
+      label:   'Contribution Margin per Unit',
+      formula: 'CM/unit = Selling Price − Variable Cost/unit',
+      values:  `$${price.toLocaleString()} − $${vc.toLocaleString()}`,
+      result:  '$' + r.cm.toLocaleString() + '/unit',
+    },
+    {
+      label:   'Contribution Margin Ratio',
+      formula: 'CM% = CM/unit ÷ Selling Price',
+      values:  `$${r.cm.toLocaleString()} ÷ $${price.toLocaleString()}`,
+      result:  (r.cmPct * 100).toFixed(1) + '%',
+    },
+    {
+      label:   'Breakeven Point (Units)',
+      formula: 'BEP Units = Fixed Costs ÷ CM/unit',
+      values:  `$${fc.toLocaleString()} ÷ $${r.cm.toLocaleString()}`,
+      result:  isFinite(r.bepUnits) ? Math.ceil(r.bepUnits).toLocaleString() + ' units' : '∞',
+      highlight: true,
+    },
+    {
+      label:   'Breakeven Point (Revenue)',
+      formula: 'BEP Revenue = Fixed Costs ÷ CM%',
+      values:  `$${fc.toLocaleString()} ÷ ${(r.cmPct * 100).toFixed(1)}%`,
+      result:  isFinite(r.bepRev) ? '$' + Math.round(r.bepRev).toLocaleString() : '∞',
+      highlight: true,
+    },
+    {
+      label:   'Units Needed for Target Operating Income',
+      formula: 'Units = (Fixed Costs + Target OI) ÷ CM/unit',
+      values:  `($${fc.toLocaleString()} + $${Math.round(r.targetOI).toLocaleString()}) ÷ $${r.cm.toLocaleString()}`,
+      result:  isFinite(r.targetUnits) ? r.targetUnits.toLocaleString() + ' units' : '∞',
+    },
+    {
+      label:   'Margin of Safety',
+      formula: 'MOS% = (Budgeted Units − BEP Units) ÷ Budgeted Units',
+      values:  `(${budgeted.toLocaleString()} − ${isFinite(r.bepUnits) ? Math.ceil(r.bepUnits).toLocaleString() : '∞'}) ÷ ${budgeted.toLocaleString()}`,
+      result:  isFinite(r.mosPct) ? (r.mosPct * 100).toFixed(1) + '%' : '—',
+      note:    'Margin of safety shows how far sales can fall before a loss occurs.',
+    },
+  ], { title: 'Show Work — CVP Calculations' });
 
   if (cvpChart) {
     cvpChart.update({
@@ -300,6 +349,61 @@ function calcSalesMix() {
   `;
 
   document.getElementById('salesmix-results').hidden = false;
+
+  const smSW = document.getElementById('sm-show-work') || (() => {
+    const el = document.createElement('div');
+    el.id = 'sm-show-work';
+    document.getElementById('salesmix-results')?.after(el);
+    return el;
+  })();
+  renderShowWork(smSW, [
+    {
+      label:   'Contribution Margin — Product A',
+      formula: 'CM/unit = Selling Price − Variable Cost',
+      values:  `$${aPrice.toLocaleString()} − $${aVC.toLocaleString()}`,
+      result:  '$' + aCM.toLocaleString() + '/unit',
+    },
+    {
+      label:   'Contribution Margin — Product B',
+      formula: 'CM/unit = Selling Price − Variable Cost',
+      values:  `$${bPrice.toLocaleString()} − $${bVC.toLocaleString()}`,
+      result:  '$' + bCM.toLocaleString() + '/unit',
+    },
+    {
+      label:   'Bundle Contribution Margin',
+      formula: 'Bundle CM = (CM_A × Mix_A) + (CM_B × Mix_B)',
+      values:  `($${aCM.toLocaleString()} × ${aMix}) + ($${bCM.toLocaleString()} × ${bMix})`,
+      result:  '$' + bundleCM.toLocaleString(),
+      highlight: true,
+    },
+    {
+      label:   'Breakeven Bundles',
+      formula: 'BEP Bundles = Fixed Costs ÷ Bundle CM',
+      values:  `$${fc.toLocaleString()} ÷ $${bundleCM.toLocaleString()}`,
+      result:  bepBundles.toLocaleString() + ' bundles',
+      highlight: true,
+    },
+    {
+      label:   'Breakeven Units — ' + aName,
+      formula: 'BEP Units_A = BEP Bundles × Mix_A',
+      values:  `${bepBundles.toLocaleString()} × ${aMix}`,
+      result:  bepUnitsA.toLocaleString() + ' units',
+    },
+    {
+      label:   'Breakeven Units — ' + bName,
+      formula: 'BEP Units_B = BEP Bundles × Mix_B',
+      values:  `${bepBundles.toLocaleString()} × ${bMix}`,
+      result:  bepUnitsB.toLocaleString() + ' units',
+    },
+    {
+      label:   'Total Breakeven Revenue',
+      formula: 'BEP Revenue = (BEP Units_A × Price_A) + (BEP Units_B × Price_B)',
+      values:  `(${bepUnitsA.toLocaleString()} × $${aPrice.toLocaleString()}) + (${bepUnitsB.toLocaleString()} × $${bPrice.toLocaleString()})`,
+      result:  '$' + bepRevTotal.toLocaleString(),
+      highlight: true,
+      note:    'This breakeven assumes the sales mix of ' + aMix + ':' + bMix + ' remains constant at all volume levels.',
+    },
+  ], { title: 'Show Work — Sales Mix CVP' });
 }
 
 // ── Key Terms ─────────────────────────────────────────────────
