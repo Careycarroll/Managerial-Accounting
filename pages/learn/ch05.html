@@ -1,0 +1,411 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <meta name="description" content="Chapter 5: Activity-Based Costing and Activity-Based Management — Interactive learning tools" />
+  <title>Ch. 5 · Activity-Based Costing and Activity-Based Management</title>
+  <link rel="stylesheet" href="/css/base.css" />
+  <link rel="stylesheet" href="/css/components.css" />
+  <link rel="stylesheet" href="/css/learn.css" />
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet" />
+</head>
+<body>
+
+  <header class="site-header" role="banner">
+    <div class="site-header__inner">
+      <a href="/" class="site-header__logo">
+        <span>📊</span>
+        <span>Managerial Accounting</span>
+      </a>
+      <nav class="site-header__nav" role="navigation" aria-label="Main navigation">
+        <a href="/pages/learn/" class="site-header__nav-link site-header__nav-link--active">Learn</a>
+        <a href="/pages/apply/" class="site-header__nav-link">Apply</a>
+      </nav>
+    </div>
+  </header>
+
+  <main>
+
+    <!-- Hero -->
+    <section class="page__hero">
+      <div class="container">
+        <div class="chapter-nav">
+          <a href="/pages/learn/" class="chapter-nav__back">← All Chapters</a>
+          <div class="chapter-nav__position">
+            <span>Chapter 5 of 24</span>
+            <a href="/pages/learn/ch06.html" class="chapter-nav__next">Ch. 6 →</a>
+          </div>
+        </div>
+        <div class="chapter-hero__meta">
+          <span class="chapter-badge chapter-badge--costing">Costing</span>
+          <span class="chapter-hero__number">Chapter 5</span>
+        </div>
+        <h1 class="page__hero-title">Activity-Based Costing<br>and Activity-Based Management</h1>
+        <p class="page__hero-subtitle">
+          Why broad averaging misleads managers — and how identifying activities and cost drivers
+          produces more accurate product costs and better decisions.
+        </p>
+        <div class="chapter-hero__progress" id="ch05-progress-indicator">
+          <span class="chapter-hero__progress-label" id="ch05-status">Not started</span>
+        </div>
+      </div>
+    </section>
+
+    <!-- Learning Objectives -->
+    <section class="learn-section">
+      <div class="container container--tool">
+        <div class="objectives-card card">
+          <h2 class="objectives-card__title">Learning Objectives</h2>
+          <ol class="objectives-list">
+            <li>Explain how broad averaging undercosts and overcosts products or services</li>
+            <li>Present three guidelines for refining a costing system</li>
+            <li>Distinguish between simple and activity-based costing systems</li>
+            <li>Describe a four-part cost hierarchy</li>
+            <li>Cost products or services using activity-based costing</li>
+            <li>Evaluate the benefits and costs of implementing activity-based costing systems</li>
+            <li>Explain how managers use activity-based costing systems in activity-based management</li>
+          </ol>
+        </div>
+      </div>
+    </section>
+
+    <!-- Tool 1: Simple vs ABC Comparator -->
+    <section class="learn-section learn-section--alt">
+      <div class="container container--tool">
+        <div class="tool-header">
+          <div class="tool-header__label">Tool 1 of 4</div>
+          <h2 class="tool-header__title">Simple vs. ABC Costing Comparator</h2>
+          <p class="tool-header__desc">
+            Simple costing uses one overhead pool and one allocation base. ABC uses multiple
+            activity pools each with its own cost driver. See how the two systems produce
+            different product costs — and which products get over- or undercosted.
+          </p>
+        </div>
+
+        <div class="abc-comparator card">
+          <div class="abc-comparator__inputs">
+            <div class="abc-comparator__header">
+              <h3 class="abc-comparator__title">Product Data</h3>
+              <button class="btn btn--secondary btn--sm" id="abc-comp-randomize">🎲 Randomize</button>
+            </div>
+
+            <div class="abc-comparator__products">
+              <div class="abc-product-col">
+                <h4 class="abc-product-col__title">Product 1 (Simple)</h4>
+                <div class="form-group">
+                  <label class="form-label" for="cp-p1-name">Product Name</label>
+                  <input type="text" id="cp-p1-name" class="form-input" value="S3 Lens" />
+                </div>
+                <div class="form-group">
+                  <label class="form-label" for="cp-p1-units">Units Produced</label>
+                  <input type="number" id="cp-p1-units" class="form-input" value="60000" min="1" step="1000" />
+                </div>
+                <div class="form-group">
+                  <label class="form-label" for="cp-p1-dm">Direct Materials per Unit ($)</label>
+                  <input type="number" id="cp-p1-dm" class="form-input" value="18.75" min="0" step="0.25" />
+                </div>
+                <div class="form-group">
+                  <label class="form-label" for="cp-p1-dl">Direct Labor per Unit ($)</label>
+                  <input type="number" id="cp-p1-dl" class="form-input" value="10.00" min="0" step="0.25" />
+                </div>
+                <div class="form-group">
+                  <label class="form-label" for="cp-p1-dlh">Direct Labor Hours per Unit</label>
+                  <input type="number" id="cp-p1-dlh" class="form-input" value="0.5" min="0.01" step="0.05" />
+                </div>
+                <div class="form-group">
+                  <label class="form-label" for="cp-p1-abc-oh">ABC Indirect Costs Allocated ($)</label>
+                  <input type="number" id="cp-p1-abc-oh" class="form-input" value="1153953" min="0" step="1000" />
+                </div>
+              </div>
+
+              <div class="abc-product-col">
+                <h4 class="abc-product-col__title">Product 2 (Complex)</h4>
+                <div class="form-group">
+                  <label class="form-label" for="cp-p2-name">Product Name</label>
+                  <input type="text" id="cp-p2-name" class="form-input" value="C5 Lens" />
+                </div>
+                <div class="form-group">
+                  <label class="form-label" for="cp-p2-units">Units Produced</label>
+                  <input type="number" id="cp-p2-units" class="form-input" value="15000" min="1" step="1000" />
+                </div>
+                <div class="form-group">
+                  <label class="form-label" for="cp-p2-dm">Direct Materials per Unit ($)</label>
+                  <input type="number" id="cp-p2-dm" class="form-input" value="45.00" min="0" step="0.25" />
+                </div>
+                <div class="form-group">
+                  <label class="form-label" for="cp-p2-dl">Direct Labor per Unit ($)</label>
+                  <input type="number" id="cp-p2-dl" class="form-input" value="13.00" min="0" step="0.25" />
+                </div>
+                <div class="form-group">
+                  <label class="form-label" for="cp-p2-dlh">Direct Labor Hours per Unit</label>
+                  <input type="number" id="cp-p2-dlh" class="form-input" value="0.65" min="0.01" step="0.05" />
+                </div>
+                <div class="form-group">
+                  <label class="form-label" for="cp-p2-abc-oh">ABC Indirect Costs Allocated ($)</label>
+                  <input type="number" id="cp-p2-abc-oh" class="form-input" value="961047" min="0" step="1000" />
+                </div>
+              </div>
+
+              <div class="abc-product-col">
+                <h4 class="abc-product-col__title">Overhead Pool</h4>
+                <div class="form-group">
+                  <label class="form-label" for="cp-total-oh">Total Indirect Costs ($)</label>
+                  <input type="number" id="cp-total-oh" class="form-input" value="2385000" min="0" step="10000" />
+                </div>
+                <div class="form-group">
+                  <label class="form-label" for="cp-p1-extra-direct">Product 1 Extra Direct Costs ($)</label>
+                  <input type="number" id="cp-p1-extra-direct" class="form-input" value="120000" min="0" step="1000" />
+                  <span class="form-hint">e.g. mold cleaning traced to Product 1</span>
+                </div>
+                <div class="form-group">
+                  <label class="form-label" for="cp-p2-extra-direct">Product 2 Extra Direct Costs ($)</label>
+                  <input type="number" id="cp-p2-extra-direct" class="form-input" value="150000" min="0" step="1000" />
+                  <span class="form-hint">e.g. mold cleaning traced to Product 2</span>
+                </div>
+              </div>
+            </div>
+            <button class="btn btn--primary" id="abc-comp-calculate">Compare Systems →</button>
+          </div>
+
+          <div class="abc-comparator__results" id="abc-comp-results" hidden>
+            <div class="abc-comp-table-wrapper" id="abc-comp-table"></div>
+            <div class="abc-comp-insight" id="abc-comp-insight"></div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- Tool 2: Cost Hierarchy Classifier -->
+    <section class="learn-section">
+      <div class="container container--tool">
+        <div class="tool-header">
+          <div class="tool-header__label">Tool 2 of 4</div>
+          <h2 class="tool-header__title">Cost Hierarchy Classifier</h2>
+          <p class="tool-header__desc">
+            ABC systems use a four-level cost hierarchy to categorize activity costs based on
+            what drives them. Classify each cost item into the correct hierarchy level.
+          </p>
+        </div>
+
+        <div class="hier-container">
+          <div class="hier-legend">
+            <div class="hier-badge hier-badge--unit">Output Unit-Level</div>
+            <div class="hier-badge hier-badge--batch">Batch-Level</div>
+            <div class="hier-badge hier-badge--product">Product-Sustaining</div>
+            <div class="hier-badge hier-badge--facility">Facility-Sustaining</div>
+          </div>
+
+          <div class="jpc-progress-bar" style="margin-bottom:var(--space-2)">
+            <div class="jpc-progress-bar__fill" id="hier-progress-fill"></div>
+          </div>
+          <p class="jpc-progress-label" id="hier-progress-label">0 of 10 classified correctly</p>
+
+          <div class="hier-card card">
+            <div class="hier-scenario" id="hier-scenario"></div>
+            <div class="hier-buttons" id="hier-buttons">
+              <button class="hier-btn hier-btn--unit"     data-level="unit">Output Unit-Level<span>Varies per unit</span></button>
+              <button class="hier-btn hier-btn--batch"    data-level="batch">Batch-Level<span>Varies per batch</span></button>
+              <button class="hier-btn hier-btn--product"  data-level="product">Product-Sustaining<span>Supports a product line</span></button>
+              <button class="hier-btn hier-btn--facility" data-level="facility">Facility-Sustaining<span>Supports the whole org</span></button>
+            </div>
+            <div class="hier-feedback" id="hier-feedback" hidden></div>
+            <div class="jpc-nav">
+              <button class="btn btn--secondary btn--sm" id="hier-prev" disabled>← Prev</button>
+              <span class="jpc-counter" id="hier-counter">1 of 10</span>
+              <button class="btn btn--secondary btn--sm" id="hier-next" disabled>Next →</button>
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- Tool 3: ABC System Builder -->
+    <section class="learn-section learn-section--alt">
+      <div class="container container--tool">
+        <div class="tool-header">
+          <div class="tool-header__label">Tool 3 of 4</div>
+          <h2 class="tool-header__title">ABC System Builder</h2>
+          <p class="tool-header__desc">
+            Build a complete ABC system step by step. Define up to 8 activity pools,
+            set cost driver quantities for two products, and compute accurate product costs.
+            Pre-loaded with Plastim Corporation's data from the textbook.
+          </p>
+        </div>
+
+        <div class="abc-builder card">
+          <div class="abc-builder__header">
+            <h3 class="abc-builder__title">Activity Pools</h3>
+            <div style="display:flex;gap:var(--space-3);align-items:center;">
+              <button class="btn btn--secondary btn--sm" id="abc-add-pool" disabled title="Maximum 8 pools">+ Add Pool</button>
+              <button class="btn btn--secondary btn--sm" id="abc-randomize">🎲 Randomize</button>
+            </div>
+          </div>
+
+          <div class="abc-builder__products-header">
+            <div class="abc-builder__col-activity">Activity</div>
+            <div class="abc-builder__col-hierarchy">Hierarchy</div>
+            <div class="abc-builder__col-cost">Pool Cost ($)</div>
+            <div class="abc-builder__col-driver">Cost Driver</div>
+            <div class="abc-builder__col-total">Total Driver Qty</div>
+            <div class="abc-builder__col-p1" id="abc-p1-header">Product 1 Qty</div>
+            <div class="abc-builder__col-p2" id="abc-p2-header">Product 2 Qty</div>
+            <div class="abc-builder__col-remove"></div>
+          </div>
+
+          <div id="abc-pools-container"></div>
+
+          <div class="abc-builder__direct">
+            <h4 style="margin-bottom:var(--space-4);font-size:var(--font-size-sm);font-weight:700;">Direct Costs</h4>
+            <div class="abc-builder__direct-grid">
+              <div class="form-group">
+                <label class="form-label" for="abc-p1-name">Product 1 Name</label>
+                <input type="text" id="abc-p1-name" class="form-input" value="S3 Lens" />
+              </div>
+              <div class="form-group">
+                <label class="form-label" for="abc-p1-units">Product 1 Units</label>
+                <input type="number" id="abc-p1-units" class="form-input" value="60000" min="1" step="1000" />
+              </div>
+              <div class="form-group">
+                <label class="form-label" for="abc-p1-direct">Product 1 Total Direct Costs ($)</label>
+                <input type="number" id="abc-p1-direct" class="form-input" value="1845000" min="0" step="1000" />
+              </div>
+              <div class="form-group">
+                <label class="form-label" for="abc-p2-name">Product 2 Name</label>
+                <input type="text" id="abc-p2-name" class="form-input" value="C5 Lens" />
+              </div>
+              <div class="form-group">
+                <label class="form-label" for="abc-p2-units">Product 2 Units</label>
+                <input type="number" id="abc-p2-units" class="form-input" value="15000" min="1" step="1000" />
+              </div>
+              <div class="form-group">
+                <label class="form-label" for="abc-p2-direct">Product 2 Total Direct Costs ($)</label>
+                <input type="number" id="abc-p2-direct" class="form-input" value="1020000" min="0" step="1000" />
+              </div>
+            </div>
+          </div>
+
+          <button class="btn btn--primary" id="abc-calculate">Calculate ABC Costs →</button>
+
+          <div class="abc-builder__results" id="abc-results" hidden></div>
+        </div>
+      </div>
+    </section>
+
+    <!-- Tool 4: ABM Decisions -->
+    <section class="learn-section">
+      <div class="container container--tool">
+        <div class="tool-header">
+          <div class="tool-header__label">Tool 4 of 4</div>
+          <h2 class="tool-header__title">Activity-Based Management Decisions</h2>
+          <p class="tool-header__desc">
+            ABC information drives better decisions. Set cost reduction targets for an activity
+            and see the impact on product costs, total savings, and whether unused capacity is created.
+          </p>
+        </div>
+
+        <div class="abm-container card">
+          <div class="abm-inputs">
+            <div class="abm-inputs__header">
+              <h3 class="abm-inputs__title">Cost Reduction Analysis</h3>
+              <button class="btn btn--secondary btn--sm" id="abm-randomize">🎲 Randomize</button>
+            </div>
+            <div class="abm-inputs__grid">
+              <div class="form-group">
+                <label class="form-label" for="abm-activity">Activity Name</label>
+                <input type="text" id="abm-activity" class="form-input" value="Distribution" />
+              </div>
+              <div class="form-group">
+                <label class="form-label" for="abm-driver">Cost Driver</label>
+                <input type="text" id="abm-driver" class="form-input" value="Cubic feet delivered" />
+              </div>
+              <div class="form-group">
+                <label class="form-label" for="abm-current-rate">Current Cost per Driver Unit ($)</label>
+                <input type="number" id="abm-current-rate" class="form-input" value="5.80" min="0.01" step="0.01" />
+              </div>
+              <div class="form-group">
+                <label class="form-label" for="abm-target-rate">Target Cost per Driver Unit ($)</label>
+                <input type="number" id="abm-target-rate" class="form-input" value="5.40" min="0.01" step="0.01" />
+              </div>
+              <div class="form-group">
+                <label class="form-label" for="abm-p1-name">Product 1 Name</label>
+                <input type="text" id="abm-p1-name" class="form-input" value="S3 Lens" />
+              </div>
+              <div class="form-group">
+                <label class="form-label" for="abm-p1-current-qty">Product 1 Current Driver Qty</label>
+                <input type="number" id="abm-p1-current-qty" class="form-input" value="45000" min="0" step="1000" />
+              </div>
+              <div class="form-group">
+                <label class="form-label" for="abm-p1-target-qty">Product 1 Target Driver Qty</label>
+                <input type="number" id="abm-p1-target-qty" class="form-input" value="40000" min="0" step="1000" />
+              </div>
+              <div class="form-group">
+                <label class="form-label" for="abm-p1-units">Product 1 Units</label>
+                <input type="number" id="abm-p1-units" class="form-input" value="60000" min="1" step="1000" />
+              </div>
+              <div class="form-group">
+                <label class="form-label" for="abm-p2-name">Product 2 Name</label>
+                <input type="text" id="abm-p2-name" class="form-input" value="C5 Lens" />
+              </div>
+              <div class="form-group">
+                <label class="form-label" for="abm-p2-current-qty">Product 2 Current Driver Qty</label>
+                <input type="number" id="abm-p2-current-qty" class="form-input" value="22500" min="0" step="1000" />
+              </div>
+              <div class="form-group">
+                <label class="form-label" for="abm-p2-target-qty">Product 2 Target Driver Qty</label>
+                <input type="number" id="abm-p2-target-qty" class="form-input" value="20000" min="0" step="1000" />
+              </div>
+              <div class="form-group">
+                <label class="form-label" for="abm-p2-units">Product 2 Units</label>
+                <input type="number" id="abm-p2-units" class="form-input" value="15000" min="1" step="1000" />
+              </div>
+              <div class="form-group">
+                <label class="form-label" for="abm-total-capacity">Total Activity Capacity (driver units)</label>
+                <input type="number" id="abm-total-capacity" class="form-input" value="67500" min="0" step="1000" />
+                <span class="form-hint">Current total resources available for this activity</span>
+              </div>
+            </div>
+            <button class="btn btn--primary" id="abm-calculate">Analyze Savings →</button>
+          </div>
+
+          <div class="abm-results" id="abm-results" hidden></div>
+        </div>
+      </div>
+    </section>
+
+    <!-- Key Terms -->
+    <section class="learn-section learn-section--alt">
+      <div class="container container--tool">
+        <div class="tool-header">
+          <h2 class="tool-header__title">Key Terms</h2>
+          <p class="tool-header__desc">Click any term to see its definition.</p>
+        </div>
+        <div class="key-terms-grid" id="key-terms-grid"></div>
+      </div>
+    </section>
+
+    <!-- Chapter Complete -->
+    <section class="learn-section">
+      <div class="container container--tool">
+        <div class="chapter-complete card" id="chapter-complete">
+          <div class="chapter-complete__icon">✅</div>
+          <h2 class="chapter-complete__title">Chapter 5 Complete</h2>
+          <p class="chapter-complete__desc">
+            You can now identify when simple costing misleads, classify costs in the four-level
+            hierarchy, build a complete ABC system, and use ABC information to drive cost reduction decisions.
+          </p>
+          <div class="chapter-complete__actions">
+            <button class="btn btn--primary" id="mark-complete-btn">Mark as Complete</button>
+            <a href="/pages/learn/ch06.html" class="btn btn--secondary">Next: Ch. 6 — Master Budget →</a>
+          </div>
+        </div>
+      </div>
+    </section>
+
+  </main>
+
+  <script type="module" src="/js/learn/ch05.js"></script>
+</body>
+</html>

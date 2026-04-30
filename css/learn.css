@@ -1015,3 +1015,181 @@
 
 @media (max-width: 768px) {.sw-step { grid-template-columns: 1fr; }.sw-step__number { justify-content: flex-start; }.sw-step__row { grid-template-columns: 56px 1fr; }.sw-step__note { padding-left: 0; }
 }
+
+/* ── Ch. 2: Cost Classifier ─────────────────────────────────── */.cost-classifier-container { display: flex; flex-direction: column; gap: var(--space-4); }.cost-classifier-progress-bar {
+  height: 6px;
+  background: var(--color-gray-200);
+  border-radius: var(--radius-full);
+  overflow: hidden;
+}.cost-classifier-progress-bar__fill {
+  height: 100%;
+  background: var(--color-success);
+  border-radius: var(--radius-full);
+  transition: width var(--transition-slow);
+  width: 0%;
+}.cost-classifier-progress-label {
+  font-size: var(--font-size-xs);
+  color: var(--color-text-muted);
+  font-weight: 500;
+}.classifier-card__scenario {
+  font-size: var(--font-size-xs);
+  font-weight: 700;
+  text-transform: uppercase;
+  letter-spacing: 0.08em;
+  color: var(--color-text-muted);
+  margin-bottom: var(--space-2);
+}.classifier-card__item {
+  font-size: var(--font-size-base);
+  font-weight: 600;
+  color: var(--color-gray-900);
+  margin-bottom: var(--space-6);
+  padding: var(--space-4);
+  background: var(--color-gray-50);
+  border-radius: var(--radius-md);
+  border-left: 3px solid var(--color-primary);
+}.classifier-dimensions {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: var(--space-6);
+  margin-bottom: var(--space-5);
+}.classifier-dimension__label {
+  font-size: var(--font-size-xs);
+  font-weight: 700;
+  text-transform: uppercase;
+  letter-spacing: 0.08em;
+  color: var(--color-text-muted);
+  margin-bottom: var(--space-3);
+}.classifier-dimension__buttons { display: flex; gap: var(--space-2); }.classifier-btn {
+  flex: 1;
+  padding: var(--space-3) var(--space-4);
+  border: 2px solid var(--color-border);
+  border-radius: var(--radius-md);
+  background: var(--color-surface);
+  font-size: var(--font-size-sm);
+  font-weight: 600;
+  cursor: pointer;
+  transition: all var(--transition-fast);
+}.classifier-btn:hover { border-color: var(--color-primary); color: var(--color-primary); }.classifier-btn--selected { border-color: var(--color-primary); background: var(--color-primary); color: #fff; }.classifier-btn--correct  { border-color: var(--color-success); background: var(--color-success-light); color: var(--color-success); }.classifier-btn--incorrect{ border-color: var(--color-danger);  background: var(--color-danger-light);  color: var(--color-danger); }.classifier-feedback {
+  padding: var(--space-4);
+  border-radius: var(--radius-md);
+  font-size: var(--font-size-sm);
+  margin-bottom: var(--space-4);
+  line-height: 1.6;
+}.classifier-feedback--success { background: var(--color-success-light); color: var(--color-success); border: 1px solid var(--color-success); }.classifier-feedback--hint    { background: var(--color-warning-light); color: var(--color-warning); border: 1px solid var(--color-warning); }.classifier-nav {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+}.classifier-counter { font-size: var(--font-size-sm); color: var(--color-text-muted); font-weight: 500; }
+
+/* ── Ch. 2: Relevant Range ──────────────────────────────────── */.relevant-range-scenario {
+  background: var(--color-gray-50);
+  border-radius: var(--radius-md);
+  padding: var(--space-4);
+  margin-bottom: var(--space-6);
+  font-size: var(--font-size-sm);
+}.relevant-range-controls { margin-bottom: var(--space-6); }.range-slider {
+  width: 100%;
+  margin: var(--space-3) 0 var(--space-2);
+  accent-color: var(--color-primary);
+  cursor: pointer;
+}.range-labels {
+  display: flex;
+  justify-content: space-between;
+  font-size: var(--font-size-xs);
+  color: var(--color-text-muted);
+}.relevant-range-results {
+  display: grid;
+  grid-template-columns: repeat(4, 1fr);
+  gap: var(--space-3);
+  margin-bottom: var(--space-6);
+}.rr-result-card {
+  background: var(--color-gray-50);
+  border: 1px solid var(--color-border);
+  border-radius: var(--radius-md);
+  padding: var(--space-4);
+  text-align: center;
+}.rr-result-card--highlight { border-color: var(--color-accent); background: #fffdf7; }.rr-result-card__label { font-size: var(--font-size-xs); font-weight: 700; text-transform: uppercase; letter-spacing: 0.06em; color: var(--color-text-muted); margin-bottom: var(--space-2); }.rr-result-card__value { font-size: var(--font-size-xl); font-weight: 700; color: var(--color-gray-900); font-family: var(--font-mono); }.rr-result-card__sub   { font-size: var(--font-size-xs); color: var(--color-text-muted); margin-top: var(--space-1); }.relevant-range-diagram { margin-bottom: var(--space-4); }.relevant-range-insight { background: var(--color-info-light); border-color: var(--color-info); }
+
+/* ── Ch. 2: Manufacturing Cost Flow ─────────────────────────── */.cost-flow-container { display: flex; flex-direction: column; gap: var(--space-6); }.cost-flow-inputs__title { font-size: var(--font-size-base); font-weight: 700; margin-bottom: var(--space-5); color: var(--color-gray-900); }.cost-flow-inputs__grid {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: var(--space-4);
+  margin-bottom: var(--space-5);
+}.cost-flow-diagram { display: flex; flex-direction: column; gap: var(--space-6); }.flow-accounts {
+  display: flex;
+  align-items: flex-start;
+  gap: var(--space-3);
+}.flow-account {
+  flex: 1;
+  border: 2px solid var(--color-border);
+  border-radius: var(--radius-lg);
+  overflow: hidden;
+  background: var(--color-surface);
+}.flow-account--wip { border-color: var(--color-info); }.flow-account--fg  { border-color: var(--color-success); }.flow-account__title {
+  background: var(--color-gray-100);
+  padding: var(--space-3) var(--space-4);
+  font-size: var(--font-size-xs);
+  font-weight: 700;
+  text-transform: uppercase;
+  letter-spacing: 0.06em;
+  color: var(--color-gray-700);
+}.flow-account--wip.flow-account__title { background: var(--color-info-light); color: var(--color-info); }.flow-account--fg.flow-account__title { background: var(--color-success-light); color: var(--color-success); }.flow-account__body { padding: var(--space-3) var(--space-4); }.flow-account__row {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: var(--space-1) 0;
+  font-size: var(--font-size-xs);
+  color: var(--color-text-secondary);
+  border-bottom: 1px solid var(--color-border-subtle);
+}.flow-account__row:last-child { border-bottom: none; }.flow-account__row--subtotal { color: var(--color-text); font-weight: 600; border-top: 1px solid var(--color-border); margin-top: var(--space-1); padding-top: var(--space-2); }.flow-account__row--total    { color: var(--color-primary); font-weight: 700; font-size: var(--font-size-sm); border-top: 2px solid var(--color-border); margin-top: var(--space-1); padding-top: var(--space-2); }.flow-account__num { font-family: var(--font-mono); font-size: var(--font-size-xs); }.flow-arrow {
+  font-size: var(--font-size-2xl);
+  color: var(--color-gray-400);
+  padding-top: var(--space-8);
+  flex-shrink: 0;
+}.flow-summary {
+  background: var(--color-gray-50);
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-2);
+}.flow-summary__row {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: var(--space-2) 0;
+  font-size: var(--font-size-sm);
+  border-bottom: 1px solid var(--color-border-subtle);
+}.flow-summary__row:last-child { border-bottom: none; }.flow-summary__row--highlight { color: var(--color-info); font-weight: 600; }.flow-summary__row--total     { color: var(--color-primary); font-weight: 700; font-size: var(--font-size-base); border-top: 2px solid var(--color-border); padding-top: var(--space-3); margin-top: var(--space-1); }.flow-summary__value { font-family: var(--font-mono); font-weight: 700; }
+
+/* ── Ch. 2: Unit Cost Trap ──────────────────────────────────── */.unit-cost-container { display: flex; flex-direction: column; gap: var(--space-6); }.unit-cost-inputs {
+  display: grid;
+  grid-template-columns: repeat(2, 1fr);
+  gap: var(--space-4);
+  align-items: end;
+}.unit-cost-inputs.btn { grid-column: 1 / -1; justify-self: start; }.unit-cost-results { display: flex; flex-direction: column; gap: var(--space-5); }.uc-table-wrapper { overflow-x: auto; border-radius: var(--radius-lg); border: 1px solid var(--color-border); }.uc-table { font-size: var(--font-size-sm); }.uc-trap-panel {
+  display: flex;
+  gap: var(--space-4);
+  padding: var(--space-5);
+  background: var(--color-warning-light);
+  border: 1px solid var(--color-warning);
+  border-radius: var(--radius-lg);
+}.uc-trap-panel__icon { font-size: 1.75rem; flex-shrink: 0; }.uc-trap-panel__title { font-weight: 700; color: var(--color-warning); margin-bottom: var(--space-2); font-size: var(--font-size-sm); }.uc-trap-panel__content p { font-size: var(--font-size-sm); color: var(--color-text); margin: 0; line-height: 1.6; }.uc-rule {
+  background: var(--color-info-light);
+  border-color: var(--color-info);
+  font-size: var(--font-size-sm);
+  color: var(--color-text);
+  line-height: 1.6;
+}
+
+@media (max-width: 768px) {.classifier-dimensions { grid-template-columns: 1fr; }.relevant-range-results { grid-template-columns: repeat(2, 1fr); }.cost-flow-inputs__grid { grid-template-columns: 1fr; }.flow-accounts { flex-direction: column; }.flow-arrow { padding-top: 0; transform: rotate(90deg); align-self: center; }.unit-cost-inputs { grid-template-columns: 1fr; }
+}
+
+/* ── Ch. 5: Simple vs ABC Comparator ───────────────────────── */.abc-comparator__header { display: flex; align-items: center; justify-content: space-between; margin-bottom: var(--space-5); }.abc-comparator__title { font-size: var(--font-size-base); font-weight: 700; color: var(--color-gray-900); margin: 0; }.abc-comparator__products { display: grid; grid-template-columns: repeat(3, 1fr); gap: var(--space-6); margin-bottom: var(--space-5); }.abc-product-col__title { font-size: var(--font-size-sm); font-weight: 700; color: var(--color-primary); margin-bottom: var(--space-4); padding-bottom: var(--space-2); border-bottom: 2px solid var(--color-primary); }.abc-comp-table-wrapper { overflow-x: auto; border-radius: var(--radius-lg); border: 1px solid var(--color-border); margin-bottom: var(--space-4); }.abc-comp-insight { padding: var(--space-4); background: var(--color-warning-light); border: 1px solid var(--color-warning); border-radius: var(--radius-md); font-size: var(--font-size-sm); line-height: 1.6; margin-bottom: var(--space-4); }
+
+/* ── Ch. 5: Cost Hierarchy Classifier ──────────────────────── */.hier-container { display: flex; flex-direction: column; gap: var(--space-4); }.hier-legend { display: flex; gap: var(--space-3); flex-wrap: wrap; margin-bottom: var(--space-2); }.hier-badge { padding: var(--space-1) var(--space-3); border-radius: var(--radius-full); font-size: var(--font-size-xs); font-weight: 700; }.hier-badge--unit     { background: var(--color-info-light);    color: var(--color-info); }.hier-badge--batch    { background: var(--color-success-light); color: var(--color-success); }.hier-badge--product  { background: #fffdf7;                    color: var(--color-accent); border: 1px solid var(--color-accent); }.hier-badge--facility { background: var(--color-gray-100);      color: var(--color-gray-600); }.hier-scenario { font-size: var(--font-size-base); color: var(--color-text); line-height: 1.7; padding: var(--space-5); background: var(--color-gray-50); border-radius: var(--radius-md); border-left: 3px solid var(--color-primary); margin-bottom: var(--space-6); }.hier-buttons { display: grid; grid-template-columns: repeat(4, 1fr); gap: var(--space-3); margin-bottom: var(--space-5); }.hier-btn { display: flex; flex-direction: column; align-items: center; gap: var(--space-1); padding: var(--space-4) var(--space-3); border: 2px solid var(--color-border); border-radius: var(--radius-lg); background: var(--color-surface); cursor: pointer; transition: all var(--transition-fast); font-size: var(--font-size-sm); font-weight: 700; text-align: center; }.hier-btn span { font-size: var(--font-size-xs); font-weight: 400; color: var(--color-text-muted); }.hier-btn:hover { transform: translateY(-2px); box-shadow: var(--shadow-md); }.hier-btn--unit:hover     { border-color: var(--color-info);    color: var(--color-info); }.hier-btn--batch:hover    { border-color: var(--color-success); color: var(--color-success); }.hier-btn--product:hover  { border-color: var(--color-accent);  color: var(--color-accent); }.hier-btn--facility:hover { border-color: var(--color-gray-500);color: var(--color-gray-700); }.hier-btn--correct  { border-color: var(--color-success); background: var(--color-success-light); color: var(--color-success); }.hier-btn--incorrect{ border-color: var(--color-danger);  background: var(--color-danger-light);  color: var(--color-danger); }.hier-feedback { padding: var(--space-4); border-radius: var(--radius-md); font-size: var(--font-size-sm); line-height: 1.6; margin-bottom: var(--space-4); }.hier-feedback--success { background: var(--color-success-light); border: 1px solid var(--color-success); color: var(--color-success); }.hier-feedback--error   { background: var(--color-danger-light);  border: 1px solid var(--color-danger);  color: var(--color-text); }
+
+/* ── Ch. 5: ABC System Builder ──────────────────────────────── */.abc-builder__header { display: flex; align-items: center; justify-content: space-between; margin-bottom: var(--space-4); }.abc-builder__title { font-size: var(--font-size-base); font-weight: 700; color: var(--color-gray-900); margin: 0; }.abc-builder__products-header { display: grid; grid-template-columns: 2fr 1.2fr 1fr 1.5fr 1fr 1fr 1fr 40px; gap: var(--space-2); padding: var(--space-2) var(--space-3); background: var(--color-gray-100); border-radius: var(--radius-md); font-size: var(--font-size-xs); font-weight: 700; text-transform: uppercase; letter-spacing: 0.05em; color: var(--color-text-muted); margin-bottom: var(--space-2); }.abc-pool-row { display: grid; grid-template-columns: 2fr 1.2fr 1fr 1.5fr 1fr 1fr 1fr 40px; gap: var(--space-2); padding: var(--space-2) 0; border-bottom: 1px solid var(--color-border-subtle); align-items: center; }.abc-pool-row:last-child { border-bottom: none; }.abc-builder__direct { margin-top: var(--space-6); padding-top: var(--space-6); border-top: 2px solid var(--color-border); }.abc-builder__direct-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: var(--space-4); margin-bottom: var(--space-5); }.abc-results-summary { display: grid; grid-template-columns: 1fr 1fr; gap: var(--space-6); margin-top: var(--space-6); }.abc-result-product { background: var(--color-gray-50); border: 1px solid var(--color-border); border-radius: var(--radius-lg); padding: var(--space-5); }.abc-result-product__title { font-size: var(--font-size-base); font-weight: 700; color: var(--color-primary); margin-bottom: var(--space-4); padding-bottom: var(--space-3); border-bottom: 2px solid var(--color-primary); }.abc-result-product__row { display: flex; justify-content: space-between; padding: var(--space-2) 0; font-size: var(--font-size-sm); border-bottom: 1px solid var(--color-border-subtle); }.abc-result-product__row:last-child { border-bottom: none; }.abc-result-product__row--total { font-weight: 700; border-top: 2px solid var(--color-border); padding-top: var(--space-3); margin-top: var(--space-1); }.abc-result-product__row--unit { font-weight: 700; font-size: var(--font-size-base); color: var(--color-primary); }
+
+/* ── Ch. 5: ABM Decisions ───────────────────────────────────── */.abm-inputs__header { display: flex; align-items: center; justify-content: space-between; margin-bottom: var(--space-5); }.abm-inputs__title { font-size: var(--font-size-base); font-weight: 700; color: var(--color-gray-900); margin: 0; }.abm-inputs__grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: var(--space-4); margin-bottom: var(--space-5); }.abm-results-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: var(--space-3); margin-bottom: var(--space-5); margin-top: var(--space-5); }.abm-result-card { background: var(--color-gray-50); border: 1px solid var(--color-border); border-radius: var(--radius-md); padding: var(--space-4); text-align: center; }.abm-result-card--savings { border-color: var(--color-success); background: var(--color-success-light); }.abm-result-card__label { font-size: var(--font-size-xs); font-weight: 700; text-transform: uppercase; letter-spacing: 0.06em; color: var(--color-text-muted); margin-bottom: var(--space-2); }.abm-result-card__value { font-size: var(--font-size-xl); font-weight: 700; font-family: var(--font-mono); color: var(--color-gray-900); }.abm-result-card__sub { font-size: var(--font-size-xs); color: var(--color-text-muted); margin-top: var(--space-1); }.abm-unused-capacity { display: flex; gap: var(--space-4); padding: var(--space-5); background: var(--color-warning-light); border: 1px solid var(--color-warning); border-radius: var(--radius-lg); margin-top: var(--space-5); }.abm-unused-capacity__icon { font-size: 1.75rem; flex-shrink: 0; }.abm-unused-capacity__title { font-weight: 700; color: var(--color-warning); margin-bottom: var(--space-2); font-size: var(--font-size-sm); }.abm-unused-capacity p { font-size: var(--font-size-sm); color: var(--color-text); margin: 0; line-height: 1.6; }
+
+@media (max-width: 768px) {.abc-comparator__products { grid-template-columns: 1fr; }.hier-buttons { grid-template-columns: repeat(2, 1fr); }.abc-builder__products-header { display: none; }.abc-pool-row { grid-template-columns: 1fr 1fr; }.abc-builder__direct-grid { grid-template-columns: 1fr; }.abc-results-summary { grid-template-columns: 1fr; }.abm-inputs__grid { grid-template-columns: 1fr 1fr; }.abm-results-grid { grid-template-columns: 1fr; }
+}
