@@ -125,18 +125,24 @@ Shared components: randomizer, journal-entry, show-work.
 Chart library: chart-core (full interaction layer), cvp-chart.
 
 Phase 2 -- Learn Section Chapters 5-12 (In Progress)
-Ch. 5 (ABC) -- Complete. Ch. 6 (Master Budget) -- Complete. Ch. 12 (Relevant Costs), Ch. 7+8 (Variance Analysis), remaining chapters.
+Ch. 5 (ABC) -- Complete. Ch. 6 (Master Budget) -- Complete.
+Remaining priority order: Ch. 12 (Relevant Costs, most cross-referenced), Ch. 7+8 (Variance Analysis, companion pair), Ch. 9 (Inventory Costing), Ch. 10 (Cost Behavior), Ch. 11 (Data Analytics).
 
-Phase 3 -- Apply Section Level 1 (Concept)
+Phase 3 -- Learn Section Chapters 13-24
+Ch. 13 (Strategy), Ch. 14 (Pricing), Ch. 15 (Customer Profitability), Ch. 16 (Support Dept Allocation),
+Ch. 17 (Joint Products), Ch. 18 (Process Costing), Ch. 19 (Spoilage), Ch. 20 (Quality and Time),
+Ch. 21 (Inventory Management), Ch. 22 (Capital Budgeting), Ch. 23 (Transfer Pricing), Ch. 24 (Performance Measurement).
+
+Phase 4 -- Apply Section Level 1 (Concept)
 Build all 12 Apply scenario pages at Concept depth.
 
-Phase 4 -- Shared Chart Library Expansion
+Phase 5 -- Shared Chart Library Expansion
 scatter-chart, variance-chart, control-chart, pareto-chart.
 
-Phase 5 -- Apply Section Level 2 (Analysis)
+Phase 6 -- Apply Section Level 2 (Analysis)
 Upgrade all 12 Apply scenarios to Analysis depth.
 
-Phase 6 -- Apply Section Level 3 (Simulation)
+Phase 7 -- Apply Section Level 3 (Simulation)
 Build Level 3 simulations for the 6 highest-value scenarios.
 
 ---
