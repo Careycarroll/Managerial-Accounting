@@ -35,7 +35,7 @@ Build a comprehensive interactive learning companion that covers every concept i
 | 2 | An Introduction to Cost Terms and Purposes | Complete | Cost classifier, relevant range visualizer, manufacturing cost flow, unit cost trap |
 | 3 | Cost-Volume-Profit Analysis | Complete | CVP dashboard, CVP graph (canvas, interactive), sensitivity analysis, sales mix CVP |
 | 4 | Job Costing | Complete | Job cost record builder, normal vs actual costing, overhead disposal, job vs process classifier |
-| 5 | Activity-Based Costing and ABM | Not started | ABC system builder, cost hierarchy classifier, simple vs ABC comparison |
+| 5 | Activity-Based Costing and ABM | Complete | Simple vs ABC comparator, cost hierarchy classifier, ABC system builder (8 pools), ABM decisions |
 | 6 | Master Budget and Responsibility Accounting | Complete | Operating budget builder (9-step), sensitivity analysis, responsibility center classifier, cash budget, Kaizen simulator |
 | 7 | Flexible Budgets and Direct-Cost Variances | Not started | Variance analysis engine, flexible budget builder, journal entry generator |
 | 8 | Flexible Budgets and Overhead Variances | Not started | Overhead variance engine, variance diagram, ABC overhead extension |
@@ -62,9 +62,9 @@ Build a comprehensive interactive learning companion that covers every concept i
 
 | Component | File | Status | Used In |
 |-----------|------|--------|---------|
-| Randomizer | js/components/randomizer.js | Built | Ch. 2, 3, 4 |
-| Journal Entry | js/components/journal-entry.js | Built | Ch. 4 |
-| Show Work | js/components/show-work.js | Built | Ch. 2, 3, 4 |
+| Randomizer | js/components/randomizer.js | Built | Ch. 2, 3, 4, 5, 6 |
+| Journal Entry | js/components/journal-entry.js | Built | Ch. 4, 6 |
+| Show Work | js/components/show-work.js | Built | Ch. 2, 3, 4, 5, 6 |
 | Depth Selector | js/components/depth-selector.js | Built | Pending Apply section |
 | Formula Display | js/components/formula-display.js | Not built | Planned |
 | Term Tooltip | js/components/term-tooltip.js | Not built | Planned |
