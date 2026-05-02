@@ -36,7 +36,7 @@ Build a comprehensive interactive learning companion that covers every concept i
 | 3 | Cost-Volume-Profit Analysis | Complete | CVP dashboard, CVP graph (canvas, interactive), sensitivity analysis, sales mix CVP |
 | 4 | Job Costing | Complete | Job cost record builder, normal vs actual costing, overhead disposal, job vs process classifier |
 | 5 | Activity-Based Costing and ABM | Not started | ABC system builder, cost hierarchy classifier, simple vs ABC comparison |
-| 6 | Master Budget and Responsibility Accounting | Not started | Master budget builder, cash budget, responsibility center classifier |
+| 6 | Master Budget and Responsibility Accounting | Complete | Operating budget builder (9-step), sensitivity analysis, responsibility center classifier, cash budget, Kaizen simulator |
 | 7 | Flexible Budgets and Direct-Cost Variances | Not started | Variance analysis engine, flexible budget builder, journal entry generator |
 | 8 | Flexible Budgets and Overhead Variances | Not started | Overhead variance engine, variance diagram, ABC overhead extension |
 | 9 | Inventory Costing and Capacity Analysis | Not started | Costing method comparator, capacity concepts calculator |
@@ -124,8 +124,8 @@ Ch. 1 (Manager), Ch. 2 (Cost Terms), Ch. 3 (CVP with canvas), Ch. 4 (Job Costing
 Shared components: randomizer, journal-entry, show-work.
 Chart library: chart-core (full interaction layer), cvp-chart.
 
-Phase 2 -- Learn Section Chapters 5-12
-Ch. 5 (ABC), Ch. 12 (Relevant Costs), Ch. 6 (Master Budget), Ch. 7+8 (Variance Analysis), remaining chapters.
+Phase 2 -- Learn Section Chapters 5-12 (In Progress)
+Ch. 5 (ABC) -- Complete. Ch. 6 (Master Budget) -- Complete. Ch. 12 (Relevant Costs), Ch. 7+8 (Variance Analysis), remaining chapters.
 
 Phase 3 -- Apply Section Level 1 (Concept)
 Build all 12 Apply scenario pages at Concept depth.
