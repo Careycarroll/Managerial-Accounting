@@ -1,0 +1,444 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <meta name="description" content="Chapter 6: Master Budget and Responsibility Accounting — Interactive learning tools" />
+  <title>Ch. 6 · Master Budget and Responsibility Accounting</title>
+  <link rel="stylesheet" href="/css/base.css" />
+  <link rel="stylesheet" href="/css/components.css" />
+  <link rel="stylesheet" href="/css/learn.css" />
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet" />
+</head>
+<body>
+
+  <header class="site-header" role="banner">
+    <div class="site-header__inner">
+      <a href="/" class="site-header__logo">
+        <span>📊</span>
+        <span>Managerial Accounting</span>
+      </a>
+      <nav class="site-header__nav" role="navigation" aria-label="Main navigation">
+        <a href="/pages/learn/" class="site-header__nav-link site-header__nav-link--active">Learn</a>
+        <a href="/pages/apply/" class="site-header__nav-link">Apply</a>
+      </nav>
+    </div>
+  </header>
+
+  <main>
+
+    <!-- Hero -->
+    <section class="page__hero">
+      <div class="container">
+        <div class="chapter-nav">
+          <a href="/pages/learn/" class="chapter-nav__back">← All Chapters</a>
+          <div class="chapter-nav__position">
+            <span>Chapter 6 of 24</span>
+            <a href="/pages/learn/ch07.html" class="chapter-nav__next">Ch. 7 →</a>
+          </div>
+        </div>
+        <div class="chapter-hero__meta">
+          <span class="chapter-badge chapter-badge--planning">Planning</span>
+          <span class="chapter-hero__number">Chapter 6</span>
+        </div>
+        <h1 class="page__hero-title">Master Budget and<br>Responsibility Accounting</h1>
+        <p class="page__hero-subtitle">
+          How organizations translate strategy into numbers — building the operating budget
+          step by step, analyzing sensitivity, and managing through responsibility centers.
+        </p>
+        <div class="chapter-hero__progress" id="ch06-progress-indicator">
+          <span class="chapter-hero__progress-label" id="ch06-status">Not started</span>
+        </div>
+      </div>
+    </section>
+
+    <!-- Learning Objectives -->
+    <section class="learn-section">
+      <div class="container container--tool">
+        <div class="objectives-card card">
+          <h2 class="objectives-card__title">Learning Objectives</h2>
+          <ol class="objectives-list">
+            <li>Describe the master budget and explain its benefits</li>
+            <li>Describe the advantages and challenges of implementing budgets</li>
+            <li>Prepare the operating budget and its supporting schedules</li>
+            <li>Use computer-based financial planning models for sensitivity analysis</li>
+            <li>Describe responsibility centers and responsibility accounting</li>
+            <li>Recognize the human aspects of budgeting</li>
+            <li>Appreciate the special challenges of budgeting in multinational companies</li>
+          </ol>
+        </div>
+      </div>
+    </section>
+
+    <!-- Tool 1: Operating Budget Builder -->
+    <section class="learn-section learn-section--alt">
+      <div class="container container--tool">
+        <div class="tool-header">
+          <div class="tool-header__label">Tool 1 of 5</div>
+          <h2 class="tool-header__title">Operating Budget Builder</h2>
+          <p class="tool-header__desc">
+            Build a complete 9-step operating budget for a two-product manufacturer.
+            Each step feeds the next — from revenues through to budgeted operating income.
+            Pre-loaded with Stylistic Furniture's data from the textbook.
+          </p>
+        </div>
+
+        <div class="budget-builder card">
+          <div class="budget-builder__header">
+            <h3 class="budget-builder__title">Budget Inputs</h3>
+            <button class="btn btn--secondary btn--sm" id="budget-randomize">🎲 Randomize</button>
+          </div>
+
+          <!-- Products -->
+          <div class="budget-section">
+            <div class="budget-section__title">Products</div>
+            <div class="budget-products-grid">
+              <div class="budget-product-col">
+                <h4 class="budget-product-col__title">Product 1 (Simple)</h4>
+                <div class="form-group"><label class="form-label">Name</label><input type="text" id="b-p1-name" class="form-input" value="Casual" /></div>
+                <div class="form-group"><label class="form-label">Expected Sales (units)</label><input type="number" id="b-p1-sales" class="form-input" value="50000" min="0" step="1000" /></div>
+                <div class="form-group"><label class="form-label">Selling Price ($)</label><input type="number" id="b-p1-price" class="form-input" value="600" min="0" step="10" /></div>
+                <div class="form-group"><label class="form-label">Target Ending Inventory (units)</label><input type="number" id="b-p1-end-inv" class="form-input" value="11000" min="0" step="100" /></div>
+                <div class="form-group"><label class="form-label">Beginning Inventory (units)</label><input type="number" id="b-p1-beg-inv" class="form-input" value="1000" min="0" step="100" /></div>
+                <div class="form-group"><label class="form-label">Beginning Inventory ($)</label><input type="number" id="b-p1-beg-inv-val" class="form-input" value="384000" min="0" step="1000" /></div>
+                <div class="form-group"><label class="form-label">DL Hours per Unit</label><input type="number" id="b-p1-dl-hrs" class="form-input" value="4" min="0" step="0.5" /></div>
+                <div class="form-group"><label class="form-label">Setup Hours per Unit</label><input type="number" id="b-p1-setup-hrs" class="form-input" value="0.2" min="0" step="0.05" /></div>
+                <div class="form-group"><label class="form-label">Cubic Feet per Unit</label><input type="number" id="b-p1-cuft" class="form-input" value="18" min="0" step="1" /></div>
+              </div>
+              <div class="budget-product-col">
+                <h4 class="budget-product-col__title">Product 2 (Complex)</h4>
+                <div class="form-group"><label class="form-label">Name</label><input type="text" id="b-p2-name" class="form-input" value="Deluxe" /></div>
+                <div class="form-group"><label class="form-label">Expected Sales (units)</label><input type="number" id="b-p2-sales" class="form-input" value="10000" min="0" step="1000" /></div>
+                <div class="form-group"><label class="form-label">Selling Price ($)</label><input type="number" id="b-p2-price" class="form-input" value="800" min="0" step="10" /></div>
+                <div class="form-group"><label class="form-label">Target Ending Inventory (units)</label><input type="number" id="b-p2-end-inv" class="form-input" value="500" min="0" step="100" /></div>
+                <div class="form-group"><label class="form-label">Beginning Inventory (units)</label><input type="number" id="b-p2-beg-inv" class="form-input" value="500" min="0" step="100" /></div>
+                <div class="form-group"><label class="form-label">Beginning Inventory ($)</label><input type="number" id="b-p2-beg-inv-val" class="form-input" value="262000" min="0" step="1000" /></div>
+                <div class="form-group"><label class="form-label">DL Hours per Unit</label><input type="number" id="b-p2-dl-hrs" class="form-input" value="6" min="0" step="0.5" /></div>
+                <div class="form-group"><label class="form-label">Setup Hours per Unit</label><input type="number" id="b-p2-setup-hrs" class="form-input" value="0.3" min="0" step="0.05" /></div>
+                <div class="form-group"><label class="form-label">Cubic Feet per Unit</label><input type="number" id="b-p2-cuft" class="form-input" value="24" min="0" step="1" /></div>
+              </div>
+              <div class="budget-product-col">
+                <h4 class="budget-product-col__title">Direct Materials</h4>
+                <div class="form-group"><label class="form-label">Material 1 Name</label><input type="text" id="b-m1-name" class="form-input" value="Red Oak" /></div>
+                <div class="form-group"><label class="form-label">Material 1 Cost ($/unit)</label><input type="number" id="b-m1-cost" class="form-input" value="7" min="0" step="0.5" /></div>
+                <div class="form-group"><label class="form-label">M1 per P1 Unit</label><input type="number" id="b-m1-p1-qty" class="form-input" value="12" min="0" step="1" /></div>
+                <div class="form-group"><label class="form-label">M1 per P2 Unit</label><input type="number" id="b-m1-p2-qty" class="form-input" value="12" min="0" step="1" /></div>
+                <div class="form-group"><label class="form-label">M1 Beginning Inventory</label><input type="number" id="b-m1-beg-inv" class="form-input" value="70000" min="0" step="1000" /></div>
+                <div class="form-group"><label class="form-label">M1 Target Ending Inventory</label><input type="number" id="b-m1-end-inv" class="form-input" value="80000" min="0" step="1000" /></div>
+                <div class="form-group"><label class="form-label">Material 2 Name</label><input type="text" id="b-m2-name" class="form-input" value="Granite" /></div>
+                <div class="form-group"><label class="form-label">Material 2 Cost ($/unit)</label><input type="number" id="b-m2-cost" class="form-input" value="10" min="0" step="0.5" /></div>
+                <div class="form-group"><label class="form-label">M2 per P1 Unit</label><input type="number" id="b-m2-p1-qty" class="form-input" value="6" min="0" step="1" /></div>
+                <div class="form-group"><label class="form-label">M2 per P2 Unit</label><input type="number" id="b-m2-p2-qty" class="form-input" value="8" min="0" step="1" /></div>
+                <div class="form-group"><label class="form-label">M2 Beginning Inventory</label><input type="number" id="b-m2-beg-inv" class="form-input" value="60000" min="0" step="1000" /></div>
+                <div class="form-group"><label class="form-label">M2 Target Ending Inventory</label><input type="number" id="b-m2-end-inv" class="form-input" value="20000" min="0" step="1000" /></div>
+              </div>
+            </div>
+          </div>
+
+          <!-- Labor & Overhead -->
+          <div class="budget-section">
+            <div class="budget-section__title">Labor and Overhead</div>
+            <div class="budget-labor-grid">
+              <div class="form-group"><label class="form-label">DL Wage Rate ($/hr)</label><input type="number" id="b-dl-rate" class="form-input" value="20" min="0" step="1" /></div>
+              <div class="form-group"><label class="form-label">Variable OH Rate ($/DL-hr)</label><input type="number" id="b-var-oh-rate" class="form-input" value="21.60" min="0" step="0.5" /></div>
+              <div class="form-group"><label class="form-label">Fixed OH Total ($)</label><input type="number" id="b-fix-oh" class="form-input" value="2520000" min="0" step="10000" /></div>
+              <div class="form-group"><label class="form-label">Variable Setup Rate ($/setup-hr)</label><input type="number" id="b-var-setup-rate" class="form-input" value="88" min="0" step="1" /></div>
+              <div class="form-group"><label class="form-label">Fixed Setup Total ($)</label><input type="number" id="b-fix-setup" class="form-input" value="1680000" min="0" step="10000" /></div>
+            </div>
+          </div>
+
+          <!-- Operating Costs -->
+          <div class="budget-section">
+            <div class="budget-section__title">Operating (Nonmanufacturing) Costs</div>
+            <div class="budget-labor-grid">
+              <div class="form-group"><label class="form-label">Product Design (fixed $)</label><input type="number" id="b-design" class="form-input" value="1024000" min="0" step="10000" /></div>
+              <div class="form-group"><label class="form-label">Marketing Variable (% of revenue)</label><input type="number" id="b-mkt-pct" class="form-input" value="6.5" min="0" max="50" step="0.5" /></div>
+              <div class="form-group"><label class="form-label">Marketing Fixed ($)</label><input type="number" id="b-mkt-fix" class="form-input" value="1330000" min="0" step="10000" /></div>
+              <div class="form-group"><label class="form-label">Distribution Variable ($/cu ft)</label><input type="number" id="b-dist-var" class="form-input" value="2" min="0" step="0.1" /></div>
+              <div class="form-group"><label class="form-label">Distribution Fixed ($)</label><input type="number" id="b-dist-fix" class="form-input" value="1596000" min="0" step="10000" /></div>
+            </div>
+          </div>
+
+          <button class="btn btn--primary" id="budget-calculate">Build Budget →</button>
+          <div id="budget-results"></div>
+        </div>
+      </div>
+    </section>
+
+    <!-- Tool 2: Sensitivity Analysis -->
+    <section class="learn-section">
+      <div class="container container--tool">
+        <div class="tool-header">
+          <div class="tool-header__label">Tool 2 of 5</div>
+          <h2 class="tool-header__title">Sensitivity Analysis</h2>
+          <p class="tool-header__desc">
+            Sensitivity analysis asks "what if?" — how does budgeted operating income change
+            if selling prices fall or material costs rise? Uses Tool 1 as the base case.
+          </p>
+        </div>
+
+        <div class="sensitivity-builder card">
+          <div class="sensitivity-builder__header">
+            <h3 class="sensitivity-builder__title">What-If Scenarios</h3>
+            <button class="btn btn--secondary btn--sm" id="sens-pull-btn">↓ Pull from Tool 1</button>
+          </div>
+
+          <div class="sens-base-inputs">
+            <div class="sens-base-inputs__title">Base Case</div>
+            <div class="budget-labor-grid">
+              <div class="form-group"><label class="form-label" id="sens-p1-label">Product 1 Price ($)</label><input type="number" id="sens-p1-price" class="form-input" value="600" min="0" step="10" /></div>
+              <div class="form-group"><label class="form-label" id="sens-p2-label">Product 2 Price ($)</label><input type="number" id="sens-p2-price" class="form-input" value="800" min="0" step="10" /></div>
+              <div class="form-group"><label class="form-label" id="sens-m1-label">Material 1 Cost ($/unit)</label><input type="number" id="sens-m1-cost" class="form-input" value="7" min="0" step="0.5" /></div>
+              <div class="form-group"><label class="form-label" id="sens-m2-label">Material 2 Cost ($/unit)</label><input type="number" id="sens-m2-cost" class="form-input" value="10" min="0" step="0.5" /></div>
+              <div class="form-group"><label class="form-label">Base Operating Income ($)</label><input type="number" id="sens-base-oi" class="form-input" value="4860000" min="0" step="10000" /></div>
+              <div class="form-group"><label class="form-label">Total Revenues ($)</label><input type="number" id="sens-revenues" class="form-input" value="38000000" min="0" step="100000" /></div>
+              <div class="form-group"><label class="form-label">Total DM Used ($)</label><input type="number" id="sens-dm-total" class="form-input" value="10280000" min="0" step="100000" /></div>
+              <div class="form-group"><label class="form-label">Marketing Variable Rate (%)</label><input type="number" id="sens-mkt-pct" class="form-input" value="6.5" min="0" step="0.5" /></div>
+            </div>
+          </div>
+
+          <div class="sens-scenarios">
+            <div class="sens-scenario-row">
+              <div class="sens-scenario-label">Scenario 1</div>
+              <div class="budget-labor-grid">
+                <div class="form-group"><label class="form-label">P1 Price Change (%)</label><input type="number" id="sens-s1-p1-chg" class="form-input" value="-3" step="0.5" /></div>
+                <div class="form-group"><label class="form-label">P2 Price Change (%)</label><input type="number" id="sens-s1-p2-chg" class="form-input" value="-3" step="0.5" /></div>
+                <div class="form-group"><label class="form-label">M1 Cost Change (%)</label><input type="number" id="sens-s1-m1-chg" class="form-input" value="0" step="0.5" /></div>
+                <div class="form-group"><label class="form-label">M2 Cost Change (%)</label><input type="number" id="sens-s1-m2-chg" class="form-input" value="0" step="0.5" /></div>
+              </div>
+            </div>
+            <div class="sens-scenario-row">
+              <div class="sens-scenario-label">Scenario 2</div>
+              <div class="budget-labor-grid">
+                <div class="form-group"><label class="form-label">P1 Price Change (%)</label><input type="number" id="sens-s2-p1-chg" class="form-input" value="0" step="0.5" /></div>
+                <div class="form-group"><label class="form-label">P2 Price Change (%)</label><input type="number" id="sens-s2-p2-chg" class="form-input" value="0" step="0.5" /></div>
+                <div class="form-group"><label class="form-label">M1 Cost Change (%)</label><input type="number" id="sens-s2-m1-chg" class="form-input" value="5" step="0.5" /></div>
+                <div class="form-group"><label class="form-label">M2 Cost Change (%)</label><input type="number" id="sens-s2-m2-chg" class="form-input" value="5" step="0.5" /></div>
+              </div>
+            </div>
+          </div>
+
+          <button class="btn btn--primary" id="sens-calculate">Run Scenarios →</button>
+          <div id="sens-results"></div>
+        </div>
+      </div>
+    </section>
+
+    <!-- Tool 3: Responsibility Center Classifier -->
+    <section class="learn-section learn-section--alt">
+      <div class="container container--tool">
+        <div class="tool-header">
+          <div class="tool-header__label">Tool 3 of 5</div>
+          <h2 class="tool-header__title">Responsibility Center Classifier</h2>
+          <p class="tool-header__desc">
+            Every manager is accountable for a specific set of activities. Classify each
+            scenario into the correct type of responsibility center.
+          </p>
+        </div>
+
+        <div class="rc-container">
+          <div class="rc-legend">
+            <div class="rc-badge rc-badge--cost">Cost Center</div>
+            <div class="rc-badge rc-badge--revenue">Revenue Center</div>
+            <div class="rc-badge rc-badge--profit">Profit Center</div>
+            <div class="rc-badge rc-badge--investment">Investment Center</div>
+          </div>
+
+          <div class="jpc-progress-bar" style="margin-bottom:var(--space-2)">
+            <div class="jpc-progress-bar__fill" id="rc-progress-fill"></div>
+          </div>
+          <p class="jpc-progress-label" id="rc-progress-label">0 of 10 classified correctly</p>
+
+          <div class="rc-card card">
+            <div class="rc-scenario" id="rc-scenario"></div>
+            <div class="rc-buttons">
+              <button class="rc-btn rc-btn--cost"       data-type="cost">Cost Center<span>Accountable for costs only</span></button>
+              <button class="rc-btn rc-btn--revenue"    data-type="revenue">Revenue Center<span>Accountable for revenues only</span></button>
+              <button class="rc-btn rc-btn--profit"     data-type="profit">Profit Center<span>Accountable for revenues and costs</span></button>
+              <button class="rc-btn rc-btn--investment" data-type="investment">Investment Center<span>Accountable for investments, revenues, and costs</span></button>
+            </div>
+            <div class="rc-feedback" id="rc-feedback" hidden></div>
+            <div class="jpc-nav">
+              <button class="btn btn--secondary btn--sm" id="rc-prev" disabled>← Prev</button>
+              <span class="jpc-counter" id="rc-counter">1 of 10</span>
+              <button class="btn btn--secondary btn--sm" id="rc-next" disabled>Next →</button>
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- Tool 4: Cash Budget -->
+    <section class="learn-section">
+      <div class="container container--tool">
+        <div class="tool-header">
+          <div class="tool-header__label">Tool 4 of 5</div>
+          <h2 class="tool-header__title">Cash Budget</h2>
+          <p class="tool-header__desc">
+            A profitable company can still run out of cash. The cash budget tracks when
+            cash actually arrives and leaves — and shows when borrowing is needed.
+          </p>
+        </div>
+
+        <div class="cash-budget card">
+          <div class="cash-budget__header">
+            <h3 class="cash-budget__title">Cash Budget Inputs</h3>
+            <div style="display:flex;gap:var(--space-3)">
+              <button class="btn btn--secondary btn--sm" id="cash-pull-btn">↓ Pull Revenues from Tool 1</button>
+              <button class="btn btn--secondary btn--sm" id="cash-randomize">🎲 Randomize</button>
+            </div>
+          </div>
+
+          <div class="cash-budget__settings">
+            <div class="form-group"><label class="form-label">Beginning Cash Balance ($)</label><input type="number" id="cash-begin" class="form-input" value="300000" min="0" step="10000" /></div>
+            <div class="form-group"><label class="form-label">Minimum Cash Balance ($)</label><input type="number" id="cash-min" class="form-input" value="320000" min="0" step="10000" /></div>
+            <div class="form-group"><label class="form-label">Annual Interest Rate (%)</label><input type="number" id="cash-rate" class="form-input" value="12" min="0" max="50" step="0.5" /></div>
+            <div class="form-group"><label class="form-label">Same-Quarter Collection (%)</label><input type="number" id="cash-same-pct" class="form-input" value="80" min="0" max="100" step="5" /></div>
+            <div class="form-group"><label class="form-label">Next-Quarter Collection (%)</label><input type="number" id="cash-next-pct" class="form-input" value="20" min="0" max="100" step="5" /></div>
+            <div class="form-group"><label class="form-label">Beginning Accounts Receivable ($)</label><input type="number" id="cash-beg-ar" class="form-input" value="1711000" min="0" step="10000" /></div>
+          </div>
+
+          <div class="cash-quarters-grid">
+            <div class="cash-quarter-col">
+              <div class="cash-quarter-col__title">Q1 Revenues ($)</div>
+              <input type="number" id="cash-rev-q1" class="form-input" value="9282000" min="0" step="100000" />
+            </div>
+            <div class="cash-quarter-col">
+              <div class="cash-quarter-col__title">Q2 Revenues ($)</div>
+              <input type="number" id="cash-rev-q2" class="form-input" value="10332000" min="0" step="100000" />
+            </div>
+            <div class="cash-quarter-col">
+              <div class="cash-quarter-col__title">Q3 Revenues ($)</div>
+              <input type="number" id="cash-rev-q3" class="form-input" value="10246000" min="0" step="100000" />
+            </div>
+            <div class="cash-quarter-col">
+              <div class="cash-quarter-col__title">Q4 Revenues ($)</div>
+              <input type="number" id="cash-rev-q4" class="form-input" value="8140000" min="0" step="100000" />
+            </div>
+          </div>
+
+          <h4 style="margin:var(--space-5) 0 var(--space-3);font-size:var(--font-size-sm);font-weight:700;">Quarterly Disbursements ($)</h4>
+          <div class="cash-disbursements-grid" id="cash-disb-grid">
+            <div class="cash-disb-header">
+              <span>Category</span><span>Q1</span><span>Q2</span><span>Q3</span><span>Q4</span>
+            </div>
+            <div class="cash-disb-row">
+              <span>Direct Materials</span>
+              <input type="number" id="cash-dm-q1" class="form-input" value="3031400" min="0" step="10000" />
+              <input type="number" id="cash-dm-q2" class="form-input" value="2636967" min="0" step="10000" />
+              <input type="number" id="cash-dm-q3" class="form-input" value="2167900" min="0" step="10000" />
+              <input type="number" id="cash-dm-q4" class="form-input" value="2242033" min="0" step="10000" />
+            </div>
+            <div class="cash-disb-row">
+              <span>Direct Labor</span>
+              <input type="number" id="cash-dl-q1" class="form-input" value="1888000" min="0" step="10000" />
+              <input type="number" id="cash-dl-q2" class="form-input" value="1432000" min="0" step="10000" />
+              <input type="number" id="cash-dl-q3" class="form-input" value="1272000" min="0" step="10000" />
+              <input type="number" id="cash-dl-q4" class="form-input" value="1408000" min="0" step="10000" />
+            </div>
+            <div class="cash-disb-row">
+              <span>Manufacturing Overhead</span>
+              <input type="number" id="cash-oh-q1" class="form-input" value="3265296" min="0" step="10000" />
+              <input type="number" id="cash-oh-q2" class="form-input" value="2476644" min="0" step="10000" />
+              <input type="number" id="cash-oh-q3" class="form-input" value="2199924" min="0" step="10000" />
+              <input type="number" id="cash-oh-q4" class="form-input" value="2435136" min="0" step="10000" />
+            </div>
+            <div class="cash-disb-row">
+              <span>Operating Costs</span>
+              <input type="number" id="cash-op-q1" class="form-input" value="2147750" min="0" step="10000" />
+              <input type="number" id="cash-op-q2" class="form-input" value="2279000" min="0" step="10000" />
+              <input type="number" id="cash-op-q3" class="form-input" value="2268250" min="0" step="10000" />
+              <input type="number" id="cash-op-q4" class="form-input" value="2005000" min="0" step="10000" />
+            </div>
+            <div class="cash-disb-row">
+              <span>Capital Expenditures</span>
+              <input type="number" id="cash-cap-q1" class="form-input" value="0" min="0" step="10000" />
+              <input type="number" id="cash-cap-q2" class="form-input" value="0" min="0" step="10000" />
+              <input type="number" id="cash-cap-q3" class="form-input" value="758000" min="0" step="10000" />
+              <input type="number" id="cash-cap-q4" class="form-input" value="0" min="0" step="10000" />
+            </div>
+            <div class="cash-disb-row">
+              <span>Income Taxes</span>
+              <input type="number" id="cash-tax-q1" class="form-input" value="725000" min="0" step="10000" />
+              <input type="number" id="cash-tax-q2" class="form-input" value="400000" min="0" step="10000" />
+              <input type="number" id="cash-tax-q3" class="form-input" value="400000" min="0" step="10000" />
+              <input type="number" id="cash-tax-q4" class="form-input" value="400000" min="0" step="10000" />
+            </div>
+          </div>
+
+          <button class="btn btn--primary" style="margin-top:var(--space-5)" id="cash-calculate">Calculate Cash Budget →</button>
+          <div id="cash-results"></div>
+        </div>
+      </div>
+    </section>
+
+    <!-- Tool 5: Kaizen Budget Simulator -->
+    <section class="learn-section learn-section--alt">
+      <div class="container container--tool">
+        <div class="tool-header">
+          <div class="tool-header__label">Tool 5 of 5</div>
+          <h2 class="tool-header__title">Kaizen Budget Simulator</h2>
+          <p class="tool-header__desc">
+            Kaizen budgeting builds continuous improvement into the budget numbers.
+            Set a base cost rate and an improvement percentage per period to see how
+            costs decline and cumulative savings accumulate.
+          </p>
+        </div>
+
+        <div class="kaizen-container card">
+          <div class="kaizen-inputs__header">
+            <h3 class="kaizen-inputs__title">Kaizen Parameters</h3>
+            <button class="btn btn--secondary btn--sm" id="kaizen-randomize">🎲 Randomize</button>
+          </div>
+          <div class="kaizen-inputs-grid">
+            <div class="form-group"><label class="form-label">Activity Name</label><input type="text" id="kz-activity" class="form-input" value="Direct Manufacturing Labor" /></div>
+            <div class="form-group"><label class="form-label">Cost Driver</label><input type="text" id="kz-driver" class="form-input" value="hours per unit" /></div>
+            <div class="form-group"><label class="form-label">Base Rate ($ per driver unit)</label><input type="number" id="kz-base-rate" class="form-input" value="20" min="0.01" step="0.5" /></div>
+            <div class="form-group"><label class="form-label">Base Driver Quantity (total)</label><input type="number" id="kz-base-qty" class="form-input" value="300000" min="1" step="1000" /></div>
+            <div class="form-group"><label class="form-label">Improvement per Period (%)</label><input type="number" id="kz-improve-pct" class="form-input" value="1.25" min="0.1" max="20" step="0.25" /></div>
+            <div class="form-group"><label class="form-label">Number of Periods</label><input type="number" id="kz-periods" class="form-input" value="4" min="2" max="8" step="1" /></div>
+            <div class="form-group"><label class="form-label">Target Rate ($ — optional)</label><input type="number" id="kz-target-rate" class="form-input" value="18.50" min="0" step="0.5" /></div>
+          </div>
+          <button class="btn btn--primary" id="kaizen-calculate">Simulate →</button>
+          <div id="kaizen-results"></div>
+        </div>
+      </div>
+    </section>
+
+    <!-- Key Terms -->
+    <section class="learn-section">
+      <div class="container container--tool">
+        <div class="tool-header">
+          <h2 class="tool-header__title">Key Terms</h2>
+          <p class="tool-header__desc">Click any term to see its definition.</p>
+        </div>
+        <div class="key-terms-grid" id="key-terms-grid"></div>
+      </div>
+    </section>
+
+    <!-- Chapter Complete -->
+    <section class="learn-section learn-section--alt">
+      <div class="container container--tool">
+        <div class="chapter-complete card" id="chapter-complete">
+          <div class="chapter-complete__icon">✅</div>
+          <h2 class="chapter-complete__title">Chapter 6 Complete</h2>
+          <p class="chapter-complete__desc">
+            You can now build a complete 9-step operating budget, run sensitivity scenarios,
+            classify responsibility centers, plan cash flows, and apply Kaizen improvement
+            targets to budget numbers.
+          </p>
+          <div class="chapter-complete__actions">
+            <button class="btn btn--primary" id="mark-complete-btn">Mark as Complete</button>
+            <a href="/pages/learn/ch07.html" class="btn btn--secondary">Next: Ch. 7 — Flexible Budgets →</a>
+          </div>
+        </div>
+      </div>
+    </section>
+
+  </main>
+
+  <script type="module" src="/js/learn/ch06.js"></script>
+</body>
+</html>
