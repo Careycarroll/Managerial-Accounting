@@ -37,8 +37,8 @@ Build a comprehensive interactive learning companion that covers every concept i
 | 4 | Job Costing | Complete | Job cost record builder, normal vs actual costing, overhead disposal, job vs process classifier |
 | 5 | Activity-Based Costing and ABM | Complete | Simple vs ABC comparator, cost hierarchy classifier, ABC system builder (8 pools), ABM decisions |
 | 6 | Master Budget and Responsibility Accounting | Complete | Operating budget builder (9-step), sensitivity analysis, responsibility center classifier, cash budget, Kaizen simulator |
-| 7 | Flexible Budgets and Direct-Cost Variances | Not started | Variance analysis engine, flexible budget builder, journal entry generator |
-| 8 | Flexible Budgets and Overhead Variances | Not started | Overhead variance engine, variance diagram, ABC overhead extension |
+| 7 | Flexible Budgets and Direct-Cost Variances | Complete | Static vs flexible budget analyzer, direct-cost variance calculator (Level 3 columnar), variance hierarchy diagram |
+| 8 | Flexible Budgets and Overhead Variances | Complete | Overhead rate developer (4-step), 4-variance overhead analyzer (Panels A+B), complete variance hierarchy (Exhibit 8-5) |
 | 9 | Inventory Costing and Capacity Analysis | Not started | Costing method comparator, capacity concepts calculator |
 | 10 | Determining How Costs Behave | Not started | Cost estimation suite, scatter plot visualizer, learning curve calculator |
 | 11 | Data Analytic Thinking and Prediction | Not started | Decision tree builder, Gini calculator, ROC curve visualizer |
@@ -125,8 +125,8 @@ Shared components: randomizer, journal-entry, show-work.
 Chart library: chart-core (full interaction layer), cvp-chart.
 
 Phase 2 -- Learn Section Chapters 5-12 (In Progress)
-Ch. 5 (ABC) -- Complete. Ch. 6 (Master Budget) -- Complete.
-Remaining priority order: Ch. 12 (Relevant Costs, most cross-referenced), Ch. 7+8 (Variance Analysis, companion pair), Ch. 9 (Inventory Costing), Ch. 10 (Cost Behavior), Ch. 11 (Data Analytics).
+Ch. 5 (ABC) -- Complete. Ch. 6 (Master Budget) -- Complete. Ch. 7 (Flexible Budgets, Direct-Cost Variances) -- Complete. Ch. 8 (Overhead Variances) -- Complete.
+Remaining priority order: Ch. 12 (Relevant Costs, most cross-referenced), Ch. 9 (Inventory Costing), Ch. 10 (Cost Behavior), Ch. 11 (Data Analytics).
 
 Phase 3 -- Learn Section Chapters 13-24
 Ch. 13 (Strategy), Ch. 14 (Pricing), Ch. 15 (Customer Profitability), Ch. 16 (Support Dept Allocation),
