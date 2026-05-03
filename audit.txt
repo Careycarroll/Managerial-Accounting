@@ -1,0 +1,41 @@
+        <span class="vh-legend__item vh-legend__item--unfav">Unfavorable (U)</span>
+        <span class="vh-legend__item vh-legend__item--placeholder">Pull from Ch. 7 to complete</span>
+      </div>
+    </div>
+  `;
+}
+
+// ── Key Terms ─────────────────────────────────────────────────
+
+function initKeyTerms() {
+  const grid = document.getElementById('key-terms-grid');
+  if (!grid) return;
+  KEY_TERMS.forEach(item => {
+    const div = document.createElement('div');
+    div.className = 'key-term';
+    div.setAttribute('role', 'button');
+    div.setAttribute('tabindex', '0');
+    div.setAttribute('aria-expanded', 'false');
+    div.innerHTML = `<div class="key-term__word">${item.term}</div><p class="key-term__definition">${item.definition}</p>`;
+    div.addEventListener('click', () => {
+      const open = div.classList.toggle('key-term--open');
+      div.setAttribute('aria-expanded', open);
+    });
+    div.addEventListener('keydown', e => {
+      if (e.key === 'Enter' || e.key === ' ') { e.preventDefault(); div.click(); }
+    });
+    grid.appendChild(div);
+  });
+}
+
+// ── Chapter Complete ──────────────────────────────────────────
+
+function initChapterComplete() {
+  const btn       = document.getElementById('mark-complete-btn');
+  const statusEl  = document.getElementById('ch08-status');
+  const actionsEl = btn?.closest('.chapter-complete__actions');
+  if (isChapterComplete('ch08')) setCompleteUI();
+  btn?.addEventListener('click', () => { markChapterComplete('ch08'); setCompleteUI(); });
+  function setCompleteUI() {
+    if (statusEl) { statusEl.textContent = '✓ Completed'; statusEl.classList.add('chapter-hero__progress-label--complete'); }
+    if (btn)      { btn.textContent = '✓ Completed'; btn.disabled = true; }

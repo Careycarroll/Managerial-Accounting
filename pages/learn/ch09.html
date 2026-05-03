@@ -1,0 +1,424 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <meta name="description" content="Chapter 9: Inventory Costing and Capacity Analysis" />
+  <title>Ch. 9 &middot; Inventory Costing and Capacity Analysis</title>
+  <link rel="stylesheet" href="/css/base.css" />
+  <link rel="stylesheet" href="/css/components.css" />
+  <link rel="stylesheet" href="/css/learn.css" />
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet" />
+</head>
+<body>
+
+  <header class="site-header" role="banner">
+    <div class="site-header__inner">
+      <a href="/" class="site-header__logo">
+        <span>&#128202;</span>
+        <span>Managerial Accounting</span>
+      </a>
+      <nav class="site-header__nav" role="navigation" aria-label="Main navigation">
+        <a href="/pages/learn/" class="site-header__nav-link site-header__nav-link--active">Learn</a>
+        <a href="/pages/apply/" class="site-header__nav-link">Apply</a>
+      </nav>
+    </div>
+  </header>
+
+  <main>
+
+    <!-- HERO -->
+    <section class="page__hero">
+      <div class="container">
+        <div class="chapter-nav">
+          <div style="display:flex;gap:var(--space-4);align-items:center;">
+            <a href="/pages/learn/" class="chapter-nav__back">&larr; All Chapters</a>
+            <a href="/pages/learn/ch08.html" class="chapter-nav__back">&larr; Ch. 8</a>
+          </div>
+          <div class="chapter-nav__position">
+            <span>Chapter 9 of 24</span>
+            <a href="/pages/learn/ch10.html" class="chapter-nav__next">Ch. 10 &rarr;</a>
+          </div>
+        </div>
+        <div class="chapter-hero__meta">
+          <span class="chapter-badge chapter-badge--control">Costing</span>
+          <span class="chapter-hero__number">Chapter 9</span>
+        </div>
+        <h1 class="page__hero-title">Inventory Costing and Capacity Analysis</h1>
+        <p class="page__hero-subtitle">
+          How the choice of inventory costing method and capacity denominator affects reported
+          operating income, pricing decisions, and manager incentives.
+        </p>
+        <div class="chapter-hero__progress" id="ch09-progress-indicator">
+          <span class="chapter-hero__progress-label" id="ch09-status">Not started</span>
+        </div>
+      </div>
+    </section>
+
+    <!-- LEARNING OBJECTIVES -->
+    <section class="learn-section">
+      <div class="container container--tool">
+        <div class="objectives-card card">
+          <h2 class="objectives-card__title">Learning Objectives</h2>
+          <ol class="objectives-list">
+            <li>Identify what distinguishes variable costing from absorption costing</li>
+            <li>Compute operating income under absorption costing and variable costing, and explain the difference</li>
+            <li>Understand how absorption costing can provide undesirable incentives for managers to build up inventory</li>
+            <li>Differentiate throughput costing from variable costing and from absorption costing</li>
+            <li>Describe the different capacity concepts that can be used in absorption costing</li>
+            <li>Examine the key factors managers use to choose a capacity level to compute the budgeted fixed manufacturing cost rate</li>
+            <li>Understand issues that play an important role in capacity planning and control</li>
+          </ol>
+        </div>
+      </div>
+    </section>
+
+    <!-- TOOL 1: Three-Method Income Comparator -->
+    <section class="learn-section learn-section--alt">
+      <div class="container container--tool">
+        <div class="tool-header">
+          <div class="tool-header__label">Tool 1 of 5</div>
+          <h2 class="tool-header__title">Three-Method Income Comparator</h2>
+          <p class="tool-header__desc">
+            Compare Variable, Absorption, and Throughput costing income statements side by side.
+            The only difference between the methods is how fixed manufacturing costs are treated.
+          </p>
+        </div>
+        <div class="card">
+          <div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:var(--space-4);">
+            <h3 class="tool-header__title" style="font-size:var(--font-size-base);margin:0;">Cost and Volume Inputs</h3>
+            <button class="btn btn--secondary btn--sm" id="t1-randomize">&#127922; Randomize</button>
+          </div>
+          <div class="ohrate-grid">
+            <div class="form-group">
+              <label class="form-label" for="t1-selling-price">Selling Price per Unit</label>
+              <input class="form-input" type="number" id="t1-selling-price" value="1000" min="1" />
+            </div>
+            <div class="form-group">
+              <label class="form-label" for="t1-dm-cost">Direct Materials per Unit</label>
+              <input class="form-input" type="number" id="t1-dm-cost" value="110" min="0" />
+            </div>
+            <div class="form-group">
+              <label class="form-label" for="t1-dl-cost">Direct Labor per Unit</label>
+              <input class="form-input" type="number" id="t1-dl-cost" value="40" min="0" />
+            </div>
+            <div class="form-group">
+              <label class="form-label" for="t1-var-oh-cost">Variable Mfg Overhead per Unit</label>
+              <input class="form-input" type="number" id="t1-var-oh-cost" value="50" min="0" />
+            </div>
+            <div class="form-group">
+              <label class="form-label" for="t1-var-mktg-cost">Variable Marketing per Unit Sold</label>
+              <input class="form-input" type="number" id="t1-var-mktg-cost" value="185" min="0" />
+            </div>
+            <div class="form-group">
+              <label class="form-label" for="t1-fixed-mfg">Fixed Manufacturing Costs</label>
+              <input class="form-input" type="number" id="t1-fixed-mfg" value="1080000" min="0" />
+            </div>
+            <div class="form-group">
+              <label class="form-label" for="t1-fixed-mktg">Fixed Marketing Costs</label>
+              <input class="form-input" type="number" id="t1-fixed-mktg" value="1380000" min="0" />
+            </div>
+            <div class="form-group">
+              <label class="form-label" for="t1-units-produced">Units Produced</label>
+              <input class="form-input" type="number" id="t1-units-produced" value="8000" min="1" />
+            </div>
+            <div class="form-group">
+              <label class="form-label" for="t1-units-sold">Units Sold</label>
+              <input class="form-input" type="number" id="t1-units-sold" value="6000" min="1" />
+            </div>
+            <div class="form-group">
+              <label class="form-label" for="t1-beg-inv">Beginning Inventory (units)</label>
+              <input class="form-input" type="number" id="t1-beg-inv" value="0" min="0" />
+            </div>
+          </div>
+          <button class="btn btn--primary" id="t1-calculate">Compare Methods &rarr;</button>
+          <div id="t1-output"></div>
+          <div id="t1-show-work"></div>
+        </div>
+      </div>
+    </section>
+
+    <!-- TOOL 2: Inventory Incentive Simulator -->
+    <section class="learn-section">
+      <div class="container container--tool">
+        <div class="tool-header">
+          <div class="tool-header__label">Tool 2 of 5</div>
+          <h2 class="tool-header__title">Inventory Incentive Simulator</h2>
+          <p class="tool-header__desc">
+            Under absorption costing, managers can boost reported income simply by producing more units.
+            Adjust the production level to see how ending inventory affects operating income.
+          </p>
+        </div>
+        <div class="card">
+          <div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:var(--space-4);">
+            <h3 class="tool-header__title" style="font-size:var(--font-size-base);margin:0;">Scenario Inputs</h3>
+            <button class="btn btn--secondary btn--sm" id="t2-randomize">&#127922; Randomize</button>
+          </div>
+          <div class="ohrate-grid">
+            <div class="form-group">
+              <label class="form-label" for="t2-selling-price">Selling Price per Unit</label>
+              <input class="form-input" type="number" id="t2-selling-price" value="1000" min="1" />
+            </div>
+            <div class="form-group">
+              <label class="form-label" for="t2-var-mfg-cost">Variable Mfg Cost per Unit</label>
+              <input class="form-input" type="number" id="t2-var-mfg-cost" value="200" min="0" />
+            </div>
+            <div class="form-group">
+              <label class="form-label" for="t2-var-mktg-cost">Variable Marketing per Unit Sold</label>
+              <input class="form-input" type="number" id="t2-var-mktg-cost" value="185" min="0" />
+            </div>
+            <div class="form-group">
+              <label class="form-label" for="t2-fixed-mfg">Fixed Manufacturing Costs</label>
+              <input class="form-input" type="number" id="t2-fixed-mfg" value="1080000" min="0" />
+            </div>
+            <div class="form-group">
+              <label class="form-label" for="t2-fixed-mktg">Fixed Marketing Costs</label>
+              <input class="form-input" type="number" id="t2-fixed-mktg" value="1380000" min="0" />
+            </div>
+            <div class="form-group">
+              <label class="form-label" for="t2-beg-inv">Beginning Inventory (units)</label>
+              <input class="form-input" type="number" id="t2-beg-inv" value="2000" min="0" />
+            </div>
+            <div class="form-group">
+              <label class="form-label" for="t2-units-sold">Units Sold (fixed)</label>
+              <input class="form-input" type="number" id="t2-units-sold" value="6500" min="1" />
+            </div>
+            <div class="form-group">
+              <label class="form-label" for="t2-denominator">Denominator Level (units)</label>
+              <input class="form-input" type="number" id="t2-denominator" value="8000" min="1" />
+            </div>
+          </div>
+          <div class="form-group" style="margin-top:var(--space-4);">
+            <label class="form-label">
+              Production Level: <strong><span id="t2-production-display">5000</span> units</strong>
+            </label>
+            <input type="range" id="t2-production-level"
+              min="4500" max="16000" step="500" value="5000"
+              style="width:100%;accent-color:var(--color-primary);margin-top:var(--space-2);" />
+            <div style="display:flex;justify-content:space-between;font-size:var(--font-size-xs);color:var(--color-gray-500);margin-top:var(--space-1);">
+              <span>Min (meet sales only)</span>
+              <span>Max (2x denominator)</span>
+            </div>
+          </div>
+          <button class="btn btn--primary" id="t2-calculate">Simulate &rarr;</button>
+          <div id="t2-output"></div>
+          <div id="t2-show-work"></div>
+        </div>
+      </div>
+    </section>
+
+    <!-- TOOL 3: Capacity Rate and PVV Calculator -->
+    <section class="learn-section learn-section--alt">
+      <div class="container container--tool">
+        <div class="tool-header">
+          <div class="tool-header__label">Tool 3 of 5</div>
+          <h2 class="tool-header__title">Capacity Rate and Variance Calculator</h2>
+          <p class="tool-header__desc">
+            The same fixed manufacturing cost produces four different unit rates depending on which
+            capacity concept you use as the denominator. Each choice affects product cost, pricing,
+            and the production-volume variance.
+          </p>
+        </div>
+        <div class="card">
+          <div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:var(--space-4);">
+            <h3 class="tool-header__title" style="font-size:var(--font-size-base);margin:0;">Capacity Inputs</h3>
+            <button class="btn btn--secondary btn--sm" id="t3-randomize">&#127922; Randomize</button>
+          </div>
+
+          <p class="ch9-section-label">Fixed Cost and Variable Cost</p>
+          <div class="ohrate-grid">
+            <div class="form-group">
+              <label class="form-label" for="t3-fixed-mfg">Fixed Manufacturing Costs</label>
+              <input class="form-input" type="number" id="t3-fixed-mfg" value="1080000" min="1" />
+            </div>
+            <div class="form-group">
+              <label class="form-label" for="t3-var-mfg-cost">Variable Mfg Cost per Unit</label>
+              <input class="form-input" type="number" id="t3-var-mfg-cost" value="200" min="0" />
+            </div>
+            <div class="form-group">
+              <label class="form-label" for="t3-actual-production">Actual Production (units)</label>
+              <input class="form-input" type="number" id="t3-actual-production" value="8000" min="1" />
+            </div>
+          </div>
+
+          <p class="ch9-section-label" style="margin-top:var(--space-4);">Theoretical Capacity</p>
+          <div class="ohrate-grid">
+            <div class="form-group">
+              <label class="form-label" for="t3-th-units-shift">Units per Shift (max speed)</label>
+              <input class="form-input" type="number" id="t3-th-units-shift" value="25" min="1" />
+            </div>
+            <div class="form-group">
+              <label class="form-label" for="t3-th-shifts-day">Shifts per Day</label>
+              <input class="form-input" type="number" id="t3-th-shifts-day" value="2" min="1" />
+            </div>
+            <div class="form-group">
+              <label class="form-label" for="t3-th-days-year">Days per Year</label>
+              <input class="form-input" type="number" id="t3-th-days-year" value="360" min="1" />
+            </div>
+          </div>
+
+          <p class="ch9-section-label" style="margin-top:var(--space-4);">Practical Capacity</p>
+          <div class="ohrate-grid">
+            <div class="form-group">
+              <label class="form-label" for="t3-pr-units-shift">Units per Shift (realistic)</label>
+              <input class="form-input" type="number" id="t3-pr-units-shift" value="20" min="1" />
+            </div>
+            <div class="form-group">
+              <label class="form-label" for="t3-pr-days-year">Operating Days per Year</label>
+              <input class="form-input" type="number" id="t3-pr-days-year" value="300" min="1" />
+            </div>
+            <div class="form-group"></div>
+          </div>
+
+          <p class="ch9-section-label" style="margin-top:var(--space-4);">Demand-Based Capacity</p>
+          <div class="ohrate-grid">
+            <div class="form-group">
+              <label class="form-label" for="t3-normal-units">Normal Capacity Utilization (units)</label>
+              <input class="form-input" type="number" id="t3-normal-units" value="10000" min="1" />
+            </div>
+            <div class="form-group">
+              <label class="form-label" for="t3-master-units">Master-Budget Capacity (units)</label>
+              <input class="form-input" type="number" id="t3-master-units" value="8000" min="1" />
+            </div>
+            <div class="form-group"></div>
+          </div>
+
+          <button class="btn btn--primary" id="t3-calculate">Calculate Rates &rarr;</button>
+          <div id="t3-output"></div>
+          <div id="t3-show-work"></div>
+        </div>
+      </div>
+    </section>
+
+    <!-- TOOL 4: Used vs. Unused Capacity Analyzer -->
+    <section class="learn-section">
+      <div class="container container--tool">
+        <div class="tool-header">
+          <div class="tool-header__label">Tool 4 of 5</div>
+          <h2 class="tool-header__title">Used vs. Unused Capacity Analyzer</h2>
+          <p class="tool-header__desc">
+            Practical capacity reveals how much of your fixed cost investment is actually being used.
+            This split drives better pricing decisions, performance evaluation, and capacity management.
+          </p>
+        </div>
+        <div class="card">
+          <div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:var(--space-4);">
+            <h3 class="tool-header__title" style="font-size:var(--font-size-base);margin:0;">Capacity Inputs</h3>
+            <button class="btn btn--secondary btn--sm" id="t4-randomize">&#127922; Randomize</button>
+          </div>
+          <div class="ohrate-grid">
+            <div class="form-group">
+              <label class="form-label" for="t4-fixed-mfg">Fixed Manufacturing Costs</label>
+              <input class="form-input" type="number" id="t4-fixed-mfg" value="1080000" min="1" />
+            </div>
+            <div class="form-group">
+              <label class="form-label" for="t4-var-mfg-cost">Variable Mfg Cost per Unit</label>
+              <input class="form-input" type="number" id="t4-var-mfg-cost" value="200" min="0" />
+            </div>
+            <div class="form-group">
+              <label class="form-label" for="t4-practical-capacity">Practical Capacity (units)</label>
+              <input class="form-input" type="number" id="t4-practical-capacity" value="12000" min="1" />
+            </div>
+            <div class="form-group">
+              <label class="form-label" for="t4-budgeted-demand">Master-Budget Demand (units)</label>
+              <input class="form-input" type="number" id="t4-budgeted-demand" value="8000" min="1" />
+            </div>
+            <div class="form-group">
+              <label class="form-label" for="t4-actual-production">Actual Production (units)</label>
+              <input class="form-input" type="number" id="t4-actual-production" value="8000" min="1" />
+            </div>
+          </div>
+          <button class="btn btn--primary" id="t4-calculate">Analyze Capacity &rarr;</button>
+          <div id="t4-output"></div>
+          <div id="t4-show-work"></div>
+        </div>
+      </div>
+    </section>
+
+    <!-- TOOL 5: Downward Demand Spiral -->
+    <section class="learn-section learn-section--alt">
+      <div class="container container--tool">
+        <div class="tool-header">
+          <div class="tool-header__label">Tool 5 of 5</div>
+          <h2 class="tool-header__title">Downward Demand Spiral</h2>
+          <p class="tool-header__desc">
+            When a company uses master-budget capacity utilization for pricing, losing customers forces
+            fixed costs onto fewer units, raising prices, which risks losing more customers.
+            See the spiral unfold.
+          </p>
+        </div>
+        <div class="card">
+          <div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:var(--space-4);">
+            <h3 class="tool-header__title" style="font-size:var(--font-size-base);margin:0;">Spiral Inputs</h3>
+            <button class="btn btn--secondary btn--sm" id="t5-randomize">&#127922; Randomize</button>
+          </div>
+          <div class="ohrate-grid">
+            <div class="form-group">
+              <label class="form-label" for="t5-fixed-mfg">Fixed Manufacturing Costs</label>
+              <input class="form-input" type="number" id="t5-fixed-mfg" value="1080000" min="1" />
+            </div>
+            <div class="form-group">
+              <label class="form-label" for="t5-var-mfg-cost">Variable Mfg Cost per Unit</label>
+              <input class="form-input" type="number" id="t5-var-mfg-cost" value="200" min="0" />
+            </div>
+            <div class="form-group">
+              <label class="form-label" for="t5-initial-volume">Initial Budgeted Volume (units)</label>
+              <input class="form-input" type="number" id="t5-initial-volume" value="8000" min="1" />
+            </div>
+            <div class="form-group">
+              <label class="form-label" for="t5-lost-r1">Units Lost - Round 1</label>
+              <input class="form-input" type="number" id="t5-lost-r1" value="2000" min="0" />
+            </div>
+            <div class="form-group">
+              <label class="form-label" for="t5-lost-r2">Units Lost - Round 2</label>
+              <input class="form-input" type="number" id="t5-lost-r2" value="2000" min="0" />
+            </div>
+            <div class="form-group">
+              <label class="form-label" for="t5-lost-r3">Units Lost - Round 3</label>
+              <input class="form-input" type="number" id="t5-lost-r3" value="1000" min="0" />
+            </div>
+          </div>
+          <button class="btn btn--primary" id="t5-calculate">Show Spiral &rarr;</button>
+          <div id="t5-output"></div>
+          <div id="t5-show-work"></div>
+        </div>
+      </div>
+    </section>
+
+    <!-- KEY TERMS -->
+    <section class="learn-section">
+      <div class="container container--tool">
+        <div class="tool-header">
+          <h2 class="tool-header__title">Key Terms</h2>
+          <p class="tool-header__desc">Core vocabulary for Chapter 9.</p>
+        </div>
+        <div class="key-terms-grid" id="key-terms-grid"></div>
+      </div>
+    </section>
+
+    <!-- CHAPTER COMPLETE -->
+    <section class="learn-section learn-section--alt">
+      <div class="container container--tool">
+        <div class="chapter-complete card" id="chapter-complete">
+          <div class="chapter-complete__icon">&#9989;</div>
+          <h2 class="chapter-complete__title">Chapter 9 Complete</h2>
+          <p class="chapter-complete__desc">
+            You can now compute operating income under variable, absorption, and throughput costing,
+            explain the incentive effects of each method, and choose the right capacity denominator
+            for pricing, performance evaluation, and financial reporting.
+          </p>
+          <div class="chapter-complete__actions">
+            <button class="btn btn--primary" id="mark-complete-btn">Mark as Complete</button>
+            <a href="/pages/learn/ch10.html" class="btn btn--secondary">Next: Ch. 10 &rarr;</a>
+          </div>
+        </div>
+      </div>
+    </section>
+
+  </main>
+
+  <script type="module" src="/js/learn/ch09.js"></script>
+</body>
+</html>
