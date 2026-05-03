@@ -1,0 +1,253 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <meta name="description" content="Chapter 8: Flexible Budgets, Overhead Cost Variances, and Management Control" />
+  <title>Ch. 8 · Overhead Cost Variances</title>
+  <link rel="stylesheet" href="/css/base.css" />
+  <link rel="stylesheet" href="/css/components.css" />
+  <link rel="stylesheet" href="/css/learn.css" />
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet" />
+</head>
+<body>
+
+  <header class="site-header" role="banner">
+    <div class="site-header__inner">
+      <a href="/" class="site-header__logo">
+        <span>&#128202;</span>
+        <span>Managerial Accounting</span>
+      </a>
+      <nav class="site-header__nav" role="navigation" aria-label="Main navigation">
+        <a href="/pages/learn/" class="site-header__nav-link site-header__nav-link--active">Learn</a>
+        <a href="/pages/apply/" class="site-header__nav-link">Apply</a>
+      </nav>
+    </div>
+  </header>
+
+  <main>
+
+    <section class="page__hero">
+      <div class="container">
+        <div class="chapter-nav">
+          <div style="display:flex;gap:var(--space-4);align-items:center;">
+            <a href="/pages/learn/" class="chapter-nav__back">← All Chapters</a>
+            <a href="/pages/learn/ch07.html" class="chapter-nav__back">← Ch. 7</a>
+          </div>
+          <div class="chapter-nav__position">
+            <span>Chapter 8 of 24</span>
+            <a href="/pages/learn/ch09.html" class="chapter-nav__next">Ch. 9 →</a>
+          </div>
+        </div>
+        <div class="chapter-hero__meta">
+          <span class="chapter-badge chapter-badge--control">Control</span>
+          <span class="chapter-hero__number">Chapter 8</span>
+        </div>
+        <h1 class="page__hero-title">Overhead Cost Variances<br>and Management Control</h1>
+        <p class="page__hero-subtitle">
+          Chapter 7 covered direct-cost variances. Now we extend variance analysis to indirect costs --
+          variable and fixed overhead -- completing the full 4-variance picture.
+        </p>
+        <div class="chapter-hero__progress" id="ch08-progress-indicator">
+          <span class="chapter-hero__progress-label" id="ch08-status">Not started</span>
+        </div>
+      </div>
+    </section>
+
+    <section class="learn-section">
+      <div class="container container--tool">
+        <div class="objectives-card card">
+          <h2 class="objectives-card__title">Learning Objectives</h2>
+          <ol class="objectives-list">
+            <li>Explain the similarities and differences in planning variable and fixed overhead costs</li>
+            <li>Develop budgeted variable overhead cost rates and budgeted fixed overhead cost rates</li>
+            <li>Compute the variable overhead flexible-budget, efficiency, and spending variances</li>
+            <li>Compute the fixed overhead flexible-budget, spending, and production-volume variances</li>
+            <li>Show how the 4-variance analysis approach reconciles actual overhead with allocated overhead</li>
+            <li>Explain the relationship between the sales-volume variance and the production-volume variance</li>
+            <li>Calculate variances in activity-based costing</li>
+            <li>Examine the use of overhead variances in nonmanufacturing settings</li>
+          </ol>
+        </div>
+      </div>
+    </section>
+
+    <!-- Tool 1: Overhead Rate Developer -->
+    <section class="learn-section learn-section--alt">
+      <div class="container container--tool">
+        <div class="tool-header">
+          <div class="tool-header__label">Tool 1 of 3</div>
+          <h2 class="tool-header__title">Overhead Rate Developer</h2>
+          <p class="tool-header__desc">
+            Before computing variances, managers must set budgeted overhead rates.
+            This 4-step process converts total budgeted overhead costs into per-unit rates
+            used to allocate overhead throughout the year.
+          </p>
+        </div>
+
+        <div class="ohrate-container card">
+          <div class="ohrate-container__header">
+            <h3 class="ohrate-container__title">Budget Parameters</h3>
+            <button class="btn btn--secondary btn--sm" id="ohrate-randomize">&#127922; Randomize</button>
+          </div>
+
+          <div class="ohrate-grid">
+            <div class="form-group">
+              <label class="form-label">Budgeted Output Units</label>
+              <input type="number" id="ohr-budg-units" class="form-input" value="144000" min="1" step="1000" />
+            </div>
+            <div class="form-group">
+              <label class="form-label">Standard Hours per Unit (machine-hrs)</label>
+              <input type="number" id="ohr-std-hrs" class="form-input" value="0.40" min="0.01" step="0.05" />
+            </div>
+            <div class="form-group">
+              <label class="form-label">Budgeted Variable Overhead ($)</label>
+              <input type="number" id="ohr-budg-voh" class="form-input" value="1728000" min="0" step="10000" />
+            </div>
+            <div class="form-group">
+              <label class="form-label">Budgeted Fixed Overhead ($)</label>
+              <input type="number" id="ohr-budg-foh" class="form-input" value="3312000" min="0" step="10000" />
+            </div>
+          </div>
+
+          <button class="btn btn--primary" id="ohrate-calculate">Develop Rates →</button>
+          <div id="ohrate-results"></div>
+        </div>
+      </div>
+    </section>
+
+    <!-- Tool 2: 4-Variance Overhead Analyzer -->
+    <section class="learn-section">
+      <div class="container container--tool">
+        <div class="tool-header">
+          <div class="tool-header__label">Tool 2 of 3</div>
+          <h2 class="tool-header__title">4-Variance Overhead Analyzer</h2>
+          <p class="tool-header__desc">
+            The 4-variance analysis produces: variable OH spending variance, variable OH efficiency variance,
+            fixed OH spending variance, and fixed OH production-volume variance.
+            Click "Pull from Tool 1" to use the rates you just developed.
+          </p>
+        </div>
+
+        <div class="ohvar-container card">
+          <div class="ohvar-container__header">
+            <h3 class="ohvar-container__title">Overhead Variance Inputs</h3>
+            <div style="display:flex;gap:var(--space-3)">
+              <button class="btn btn--secondary btn--sm" id="ohvar-pull-btn">&#8595; Pull from Tool 1</button>
+              <button class="btn btn--secondary btn--sm" id="ohvar-randomize">&#127922; Randomize</button>
+            </div>
+          </div>
+
+          <div class="ohvar-grid">
+            <div class="ohvar-section">
+              <div class="ohvar-section__title">Rates (from Tool 1 or manual)</div>
+              <div class="form-group">
+                <label class="form-label">Budgeted Variable OH Rate ($/hr)</label>
+                <input type="number" id="ohv-budg-voh-rate" class="form-input" value="30" min="0" step="1" />
+              </div>
+              <div class="form-group">
+                <label class="form-label">Budgeted Fixed OH Rate ($/hr)</label>
+                <input type="number" id="ohv-budg-foh-rate" class="form-input" value="57.50" min="0" step="0.5" />
+              </div>
+              <div class="form-group">
+                <label class="form-label">Standard Hours per Unit</label>
+                <input type="number" id="ohv-std-hrs" class="form-input" value="0.40" min="0.01" step="0.05" />
+              </div>
+              <div class="form-group">
+                <label class="form-label">Denominator Hours (budgeted total)</label>
+                <input type="number" id="ohv-denom-hrs" class="form-input" value="57600" min="1" step="1000" />
+              </div>
+              <div class="form-group">
+                <label class="form-label">Budgeted Fixed OH Total ($)</label>
+                <input type="number" id="ohv-budg-foh-total" class="form-input" value="276000" min="0" step="1000" />
+              </div>
+            </div>
+            <div class="ohvar-section">
+              <div class="ohvar-section__title">Actual Results</div>
+              <div class="form-group">
+                <label class="form-label">Actual Output Units Produced</label>
+                <input type="number" id="ohv-act-units" class="form-input" value="10000" min="1" step="100" />
+              </div>
+              <div class="form-group">
+                <label class="form-label">Actual Hours Used</label>
+                <input type="number" id="ohv-act-hrs" class="form-input" value="4500" min="0" step="100" />
+              </div>
+              <div class="form-group">
+                <label class="form-label">Actual Variable OH Incurred ($)</label>
+                <input type="number" id="ohv-act-voh" class="form-input" value="130500" min="0" step="1000" />
+              </div>
+              <div class="form-group">
+                <label class="form-label">Actual Fixed OH Incurred ($)</label>
+                <input type="number" id="ohv-act-foh" class="form-input" value="285000" min="0" step="1000" />
+              </div>
+            </div>
+          </div>
+
+          <button class="btn btn--primary" id="ohvar-calculate">Run 4-Variance Analysis →</button>
+          <div id="ohvar-results"></div>
+        </div>
+      </div>
+    </section>
+
+    <!-- Tool 3: Complete Variance Hierarchy -->
+    <section class="learn-section learn-section--alt">
+      <div class="container container--tool">
+        <div class="tool-header">
+          <div class="tool-header__label">Tool 3 of 3</div>
+          <h2 class="tool-header__title">Complete Variance Hierarchy</h2>
+          <p class="tool-header__desc">
+            The full Exhibit 8-5 variance tree -- all variances from Chapters 7 and 8 in one diagram.
+            Run Tools 1 and 2 first. Optionally import direct-cost variances from Chapter 7.
+          </p>
+        </div>
+
+        <div class="vh-container card">
+          <div class="vh-container__header">
+            <h3 class="vh-container__title">Full Variance Tree</h3>
+            <div style="display:flex;gap:var(--space-3)">
+              <button class="btn btn--secondary btn--sm" id="ch8-pull-ch7">&#8595; Pull from Ch. 7</button>
+              <button class="btn btn--primary btn--sm" id="ch8-build-diagram">Build Diagram →</button>
+            </div>
+          </div>
+          <div id="ch8-vh-diagram"></div>
+        </div>
+      </div>
+    </section>
+
+    <!-- Key Terms -->
+    <section class="learn-section">
+      <div class="container container--tool">
+        <div class="tool-header">
+          <h2 class="tool-header__title">Key Terms</h2>
+          <p class="tool-header__desc">Click any term to see its definition.</p>
+        </div>
+        <div class="key-terms-grid" id="key-terms-grid"></div>
+      </div>
+    </section>
+
+    <!-- Chapter Complete -->
+    <section class="learn-section learn-section--alt">
+      <div class="container container--tool">
+        <div class="chapter-complete card" id="chapter-complete">
+          <div class="chapter-complete__icon">&#9989;</div>
+          <h2 class="chapter-complete__title">Chapter 8 Complete</h2>
+          <p class="chapter-complete__desc">
+            You can now develop budgeted overhead rates, compute all four overhead variances,
+            and build the complete variance hierarchy connecting every variance back to the
+            static-budget variance for operating income.
+          </p>
+          <div class="chapter-complete__actions">
+            <button class="btn btn--primary" id="mark-complete-btn">Mark as Complete</button>
+            <a href="/pages/learn/ch09.html" class="btn btn--secondary">Next: Ch. 9 -- Inventory Costing →</a>
+          </div>
+        </div>
+      </div>
+    </section>
+
+  </main>
+
+  <script type="module" src="/js/learn/ch08.js"></script>
+</body>
+</html>

@@ -1,0 +1,304 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <meta name="description" content="Chapter 7: Flexible Budgets, Direct-Cost Variances, and Management Control" />
+  <title>Ch. 7 · Flexible Budgets and Direct-Cost Variances</title>
+  <link rel="stylesheet" href="/css/base.css" />
+  <link rel="stylesheet" href="/css/components.css" />
+  <link rel="stylesheet" href="/css/learn.css" />
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet" />
+</head>
+<body>
+
+  <header class="site-header" role="banner">
+    <div class="site-header__inner">
+      <a href="/" class="site-header__logo">
+        <span>&#128202;</span>
+        <span>Managerial Accounting</span>
+      </a>
+      <nav class="site-header__nav" role="navigation" aria-label="Main navigation">
+        <a href="/pages/learn/" class="site-header__nav-link site-header__nav-link--active">Learn</a>
+        <a href="/pages/apply/" class="site-header__nav-link">Apply</a>
+      </nav>
+    </div>
+  </header>
+
+  <main>
+
+    <section class="page__hero">
+      <div class="container">
+        <div class="chapter-nav">
+          <div style="display:flex;gap:var(--space-4);align-items:center;">
+            <a href="/pages/learn/" class="chapter-nav__back">← All Chapters</a>
+            <a href="/pages/learn/ch06.html" class="chapter-nav__back">← Ch. 6</a>
+          </div>
+          <div class="chapter-nav__position">
+            <span>Chapter 7 of 24</span>
+            <a href="/pages/learn/ch08.html" class="chapter-nav__next">Ch. 8 →</a>
+          </div>
+        </div>
+        <div class="chapter-hero__meta">
+          <span class="chapter-badge chapter-badge--control">Control</span>
+          <span class="chapter-hero__number">Chapter 7</span>
+        </div>
+        <h1 class="page__hero-title">Flexible Budgets and<br>Direct-Cost Variances</h1>
+        <p class="page__hero-subtitle">
+          Why did actual results differ from the plan? Variance analysis breaks the gap into
+          meaningful pieces -- what was due to volume, what was due to price, and what was due to efficiency.
+        </p>
+        <div class="chapter-hero__progress" id="ch07-progress-indicator">
+          <span class="chapter-hero__progress-label" id="ch07-status">Not started</span>
+        </div>
+      </div>
+    </section>
+
+    <section class="learn-section">
+      <div class="container container--tool">
+        <div class="objectives-card card">
+          <h2 class="objectives-card__title">Learning Objectives</h2>
+          <ol class="objectives-list">
+            <li>Understand static budgets and static-budget variances</li>
+            <li>Examine the concept of a flexible budget and learn how to develop one</li>
+            <li>Calculate flexible-budget variances and sales-volume variances</li>
+            <li>Explain why standard costs are often used in variance analysis</li>
+            <li>Compute price variances and efficiency variances for direct-cost categories</li>
+            <li>Understand how managers use variances</li>
+            <li>Describe benchmarking and explain its role in cost management</li>
+          </ol>
+        </div>
+      </div>
+    </section>
+
+    <!-- Tool 1: Static vs Flexible Budget Analyzer -->
+    <section class="learn-section learn-section--alt">
+      <div class="container container--tool">
+        <div class="tool-header">
+          <div class="tool-header__label">Tool 1 of 3</div>
+          <h2 class="tool-header__title">Static vs. Flexible Budget Analyzer</h2>
+          <p class="tool-header__desc">
+            The static budget is set before the period. The flexible budget adjusts for actual output.
+            Comparing actual results to both reveals how much variance came from volume vs. performance.
+            Pre-loaded with Webb Company jacket data from the textbook.
+          </p>
+        </div>
+
+        <div class="var-analyzer card">
+          <div class="var-analyzer__header">
+            <h3 class="var-analyzer__title">Budget Inputs</h3>
+            <button class="btn btn--secondary btn--sm" id="va-randomize">&#127922; Randomize</button>
+          </div>
+
+          <div class="var-analyzer__grid">
+            <div class="var-col">
+              <h4 class="var-col__title">Volume</h4>
+              <div class="form-group">
+                <label class="form-label">Budgeted Units Sold</label>
+                <input type="number" id="va-budg-units" class="form-input" value="12000" min="1" step="100" />
+              </div>
+              <div class="form-group">
+                <label class="form-label">Actual Units Sold</label>
+                <input type="number" id="va-act-units" class="form-input" value="10000" min="1" step="100" />
+              </div>
+            </div>
+            <div class="var-col">
+              <h4 class="var-col__title">Revenue</h4>
+              <div class="form-group">
+                <label class="form-label">Budgeted Selling Price ($)</label>
+                <input type="number" id="va-budg-price" class="form-input" value="120" min="0" step="1" />
+              </div>
+              <div class="form-group">
+                <label class="form-label">Actual Selling Price ($)</label>
+                <input type="number" id="va-act-price" class="form-input" value="125" min="0" step="1" />
+              </div>
+            </div>
+            <div class="var-col">
+              <h4 class="var-col__title">Variable Costs per Unit</h4>
+              <div class="form-group">
+                <label class="form-label">Budgeted Direct Materials ($)</label>
+                <input type="number" id="va-budg-dm" class="form-input" value="60" min="0" step="1" />
+              </div>
+              <div class="form-group">
+                <label class="form-label">Actual Direct Materials ($)</label>
+                <input type="number" id="va-act-dm" class="form-input" value="62.16" min="0" step="0.01" />
+              </div>
+              <div class="form-group">
+                <label class="form-label">Budgeted Direct Labor ($)</label>
+                <input type="number" id="va-budg-dl" class="form-input" value="16" min="0" step="1" />
+              </div>
+              <div class="form-group">
+                <label class="form-label">Actual Direct Labor ($)</label>
+                <input type="number" id="va-act-dl" class="form-input" value="19.80" min="0" step="0.01" />
+              </div>
+              <div class="form-group">
+                <label class="form-label">Budgeted Variable OH ($)</label>
+                <input type="number" id="va-budg-voh" class="form-input" value="12" min="0" step="1" />
+              </div>
+              <div class="form-group">
+                <label class="form-label">Actual Variable OH ($)</label>
+                <input type="number" id="va-act-voh" class="form-input" value="13.05" min="0" step="0.01" />
+              </div>
+            </div>
+            <div class="var-col">
+              <h4 class="var-col__title">Fixed Costs (total)</h4>
+              <div class="form-group">
+                <label class="form-label">Budgeted Fixed Costs ($)</label>
+                <input type="number" id="va-budg-fc" class="form-input" value="276000" min="0" step="1000" />
+              </div>
+              <div class="form-group">
+                <label class="form-label">Actual Fixed Costs ($)</label>
+                <input type="number" id="va-act-fc" class="form-input" value="285000" min="0" step="1000" />
+              </div>
+            </div>
+          </div>
+
+          <button class="btn btn--primary" id="va-calculate">Analyze Variances →</button>
+          <div id="va-results"></div>
+        </div>
+      </div>
+    </section>
+
+    <!-- Tool 2: Direct-Cost Variance Calculator -->
+    <section class="learn-section">
+      <div class="container container--tool">
+        <div class="tool-header">
+          <div class="tool-header__label">Tool 2 of 3</div>
+          <h2 class="tool-header__title">Direct-Cost Variance Calculator</h2>
+          <p class="tool-header__desc">
+            Price variances measure whether inputs cost more or less than standard.
+            Efficiency variances measure whether more or fewer inputs were used than standard.
+            Uses the columnar Level 3 format from Exhibit 7-3.
+          </p>
+        </div>
+
+        <div class="dv-container card">
+          <div class="dv-container__header">
+            <h3 class="dv-container__title">Direct-Cost Inputs</h3>
+            <button class="btn btn--secondary btn--sm" id="dv-randomize">&#127922; Randomize</button>
+          </div>
+
+          <div class="dv-panels">
+            <div class="dv-panel">
+              <h4 class="dv-panel__title">Direct Materials</h4>
+              <div class="dv-panel__grid">
+                <div class="form-group">
+                  <label class="form-label">Standard Qty per Unit (sq yds)</label>
+                  <input type="number" id="dv-dm-std-qty" class="form-input" value="2" min="0" step="0.1" />
+                </div>
+                <div class="form-group">
+                  <label class="form-label">Standard Price ($/sq yd)</label>
+                  <input type="number" id="dv-dm-std-price" class="form-input" value="30" min="0" step="0.5" />
+                </div>
+                <div class="form-group">
+                  <label class="form-label">Actual Units Produced</label>
+                  <input type="number" id="dv-dm-act-units" class="form-input" value="10000" min="1" step="100" />
+                </div>
+                <div class="form-group">
+                  <label class="form-label">Actual Qty Purchased (sq yds)</label>
+                  <input type="number" id="dv-dm-act-purchased" class="form-input" value="22200" min="0" step="100" />
+                </div>
+                <div class="form-group">
+                  <label class="form-label">Actual Qty Used (sq yds)</label>
+                  <input type="number" id="dv-dm-act-used" class="form-input" value="22200" min="0" step="100" />
+                </div>
+                <div class="form-group">
+                  <label class="form-label">Actual Price ($/sq yd)</label>
+                  <input type="number" id="dv-dm-act-price" class="form-input" value="28" min="0" step="0.5" />
+                </div>
+              </div>
+            </div>
+
+            <div class="dv-panel">
+              <h4 class="dv-panel__title">Direct Manufacturing Labor</h4>
+              <div class="dv-panel__grid">
+                <div class="form-group">
+                  <label class="form-label">Standard Hours per Unit</label>
+                  <input type="number" id="dv-dl-std-hrs" class="form-input" value="0.8" min="0" step="0.05" />
+                </div>
+                <div class="form-group">
+                  <label class="form-label">Standard Rate ($/hr)</label>
+                  <input type="number" id="dv-dl-std-rate" class="form-input" value="20" min="0" step="0.5" />
+                </div>
+                <div class="form-group">
+                  <label class="form-label">Actual Units Produced</label>
+                  <input type="number" id="dv-dl-act-units" class="form-input" value="10000" min="1" step="100" />
+                </div>
+                <div class="form-group">
+                  <label class="form-label">Actual Hours Worked</label>
+                  <input type="number" id="dv-dl-act-hrs" class="form-input" value="9000" min="0" step="100" />
+                </div>
+                <div class="form-group">
+                  <label class="form-label">Actual Rate ($/hr)</label>
+                  <input type="number" id="dv-dl-act-rate" class="form-input" value="22" min="0" step="0.5" />
+                </div>
+              </div>
+            </div>
+          </div>
+
+          <button class="btn btn--primary" id="dv-calculate">Calculate Variances →</button>
+          <div id="dv-results"></div>
+        </div>
+      </div>
+    </section>
+
+    <!-- Tool 3: Variance Hierarchy Diagram -->
+    <section class="learn-section learn-section--alt">
+      <div class="container container--tool">
+        <div class="tool-header">
+          <div class="tool-header__label">Tool 3 of 3</div>
+          <h2 class="tool-header__title">Variance Hierarchy Diagram</h2>
+          <p class="tool-header__desc">
+            The variance hierarchy shows how every variance connects back to the static-budget variance.
+            Run Tools 1 and 2 first, then click Build Diagram to see the full picture.
+            Overhead variances are covered in Chapter 8.
+          </p>
+        </div>
+
+        <div class="vh-container card">
+          <div class="vh-container__header">
+            <h3 class="vh-container__title">Variance Tree</h3>
+            <button class="btn btn--primary btn--sm" id="vh-build">Build Diagram →</button>
+          </div>
+          <div id="vh-diagram"></div>
+        </div>
+      </div>
+    </section>
+
+    <!-- Key Terms -->
+    <section class="learn-section">
+      <div class="container container--tool">
+        <div class="tool-header">
+          <h2 class="tool-header__title">Key Terms</h2>
+          <p class="tool-header__desc">Click any term to see its definition.</p>
+        </div>
+        <div class="key-terms-grid" id="key-terms-grid"></div>
+      </div>
+    </section>
+
+    <!-- Chapter Complete -->
+    <section class="learn-section learn-section--alt">
+      <div class="container container--tool">
+        <div class="chapter-complete card" id="chapter-complete">
+          <div class="chapter-complete__icon">&#9989;</div>
+          <h2 class="chapter-complete__title">Chapter 7 Complete</h2>
+          <p class="chapter-complete__desc">
+            You can now decompose any static-budget variance into flexible-budget and sales-volume components,
+            and drill down to price and efficiency variances for direct materials and labor.
+            Chapter 8 extends this to overhead costs.
+          </p>
+          <div class="chapter-complete__actions">
+            <button class="btn btn--primary" id="mark-complete-btn">Mark as Complete</button>
+            <a href="/pages/learn/ch08.html" class="btn btn--secondary">Next: Ch. 8 -- Overhead Variances →</a>
+          </div>
+        </div>
+      </div>
+    </section>
+
+  </main>
+
+  <script type="module" src="/js/learn/ch07.js"></script>
+</body>
+</html>
