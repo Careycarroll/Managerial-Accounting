@@ -1,0 +1,340 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <meta name="description" content="Chapter 10: Determining How Costs Behave" />
+  <title>Ch. 10 &middot; Determining How Costs Behave</title>
+  <link rel="stylesheet" href="/css/base.css" />
+  <link rel="stylesheet" href="/css/components.css" />
+  <link rel="stylesheet" href="/css/learn.css" />
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet" />
+</head>
+<body>
+
+  <header class="site-header" role="banner">
+    <div class="site-header__inner">
+      <a href="/" class="site-header__logo">
+        <span>&#128202;</span>
+        <span>Managerial Accounting</span>
+      </a>
+      <nav class="site-header__nav" role="navigation" aria-label="Main navigation">
+        <a href="/pages/learn/" class="site-header__nav-link site-header__nav-link--active">Learn</a>
+        <a href="/pages/apply/" class="site-header__nav-link">Apply</a>
+      </nav>
+    </div>
+  </header>
+
+  <main>
+
+    <!-- HERO -->
+    <section class="page__hero">
+      <div class="container">
+        <div class="chapter-nav">
+          <div style="display:flex;gap:var(--space-4);align-items:center;">
+            <a href="/pages/learn/" class="chapter-nav__back">&larr; All Chapters</a>
+            <a href="/pages/learn/ch09.html" class="chapter-nav__back">&larr; Ch. 9</a>
+          </div>
+          <div class="chapter-nav__position">
+            <span>Chapter 10 of 24</span>
+            <a href="/pages/learn/ch11.html" class="chapter-nav__next">Ch. 11 &rarr;</a>
+          </div>
+        </div>
+        <div class="chapter-hero__meta">
+          <span class="chapter-badge chapter-badge--control">Cost Behavior</span>
+          <span class="chapter-hero__number">Chapter 10</span>
+        </div>
+        <h1 class="page__hero-title">Determining How Costs Behave</h1>
+        <p class="page__hero-subtitle">
+          Estimate cost functions using the high-low method and regression analysis,
+          evaluate cost drivers, and model learning-curve effects on unit costs.
+        </p>
+        <div class="chapter-hero__progress" id="ch10-progress-indicator">
+          <span class="chapter-hero__progress-label" id="ch10-status">Not started</span>
+        </div>
+      </div>
+    </section>
+
+    <!-- LEARNING OBJECTIVES -->
+    <section class="learn-section">
+      <div class="container container--tool">
+        <div class="objectives-card card">
+          <h2 class="objectives-card__title">Learning Objectives</h2>
+          <ol class="objectives-list">
+            <li>Describe linear cost functions and three common ways in which they behave</li>
+            <li>Explain the importance of causality in estimating cost functions</li>
+            <li>Understand various methods of cost estimation</li>
+            <li>Outline six steps in estimating a cost function using quantitative analysis</li>
+            <li>Describe three criteria used to evaluate and choose cost drivers</li>
+            <li>Explain nonlinear cost functions, in particular those arising from learning-curve effects</li>
+            <li>Be aware of data problems encountered in estimating cost functions</li>
+          </ol>
+        </div>
+      </div>
+    </section>
+
+    <!-- TOOL 1: Cost Function Builder -->
+    <section class="learn-section learn-section--alt">
+      <div class="container container--tool">
+        <div class="tool-header">
+          <div class="tool-header__label">Tool 1 of 5</div>
+          <h2 class="tool-header__title">Cost Function Builder</h2>
+          <p class="tool-header__desc">
+            Every cost function takes the form y = a + bX, where a is the fixed component
+            and b is the variable rate per unit of activity. Adjust the parameters to see
+            how variable, fixed, and mixed cost functions behave differently.
+          </p>
+        </div>
+        <div class="card">
+          <div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:var(--space-4);">
+            <h3 style="font-size:var(--font-size-base);font-weight:700;margin:0;">Cost Function Parameters</h3>
+            <button class="btn btn--secondary btn--sm" id="t1-randomize">&#127922; Randomize</button>
+          </div>
+          <div class="ohrate-grid">
+            <div class="form-group">
+              <label class="form-label" for="t1-fixed">Fixed Component (a) -- $ per period</label>
+              <input class="form-input" type="number" id="t1-fixed" value="300" min="0" step="50" />
+            </div>
+            <div class="form-group">
+              <label class="form-label" for="t1-variable">Variable Rate (b) -- $ per unit of X</label>
+              <input class="form-input" type="number" id="t1-variable" value="10.31" min="0" step="0.5" />
+            </div>
+            <div class="form-group">
+              <label class="form-label" for="t1-activity">Activity Level to Evaluate (X)</label>
+              <input class="form-input" type="number" id="t1-activity" value="90" min="1" step="5" />
+            </div>
+            <div class="form-group">
+              <label class="form-label" for="t1-max-x">Max Activity Range (X axis)</label>
+              <input class="form-input" type="number" id="t1-max-x" value="120" min="10" step="10" />
+            </div>
+          </div>
+          <button class="btn btn--primary" id="t1-calculate">Build Cost Function &rarr;</button>
+          <div id="t1-output"></div>
+          <div id="t1-show-work"></div>
+        </div>
+      </div>
+    </section>
+
+    <!-- TOOL 2: High-Low Method Calculator -->
+    <section class="learn-section">
+      <div class="container container--tool">
+        <div class="tool-header">
+          <div class="tool-header__label">Tool 2 of 5</div>
+          <h2 class="tool-header__title">High-Low Method Calculator</h2>
+          <p class="tool-header__desc">
+            The high-low method uses only the highest and lowest observations of the cost driver
+            to estimate the slope and intercept of the cost function. Enter up to 12 paired
+            observations, then predict cost at any activity level.
+          </p>
+        </div>
+        <div class="card">
+          <div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:var(--space-4);">
+            <h3 style="font-size:var(--font-size-base);font-weight:700;margin:0;">Observation Data</h3>
+            <button class="btn btn--secondary btn--sm" id="t2-load-elegant">Load Elegant Rugs Data</button>
+          </div>
+
+          <div class="ch10-data-table-wrap">
+            <table class="ch10-data-table" id="t2-data-table">
+              <thead>
+                <tr>
+                  <th>Obs.</th>
+                  <th>Activity (X)</th>
+                  <th>Cost (Y)</th>
+                </tr>
+              </thead>
+              <tbody id="t2-table-body"></tbody>
+            </table>
+          </div>
+
+          <div class="ohrate-grid" style="margin-top:var(--space-4);">
+            <div class="form-group">
+              <label class="form-label" for="t2-predict-x">Predict Cost at X =</label>
+              <input class="form-input" type="number" id="t2-predict-x" value="90" min="0" step="5" />
+            </div>
+            <div class="form-group">
+              <label class="form-label" for="t2-x-label">X Axis Label</label>
+              <input class="form-input" type="text" id="t2-x-label" value="Machine-Hours" />
+            </div>
+            <div class="form-group">
+              <label class="form-label" for="t2-y-label">Y Axis Label</label>
+              <input class="form-input" type="text" id="t2-y-label" value="Indirect Mfg Labor Costs ($)" />
+            </div>
+          </div>
+
+          <button class="btn btn--primary" id="t2-calculate">Run High-Low Method &rarr;</button>
+          <div id="t2-chart-wrap" class="ch10-chart-wrap" style="display:none;">
+            <canvas id="t2-canvas"></canvas>
+          </div>
+          <div id="t2-output"></div>
+          <div id="t2-show-work"></div>
+        </div>
+      </div>
+    </section>
+
+    <!-- TOOL 3: Regression Evaluator -->
+    <section class="learn-section learn-section--alt">
+      <div class="container container--tool">
+        <div class="tool-header">
+          <div class="tool-header__label">Tool 3 of 5</div>
+          <h2 class="tool-header__title">Regression Analysis Evaluator</h2>
+          <p class="tool-header__desc">
+            Regression analysis uses all observations to find the line that minimizes squared
+            residuals. Compare the regression equation to the high-low estimate and evaluate
+            the cost driver using three criteria: economic plausibility, goodness of fit, and
+            significance of the independent variable.
+          </p>
+        </div>
+        <div class="card">
+          <div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:var(--space-4);">
+            <h3 style="font-size:var(--font-size-base);font-weight:700;margin:0;">Dataset and Prediction</h3>
+            <button class="btn btn--secondary btn--sm" id="t3-load-elegant">Load Elegant Rugs Data</button>
+          </div>
+
+          <div class="ch10-data-table-wrap">
+            <table class="ch10-data-table" id="t3-data-table">
+              <thead>
+                <tr>
+                  <th>Obs.</th>
+                  <th>Activity (X)</th>
+                  <th>Cost (Y)</th>
+                </tr>
+              </thead>
+              <tbody id="t3-table-body"></tbody>
+            </table>
+          </div>
+
+          <div class="ohrate-grid" style="margin-top:var(--space-4);">
+            <div class="form-group">
+              <label class="form-label" for="t3-predict-x">Predict Cost at X =</label>
+              <input class="form-input" type="number" id="t3-predict-x" value="90" min="0" step="5" />
+            </div>
+            <div class="form-group">
+              <label class="form-label" for="t3-x-label">X Axis Label</label>
+              <input class="form-input" type="text" id="t3-x-label" value="Machine-Hours" />
+            </div>
+            <div class="form-group">
+              <label class="form-label" for="t3-y-label">Y Axis Label</label>
+              <input class="form-input" type="text" id="t3-y-label" value="Indirect Mfg Labor Costs ($)" />
+            </div>
+          </div>
+
+          <button class="btn btn--primary" id="t3-calculate">Run Regression &rarr;</button>
+          <div id="t3-chart-wrap" class="ch10-chart-wrap" style="display:none;">
+            <canvas id="t3-canvas"></canvas>
+          </div>
+          <div id="t3-output"></div>
+          <div id="t3-show-work"></div>
+        </div>
+      </div>
+    </section>
+
+    <!-- TOOL 4: Learning Curve Calculator -->
+    <section class="learn-section">
+      <div class="container container--tool">
+        <div class="tool-header">
+          <div class="tool-header__label">Tool 4 of 5</div>
+          <h2 class="tool-header__title">Learning Curve Calculator</h2>
+          <p class="tool-header__desc">
+            As workers gain experience, labor-hours per unit decline. Choose between the
+            cumulative average-time model and the incremental unit-time model to see how
+            costs fall as cumulative production doubles.
+          </p>
+        </div>
+        <div class="card">
+          <div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:var(--space-4);">
+            <h3 style="font-size:var(--font-size-base);font-weight:700;margin:0;">Learning Curve Parameters</h3>
+            <button class="btn btn--secondary btn--sm" id="t4-randomize">&#127922; Randomize</button>
+          </div>
+          <div class="ohrate-grid">
+            <div class="form-group">
+              <label class="form-label" for="t4-first-unit">First Unit Time (labor-hours)</label>
+              <input class="form-input" type="number" id="t4-first-unit" value="100" min="1" step="10" />
+            </div>
+            <div class="form-group">
+              <label class="form-label" for="t4-learning-rate">Learning Rate (%)</label>
+              <input class="form-input" type="number" id="t4-learning-rate" value="80" min="50" max="99" step="1" />
+            </div>
+            <div class="form-group">
+              <label class="form-label" for="t4-max-units">Max Cumulative Units (up to 16)</label>
+              <input class="form-input" type="number" id="t4-max-units" value="16" min="2" max="32" step="1" />
+            </div>
+            <div class="form-group">
+              <label class="form-label" for="t4-labor-rate">Labor + Overhead Rate ($ per hour)</label>
+              <input class="form-input" type="number" id="t4-labor-rate" value="50" min="1" step="5" />
+            </div>
+          </div>
+          <div class="form-group" style="margin-top:var(--space-3);">
+            <label class="form-label">Learning Curve Model</label>
+            <div style="display:flex;gap:var(--space-4);margin-top:var(--space-2);">
+              <label style="display:flex;align-items:center;gap:var(--space-2);cursor:pointer;">
+                <input type="radio" name="t4-model" id="t4-model-cumavg" value="cumavg" checked />
+                <span>Cumulative Average-Time</span>
+              </label>
+              <label style="display:flex;align-items:center;gap:var(--space-2);cursor:pointer;">
+                <input type="radio" name="t4-model" id="t4-model-incunit" value="incunit" />
+                <span>Incremental Unit-Time</span>
+              </label>
+            </div>
+          </div>
+          <button class="btn btn--primary" id="t4-calculate" style="margin-top:var(--space-4);">Calculate Learning Curve &rarr;</button>
+          <div id="t4-output"></div>
+          <div id="t4-show-work"></div>
+        </div>
+      </div>
+    </section>
+
+    <!-- TOOL 5: Data Problems Identifier -->
+    <section class="learn-section learn-section--alt">
+      <div class="container container--tool">
+        <div class="tool-header">
+          <div class="tool-header__label">Tool 5 of 5</div>
+          <h2 class="tool-header__title">Data Problems Identifier</h2>
+          <p class="tool-header__desc">
+            Even the best regression model is only as good as its data. Match each scenario
+            to the data problem it illustrates. Click a scenario to reveal the answer and explanation.
+          </p>
+        </div>
+        <div class="card">
+          <div id="t5-scenarios"></div>
+        </div>
+      </div>
+    </section>
+
+    <!-- KEY TERMS -->
+    <section class="learn-section">
+      <div class="container container--tool">
+        <div class="tool-header">
+          <h2 class="tool-header__title">Key Terms</h2>
+          <p class="tool-header__desc">Click any term to see its definition.</p>
+        </div>
+        <div class="key-terms-grid" id="key-terms-grid"></div>
+      </div>
+    </section>
+
+    <!-- CHAPTER COMPLETE -->
+    <section class="learn-section learn-section--alt">
+      <div class="container container--tool">
+        <div class="chapter-complete card" id="chapter-complete">
+          <div class="chapter-complete__icon">&#9989;</div>
+          <h2 class="chapter-complete__title">Chapter 10 Complete</h2>
+          <p class="chapter-complete__desc">
+            You can now build linear cost functions, apply the high-low method and regression
+            analysis to estimate cost functions, evaluate cost drivers using three criteria,
+            and model learning-curve effects using both the cumulative average-time and
+            incremental unit-time approaches.
+          </p>
+          <div class="chapter-complete__actions">
+            <button class="btn btn--primary" id="mark-complete-btn">Mark as Complete</button>
+            <a href="/pages/learn/ch11.html" class="btn btn--secondary">Next: Ch. 11 &rarr;</a>
+          </div>
+        </div>
+      </div>
+    </section>
+
+  </main>
+
+  <script type="module" src="/js/learn/ch10.js"></script>
+</body>
+</html>
