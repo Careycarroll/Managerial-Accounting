@@ -1,6 +1,2 @@
-152:        '#3b82f6', 2, [6, 4], 'High-Low', true);
-158:        '#1a365d', 2.5, [], 'Regression', false);
-292:      const anchorLeft = !!labelOffset;
-293:      const anchorCX   = anchorLeft ? cx1 : cx2;
-294:      const anchorCY   = anchorLeft ? cy1 : cy2;
-296:      const labelX     = anchorLeft
+120:            <button class="btn btn--secondary btn--sm" id="t2-randomize">&#127922; Randomize</button>
+262:              <button class="btn btn--secondary btn--sm" id="t5-randomize">&#127922; Randomize</button>

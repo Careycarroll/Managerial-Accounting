@@ -1,0 +1,374 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <meta name="description" content="Chapter 11: Data Analytic Thinking and Prediction" />
+  <title>Ch. 11 &middot; Data Analytic Thinking and Prediction</title>
+  <link rel="stylesheet" href="/css/base.css" />
+  <link rel="stylesheet" href="/css/components.css" />
+  <link rel="stylesheet" href="/css/learn.css" />
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet" />
+</head>
+<body>
+
+  <header class="site-header" role="banner">
+    <div class="site-header__inner">
+      <a href="/" class="site-header__logo">
+        <span>&#128202;</span>
+        <span>Managerial Accounting</span>
+      </a>
+      <nav class="site-header__nav" role="navigation" aria-label="Main navigation">
+        <a href="/pages/learn/" class="site-header__nav-link site-header__nav-link--active">Learn</a>
+        <a href="/pages/apply/" class="site-header__nav-link">Apply</a>
+      </nav>
+    </div>
+  </header>
+
+  <main>
+
+    <!-- HERO -->
+    <section class="page__hero">
+      <div class="container">
+        <div class="chapter-nav">
+          <div style="display:flex;gap:var(--space-4);align-items:center;">
+            <a href="/pages/learn/" class="chapter-nav__back">&larr; All Chapters</a>
+            <a href="/pages/learn/ch10.html" class="chapter-nav__back">&larr; Ch. 10</a>
+          </div>
+          <div class="chapter-nav__position">
+            <span>Chapter 11 of 24</span>
+            <a href="/pages/learn/ch12.html" class="chapter-nav__next">Ch. 12 &rarr;</a>
+          </div>
+        </div>
+        <div class="chapter-hero__meta">
+          <span class="chapter-badge chapter-badge--control">Data Analytics</span>
+          <span class="chapter-hero__number">Chapter 11</span>
+        </div>
+        <h1 class="page__hero-title">Data Analytic Thinking and Prediction</h1>
+        <p class="page__hero-subtitle">
+          Apply decision tree models, Gini impurity, cross-validation, and payoff matrices
+          to make better investment and business decisions using data science.
+        </p>
+        <div class="chapter-hero__progress" id="ch11-progress-indicator">
+          <span class="chapter-hero__progress-label" id="ch11-status">Not started</span>
+        </div>
+      </div>
+    </section>
+
+    <!-- LEARNING OBJECTIVES -->
+    <section class="learn-section">
+      <div class="container container--tool">
+        <div class="objectives-card card">
+          <h2 class="objectives-card__title">Learning Objectives</h2>
+          <ol class="objectives-list">
+            <li>Explain how management accountants can work with data scientists to create value</li>
+            <li>Identify the questions management wants to ask and the relevant data</li>
+            <li>Explain the elements of a decision tree model</li>
+            <li>Describe how to refine a decision tree model to ensure the data represent the business context</li>
+            <li>Explain how to validate the predictions of full versus refined decision trees</li>
+            <li>Evaluate the predictions of different data science models to choose the best one for the business need and visualize and communicate model insights</li>
+            <li>Describe how to use and deploy data science models</li>
+          </ol>
+        </div>
+      </div>
+    </section>
+
+    <!-- TOOL 1: Data Science Framework Explorer -->
+    <section class="learn-section learn-section--alt">
+      <div class="container container--tool">
+        <div class="tool-header">
+          <div class="tool-header__label">Tool 1 of 5</div>
+          <h2 class="tool-header__title">Data Science Framework Explorer</h2>
+          <p class="tool-header__desc">
+            Management accountants contribute at every step of the seven-step data science
+            framework. Explore each step, see how Sierra Investments applied it, and identify
+            which features are safe to use versus which create target leakage.
+          </p>
+        </div>
+        <div class="card">
+          <div id="t1-steps"></div>
+          <div style="margin-top:var(--space-6);">
+            <div class="tool-header__label" style="margin-bottom:var(--space-3);">Target Leakage Identifier</div>
+            <p style="font-size:var(--font-size-sm);color:var(--color-gray-600);margin-bottom:var(--space-4);">
+              Sierra Investments is building a model to predict loan defaults before investing.
+              Classify each feature as <strong>Safe to Use</strong> or <strong>Target Leakage</strong>.
+              Target leakage means the data would not be available at the time of the investment decision.
+            </p>
+            <div id="t1-leakage"></div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- TOOL 2: Gini Impurity Calculator -->
+    <section class="learn-section">
+      <div class="container container--tool">
+        <div class="tool-header">
+          <div class="tool-header__label">Tool 2 of 5</div>
+          <h2 class="tool-header__title">Gini Impurity Calculator</h2>
+          <p class="tool-header__desc">
+            The decision tree algorithm places cuts to maximize information gain -- the reduction
+            in Gini impurity. Enter the class counts in each rectangle after a cut to see how
+            pure the resulting partitions are.
+          </p>
+        </div>
+        <div class="card">
+          <div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:var(--space-4);">
+            <h3 style="font-size:var(--font-size-base);font-weight:700;margin:0;">Rectangle Counts After Cut</h3>
+            <button class="btn btn--secondary btn--sm" id="t2-randomize">&#127922; Randomize</button>
+            <button class="btn btn--secondary btn--sm" id="t2-load-sierra">Load Sierra Investments (Cut 1)</button>
+          </div>
+
+          <div class="ohrate-grid">
+            <div class="form-group">
+              <label class="form-label">Total Class A (e.g. Repay) in original set</label>
+              <input class="form-input" type="number" id="t2-orig-a" value="12" min="0" />
+            </div>
+            <div class="form-group">
+              <label class="form-label">Total Class B (e.g. Default) in original set</label>
+              <input class="form-input" type="number" id="t2-orig-b" value="12" min="0" />
+            </div>
+            <div class="form-group"></div>
+          </div>
+
+          <p class="ch9-section-label" style="margin-top:var(--space-4);">After the Cut</p>
+          <div class="ohrate-grid">
+            <div class="form-group">
+              <label class="form-label" for="t2-r1-a">R1 -- Class A count</label>
+              <input class="form-input" type="number" id="t2-r1-a" value="10" min="0" />
+            </div>
+            <div class="form-group">
+              <label class="form-label" for="t2-r1-b">R1 -- Class B count</label>
+              <input class="form-input" type="number" id="t2-r1-b" value="3" min="0" />
+            </div>
+            <div class="form-group">
+              <label class="form-label" for="t2-r2-a">R2 -- Class A count</label>
+              <input class="form-input" type="number" id="t2-r2-a" value="2" min="0" />
+            </div>
+            <div class="form-group">
+              <label class="form-label" for="t2-r2-b">R2 -- Class B count</label>
+              <input class="form-input" type="number" id="t2-r2-b" value="9" min="0" />
+            </div>
+            <div class="form-group">
+              <label class="form-label" for="t2-class-a-label">Class A label</label>
+              <input class="form-input" type="text" id="t2-class-a-label" value="Repay" />
+            </div>
+            <div class="form-group">
+              <label class="form-label" for="t2-class-b-label">Class B label</label>
+              <input class="form-input" type="text" id="t2-class-b-label" value="Default" />
+            </div>
+          </div>
+
+          <button class="btn btn--primary" id="t2-calculate" style="margin-top:var(--space-4);">Calculate Gini Impurity &rarr;</button>
+          <div id="t2-output"></div>
+          <div id="t2-show-work"></div>
+        </div>
+      </div>
+    </section>
+
+    <!-- TOOL 3: Decision Tree Builder and Pruner -->
+    <section class="learn-section learn-section--alt">
+      <div class="container container--tool">
+        <div class="tool-header">
+          <div class="tool-header__label">Tool 3 of 5</div>
+          <h2 class="tool-header__title">Decision Tree Builder and Pruner</h2>
+          <p class="tool-header__desc">
+            The Sierra Investments dataset has 24 loans split equally between default and repay.
+            See how the full decision tree overfits the training data, and how pruning to a
+            shallower depth improves predictions on new validation loans.
+          </p>
+        </div>
+        <div class="card">
+          <div class="form-group" style="margin-bottom:var(--space-4);">
+            <label class="form-label">Tree Depth (1 = shallowest, 5 = fully grown)</label>
+            <div style="display:flex;align-items:center;gap:var(--space-4);margin-top:var(--space-2);">
+              <input type="range" id="t3-depth" min="1" max="5" step="1" value="3"
+                style="flex:1;accent-color:var(--color-primary);" />
+              <span id="t3-depth-display" style="font-weight:700;font-size:var(--font-size-lg);color:var(--color-primary);min-width:24px;">3</span>
+            </div>
+          </div>
+          <button class="btn btn--primary" id="t3-build">Build Tree &rarr;</button>
+          <div id="t3-output"></div>
+        </div>
+      </div>
+    </section>
+
+    <!-- TOOL 4: Model Validation Calculator -->
+    <section class="learn-section">
+      <div class="container container--tool">
+        <div class="tool-header">
+          <div class="tool-header__label">Tool 4 of 5</div>
+          <h2 class="tool-header__title">Model Validation Calculator</h2>
+          <p class="tool-header__desc">
+            Cross-validation compares models on data they have not seen. Enter the actual outcome
+            and predicted probability of default for each observation to compute likelihood values
+            and the correct classification rate.
+          </p>
+        </div>
+        <div class="card">
+          <div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:var(--space-4);">
+            <h3 style="font-size:var(--font-size-base);font-weight:700;margin:0;">Validation Observations</h3>
+            <div style="display:flex;gap:var(--space-3);">
+              <button class="btn btn--secondary btn--sm" id="t4-load-pruned">Load Pruned Tree Data</button>
+              <button class="btn btn--secondary btn--sm" id="t4-load-full">Load Full Tree Data</button>
+            </div>
+          </div>
+
+          <div class="ch10-data-table-wrap">
+            <table class="ch10-data-table" id="t4-data-table">
+              <thead>
+                <tr>
+                  <th>Obs.</th>
+                  <th>Actual Outcome (0=Repay, 1=Default)</th>
+                  <th>Predicted Probability of Default (p)</th>
+                </tr>
+              </thead>
+              <tbody id="t4-table-body"></tbody>
+            </table>
+          </div>
+
+          <div class="ohrate-grid" style="margin-top:var(--space-4);">
+            <div class="form-group">
+              <label class="form-label" for="t4-cutoff">Classification Cutoff Probability</label>
+              <input class="form-input" type="number" id="t4-cutoff" value="0.5" min="0.01" max="0.99" step="0.05" />
+            </div>
+          </div>
+
+          <button class="btn btn--primary" id="t4-calculate">Validate Model &rarr;</button>
+          <div id="t4-output"></div>
+          <div id="t4-show-work"></div>
+        </div>
+      </div>
+    </section>
+
+    <!-- TOOL 5: Confusion Matrix and Payoff Analyzer -->
+    <section class="learn-section learn-section--alt">
+      <div class="container container--tool">
+        <div class="tool-header">
+          <div class="tool-header__label">Tool 5 of 5</div>
+          <h2 class="tool-header__title">Confusion Matrix and Payoff Analyzer</h2>
+          <p class="tool-header__desc">
+            The confusion matrix shows what the model gets right and wrong. The payoff matrix
+            translates those classifications into dollars. Together they determine the optimal
+            cutoff probability for investment decisions.
+          </p>
+        </div>
+        <div class="card">
+          <div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:var(--space-4);">
+            <h3 style="font-size:var(--font-size-base);font-weight:700;margin:0;">Confusion Matrix Counts</h3>
+            <div style="display:flex;gap:var(--space-3);">
+              <button class="btn btn--secondary btn--sm" id="t5-randomize">&#127922; Randomize</button>
+              <button class="btn btn--secondary btn--sm" id="t5-load-050">Load Cutoff 0.50</button>
+              <button class="btn btn--secondary btn--sm" id="t5-load-030">Load Cutoff 0.30</button>
+            </div>
+          </div>
+
+          <div class="ohrate-grid">
+            <div class="form-group">
+              <label class="form-label" for="t5-tp">True Positives (TP) -- Predicted Default, Actually Default</label>
+              <input class="form-input" type="number" id="t5-tp" value="1" min="0" />
+            </div>
+            <div class="form-group">
+              <label class="form-label" for="t5-fp">False Positives (FP) -- Predicted Default, Actually Repay</label>
+              <input class="form-input" type="number" id="t5-fp" value="0" min="0" />
+            </div>
+            <div class="form-group">
+              <label class="form-label" for="t5-fn">False Negatives (FN) -- Predicted Repay, Actually Default</label>
+              <input class="form-input" type="number" id="t5-fn" value="1" min="0" />
+            </div>
+            <div class="form-group">
+              <label class="form-label" for="t5-tn">True Negatives (TN) -- Predicted Repay, Actually Repay</label>
+              <input class="form-input" type="number" id="t5-tn" value="8" min="0" />
+            </div>
+          </div>
+
+          <p class="ch9-section-label" style="margin-top:var(--space-4);">Payoff Matrix ($ per loan)</p>
+          <div class="ohrate-grid">
+            <div class="form-group">
+              <label class="form-label" for="t5-pay-tp">TP Payoff -- Did not invest, loan defaulted</label>
+              <input class="form-input" type="number" id="t5-pay-tp" value="12" />
+            </div>
+            <div class="form-group">
+              <label class="form-label" for="t5-pay-fp">FP Payoff -- Did not invest, loan repaid</label>
+              <input class="form-input" type="number" id="t5-pay-fp" value="12" />
+            </div>
+            <div class="form-group">
+              <label class="form-label" for="t5-pay-fn">FN Payoff -- Invested, loan defaulted</label>
+              <input class="form-input" type="number" id="t5-pay-fn" value="-70" />
+            </div>
+            <div class="form-group">
+              <label class="form-label" for="t5-pay-tn">TN Payoff -- Invested, loan repaid</label>
+              <input class="form-input" type="number" id="t5-pay-tn" value="45" />
+            </div>
+          </div>
+
+          <p class="ch9-section-label" style="margin-top:var(--space-4);">ROC Curve Points</p>
+          <p style="font-size:var(--font-size-sm);color:var(--color-gray-600);margin-bottom:var(--space-3);">
+            Enter false positive rate and true positive rate pairs at different cutoff thresholds
+            to plot the ROC curve. Load the Sierra Investments validation data to see the textbook example.
+          </p>
+          <div style="display:flex;justify-content:flex-end;margin-bottom:var(--space-3);">
+            <button class="btn btn--secondary btn--sm" id="t5-load-roc">Load Sierra ROC Data</button>
+          </div>
+          <div class="ch10-data-table-wrap">
+            <table class="ch10-data-table" id="t5-roc-table">
+              <thead>
+                <tr>
+                  <th>Point</th>
+                  <th>Cutoff Label</th>
+                  <th>False Positive Rate</th>
+                  <th>True Positive Rate</th>
+                </tr>
+              </thead>
+              <tbody id="t5-roc-body"></tbody>
+            </table>
+          </div>
+
+          <button class="btn btn--primary" id="t5-calculate" style="margin-top:var(--space-4);">Analyze &rarr;</button>
+          <div id="t5-chart-wrap" class="ch10-chart-wrap" style="display:none;height:360px;">
+            <canvas id="t5-canvas"></canvas>
+          </div>
+          <div id="t5-output"></div>
+          <div id="t5-show-work"></div>
+        </div>
+      </div>
+    </section>
+
+    <!-- KEY TERMS -->
+    <section class="learn-section">
+      <div class="container container--tool">
+        <div class="tool-header">
+          <h2 class="tool-header__title">Key Terms</h2>
+          <p class="tool-header__desc">Click any term to see its definition.</p>
+        </div>
+        <div class="key-terms-grid" id="key-terms-grid"></div>
+      </div>
+    </section>
+
+    <!-- CHAPTER COMPLETE -->
+    <section class="learn-section learn-section--alt">
+      <div class="container container--tool">
+        <div class="chapter-complete card" id="chapter-complete">
+          <div class="chapter-complete__icon">&#9989;</div>
+          <h2 class="chapter-complete__title">Chapter 11 Complete</h2>
+          <p class="chapter-complete__desc">
+            You can now apply the seven-step data science framework, calculate Gini impurity
+            to evaluate decision tree cuts, compare full versus pruned trees using likelihood
+            values, and use confusion matrices and payoff matrices to choose the optimal
+            classification cutoff for business decisions.
+          </p>
+          <div class="chapter-complete__actions">
+            <button class="btn btn--primary" id="mark-complete-btn">Mark as Complete</button>
+            <a href="/pages/learn/ch12.html" class="btn btn--secondary">Next: Ch. 12 &rarr;</a>
+          </div>
+        </div>
+      </div>
+    </section>
+
+  </main>
+
+  <script type="module" src="/js/learn/ch11.js"></script>
+</body>
+</html>

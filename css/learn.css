@@ -1985,3 +1985,370 @@
   color: var(--color-gray-700);
   line-height: 1.6;
 }
+
+
+
+/* =================================================================
+   CHAPTER 11 - Data Analytic Thinking and Prediction
+   ================================================================= */
+
+/* Tool 1 - Data Science Framework Steps */
+.ch11-step-card {
+  background: var(--color-white);
+  border: 1px solid var(--color-gray-200);
+  border-radius: var(--radius-lg);
+  margin-bottom: var(--space-3);
+  overflow: hidden;
+  cursor: pointer;
+  transition: border-color var(--transition-fast);
+}
+.ch11-step-card:hover { border-color: var(--color-primary); }
+.ch11-step-card--open { border-color: var(--color-primary); }
+.ch11-step-card__header {
+  display: flex;
+  align-items: center;
+  gap: var(--space-3);
+  padding: var(--space-4);
+}
+.ch11-step-card__num {
+  flex-shrink: 0;
+  width: 32px;
+  height: 32px;
+  border-radius: 50%;
+  background: var(--color-primary);
+  color: white;
+  font-weight: 700;
+  font-size: var(--font-size-sm);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+.ch11-step-card__title {
+  flex: 1;
+  font-weight: 600;
+  font-size: var(--font-size-sm);
+  color: var(--color-gray-800);
+}
+.ch11-step-card__toggle {
+  flex-shrink: 0;
+  font-size: var(--font-size-xs);
+  color: var(--color-gray-400);
+}
+.ch11-step-card__body {
+  padding: 0 var(--space-4) var(--space-4) var(--space-4);
+  border-top: 1px solid var(--color-gray-100);
+}
+.ch11-step-card__desc {
+  font-size: var(--font-size-sm);
+  color: var(--color-gray-700);
+  line-height: 1.6;
+  margin-bottom: var(--space-3);
+  padding-top: var(--space-3);
+}
+.ch11-step-card__example {
+  background: #f0f7ff;
+  border-left: 3px solid var(--color-primary);
+  border-radius: 0 var(--radius-md) var(--radius-md) 0;
+  padding: var(--space-3);
+  margin-bottom: var(--space-3);
+}
+.ch11-step-card__example-label {
+  font-size: var(--font-size-xs);
+  font-weight: 700;
+  text-transform: uppercase;
+  letter-spacing: 0.05em;
+  color: var(--color-primary);
+  margin-bottom: var(--space-1);
+}
+.ch11-step-card__example p {
+  font-size: var(--font-size-sm);
+  color: var(--color-gray-700);
+  margin: 0;
+  line-height: 1.6;
+}
+.ch11-step-card__role {
+  background: #fff8e1;
+  border-left: 3px solid var(--color-accent);
+  border-radius: 0 var(--radius-md) var(--radius-md) 0;
+  padding: var(--space-3);
+}
+.ch11-step-card__role-label {
+  font-size: var(--font-size-xs);
+  font-weight: 700;
+  text-transform: uppercase;
+  letter-spacing: 0.05em;
+  color: var(--color-accent);
+  margin-bottom: var(--space-1);
+}
+.ch11-step-card__role p {
+  font-size: var(--font-size-sm);
+  color: var(--color-gray-700);
+  margin: 0;
+  line-height: 1.6;
+}
+
+/* Target Leakage Identifier */
+.ch11-leakage-row {
+  background: var(--color-white);
+  border: 1px solid var(--color-gray-200);
+  border-radius: var(--radius-md);
+  padding: var(--space-3) var(--space-4);
+  margin-bottom: var(--space-3);
+  transition: border-color var(--transition-fast);
+}
+.ch11-leakage-row--correct {
+  border-color: var(--color-success);
+  background: #f0fdf4;
+}
+.ch11-leakage-row--wrong {
+  border-color: var(--color-danger);
+  background: #fef2f2;
+}
+.ch11-leakage-feature {
+  font-weight: 600;
+  font-size: var(--font-size-sm);
+  color: var(--color-gray-800);
+  margin-bottom: var(--space-2);
+}
+.ch11-leakage-btns {
+  display: flex;
+  gap: var(--space-2);
+  margin-bottom: var(--space-2);
+}
+.ch11-leakage-btn {
+  font-size: var(--font-size-xs);
+  padding: var(--space-1) var(--space-3);
+  border-radius: var(--radius-full);
+  border: 1px solid var(--color-gray-300);
+  background: var(--color-white);
+  color: var(--color-gray-700);
+  cursor: pointer;
+  transition: all var(--transition-fast);
+}
+.ch11-leakage-btn:hover {
+  border-color: var(--color-primary);
+  color: var(--color-primary);
+}
+.ch11-leakage-feedback {
+  font-size: var(--font-size-xs);
+  line-height: 1.5;
+  padding: var(--space-2) var(--space-3);
+  border-radius: var(--radius-md);
+}
+.ch11-leakage-feedback--correct {
+  background: #dcfce7;
+  color: #166534;
+}
+.ch11-leakage-feedback--wrong {
+  background: #fee2e2;
+  color: #991b1b;
+}
+
+/* Tool 2 - Gini Impurity */
+.ch11-gini-grid {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: var(--space-4);
+  margin: var(--space-4) 0;
+}
+@media (max-width: 700px) {
+.ch11-gini-grid { grid-template-columns: 1fr; }
+}
+.ch11-gini-card {
+  background: var(--color-gray-50);
+  border: 1px solid var(--color-gray-200);
+  border-radius: var(--radius-lg);
+  padding: var(--space-4);
+  text-align: center;
+}
+.ch11-gini-card__label {
+  font-size: var(--font-size-xs);
+  font-weight: 700;
+  text-transform: uppercase;
+  letter-spacing: 0.05em;
+  color: var(--color-gray-600);
+  margin-bottom: var(--space-2);
+}
+.ch11-gini-card__counts {
+  font-size: var(--font-size-xs);
+  color: var(--color-gray-500);
+  margin-bottom: var(--space-3);
+}
+.ch11-gini-card__value {
+  font-size: var(--font-size-3xl);
+  font-weight: 800;
+  margin-bottom: var(--space-1);
+}
+.ch11-gini-card__purity {
+  font-size: var(--font-size-xs);
+  color: var(--color-gray-500);
+}
+.ch11-gini--pure   { color: var(--color-success); }
+.ch11-gini--mostly { color: #16a34a; }
+.ch11-gini--mixed  { color: var(--color-warning); }
+.ch11-gini--impure { color: var(--color-danger); }
+.ch11-gini-summary {
+  background: var(--color-white);
+  border: 1px solid var(--color-gray-200);
+  border-radius: var(--radius-md);
+  overflow: hidden;
+}
+.ch11-gini-summary__row {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: var(--space-3) var(--space-4);
+  border-bottom: 1px solid var(--color-gray-100);
+  font-size: var(--font-size-sm);
+}
+.ch11-gini-summary__row--gain {
+  font-weight: 700;
+  background: var(--color-gray-50);
+}
+.ch11-gini-summary__insight {
+  padding: var(--space-3) var(--space-4);
+  font-size: var(--font-size-sm);
+  color: var(--color-gray-600);
+  font-style: italic;
+}
+
+/* Tool 3 - Decision Tree */
+.ch11-tree-result { margin-top: var(--space-4); }
+.ch11-tree-header {
+  display: flex;
+  align-items: center;
+  gap: var(--space-3);
+  margin-bottom: var(--space-4);
+}
+.ch11-tree-header__title {
+  font-weight: 700;
+  font-size: var(--font-size-base);
+  color: var(--color-gray-900);
+}
+.ch11-tree-header__badge {
+  padding: 2px 10px;
+  border-radius: var(--radius-full);
+  font-size: var(--font-size-xs);
+  font-weight: 700;
+}
+.ch11-tree-header__badge--pruned {
+  background: #dcfce7;
+  color: #166534;
+}
+.ch11-tree-header__badge--full {
+  background: #fee2e2;
+  color: #991b1b;
+}
+.ch11-tree-sections {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: var(--space-6);
+  margin-bottom: var(--space-4);
+}
+@media (max-width: 800px) {
+.ch11-tree-sections { grid-template-columns: 1fr; }
+}
+.ch11-tree-section__title {
+  font-weight: 700;
+  font-size: var(--font-size-sm);
+  color: var(--color-gray-800);
+  margin-bottom: var(--space-3);
+}
+.ch11-tree-score {
+  margin-top: var(--space-3);
+  padding: var(--space-3);
+  border-radius: var(--radius-md);
+  font-size: var(--font-size-sm);
+  text-align: center;
+}
+.ch11-tree-score--good {
+  background: #dcfce7;
+  color: #166534;
+}
+.ch11-tree-score--ok {
+  background: #fff8e1;
+  color: #854d0e;
+}
+.ch11-tree-score--poor {
+  background: #fee2e2;
+  color: #991b1b;
+}
+.ch11-overfit-callout {
+  background: #fef2f2;
+  border: 1px solid var(--color-danger);
+  border-left: 4px solid var(--color-danger);
+  border-radius: var(--radius-md);
+  padding: var(--space-4);
+  font-size: var(--font-size-sm);
+  color: #991b1b;
+  line-height: 1.6;
+}
+
+/* Tool 4 - Validation */
+.ch11-valid-result { margin-top: var(--space-4); }
+
+/* Tool 5 - Confusion Matrix and Payoff */
+.ch11-payoff-result { margin-top: var(--space-4); }
+.ch11-confusion-matrix { margin-bottom: var(--space-4); }
+.ch11-confusion-matrix__title {
+  font-weight: 700;
+  font-size: var(--font-size-base);
+  color: var(--color-gray-900);
+  margin-bottom: var(--space-3);
+}
+.ch11-cm-table {
+  width: 100%;
+  border-collapse: collapse;
+  font-size: var(--font-size-sm);
+}
+.ch11-cm-table th {
+  padding: var(--space-2) var(--space-3);
+  text-align: center;
+  font-size: var(--font-size-xs);
+  font-weight: 600;
+  color: var(--color-gray-600);
+  background: var(--color-gray-50);
+  border: 1px solid var(--color-gray-200);
+}
+.ch11-cm-table td {
+  padding: var(--space-3);
+  border: 1px solid var(--color-gray-200);
+  text-align: center;
+  vertical-align: middle;
+}
+.ch11-cm-tp { background: #dcfce7; }
+.ch11-cm-tn { background: #dbeafe; }
+.ch11-cm-fp { background: #fff8e1; }
+.ch11-cm-fn { background: #fee2e2; }
+.ch11-cm-payoff {
+  display: block;
+  font-size: var(--font-size-xs);
+  color: var(--color-gray-500);
+  margin-top: var(--space-1);
+}
+.ch11-payoff-total {
+  background: var(--color-gray-50);
+  border: 1px solid var(--color-gray-200);
+  border-radius: var(--radius-lg);
+  padding: var(--space-4);
+  text-align: center;
+  margin-top: var(--space-4);
+}
+.ch11-payoff-total__label {
+  font-size: var(--font-size-xs);
+  font-weight: 700;
+  text-transform: uppercase;
+  letter-spacing: 0.05em;
+  color: var(--color-gray-600);
+  margin-bottom: var(--space-2);
+}
+.ch11-payoff-total__calc {
+  font-size: var(--font-size-xs);
+  font-family: var(--font-mono);
+  color: var(--color-gray-500);
+  margin-bottom: var(--space-2);
+}
+.ch11-payoff-total__value {
+  font-size: var(--font-size-3xl);
+  font-weight: 800;
+}
