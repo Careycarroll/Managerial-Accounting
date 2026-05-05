@@ -2352,3 +2352,218 @@
   font-size: var(--font-size-3xl);
   font-weight: 800;
 }
+
+/* =================================================================
+   CHAPTER 12 - Decision Making and Relevant Information
+   ================================================================= */
+
+/* Shared result table */
+.ch12-result-table {
+  width: 100%;
+  border-collapse: collapse;
+  font-size: var(--font-size-sm);
+}
+.ch12-result-table th {
+  padding: var(--space-2) var(--space-3);
+  text-align: left;
+  font-size: var(--font-size-xs);
+  font-weight: 600;
+  color: var(--color-gray-600);
+  background: var(--color-gray-50);
+  border-bottom: 2px solid var(--color-gray-200);
+}
+.ch12-result-table th:not(:first-child) { text-align: right; }
+.ch12-result-table td {
+  padding: var(--space-2) var(--space-3);
+  border-bottom: 1px solid var(--color-gray-100);
+  font-variant-numeric: tabular-nums;
+}
+.ch12-result-table td:not(:first-child) { text-align: right; }
+.ch12-result-table__total td {
+  font-weight: 700;
+  border-top: 2px solid var(--color-gray-900);
+  border-bottom: 3px double var(--color-gray-900);
+  padding-top: var(--space-2);
+  padding-bottom: var(--space-2);
+}
+.ch12-result-table__relevant-total td {
+  font-weight: 700;
+  background: #f0f7ff;
+  border-top: 2px solid var(--color-primary);
+  color: var(--color-primary);
+}
+.ch12-t1-result__row--relevant td {
+  background: #f0fdf4;
+}
+.ch12-t1-result__row--irrelevant td {
+  background: var(--color-gray-50);
+  color: var(--color-gray-400);
+  font-style: italic;
+}
+
+/* Badges */
+.ch12-badge {
+  display: inline-block;
+  padding: 1px 8px;
+  border-radius: var(--radius-full);
+  font-size: 10px;
+  font-weight: 700;
+  vertical-align: middle;
+  margin-left: var(--space-1);
+}
+.ch12-badge--relevant {
+  background: #dcfce7;
+  color: #166534;
+}
+.ch12-badge--irrelevant {
+  background: var(--color-gray-100);
+  color: var(--color-gray-500);
+}
+
+/* Verdict banners */
+.ch12-verdict {
+  margin-top: var(--space-4);
+  padding: var(--space-4);
+  border-radius: var(--radius-md);
+  font-size: var(--font-size-sm);
+  line-height: 1.6;
+}
+.ch12-verdict--positive {
+  background: #dcfce7;
+  border: 1px solid var(--color-success);
+  color: #166534;
+}
+.ch12-verdict--negative {
+  background: #fee2e2;
+  border: 1px solid var(--color-danger);
+  color: #991b1b;
+}
+.ch12-verdict--neutral {
+  background: var(--color-gray-50);
+  border: 1px solid var(--color-gray-300);
+  color: var(--color-gray-700);
+}
+.ch12-insight {
+  font-size: var(--font-size-xs);
+  color: var(--color-gray-600);
+  font-style: italic;
+  padding: var(--space-3);
+  background: var(--color-gray-50);
+  border-radius: var(--radius-md);
+  margin-top: var(--space-3);
+}
+
+/* Tool 1 - Relevant Cost Identifier table */
+.ch12-t1-header,
+.ch12-t1-row {
+  display: grid;
+  grid-template-columns: 2fr 1fr 1fr 80px 100px;
+  gap: var(--space-2);
+  align-items: center;
+  padding: var(--space-2) 0;
+  border-bottom: 1px solid var(--color-gray-100);
+}
+.ch12-t1-header {
+  font-size: var(--font-size-xs);
+  font-weight: 700;
+  color: var(--color-gray-600);
+  text-transform: uppercase;
+  letter-spacing: 0.05em;
+  background: var(--color-gray-50);
+  padding: var(--space-2) var(--space-2);
+  border-radius: var(--radius-md) var(--radius-md) 0 0;
+}
+.ch12-t1-col--label { }
+.ch12-t1-col--amt { }
+.ch12-t1-col--check { text-align: center; }
+.ch12-t1-col--type { }
+@media (max-width: 700px) {
+  .ch12-t1-header,
+  .ch12-t1-row { grid-template-columns: 1fr 1fr; }
+  .ch12-t1-col--check,
+  .ch12-t1-col--type { grid-column: span 2; }
+}
+
+/* Tool 2 - Special Order */
+.ch12-special-order { margin-top: var(--space-4); }
+.ch12-so-capacity { margin-bottom: var(--space-4); }
+.ch12-so-grid {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: var(--space-6);
+  margin-bottom: var(--space-4);
+}
+@media (max-width: 800px) {
+  .ch12-so-grid { grid-template-columns: 1fr; }
+}
+.ch12-so-panel__title {
+  font-weight: 700;
+  font-size: var(--font-size-sm);
+  color: var(--color-gray-800);
+  margin-bottom: var(--space-3);
+}
+
+/* Tool 3 - Make or Buy */
+.ch12-mob-grid {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: var(--space-6);
+  margin-top: var(--space-4);
+}
+@media (max-width: 800px) {
+  .ch12-mob-grid { grid-template-columns: 1fr; }
+}
+.ch12-mob-panel {
+  background: var(--color-white);
+  border: 1px solid var(--color-gray-200);
+  border-radius: var(--radius-lg);
+  padding: var(--space-4);
+}
+.ch12-mob-panel__title {
+  font-weight: 700;
+  font-size: var(--font-size-sm);
+  color: var(--color-gray-800);
+  margin-bottom: var(--space-3);
+  padding-bottom: var(--space-2);
+  border-bottom: 1px solid var(--color-gray-200);
+}
+.ch12-mob-verdict {
+  margin-top: var(--space-3);
+  padding: var(--space-3);
+  border-radius: var(--radius-md);
+  font-size: var(--font-size-sm);
+  font-weight: 700;
+  text-align: center;
+}
+.ch12-mob-verdict--make {
+  background: #dcfce7;
+  color: #166534;
+}
+.ch12-mob-verdict--buy {
+  background: #dbeafe;
+  color: #1e40af;
+}
+
+/* Tool 4 - Product Mix */
+.ch12-t4-product-row {
+  display: grid;
+  grid-template-columns: repeat(4, 1fr);
+  gap: var(--space-3);
+  margin-bottom: var(--space-3);
+  padding-bottom: var(--space-3);
+  border-bottom: 1px solid var(--color-gray-100);
+}
+@media (max-width: 700px) {
+  .ch12-t4-product-row { grid-template-columns: 1fr 1fr; }
+}
+.ch12-t4-result { margin-top: var(--space-4); }
+.ch12-t4-section__title {
+  font-weight: 700;
+  font-size: var(--font-size-base);
+  color: var(--color-gray-900);
+  margin-bottom: var(--space-3);
+}
+
+/* Tool 5 - Drop and Equipment */
+.ch12-drop-result { margin-top: var(--space-4); }
+.ch12-equip-result { margin-top: var(--space-4); }

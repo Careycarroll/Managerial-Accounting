@@ -1,0 +1,471 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <meta name="description" content="Chapter 12: Decision Making and Relevant Information" />
+  <title>Ch. 12 &middot; Decision Making and Relevant Information</title>
+  <link rel="stylesheet" href="/css/base.css" />
+  <link rel="stylesheet" href="/css/components.css" />
+  <link rel="stylesheet" href="/css/learn.css" />
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet" />
+</head>
+<body>
+
+  <header class="site-header" role="banner">
+    <div class="site-header__inner">
+      <a href="/" class="site-header__logo">
+        <span>&#128202;</span>
+        <span>Managerial Accounting</span>
+      </a>
+      <nav class="site-header__nav" role="navigation" aria-label="Main navigation">
+        <a href="/pages/learn/" class="site-header__nav-link site-header__nav-link--active">Learn</a>
+        <a href="/pages/apply/" class="site-header__nav-link">Apply</a>
+      </nav>
+    </div>
+  </header>
+
+  <main>
+
+    <!-- HERO -->
+    <section class="page__hero">
+      <div class="container">
+        <div class="chapter-nav">
+          <div style="display:flex;gap:var(--space-4);align-items:center;">
+            <a href="/pages/learn/" class="chapter-nav__back">&larr; All Chapters</a>
+            <a href="/pages/learn/ch11.html" class="chapter-nav__back">&larr; Ch. 11</a>
+          </div>
+          <div class="chapter-nav__position">
+            <span>Chapter 12 of 24</span>
+            <a href="/pages/learn/ch13.html" class="chapter-nav__next">Ch. 13 &rarr;</a>
+          </div>
+        </div>
+        <div class="chapter-hero__meta">
+          <span class="chapter-badge chapter-badge--control">Decision Making</span>
+          <span class="chapter-hero__number">Chapter 12</span>
+        </div>
+        <h1 class="page__hero-title">Decision Making and Relevant Information</h1>
+        <p class="page__hero-subtitle">
+          Identify which costs and revenues actually matter for a decision, evaluate
+          make-or-buy and special-order choices, manage bottlenecks, and avoid the
+          sunk-cost trap in equipment replacement.
+        </p>
+        <div class="chapter-hero__progress" id="ch12-progress-indicator">
+          <span class="chapter-hero__progress-label" id="ch12-status">Not started</span>
+        </div>
+      </div>
+    </section>
+
+    <!-- LEARNING OBJECTIVES -->
+    <section class="learn-section">
+      <div class="container container--tool">
+        <div class="objectives-card card">
+          <h2 class="objectives-card__title">Learning Objectives</h2>
+          <ol class="objectives-list">
+            <li>Use the five-step decision-making process</li>
+            <li>Distinguish relevant from irrelevant information in decision situations</li>
+            <li>Explain the concept of opportunity cost and why managers should consider it when making insourcing-versus-outsourcing decisions</li>
+            <li>Know how to choose which products to produce when there are capacity constraints</li>
+            <li>Explain how to manage bottlenecks</li>
+            <li>Discuss the factors managers must consider when adding or dropping customers or business units</li>
+            <li>Explain why book value of equipment is irrelevant to managers making equipment-replacement decisions</li>
+            <li>Explain how conflicts can arise between the decision model a manager uses and the performance-evaluation model top management uses to evaluate managers</li>
+          </ol>
+        </div>
+      </div>
+    </section>
+
+    <!-- TOOL 1: Relevant Cost Identifier -->
+    <section class="learn-section learn-section--alt">
+      <div class="container container--tool">
+        <div class="tool-header">
+          <div class="tool-header__label">Tool 1 of 5</div>
+          <h2 class="tool-header__title">Relevant Cost Identifier</h2>
+          <p class="tool-header__desc">
+            A cost or revenue is relevant only if it is (1) an expected future amount and
+            (2) differs between alternatives. Enter two alternatives and mark which line
+            items differ. The tool highlights relevant items and computes the net advantage
+            of each alternative using only what matters.
+          </p>
+        </div>
+        <div class="card">
+          <div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:var(--space-4);">
+            <h3 style="font-size:var(--font-size-base);font-weight:700;margin:0;">Alternative Inputs</h3>
+            <div style="display:flex;gap:var(--space-3);">
+              <button class="btn btn--secondary btn--sm" id="t1-load-precision">Load Precision Sporting Goods</button>
+              <button class="btn btn--secondary btn--sm" id="t1-randomize">&#127922; Randomize</button>
+            </div>
+          </div>
+
+          <div class="ohrate-grid" style="margin-bottom:var(--space-4);">
+            <div class="form-group">
+              <label class="form-label" for="t1-alt1-name">Alternative 1 Name</label>
+              <input class="form-input" type="text" id="t1-alt1-name" value="Do Not Reorganize" />
+            </div>
+            <div class="form-group">
+              <label class="form-label" for="t1-alt2-name">Alternative 2 Name</label>
+              <input class="form-input" type="text" id="t1-alt2-name" value="Reorganize" />
+            </div>
+          </div>
+
+          <div id="t1-line-items"></div>
+
+          <div class="tool-actions" style="margin-top:var(--space-4);">
+            <button class="btn btn--secondary btn--sm" id="t1-add-row">+ Add Line Item</button>
+            <button class="btn btn--primary" id="t1-calculate">Identify Relevant Costs &rarr;</button>
+          </div>
+          <div id="t1-output"></div>
+          <div id="t1-show-work"></div>
+        </div>
+      </div>
+    </section>
+
+    <!-- TOOL 2: Special Order Analyzer -->
+    <section class="learn-section">
+      <div class="container container--tool">
+        <div class="tool-header">
+          <div class="tool-header__label">Tool 2 of 5</div>
+          <h2 class="tool-header__title">Special Order Analyzer</h2>
+          <p class="tool-header__desc">
+            A one-time special order at a below-normal price can still be profitable if
+            idle capacity exists and fixed costs are unaffected. Enter your cost structure
+            and the special order terms to see whether accepting increases operating income.
+          </p>
+        </div>
+        <div class="card">
+          <div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:var(--space-4);">
+            <h3 style="font-size:var(--font-size-base);font-weight:700;margin:0;">Current Operations</h3>
+            <div style="display:flex;gap:var(--space-3);">
+              <button class="btn btn--secondary btn--sm" id="t2-load-surfgear">Load Surf Gear</button>
+              <button class="btn btn--secondary btn--sm" id="t2-randomize">&#127922; Randomize</button>
+            </div>
+          </div>
+
+          <div class="ohrate-grid">
+            <div class="form-group">
+              <label class="form-label" for="t2-capacity">Production Capacity (units)</label>
+              <input class="form-input" type="number" id="t2-capacity" value="45000" min="1" />
+            </div>
+            <div class="form-group">
+              <label class="form-label" for="t2-current-units">Current Production (units)</label>
+              <input class="form-input" type="number" id="t2-current-units" value="30000" min="0" />
+            </div>
+            <div class="form-group">
+              <label class="form-label" for="t2-selling-price">Regular Selling Price per Unit</label>
+              <input class="form-input" type="number" id="t2-selling-price" value="20" min="0" step="0.50" />
+            </div>
+            <div class="form-group">
+              <label class="form-label" for="t2-var-mfg">Variable Mfg Cost per Unit</label>
+              <input class="form-input" type="number" id="t2-var-mfg" value="7.50" min="0" step="0.25" />
+            </div>
+            <div class="form-group">
+              <label class="form-label" for="t2-fixed-mfg">Total Fixed Mfg Costs</label>
+              <input class="form-input" type="number" id="t2-fixed-mfg" value="202500" min="0" />
+            </div>
+            <div class="form-group">
+              <label class="form-label" for="t2-var-mktg">Variable Marketing Cost per Unit</label>
+              <input class="form-input" type="number" id="t2-var-mktg" value="5.00" min="0" step="0.25" />
+            </div>
+            <div class="form-group">
+              <label class="form-label" for="t2-fixed-mktg">Total Fixed Marketing Costs</label>
+              <input class="form-input" type="number" id="t2-fixed-mktg" value="60000" min="0" />
+            </div>
+          </div>
+
+          <p class="ch9-section-label" style="margin-top:var(--space-4);">Special Order Terms</p>
+          <div class="ohrate-grid">
+            <div class="form-group">
+              <label class="form-label" for="t2-order-units">Special Order Units</label>
+              <input class="form-input" type="number" id="t2-order-units" value="5000" min="1" />
+            </div>
+            <div class="form-group">
+              <label class="form-label" for="t2-order-price">Special Order Price per Unit</label>
+              <input class="form-input" type="number" id="t2-order-price" value="11" min="0" step="0.50" />
+            </div>
+            <div class="form-group">
+              <label class="form-label" for="t2-order-var-mktg">Variable Marketing for Order (per unit)</label>
+              <input class="form-input" type="number" id="t2-order-var-mktg" value="0" min="0" step="0.25" />
+            </div>
+          </div>
+
+          <button class="btn btn--primary" id="t2-calculate" style="margin-top:var(--space-4);">Analyze Special Order &rarr;</button>
+          <div id="t2-output"></div>
+          <div id="t2-show-work"></div>
+        </div>
+      </div>
+    </section>
+
+    <!-- TOOL 3: Make-or-Buy and Opportunity Cost Calculator -->
+    <section class="learn-section learn-section--alt">
+      <div class="container container--tool">
+        <div class="tool-header">
+          <div class="tool-header__label">Tool 3 of 5</div>
+          <h2 class="tool-header__title">Make-or-Buy and Opportunity Cost Calculator</h2>
+          <p class="tool-header__desc">
+            The make-or-buy decision depends not just on production costs but on what
+            the freed capacity could earn elsewhere. Both the total-alternatives approach
+            and the opportunity-cost approach are shown side by side -- they always reach
+            the same conclusion.
+          </p>
+        </div>
+        <div class="card">
+          <div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:var(--space-4);">
+            <h3 style="font-size:var(--font-size-base);font-weight:700;margin:0;">Cost and Capacity Inputs</h3>
+            <div style="display:flex;gap:var(--space-3);">
+              <button class="btn btn--secondary btn--sm" id="t3-load-soho">Load Soho Company</button>
+              <button class="btn btn--secondary btn--sm" id="t3-randomize">&#127922; Randomize</button>
+            </div>
+          </div>
+
+          <div class="ohrate-grid">
+            <div class="form-group">
+              <label class="form-label" for="t3-units">Units Required</label>
+              <input class="form-input" type="number" id="t3-units" value="250000" min="1" />
+            </div>
+            <div class="form-group">
+              <label class="form-label" for="t3-buy-price">Outside Purchase Price per Unit</label>
+              <input class="form-input" type="number" id="t3-buy-price" value="64" min="0" step="0.50" />
+            </div>
+          </div>
+
+          <p class="ch9-section-label" style="margin-top:var(--space-4);">Make Costs</p>
+          <div class="ohrate-grid">
+            <div class="form-group">
+              <label class="form-label" for="t3-var-cost">Variable Cost per Unit (make)</label>
+              <input class="form-input" type="number" id="t3-var-cost" value="60" min="0" step="0.50" />
+            </div>
+            <div class="form-group">
+              <label class="form-label" for="t3-avoidable-fixed">Avoidable Fixed Costs (total)</label>
+              <input class="form-input" type="number" id="t3-avoidable-fixed" value="750000" min="0" />
+            </div>
+            <div class="form-group">
+              <label class="form-label" for="t3-unavoidable-fixed">Unavoidable Fixed Costs (total)</label>
+              <input class="form-input" type="number" id="t3-unavoidable-fixed" value="3000000" min="0" />
+            </div>
+          </div>
+
+          <p class="ch9-section-label" style="margin-top:var(--space-4);">Opportunity Cost of Capacity</p>
+          <div class="ohrate-grid">
+            <div class="form-group">
+              <label class="form-label" for="t3-opp-income">Operating Income from Best Alternative Use of Capacity</label>
+              <input class="form-input" type="number" id="t3-opp-income" value="2500000" min="0" />
+            </div>
+            <div class="form-group">
+              <label class="form-label" for="t3-opp-label">Alternative Use Label</label>
+              <input class="form-input" type="text" id="t3-opp-label" value="Make and sell Digiteks" />
+            </div>
+            <div class="form-group">
+              <label class="form-label">Capacity Available for Alternative?</label>
+              <div style="display:flex;gap:var(--space-4);margin-top:var(--space-2);">
+                <label style="display:flex;align-items:center;gap:var(--space-2);cursor:pointer;">
+                  <input type="radio" name="t3-capacity-available" id="t3-cap-yes" value="yes" checked />
+                  <span>Only if we buy (constrained)</span>
+                </label>
+                <label style="display:flex;align-items:center;gap:var(--space-2);cursor:pointer;">
+                  <input type="radio" name="t3-capacity-available" id="t3-cap-no" value="no" />
+                  <span>Available either way (idle)</span>
+                </label>
+              </div>
+            </div>
+          </div>
+
+          <button class="btn btn--primary" id="t3-calculate" style="margin-top:var(--space-4);">Analyze Make-or-Buy &rarr;</button>
+          <div id="t3-output"></div>
+          <div id="t3-show-work"></div>
+        </div>
+      </div>
+    </section>
+
+    <!-- TOOL 4: Product Mix and Bottleneck Manager -->
+    <section class="learn-section">
+      <div class="container container--tool">
+        <div class="tool-header">
+          <div class="tool-header__label">Tool 4 of 5</div>
+          <h2 class="tool-header__title">Product Mix and Bottleneck Manager</h2>
+          <p class="tool-header__desc">
+            When a resource is constrained, maximize contribution margin per unit of the
+            limiting resource -- not per unit of product. Use the bottleneck panel to
+            evaluate whether investing to relieve a constraint is worthwhile.
+          </p>
+        </div>
+        <div class="card">
+
+          <p class="ch9-section-label">Product Mix with Constrained Resource</p>
+          <div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:var(--space-3);">
+            <span style="font-size:var(--font-size-sm);color:var(--color-gray-600);">Up to 3 products competing for a shared resource</span>
+            <div style="display:flex;gap:var(--space-3);">
+              <button class="btn btn--secondary btn--sm" id="t4-load-power">Load Power Recreation</button>
+              <button class="btn btn--secondary btn--sm" id="t4-randomize">&#127922; Randomize</button>
+            </div>
+          </div>
+
+          <div class="ohrate-grid">
+            <div class="form-group">
+              <label class="form-label" for="t4-resource-total">Total Resource Available (hours/units)</label>
+              <input class="form-input" type="number" id="t4-resource-total" value="600" min="1" />
+            </div>
+            <div class="form-group">
+              <label class="form-label" for="t4-resource-label">Resource Name</label>
+              <input class="form-input" type="text" id="t4-resource-label" value="Machine-Hours" />
+            </div>
+          </div>
+
+          <div id="t4-products-grid" style="margin-top:var(--space-4);"></div>
+
+          <p class="ch9-section-label" style="margin-top:var(--space-6);">Bottleneck Relief Evaluator (Theory of Constraints)</p>
+          <div class="ohrate-grid">
+            <div class="form-group">
+              <label class="form-label" for="t4-btn-cm">Contribution Margin per Unit at Bottleneck</label>
+              <input class="form-input" type="number" id="t4-btn-cm" value="240" min="0" step="5" />
+            </div>
+            <div class="form-group">
+              <label class="form-label" for="t4-btn-units-gained">Additional Units Gained per Period</label>
+              <input class="form-input" type="number" id="t4-btn-units-gained" value="3" min="1" />
+            </div>
+            <div class="form-group">
+              <label class="form-label" for="t4-btn-cost">Cost of Bottleneck Relief per Period</label>
+              <input class="form-input" type="number" id="t4-btn-cost" value="320" min="0" />
+            </div>
+          </div>
+
+          <button class="btn btn--primary" id="t4-calculate" style="margin-top:var(--space-4);">Analyze Product Mix &rarr;</button>
+          <div id="t4-output"></div>
+          <div id="t4-show-work"></div>
+        </div>
+      </div>
+    </section>
+
+    <!-- TOOL 5: Add/Drop and Equipment Replacement -->
+    <section class="learn-section learn-section--alt">
+      <div class="container container--tool">
+        <div class="tool-header">
+          <div class="tool-header__label">Tool 5 of 5</div>
+          <h2 class="tool-header__title">Add/Drop and Equipment Replacement Decisions</h2>
+          <p class="tool-header__desc">
+            Two decisions where managers commonly make mistakes: dropping a customer
+            that appears unprofitable (ignoring allocated overhead) and keeping old
+            equipment because replacing it shows a first-year accounting loss (ignoring
+            that book value is a sunk cost).
+          </p>
+        </div>
+        <div class="card">
+
+          <p class="ch9-section-label">Add or Drop a Customer / Business Unit</p>
+          <div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:var(--space-3);">
+            <span style="font-size:var(--font-size-sm);color:var(--color-gray-600);">Should we drop this customer or segment?</span>
+            <div style="display:flex;gap:var(--space-3);">
+              <button class="btn btn--secondary btn--sm" id="t5-load-wisk">Load Allied West / Wisk</button>
+              <button class="btn btn--secondary btn--sm" id="t5-randomize-drop">&#127922; Randomize</button>
+            </div>
+          </div>
+
+          <div class="ohrate-grid">
+            <div class="form-group">
+              <label class="form-label" for="t5-revenue">Customer Revenue</label>
+              <input class="form-input" type="number" id="t5-revenue" value="400000" min="0" />
+            </div>
+            <div class="form-group">
+              <label class="form-label" for="t5-cogs">Cost of Goods Sold (avoidable)</label>
+              <input class="form-input" type="number" id="t5-cogs" value="330000" min="0" />
+            </div>
+            <div class="form-group">
+              <label class="form-label" for="t5-var-costs">Other Variable / Avoidable Costs</label>
+              <input class="form-input" type="number" id="t5-var-costs" value="55000" min="0" />
+            </div>
+            <div class="form-group">
+              <label class="form-label" for="t5-unavoidable">Unavoidable Fixed Costs Allocated</label>
+              <input class="form-input" type="number" id="t5-unavoidable" value="47000" min="0" />
+            </div>
+            <div class="form-group">
+              <label class="form-label" for="t5-opp-cost">Opportunity Cost of Keeping (e.g. lease value of space)</label>
+              <input class="form-input" type="number" id="t5-opp-cost" value="0" min="0" />
+            </div>
+          </div>
+
+          <button class="btn btn--primary" id="t5-calculate-drop">Analyze Drop Decision &rarr;</button>
+          <div id="t5-drop-output"></div>
+
+          <div style="border-top:2px solid var(--color-gray-200);margin:var(--space-6) 0;"></div>
+
+          <p class="ch9-section-label">Equipment Replacement Decision</p>
+          <div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:var(--space-3);">
+            <span style="font-size:var(--font-size-sm);color:var(--color-gray-600);">Book value is always irrelevant -- only future costs differ</span>
+            <div style="display:flex;gap:var(--space-3);">
+              <button class="btn btn--secondary btn--sm" id="t5-load-toledo">Load Toledo Company</button>
+              <button class="btn btn--secondary btn--sm" id="t5-randomize-equip">&#127922; Randomize</button>
+            </div>
+          </div>
+
+          <div class="ohrate-grid">
+            <div class="form-group">
+              <label class="form-label" for="t5-old-book">Old Machine Book Value (sunk cost)</label>
+              <input class="form-input" type="number" id="t5-old-book" value="400000" min="0" />
+            </div>
+            <div class="form-group">
+              <label class="form-label" for="t5-old-disposal">Old Machine Current Disposal Value</label>
+              <input class="form-input" type="number" id="t5-old-disposal" value="40000" min="0" />
+            </div>
+            <div class="form-group">
+              <label class="form-label" for="t5-old-opcost">Old Machine Annual Operating Cost</label>
+              <input class="form-input" type="number" id="t5-old-opcost" value="800000" min="0" />
+            </div>
+            <div class="form-group">
+              <label class="form-label" for="t5-new-cost">New Machine Purchase Cost</label>
+              <input class="form-input" type="number" id="t5-new-cost" value="600000" min="0" />
+            </div>
+            <div class="form-group">
+              <label class="form-label" for="t5-new-opcost">New Machine Annual Operating Cost</label>
+              <input class="form-input" type="number" id="t5-new-opcost" value="460000" min="0" />
+            </div>
+            <div class="form-group">
+              <label class="form-label" for="t5-years">Remaining Useful Life (years)</label>
+              <input class="form-input" type="number" id="t5-years" value="2" min="1" max="20" />
+            </div>
+          </div>
+
+          <button class="btn btn--primary" id="t5-calculate-equip" style="margin-top:var(--space-4);">Analyze Equipment Replacement &rarr;</button>
+          <div id="t5-equip-output"></div>
+          <div id="t5-show-work"></div>
+        </div>
+      </div>
+    </section>
+
+    <!-- KEY TERMS -->
+    <section class="learn-section">
+      <div class="container container--tool">
+        <div class="tool-header">
+          <h2 class="tool-header__title">Key Terms</h2>
+          <p class="tool-header__desc">Click any term to see its definition.</p>
+        </div>
+        <div class="key-terms-grid" id="key-terms-grid"></div>
+      </div>
+    </section>
+
+    <!-- CHAPTER COMPLETE -->
+    <section class="learn-section learn-section--alt">
+      <div class="container container--tool">
+        <div class="chapter-complete card" id="chapter-complete">
+          <div class="chapter-complete__icon">&#9989;</div>
+          <h2 class="chapter-complete__title">Chapter 12 Complete</h2>
+          <p class="chapter-complete__desc">
+            You can now identify relevant costs and revenues, evaluate special orders and
+            make-or-buy decisions with opportunity costs, optimize product mix under
+            constraints, manage bottlenecks using the Theory of Constraints, analyze
+            add/drop decisions without being misled by allocated overhead, and correctly
+            treat book value as a sunk cost in equipment-replacement decisions.
+          </p>
+          <div class="chapter-complete__actions">
+            <button class="btn btn--primary" id="mark-complete-btn">Mark as Complete</button>
+            <a href="/pages/learn/ch13.html" class="btn btn--secondary">Next: Ch. 13 &rarr;</a>
+          </div>
+        </div>
+      </div>
+    </section>
+
+  </main>
+
+  <script type="module" src="/js/learn/ch12.js"></script>
+</body>
+</html>

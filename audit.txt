@@ -1,2 +1,10 @@
-120:            <button class="btn btn--secondary btn--sm" id="t2-randomize">&#127922; Randomize</button>
-262:              <button class="btn btn--secondary btn--sm" id="t5-randomize">&#127922; Randomize</button>
+=== line count ===
+    2569 /Users/careycarroll/Github Projects/Managerial-Accounting/css/learn.css
+=== last 5 lines ===
+}
+
+/* Tool 5 - Drop and Equipment */
+.ch12-drop-result { margin-top: var(--space-4); }
+.ch12-equip-result { margin-top: var(--space-4); }
+=== no collapsed ch12 rules ===
+0
