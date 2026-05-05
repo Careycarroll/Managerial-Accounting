@@ -154,6 +154,31 @@ Build Level 3 simulations for the 6 highest-value scenarios.
     npm run deploy
     lsof -ti :5173,:5174,:5175,:5176 | xargs kill -9 2>/dev/null; pkill -9 -f vite 2>/dev/null; echo done
 
+## CSS Authoring Rule
+
+Never write CSS inside Python triple-quoted strings passed through a shell heredoc (`<< 'PYEOF'`).
+The terminal collapses newlines between closing braces and the next selector, producing broken
+output like `}.next-rule {` that renders correctly in browsers but is unreadable and hard to debug.
+
+Always write CSS as a Python list of strings and join with newline:
+
+    lines = [
+        ".my-class {",
+        "  color: red;",
+        "}",
+        ".next-class {",
+        "  color: blue;",
+        "}",
+    ]
+    with open(path, 'a') as f:
+        f.write('\n'.join(lines) + '\n')
+
+After appending CSS, always verify with:
+
+    grep -c "}\." css/learn.css
+
+Zero means clean. Non-zero means collapsed rules that need a targeted `str.replace()` fix.
+
 ---
 
 ## Known Issues / Polish Backlog

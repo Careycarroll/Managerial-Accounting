@@ -223,6 +223,23 @@ Always audit before building. Clear audit.txt first:
 
 File creation. Always use python3 for all file writes. Never use heredocs for JS or CSS -- they break on backticks and special characters.
 
+CSS writing rule. Never write CSS inside a Python triple-quoted string passed via << heredoc. The terminal collapses newlines between closing braces and the next selector, producing broken output like }.next-rule {. Instead, write CSS as a Python list of strings and join with newline:
+
+    lines = [
+      ".my-class {",
+      "  color: red;",
+      "}",
+      ".next-class {",
+      "  color: blue;",
+      "}",
+    ]
+    with open(path, 'a') as f:
+        f.write('\n'.join(lines) + '\n')
+
+Always verify CSS was written correctly after appending by running:
+    grep -c "}\." css/learn.css
+Zero collapsed rules means the file is clean. Any non-zero count means a newline was dropped and must be fixed with a targeted str.replace() patch.
+
 Terminal commands only. All changes delivered as executable zsh commands.
 
 No inline comments in zsh. Do not put # comment lines inside command blocks.
