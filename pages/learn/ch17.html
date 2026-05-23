@@ -1,0 +1,447 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <meta name="description" content="Chapter 17: Cost Allocation: Joint Products and Byproducts" />
+  <title>Ch. 17 &middot; Joint Products and Byproducts</title>
+  <link rel="stylesheet" href="/css/base.css" />
+  <link rel="stylesheet" href="/css/components.css" />
+  <link rel="stylesheet" href="/css/learn.css" />
+  <link rel="stylesheet" href="/css/settings-panel.css" />
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet" />
+  <script>
+    (function(){
+      var r = document.documentElement;
+      var w = localStorage.getItem('pref-width');
+      var f = localStorage.getItem('pref-font');
+      var t = localStorage.getItem('pref-theme');
+      if (w) r.style.setProperty('--max-width-tool', w + 'px');
+      if (f) r.style.setProperty('--font-scale', f);
+      if (t === 'dark') r.setAttribute('data-theme', 'dark');
+    })();
+  </script>
+</head>
+<body>
+
+  <header class="site-header" role="banner">
+    <div class="site-header__inner">
+      <a href="/" class="site-header__logo">
+        <span>&#128202;</span>
+        <span>Managerial Accounting</span>
+      </a>
+      <nav class="site-header__nav" role="navigation" aria-label="Main navigation">
+        <a href="/pages/learn/" class="site-header__nav-link site-header__nav-link--active">Learn</a>
+        <a href="/pages/apply/" class="site-header__nav-link">Apply</a>
+      </nav>
+    </div>
+  </header>
+
+  <main>
+
+    <!-- HERO -->
+    <section class="page__hero">
+      <div class="container">
+        <div class="chapter-nav">
+          <div style="display:flex;gap:var(--space-4);align-items:center;">
+            <a href="/pages/learn/" class="chapter-nav__back">&larr; All Chapters</a>
+            <a href="/pages/learn/ch16.html" class="chapter-nav__back">&larr; Ch. 16</a>
+          </div>
+          <div class="chapter-nav__position">
+            <span>Chapter 17 of 24</span>
+            <a href="/pages/learn/ch18.html" class="chapter-nav__next">Ch. 18 &rarr;</a>
+          </div>
+        </div>
+        <div class="chapter-hero__meta">
+          <span class="chapter-badge chapter-badge--control">Cost Allocation</span>
+          <span class="chapter-hero__number">Chapter 17</span>
+        </div>
+        <h1 class="page__hero-title">Cost Allocation: Joint Products and Byproducts</h1>
+        <p class="page__hero-subtitle">
+          Allocate joint costs across main products using sales value, NRV, and constant
+          gross margin methods, evaluate sell-or-process-further decisions, and compare
+          byproduct accounting approaches.
+        </p>
+        <div class="chapter-hero__progress" id="ch17-progress-indicator">
+          <span class="chapter-hero__progress-label" id="ch17-status">Not started</span>
+        </div>
+      </div>
+    </section>
+
+    <!-- LEARNING OBJECTIVES -->
+    <section class="learn-section">
+      <div class="container container--tool">
+        <div class="objectives-card card">
+          <h2 class="objectives-card__title">Learning Objectives</h2>
+          <ol class="objectives-list">
+            <li>Identify the splitoff point in a joint-cost situation</li>
+            <li>Distinguish joint products from byproducts</li>
+            <li>Explain why joint costs are irrelevant in sell-or-process-further decisions</li>
+            <li>Allocate joint costs using the sales-value-at-splitoff, NRV, and constant gross margin percentage NRV methods</li>
+            <li>Account for byproducts using the production method and the sales method</li>
+          </ol>
+        </div>
+      </div>
+    </section>
+
+    <!-- TOOL 1: Joint Cost Allocator -->
+    <section class="learn-section learn-section--alt" id="tool-joint-cost">
+      <div class="container container--tool">
+        <div class="tool-header">
+          <div class="tool-header__label">Tool 1 of 4</div>
+          <h2 class="tool-header__title">Joint Cost Allocator</h2>
+          <p class="tool-header__desc">
+            A single joint production process yields multiple products at the splitoff point.
+            Compare three allocation methods: sales value at splitoff (most theoretically sound),
+            net realizable value (NRV), and constant gross margin percentage NRV.
+          </p>
+        </div>
+        <div class="card">
+          <div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:var(--space-4);">
+            <h3 style="font-size:var(--font-size-base);font-weight:700;margin:0;">Joint Process Inputs</h3>
+            <div style="display:flex;gap:var(--space-3);">
+              <button class="btn btn--secondary btn--sm" id="jc-load-example">Load Example</button>
+              <button class="btn btn--secondary btn--sm" id="jc-randomize">&#127922; Randomize</button>
+            </div>
+          </div>
+
+          <div class="ohrate-grid">
+            <div class="form-group">
+              <label class="form-label" for="jc-joint-cost">Total Joint Costs ($)</label>
+              <input class="form-input" type="number" id="jc-joint-cost" value="400000" min="0" step="10000" />
+            </div>
+          </div>
+
+          <p class="ch9-section-label" style="margin-top:var(--space-4);">Product A</p>
+          <div class="ohrate-grid">
+            <div class="form-group">
+              <label class="form-label" for="jc-a-name">Product Name</label>
+              <input class="form-input" type="text" id="jc-a-name" value="Butter" />
+            </div>
+            <div class="form-group">
+              <label class="form-label" for="jc-a-units">Units Produced</label>
+              <input class="form-input" type="number" id="jc-a-units" value="25000" min="1" step="1000" />
+            </div>
+            <div class="form-group">
+              <label class="form-label" for="jc-a-splitoff-price">Selling Price at Splitoff (per unit)</label>
+              <input class="form-input" type="number" id="jc-a-splitoff-price" value="8" min="0" step="0.50" />
+            </div>
+            <div class="form-group">
+              <label class="form-label" for="jc-a-final-price">Final Selling Price (per unit)</label>
+              <input class="form-input" type="number" id="jc-a-final-price" value="10" min="0" step="0.50" />
+            </div>
+            <div class="form-group">
+              <label class="form-label" for="jc-a-sep-cost">Separable Processing Cost ($)</label>
+              <input class="form-input" type="number" id="jc-a-sep-cost" value="30000" min="0" step="1000" />
+            </div>
+          </div>
+
+          <p class="ch9-section-label" style="margin-top:var(--space-4);">Product B</p>
+          <div class="ohrate-grid">
+            <div class="form-group">
+              <label class="form-label" for="jc-b-name">Product Name</label>
+              <input class="form-input" type="text" id="jc-b-name" value="Cream" />
+            </div>
+            <div class="form-group">
+              <label class="form-label" for="jc-b-units">Units Produced</label>
+              <input class="form-input" type="number" id="jc-b-units" value="10000" min="1" step="1000" />
+            </div>
+            <div class="form-group">
+              <label class="form-label" for="jc-b-splitoff-price">Selling Price at Splitoff (per unit)</label>
+              <input class="form-input" type="number" id="jc-b-splitoff-price" value="25" min="0" step="0.50" />
+            </div>
+            <div class="form-group">
+              <label class="form-label" for="jc-b-final-price">Final Selling Price (per unit)</label>
+              <input class="form-input" type="number" id="jc-b-final-price" value="30" min="0" step="0.50" />
+            </div>
+            <div class="form-group">
+              <label class="form-label" for="jc-b-sep-cost">Separable Processing Cost ($)</label>
+              <input class="form-input" type="number" id="jc-b-sep-cost" value="20000" min="0" step="1000" />
+            </div>
+          </div>
+
+          <p class="ch9-section-label" style="margin-top:var(--space-4);">Product C (optional)</p>
+          <div class="ohrate-grid">
+            <div class="form-group">
+              <label class="form-label" for="jc-c-name">Product Name (leave blank to exclude)</label>
+              <input class="form-input" type="text" id="jc-c-name" value="" placeholder="Optional" />
+            </div>
+            <div class="form-group">
+              <label class="form-label" for="jc-c-units">Units Produced</label>
+              <input class="form-input" type="number" id="jc-c-units" value="0" min="0" step="1000" />
+            </div>
+            <div class="form-group">
+              <label class="form-label" for="jc-c-splitoff-price">Selling Price at Splitoff (per unit)</label>
+              <input class="form-input" type="number" id="jc-c-splitoff-price" value="0" min="0" step="0.50" />
+            </div>
+            <div class="form-group">
+              <label class="form-label" for="jc-c-final-price">Final Selling Price (per unit)</label>
+              <input class="form-input" type="number" id="jc-c-final-price" value="0" min="0" step="0.50" />
+            </div>
+            <div class="form-group">
+              <label class="form-label" for="jc-c-sep-cost">Separable Processing Cost ($)</label>
+              <input class="form-input" type="number" id="jc-c-sep-cost" value="0" min="0" step="1000" />
+            </div>
+          </div>
+
+          <button class="btn btn--primary" id="jc-calculate" style="margin-top:var(--space-4);">Allocate Joint Costs &rarr;</button>
+          <div id="jc-output"></div>
+          <div id="jc-show-work"></div>
+        </div>
+      </div>
+    </section>
+
+    <!-- TOOL 2: Sell-or-Process-Further Calculator -->
+    <section class="learn-section" id="tool-sell-or-process">
+      <div class="container container--tool">
+        <div class="tool-header">
+          <div class="tool-header__label">Tool 2 of 4</div>
+          <h2 class="tool-header__title">Sell-or-Process-Further Calculator</h2>
+          <p class="tool-header__desc">
+            Joint costs are always irrelevant to sell-or-process-further decisions -- they are
+            sunk at the splitoff point. Only incremental revenue and incremental separable costs
+            matter. This tool evaluates each product independently.
+          </p>
+        </div>
+        <div class="card">
+          <div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:var(--space-4);">
+            <h3 style="font-size:var(--font-size-base);font-weight:700;margin:0;">Product Inputs</h3>
+            <div style="display:flex;gap:var(--space-3);">
+              <button class="btn btn--secondary btn--sm" id="sp-load-example">Load Example</button>
+              <button class="btn btn--secondary btn--sm" id="sp-randomize">&#127922; Randomize</button>
+            </div>
+          </div>
+
+          <div style="overflow-x:auto;">
+            <table class="ch12-result-table" style="min-width:600px;">
+              <thead>
+                <tr>
+                  <th>Product</th>
+                  <th>Units</th>
+                  <th>Splitoff Price</th>
+                  <th>Final Price</th>
+                  <th>Separable Cost ($)</th>
+                </tr>
+              </thead>
+              <tbody>
+                <tr>
+                  <td><input class="form-input form-input--sm" type="text" id="sp-p1-name" value="Butter" /></td>
+                  <td><input class="form-input form-input--sm" type="number" id="sp-p1-units" value="25000" min="1" /></td>
+                  <td><input class="form-input form-input--sm" type="number" id="sp-p1-splitoff" value="8" min="0" step="0.50" /></td>
+                  <td><input class="form-input form-input--sm" type="number" id="sp-p1-final" value="10" min="0" step="0.50" /></td>
+                  <td><input class="form-input form-input--sm" type="number" id="sp-p1-sep" value="30000" min="0" step="1000" /></td>
+                </tr>
+                <tr>
+                  <td><input class="form-input form-input--sm" type="text" id="sp-p2-name" value="Cream" /></td>
+                  <td><input class="form-input form-input--sm" type="number" id="sp-p2-units" value="10000" min="1" /></td>
+                  <td><input class="form-input form-input--sm" type="number" id="sp-p2-splitoff" value="25" min="0" step="0.50" /></td>
+                  <td><input class="form-input form-input--sm" type="number" id="sp-p2-final" value="30" min="0" step="0.50" /></td>
+                  <td><input class="form-input form-input--sm" type="number" id="sp-p2-sep" value="20000" min="0" step="1000" /></td>
+                </tr>
+                <tr>
+                  <td><input class="form-input form-input--sm" type="text" id="sp-p3-name" value="" placeholder="Optional" /></td>
+                  <td><input class="form-input form-input--sm" type="number" id="sp-p3-units" value="0" min="0" /></td>
+                  <td><input class="form-input form-input--sm" type="number" id="sp-p3-splitoff" value="0" min="0" step="0.50" /></td>
+                  <td><input class="form-input form-input--sm" type="number" id="sp-p3-final" value="0" min="0" step="0.50" /></td>
+                  <td><input class="form-input form-input--sm" type="number" id="sp-p3-sep" value="0" min="0" step="1000" /></td>
+                </tr>
+              </tbody>
+            </table>
+          </div>
+
+          <button class="btn btn--primary" id="sp-calculate" style="margin-top:var(--space-4);">Analyze Sell-or-Process &rarr;</button>
+          <div id="sp-output"></div>
+          <div id="sp-show-work"></div>
+        </div>
+      </div>
+    </section>
+
+    <!-- TOOL 3: Byproduct Accounting Comparator -->
+    <section class="learn-section learn-section--alt" id="tool-byproduct">
+      <div class="container container--tool">
+        <div class="tool-header">
+          <div class="tool-header__label">Tool 3 of 4</div>
+          <h2 class="tool-header__title">Byproduct Accounting Comparator</h2>
+          <p class="tool-header__desc">
+            Byproducts have low sales value relative to main products. Two methods exist:
+            the production method recognizes byproduct value when produced (reducing joint costs),
+            while the sales method recognizes it only when sold. Compare the income statement
+            effects of each approach.
+          </p>
+        </div>
+        <div class="card">
+          <div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:var(--space-4);">
+            <h3 style="font-size:var(--font-size-base);font-weight:700;margin:0;">Byproduct Inputs</h3>
+            <div style="display:flex;gap:var(--space-3);">
+              <button class="btn btn--secondary btn--sm" id="bp-load-example">Load Example</button>
+              <button class="btn btn--secondary btn--sm" id="bp-randomize">&#127922; Randomize</button>
+            </div>
+          </div>
+
+          <div class="ohrate-grid">
+            <div class="form-group">
+              <label class="form-label" for="bp-main-revenue">Main Product Revenue ($)</label>
+              <input class="form-input" type="number" id="bp-main-revenue" value="500000" min="0" step="10000" />
+            </div>
+            <div class="form-group">
+              <label class="form-label" for="bp-joint-cost">Total Joint Costs ($)</label>
+              <input class="form-input" type="number" id="bp-joint-cost" value="400000" min="0" step="10000" />
+            </div>
+            <div class="form-group">
+              <label class="form-label" for="bp-by-name">Byproduct Name</label>
+              <input class="form-input" type="text" id="bp-by-name" value="Buttermilk" />
+            </div>
+            <div class="form-group">
+              <label class="form-label" for="bp-by-produced">Byproduct Units Produced</label>
+              <input class="form-input" type="number" id="bp-by-produced" value="10000" min="0" step="1000" />
+            </div>
+            <div class="form-group">
+              <label class="form-label" for="bp-by-sold">Byproduct Units Sold</label>
+              <input class="form-input" type="number" id="bp-by-sold" value="8000" min="0" step="1000" />
+            </div>
+            <div class="form-group">
+              <label class="form-label" for="bp-by-price">Byproduct Selling Price (per unit)</label>
+              <input class="form-input" type="number" id="bp-by-price" value="2" min="0" step="0.25" />
+            </div>
+            <div class="form-group">
+              <label class="form-label" for="bp-by-sep-cost">Byproduct Separable Cost (per unit)</label>
+              <input class="form-input" type="number" id="bp-by-sep-cost" value="0.50" min="0" step="0.10" />
+            </div>
+          </div>
+
+          <button class="btn btn--primary" id="bp-calculate" style="margin-top:var(--space-4);">Compare Byproduct Methods &rarr;</button>
+          <div id="bp-output"></div>
+          <div id="bp-show-work"></div>
+        </div>
+      </div>
+    </section>
+
+    <!-- TOOL 4: Process Flow Visualizer -->
+    <section class="learn-section" id="tool-process-flow">
+      <div class="container container--tool">
+        <div class="tool-header">
+          <div class="tool-header__label">Tool 4 of 4</div>
+          <h2 class="tool-header__title">Joint Process Flow Visualizer</h2>
+          <p class="tool-header__desc">
+            Visualize the joint production process from raw inputs through the splitoff point
+            to final products. See joint costs, separable costs, and revenues annotated
+            at each stage of the process.
+          </p>
+        </div>
+        <div class="card">
+          <div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:var(--space-4);">
+            <h3 style="font-size:var(--font-size-base);font-weight:700;margin:0;">Process Inputs</h3>
+            <button class="btn btn--secondary btn--sm" id="pf-load-example">Load Dairy Example</button>
+          </div>
+
+          <div class="ohrate-grid">
+            <div class="form-group">
+              <label class="form-label" for="pf-process-name">Joint Process Name</label>
+              <input class="form-input" type="text" id="pf-process-name" value="Dairy Processing" />
+            </div>
+            <div class="form-group">
+              <label class="form-label" for="pf-joint-cost">Joint Costs ($)</label>
+              <input class="form-input" type="number" id="pf-joint-cost" value="400000" min="0" step="10000" />
+            </div>
+          </div>
+
+          <p class="ch9-section-label" style="margin-top:var(--space-4);">Products at Splitoff</p>
+          <div style="overflow-x:auto;">
+            <table class="ch12-result-table" style="min-width:560px;">
+              <thead>
+                <tr>
+                  <th>Product</th>
+                  <th>Type</th>
+                  <th>Units</th>
+                  <th>Splitoff Price</th>
+                  <th>Separable Cost ($)</th>
+                  <th>Final Price</th>
+                </tr>
+              </thead>
+              <tbody>
+                <tr>
+                  <td><input class="form-input form-input--sm" type="text" id="pf-p1-name" value="Butter" /></td>
+                  <td>
+                    <select class="form-input form-input--sm" id="pf-p1-type">
+                      <option value="main">Main Product</option>
+                      <option value="byproduct">Byproduct</option>
+                    </select>
+                  </td>
+                  <td><input class="form-input form-input--sm" type="number" id="pf-p1-units" value="25000" min="0" /></td>
+                  <td><input class="form-input form-input--sm" type="number" id="pf-p1-splitoff" value="8" min="0" step="0.50" /></td>
+                  <td><input class="form-input form-input--sm" type="number" id="pf-p1-sep" value="30000" min="0" step="1000" /></td>
+                  <td><input class="form-input form-input--sm" type="number" id="pf-p1-final" value="10" min="0" step="0.50" /></td>
+                </tr>
+                <tr>
+                  <td><input class="form-input form-input--sm" type="text" id="pf-p2-name" value="Cream" /></td>
+                  <td>
+                    <select class="form-input form-input--sm" id="pf-p2-type">
+                      <option value="main">Main Product</option>
+                      <option value="byproduct">Byproduct</option>
+                    </select>
+                  </td>
+                  <td><input class="form-input form-input--sm" type="number" id="pf-p2-units" value="10000" min="0" /></td>
+                  <td><input class="form-input form-input--sm" type="number" id="pf-p2-splitoff" value="25" min="0" step="0.50" /></td>
+                  <td><input class="form-input form-input--sm" type="number" id="pf-p2-sep" value="20000" min="0" step="1000" /></td>
+                  <td><input class="form-input form-input--sm" type="number" id="pf-p2-final" value="30" min="0" step="0.50" /></td>
+                </tr>
+                <tr>
+                  <td><input class="form-input form-input--sm" type="text" id="pf-p3-name" value="Buttermilk" /></td>
+                  <td>
+                    <select class="form-input form-input--sm" id="pf-p3-type">
+                      <option value="main">Main Product</option>
+                      <option value="byproduct" selected>Byproduct</option>
+                    </select>
+                  </td>
+                  <td><input class="form-input form-input--sm" type="number" id="pf-p3-units" value="10000" min="0" /></td>
+                  <td><input class="form-input form-input--sm" type="number" id="pf-p3-splitoff" value="2" min="0" step="0.25" /></td>
+                  <td><input class="form-input form-input--sm" type="number" id="pf-p3-sep" value="5000" min="0" step="500" /></td>
+                  <td><input class="form-input form-input--sm" type="number" id="pf-p3-final" value="2.50" min="0" step="0.25" /></td>
+                </tr>
+              </tbody>
+            </table>
+          </div>
+
+          <button class="btn btn--primary" id="pf-visualize" style="margin-top:var(--space-4);">Build Process Flow &rarr;</button>
+          <div id="pf-output"></div>
+        </div>
+      </div>
+    </section>
+
+    <!-- KEY TERMS -->
+    <section class="learn-section learn-section--alt">
+      <div class="container container--tool">
+        <div class="tool-header">
+          <h2 class="tool-header__title">Key Terms</h2>
+          <p class="tool-header__desc">Click any term to see its definition.</p>
+        </div>
+        <div class="key-terms-grid" id="key-terms-grid"></div>
+      </div>
+    </section>
+
+    <!-- CHAPTER COMPLETE -->
+    <section class="learn-section">
+      <div class="container container--tool">
+        <div class="chapter-complete card" id="chapter-complete">
+          <div class="chapter-complete__icon">&#9989;</div>
+          <h2 class="chapter-complete__title">Chapter 17 Complete</h2>
+          <p class="chapter-complete__desc">
+            You can now allocate joint costs using three methods, evaluate sell-or-process-further
+            decisions by focusing only on incremental revenues and separable costs, and account
+            for byproducts using both the production and sales methods.
+          </p>
+          <div class="chapter-complete__actions">
+            <button class="btn btn--primary" id="mark-complete-btn">Mark as Complete</button>
+            <a href="/pages/learn/ch18.html" class="btn btn--secondary">Next: Ch. 18 &rarr;</a>
+          </div>
+        </div>
+      </div>
+    </section>
+
+  </main>
+
+  <script type="module" src="/js/learn/ch17.js"></script>
+</body>
+</html>

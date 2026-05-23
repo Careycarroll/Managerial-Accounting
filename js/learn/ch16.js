@@ -399,12 +399,14 @@ function calcRevenueAllocation() {
   const standalone = products.map(p => ({ ...p, alloc: (p.sa / totalSA) * bundlePrice }));
 
   // Incremental method
-  const rankOrder = [rank1, rank2].filter(r => r);
-  const remaining = ['p1','p2','p3'].filter(k => !rankOrder.includes(k));
-  const orderedKeys = [...rankOrder, ...remaining];
+  const rank1Idx = parseInt(rank1) || 0;
+  const rank2Idx = parseInt(rank2) || 1;
+  const rankOrder = [rank1Idx, rank2Idx];
+  const remaining = [0,1,2].filter(k => rankOrder.indexOf(k) === -1);
+  const orderedIdxs = [...rankOrder, ...remaining];
   let remaining_inc = bundlePrice;
-  const incremental = orderedKeys.map(key => {
-    const p = products.find(x => x.key === key);
+  const incremental = orderedIdxs.map(key => {
+    const p = products[key];
     const alloc = Math.min(p.sa, remaining_inc);
     remaining_inc = Math.max(0, remaining_inc - alloc);
     return { ...p, alloc };

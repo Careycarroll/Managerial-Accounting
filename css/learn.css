@@ -2567,3 +2567,14 @@
 /* Tool 5 - Drop and Equipment */
 .ch12-drop-result { margin-top: var(--space-4); }
 .ch12-equip-result { margin-top: var(--space-4); }
+
+[data-theme="dark"] .sw-step--highlight {
+  border-color: #c8973a;
+  background: #2d1f00;
+}
+[data-theme="dark"] .sw-step--highlight .sw-step__label {
+  color: #e0b96a;
+}
+[data-theme="dark"] .sw-step--highlight .sw-step__result {
+  color: #e0b96a;
+}

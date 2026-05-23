@@ -1,0 +1,461 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <meta name="description" content="Chapter 18: Process Costing" />
+  <title>Ch. 18 &middot; Process Costing</title>
+  <link rel="stylesheet" href="/css/base.css" />
+  <link rel="stylesheet" href="/css/components.css" />
+  <link rel="stylesheet" href="/css/learn.css" />
+  <link rel="stylesheet" href="/css/settings-panel.css" />
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet" />
+  <script>
+    (function(){
+      var r = document.documentElement;
+      var w = localStorage.getItem('pref-width');
+      var f = localStorage.getItem('pref-font');
+      var t = localStorage.getItem('pref-theme');
+      if (w) r.style.setProperty('--max-width-tool', w + 'px');
+      if (f) r.style.setProperty('--font-scale', f);
+      if (t === 'dark') r.setAttribute('data-theme', 'dark');
+    })();
+  </script>
+</head>
+<body>
+
+  <header class="site-header" role="banner">
+    <div class="site-header__inner">
+      <a href="/" class="site-header__logo">
+        <span>&#128202;</span>
+        <span>Managerial Accounting</span>
+      </a>
+      <nav class="site-header__nav" role="navigation" aria-label="Main navigation">
+        <a href="/pages/learn/" class="site-header__nav-link site-header__nav-link--active">Learn</a>
+        <a href="/pages/apply/" class="site-header__nav-link">Apply</a>
+      </nav>
+    </div>
+  </header>
+
+  <main>
+
+    <!-- HERO -->
+    <section class="page__hero">
+      <div class="container">
+        <div class="chapter-nav">
+          <div style="display:flex;gap:var(--space-4);align-items:center;">
+            <a href="/pages/learn/" class="chapter-nav__back">&larr; All Chapters</a>
+            <a href="/pages/learn/ch17.html" class="chapter-nav__back">&larr; Ch. 17</a>
+          </div>
+          <div class="chapter-nav__position">
+            <span>Chapter 18 of 24</span>
+            <a href="/pages/learn/ch19.html" class="chapter-nav__next">Ch. 19 &rarr;</a>
+          </div>
+        </div>
+        <div class="chapter-hero__meta">
+          <span class="chapter-badge chapter-badge--control">Process Costing</span>
+          <span class="chapter-hero__number">Chapter 18</span>
+        </div>
+        <h1 class="page__hero-title">Process Costing</h1>
+        <p class="page__hero-subtitle">
+          Track physical unit flows, compute equivalent units of production, and assign
+          costs to completed units and ending work-in-process using both the
+          weighted-average and FIFO methods.
+        </p>
+        <div class="chapter-hero__progress" id="ch18-progress-indicator">
+          <span class="chapter-hero__progress-label" id="ch18-status">Not started</span>
+        </div>
+      </div>
+    </section>
+
+    <!-- LEARNING OBJECTIVES -->
+    <section class="learn-section">
+      <div class="container container--tool">
+        <div class="objectives-card card">
+          <h2 class="objectives-card__title">Learning Objectives</h2>
+          <ol class="objectives-list">
+            <li>Identify the types of operations that use process costing systems</li>
+            <li>Describe the five steps in process costing</li>
+            <li>Calculate equivalent units of production under the weighted-average method</li>
+            <li>Calculate equivalent units of production under the FIFO method</li>
+            <li>Apply the five-step process costing procedure under both methods</li>
+            <li>Understand how transferred-in costs affect process costing in subsequent departments</li>
+          </ol>
+        </div>
+      </div>
+    </section>
+
+    <!-- TOOL 1: Physical Units Flow Tracker -->
+    <section class="learn-section learn-section--alt" id="tool-physical-units">
+      <div class="container container--tool">
+        <div class="tool-header">
+          <div class="tool-header__label">Tool 1 of 5</div>
+          <h2 class="tool-header__title">Physical Units Flow Tracker</h2>
+          <p class="tool-header__desc">
+            Before any cost calculations, you must account for where every physical unit goes.
+            Units to account for (beginning WIP + units started) must equal units accounted for
+            (units completed + ending WIP). This is Step 1 of the five-step process costing procedure.
+          </p>
+        </div>
+        <div class="card">
+          <div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:var(--space-4);">
+            <h3 style="font-size:var(--font-size-base);font-weight:700;margin:0;">Unit Inputs</h3>
+            <div style="display:flex;gap:var(--space-3);">
+              <button class="btn btn--secondary btn--sm" id="pu-load-example">Load Example</button>
+              <button class="btn btn--secondary btn--sm" id="pu-randomize">&#127922; Randomize</button>
+            </div>
+          </div>
+          <div class="ohrate-grid">
+            <div class="form-group">
+              <label class="form-label" for="pu-beg-wip">Beginning WIP Units</label>
+              <input class="form-input" type="number" id="pu-beg-wip" value="400" min="0" step="50" />
+            </div>
+            <div class="form-group">
+              <label class="form-label" for="pu-started">Units Started This Period</label>
+              <input class="form-input" type="number" id="pu-started" value="2000" min="0" step="100" />
+            </div>
+            <div class="form-group">
+              <label class="form-label" for="pu-completed">Units Completed and Transferred Out</label>
+              <input class="form-input" type="number" id="pu-completed" value="2100" min="0" step="100" />
+            </div>
+            <div class="form-group">
+              <label class="form-label" for="pu-end-wip">Ending WIP Units</label>
+              <input class="form-input" type="number" id="pu-end-wip" value="300" min="0" step="50" />
+            </div>
+          </div>
+          <button class="btn btn--primary" id="pu-calculate" style="margin-top:var(--space-4);">Track Unit Flow &rarr;</button>
+          <div id="pu-output"></div>
+          <div id="pu-show-work"></div>
+        </div>
+      </div>
+    </section>
+
+    <!-- TOOL 2: Equivalent Units Calculator -->
+    <section class="learn-section" id="tool-eup">
+      <div class="container container--tool">
+        <div class="tool-header">
+          <div class="tool-header__label">Tool 2 of 5</div>
+          <h2 class="tool-header__title">Equivalent Units Calculator</h2>
+          <p class="tool-header__desc">
+            Equivalent units convert partially completed units into a whole-unit equivalent.
+            The weighted-average method includes work done in prior periods on beginning WIP.
+            The FIFO method counts only work done in the current period. Enter physical units
+            and completion percentages to see Step 2 under both methods.
+          </p>
+        </div>
+        <div class="card">
+          <div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:var(--space-4);">
+            <h3 style="font-size:var(--font-size-base);font-weight:700;margin:0;">Unit and Completion Inputs</h3>
+            <div style="display:flex;gap:var(--space-3);">
+              <button class="btn btn--secondary btn--sm" id="eup-load-example">Load Example</button>
+              <button class="btn btn--secondary btn--sm" id="eup-randomize">&#127922; Randomize</button>
+            </div>
+          </div>
+          <div class="ohrate-grid">
+            <div class="form-group">
+              <label class="form-label" for="eup-beg-wip">Beginning WIP Units</label>
+              <input class="form-input" type="number" id="eup-beg-wip" value="400" min="0" step="50" />
+            </div>
+            <div class="form-group">
+              <label class="form-label" for="eup-beg-pct-dm">Beginning WIP % Complete (Direct Materials)</label>
+              <input class="form-input" type="number" id="eup-beg-pct-dm" value="100" min="0" max="100" step="5" />
+            </div>
+            <div class="form-group">
+              <label class="form-label" for="eup-beg-pct-cc">Beginning WIP % Complete (Conversion)</label>
+              <input class="form-input" type="number" id="eup-beg-pct-cc" value="25" min="0" max="100" step="5" />
+            </div>
+            <div class="form-group">
+              <label class="form-label" for="eup-started">Units Started This Period</label>
+              <input class="form-input" type="number" id="eup-started" value="2000" min="0" step="100" />
+            </div>
+            <div class="form-group">
+              <label class="form-label" for="eup-completed">Units Completed and Transferred Out</label>
+              <input class="form-input" type="number" id="eup-completed" value="2100" min="0" step="100" />
+            </div>
+            <div class="form-group">
+              <label class="form-label" for="eup-end-wip">Ending WIP Units</label>
+              <input class="form-input" type="number" id="eup-end-wip" value="300" min="0" step="50" />
+            </div>
+            <div class="form-group">
+              <label class="form-label" for="eup-end-pct-dm">Ending WIP % Complete (Direct Materials)</label>
+              <input class="form-input" type="number" id="eup-end-pct-dm" value="100" min="0" max="100" step="5" />
+            </div>
+            <div class="form-group">
+              <label class="form-label" for="eup-end-pct-cc">Ending WIP % Complete (Conversion)</label>
+              <input class="form-input" type="number" id="eup-end-pct-cc" value="67" min="0" max="100" step="5" />
+            </div>
+          </div>
+          <button class="btn btn--primary" id="eup-calculate" style="margin-top:var(--space-4);">Calculate Equivalent Units &rarr;</button>
+          <div id="eup-output"></div>
+          <div id="eup-show-work"></div>
+        </div>
+      </div>
+    </section>
+
+    <!-- TOOL 3: Weighted-Average Process Costing Engine -->
+    <section class="learn-section learn-section--alt" id="tool-wa">
+      <div class="container container--tool">
+        <div class="tool-header">
+          <div class="tool-header__label">Tool 3 of 5</div>
+          <h2 class="tool-header__title">Weighted-Average Process Costing Engine</h2>
+          <p class="tool-header__desc">
+            The weighted-average method blends prior-period and current-period costs together.
+            It is simpler than FIFO because it treats all equivalent units the same regardless
+            of when work was done. Enter costs and unit data to run all five steps.
+          </p>
+        </div>
+        <div class="card">
+          <div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:var(--space-4);">
+            <h3 style="font-size:var(--font-size-base);font-weight:700;margin:0;">Cost and Unit Inputs</h3>
+            <div style="display:flex;gap:var(--space-3);">
+              <button class="btn btn--secondary btn--sm" id="wa-load-example">Load Example</button>
+              <button class="btn btn--secondary btn--sm" id="wa-randomize">&#127922; Randomize</button>
+            </div>
+          </div>
+
+          <p class="ch9-section-label">Physical Units</p>
+          <div class="ohrate-grid">
+            <div class="form-group">
+              <label class="form-label" for="wa-beg-wip">Beginning WIP Units</label>
+              <input class="form-input" type="number" id="wa-beg-wip" value="400" min="0" step="50" />
+            </div>
+            <div class="form-group">
+              <label class="form-label" for="wa-started">Units Started</label>
+              <input class="form-input" type="number" id="wa-started" value="2000" min="0" step="100" />
+            </div>
+            <div class="form-group">
+              <label class="form-label" for="wa-completed">Units Completed</label>
+              <input class="form-input" type="number" id="wa-completed" value="2100" min="0" step="100" />
+            </div>
+            <div class="form-group">
+              <label class="form-label" for="wa-end-wip">Ending WIP Units</label>
+              <input class="form-input" type="number" id="wa-end-wip" value="300" min="0" step="50" />
+            </div>
+            <div class="form-group">
+              <label class="form-label" for="wa-end-pct-dm">Ending WIP % Complete (DM)</label>
+              <input class="form-input" type="number" id="wa-end-pct-dm" value="100" min="0" max="100" step="5" />
+            </div>
+            <div class="form-group">
+              <label class="form-label" for="wa-end-pct-cc">Ending WIP % Complete (Conversion)</label>
+              <input class="form-input" type="number" id="wa-end-pct-cc" value="67" min="0" max="100" step="5" />
+            </div>
+          </div>
+
+          <p class="ch9-section-label" style="margin-top:var(--space-4);">Costs</p>
+          <div class="ohrate-grid">
+            <div class="form-group">
+              <label class="form-label" for="wa-beg-cost-dm">Beginning WIP Cost — Direct Materials ($)</label>
+              <input class="form-input" type="number" id="wa-beg-cost-dm" value="32000" min="0" step="1000" />
+            </div>
+            <div class="form-group">
+              <label class="form-label" for="wa-beg-cost-cc">Beginning WIP Cost — Conversion ($)</label>
+              <input class="form-input" type="number" id="wa-beg-cost-cc" value="18900" min="0" step="1000" />
+            </div>
+            <div class="form-group">
+              <label class="form-label" for="wa-curr-cost-dm">Current Period Cost — Direct Materials ($)</label>
+              <input class="form-input" type="number" id="wa-curr-cost-dm" value="160000" min="0" step="1000" />
+            </div>
+            <div class="form-group">
+              <label class="form-label" for="wa-curr-cost-cc">Current Period Cost — Conversion ($)</label>
+              <input class="form-input" type="number" id="wa-curr-cost-cc" value="150000" min="0" step="1000" />
+            </div>
+          </div>
+
+          <button class="btn btn--primary" id="wa-calculate" style="margin-top:var(--space-4);">Run Weighted-Average Costing &rarr;</button>
+          <div id="wa-output"></div>
+          <div id="wa-show-work"></div>
+        </div>
+      </div>
+    </section>
+
+    <!-- TOOL 4: FIFO Process Costing Engine -->
+    <section class="learn-section" id="tool-fifo">
+      <div class="container container--tool">
+        <div class="tool-header">
+          <div class="tool-header__label">Tool 4 of 5</div>
+          <h2 class="tool-header__title">FIFO Process Costing Engine</h2>
+          <p class="tool-header__desc">
+            The FIFO method separates prior-period work from current-period work. Beginning WIP
+            units are completed first using current-period costs for the remaining work. This
+            produces a more accurate picture of current-period efficiency. Enter the same data
+            as Tool 3 plus beginning WIP completion percentages.
+          </p>
+        </div>
+        <div class="card">
+          <div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:var(--space-4);">
+            <h3 style="font-size:var(--font-size-base);font-weight:700;margin:0;">Cost and Unit Inputs</h3>
+            <div style="display:flex;gap:var(--space-3);">
+              <button class="btn btn--secondary btn--sm" id="fifo-load-example">Load Example</button>
+              <button class="btn btn--secondary btn--sm" id="fifo-randomize">&#127922; Randomize</button>
+            </div>
+          </div>
+
+          <p class="ch9-section-label">Physical Units</p>
+          <div class="ohrate-grid">
+            <div class="form-group">
+              <label class="form-label" for="fifo-beg-wip">Beginning WIP Units</label>
+              <input class="form-input" type="number" id="fifo-beg-wip" value="400" min="0" step="50" />
+            </div>
+            <div class="form-group">
+              <label class="form-label" for="fifo-beg-pct-dm">Beginning WIP % Complete (DM)</label>
+              <input class="form-input" type="number" id="fifo-beg-pct-dm" value="100" min="0" max="100" step="5" />
+            </div>
+            <div class="form-group">
+              <label class="form-label" for="fifo-beg-pct-cc">Beginning WIP % Complete (Conversion)</label>
+              <input class="form-input" type="number" id="fifo-beg-pct-cc" value="25" min="0" max="100" step="5" />
+            </div>
+            <div class="form-group">
+              <label class="form-label" for="fifo-started">Units Started</label>
+              <input class="form-input" type="number" id="fifo-started" value="2000" min="0" step="100" />
+            </div>
+            <div class="form-group">
+              <label class="form-label" for="fifo-completed">Units Completed</label>
+              <input class="form-input" type="number" id="fifo-completed" value="2100" min="0" step="100" />
+            </div>
+            <div class="form-group">
+              <label class="form-label" for="fifo-end-wip">Ending WIP Units</label>
+              <input class="form-input" type="number" id="fifo-end-wip" value="300" min="0" step="50" />
+            </div>
+            <div class="form-group">
+              <label class="form-label" for="fifo-end-pct-dm">Ending WIP % Complete (DM)</label>
+              <input class="form-input" type="number" id="fifo-end-pct-dm" value="100" min="0" max="100" step="5" />
+            </div>
+            <div class="form-group">
+              <label class="form-label" for="fifo-end-pct-cc">Ending WIP % Complete (Conversion)</label>
+              <input class="form-input" type="number" id="fifo-end-pct-cc" value="67" min="0" max="100" step="5" />
+            </div>
+          </div>
+
+          <p class="ch9-section-label" style="margin-top:var(--space-4);">Costs</p>
+          <div class="ohrate-grid">
+            <div class="form-group">
+              <label class="form-label" for="fifo-beg-cost-dm">Beginning WIP Cost — Direct Materials ($)</label>
+              <input class="form-input" type="number" id="fifo-beg-cost-dm" value="32000" min="0" step="1000" />
+            </div>
+            <div class="form-group">
+              <label class="form-label" for="fifo-beg-cost-cc">Beginning WIP Cost — Conversion ($)</label>
+              <input class="form-input" type="number" id="fifo-beg-cost-cc" value="18900" min="0" step="1000" />
+            </div>
+            <div class="form-group">
+              <label class="form-label" for="fifo-curr-cost-dm">Current Period Cost — Direct Materials ($)</label>
+              <input class="form-input" type="number" id="fifo-curr-cost-dm" value="160000" min="0" step="1000" />
+            </div>
+            <div class="form-group">
+              <label class="form-label" for="fifo-curr-cost-cc">Current Period Cost — Conversion ($)</label>
+              <input class="form-input" type="number" id="fifo-curr-cost-cc" value="150000" min="0" step="1000" />
+            </div>
+          </div>
+
+          <button class="btn btn--primary" id="fifo-calculate" style="margin-top:var(--space-4);">Run FIFO Costing &rarr;</button>
+          <div id="fifo-output"></div>
+          <div id="fifo-show-work"></div>
+        </div>
+      </div>
+    </section>
+
+    <!-- TOOL 5: Method Comparator -->
+    <section class="learn-section learn-section--alt" id="tool-comparator">
+      <div class="container container--tool">
+        <div class="tool-header">
+          <div class="tool-header__label">Tool 5 of 5</div>
+          <h2 class="tool-header__title">Weighted-Average vs. FIFO Comparator</h2>
+          <p class="tool-header__desc">
+            Enter one set of inputs and see both methods calculated side by side. The comparator
+            highlights where the methods diverge — equivalent units, cost per unit, ending WIP
+            valuation, and cost of units completed — and explains when the difference matters.
+          </p>
+        </div>
+        <div class="card">
+          <div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:var(--space-4);">
+            <h3 style="font-size:var(--font-size-base);font-weight:700;margin:0;">Inputs</h3>
+            <div style="display:flex;gap:var(--space-3);">
+              <button class="btn btn--secondary btn--sm" id="cmp-load-example">Load Example</button>
+              <button class="btn btn--secondary btn--sm" id="cmp-randomize">&#127922; Randomize</button>
+            </div>
+          </div>
+          <div class="ohrate-grid">
+            <div class="form-group">
+              <label class="form-label" for="cmp-beg-wip">Beginning WIP Units</label>
+              <input class="form-input" type="number" id="cmp-beg-wip" value="400" min="0" step="50" />
+            </div>
+            <div class="form-group">
+              <label class="form-label" for="cmp-beg-pct-cc">Beginning WIP % Complete (Conversion)</label>
+              <input class="form-input" type="number" id="cmp-beg-pct-cc" value="25" min="0" max="100" step="5" />
+            </div>
+            <div class="form-group">
+              <label class="form-label" for="cmp-started">Units Started</label>
+              <input class="form-input" type="number" id="cmp-started" value="2000" min="0" step="100" />
+            </div>
+            <div class="form-group">
+              <label class="form-label" for="cmp-completed">Units Completed</label>
+              <input class="form-input" type="number" id="cmp-completed" value="2100" min="0" step="100" />
+            </div>
+            <div class="form-group">
+              <label class="form-label" for="cmp-end-wip">Ending WIP Units</label>
+              <input class="form-input" type="number" id="cmp-end-wip" value="300" min="0" step="50" />
+            </div>
+            <div class="form-group">
+              <label class="form-label" for="cmp-end-pct-cc">Ending WIP % Complete (Conversion)</label>
+              <input class="form-input" type="number" id="cmp-end-pct-cc" value="67" min="0" max="100" step="5" />
+            </div>
+            <div class="form-group">
+              <label class="form-label" for="cmp-beg-cost-dm">Beginning WIP Cost — DM ($)</label>
+              <input class="form-input" type="number" id="cmp-beg-cost-dm" value="32000" min="0" step="1000" />
+            </div>
+            <div class="form-group">
+              <label class="form-label" for="cmp-beg-cost-cc">Beginning WIP Cost — Conversion ($)</label>
+              <input class="form-input" type="number" id="cmp-beg-cost-cc" value="18900" min="0" step="1000" />
+            </div>
+            <div class="form-group">
+              <label class="form-label" for="cmp-curr-cost-dm">Current Period Cost — DM ($)</label>
+              <input class="form-input" type="number" id="cmp-curr-cost-dm" value="160000" min="0" step="1000" />
+            </div>
+            <div class="form-group">
+              <label class="form-label" for="cmp-curr-cost-cc">Current Period Cost — Conversion ($)</label>
+              <input class="form-input" type="number" id="cmp-curr-cost-cc" value="150000" min="0" step="1000" />
+            </div>
+          </div>
+          <button class="btn btn--primary" id="cmp-calculate" style="margin-top:var(--space-4);">Compare Methods &rarr;</button>
+          <div id="cmp-output"></div>
+          <div id="cmp-show-work"></div>
+        </div>
+      </div>
+    </section>
+
+    <!-- KEY TERMS -->
+    <section class="learn-section">
+      <div class="container container--tool">
+        <div class="tool-header">
+          <h2 class="tool-header__title">Key Terms</h2>
+          <p class="tool-header__desc">Click any term to see its definition.</p>
+        </div>
+        <div class="key-terms-grid" id="key-terms-grid"></div>
+      </div>
+    </section>
+
+    <!-- CHAPTER COMPLETE -->
+    <section class="learn-section learn-section--alt">
+      <div class="container container--tool">
+        <div class="chapter-complete card" id="chapter-complete">
+          <div class="chapter-complete__icon">&#9989;</div>
+          <h2 class="chapter-complete__title">Chapter 18 Complete</h2>
+          <p class="chapter-complete__desc">
+            You can now track physical unit flows, compute equivalent units of production under
+            both the weighted-average and FIFO methods, assign costs to completed units and
+            ending WIP, and explain when the choice of method affects reported costs.
+          </p>
+          <div class="chapter-complete__actions">
+            <button class="btn btn--primary" id="mark-complete-btn">Mark as Complete</button>
+            <a href="/pages/learn/ch19.html" class="btn btn--secondary">Next: Ch. 19 &rarr;</a>
+          </div>
+        </div>
+      </div>
+    </section>
+
+  </main>
+
+  <script type="module" src="/js/learn/ch18.js"></script>
+</body>
+</html>
