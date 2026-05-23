@@ -39,12 +39,12 @@ Build a comprehensive interactive learning companion that covers every concept i
 | 6 | Master Budget and Responsibility Accounting | Complete | Operating budget builder (9-step), sensitivity analysis, responsibility center classifier, cash budget, Kaizen simulator |
 | 7 | Flexible Budgets and Direct-Cost Variances | Complete | Static vs flexible budget analyzer, direct-cost variance calculator (Level 3 columnar), variance hierarchy diagram |
 | 8 | Flexible Budgets and Overhead Variances | Complete | Overhead rate developer (4-step), 4-variance overhead analyzer (Panels A+B), complete variance hierarchy (Exhibit 8-5) |
-| 9 | Inventory Costing and Capacity Analysis | Not started | Costing method comparator, capacity concepts calculator |
-| 10 | Determining How Costs Behave | Not started | Cost estimation suite, scatter plot visualizer, learning curve calculator |
-| 11 | Data Analytic Thinking and Prediction | Not started | Decision tree builder, Gini calculator, ROC curve visualizer |
-| 12 | Decision Making and Relevant Information | Not started | Relevant cost identifier, make-or-buy calculator, TOC bottleneck manager |
-| 13 | Strategy, Balanced Scorecard, Strategic Profitability | Not started | Strategy map builder, balanced scorecard, strategic profitability analyzer |
-| 14 | Pricing Decisions and Cost Management | Not started | Target costing calculator, value engineering simulator, cost-plus comparison |
+| 9 | Inventory Costing and Capacity Analysis | Complete | Absorption vs variable costing comparator, capacity concepts calculator, denominator-level analysis, income effects |
+| 10 | Determining How Costs Behave | Complete | Cost estimation suite, scatter plot visualizer, regression/high-low comparison, learning curve calculator |
+| 11 | Data Analytic Thinking and Prediction | Complete | Data analytics workflow, decision tree/Gini tools, prediction model evaluation, ROC curve visualizer |
+| 12 | Decision Making and Relevant Information | Complete | Relevant cost identifier, special order analyzer, make-or-buy calculator, product mix/bottleneck manager, add/drop and equipment replacement |
+| 13 | Strategy, Balanced Scorecard, Strategic Profitability | Complete | Strategy identifier, balanced scorecard builder, strategic profitability analyzer, engineered vs discretionary cost classifier |
+| 14 | Pricing Decisions and Cost Management | Complete | Pricing context identifier, cost-plus pricing calculator, target costing/value engineering, life-cycle profitability planner |
 | 15 | Cost Allocation and Customer Profitability | Not started | Customer profitability analyzer, whale curve, sales variance calculator |
 | 16 | Allocation of Support-Department Costs | Not started | Multi-department allocation engine, Shapley value, revenue allocation |
 | 17 | Cost Allocation: Joint Products and Byproducts | Not started | Process flow visualizer, joint cost allocator, sell-or-process calculator |
@@ -62,10 +62,10 @@ Build a comprehensive interactive learning companion that covers every concept i
 
 | Component | File | Status | Used In |
 |-----------|------|--------|---------|
-| Randomizer | js/components/randomizer.js | Built | Ch. 2, 3, 4, 5, 6 |
-| Journal Entry | js/components/journal-entry.js | Built | Ch. 4, 6 |
-| Show Work | js/components/show-work.js | Built | Ch. 2, 3, 4, 5, 6 |
-| Depth Selector | js/components/depth-selector.js | Built | Pending Apply section |
+| Randomizer | js/components/randomizer.js | Built | Numeric tools across Learn chapters |
+| Journal Entry | js/components/journal-entry.js | Built | Ch. 4, Ch. 6, journal-entry style tools |
+| Show Work | js/components/show-work.js | Built | Calculator tools across Learn chapters |
+| Depth Selector | js/components/depth-selector.js | Not built / pending | Planned for Apply section |
 | Formula Display | js/components/formula-display.js | Not built | Planned |
 | Term Tooltip | js/components/term-tooltip.js | Not built | Planned |
 
@@ -73,10 +73,11 @@ Build a comprehensive interactive learning companion that covers every concept i
 
 | Chart | File | Status | Used In |
 |-------|------|--------|---------|
-| Base Chart | js/charts/chart-core.js | Built | All charts |
+| Base Chart | js/charts/chart-core.js | Built | All chart components |
 | CVP Chart | js/charts/cvp-chart.js | Built | Ch. 3 |
-| Scatter Plot | js/charts/scatter-chart.js | Not built | Ch. 10 |
-| Variance Diagram | js/charts/variance-chart.js | Not built | Ch. 7, 8 |
+| Scatter Plot | js/charts/scatter-chart.js | Built | Ch. 10 |
+| ROC Chart | js/charts/roc-chart.js | Built | Ch. 11 |
+| Variance Diagram | js/charts/variance-chart.js | Not built | Planned |
 | Control Chart | js/charts/control-chart.js | Not built | Ch. 20 |
 | Pareto Diagram | js/charts/pareto-chart.js | Not built | Ch. 20 |
 
@@ -110,9 +111,9 @@ Build a comprehensive interactive learning companion that covers every concept i
 - Progress tracking -- localStorage via progress-tracker.js, resetChapter() per chapter
 - Randomizer -- fires native input events so existing listeners update automatically
 - Show Work -- collapsible step-by-step panels, always rendered after output
-- Chart interactions -- crosshair, tooltip, click-to-pin, scroll-to-zoom, drag-to-pan, double-click-to-reset
-- Full-bleed layout --.full-bleed +.full-bleed__inner for content wider than container--tool
-- No placeholder divs -- JS creates all output elements dynamically via getOrCreate pattern
+- Chart interactions -- chart components use canvas interaction patterns where applicable
+- Full-bleed layout -- .full-bleed + .full-bleed__inner for content wider than container--tool
+- JS-owned outputs -- interactive result sections are generally created or populated by JavaScript using getOrCreate patterns
 - GitHub Pages -- base path /Managerial-Accounting/ in production, / in dev
 
 ---
@@ -124,20 +125,17 @@ Ch. 1 (Manager), Ch. 2 (Cost Terms), Ch. 3 (CVP with canvas), Ch. 4 (Job Costing
 Shared components: randomizer, journal-entry, show-work.
 Chart library: chart-core (full interaction layer), cvp-chart.
 
-Phase 2 -- Learn Section Chapters 5-12 (In Progress)
-Ch. 5 (ABC) -- Complete. Ch. 6 (Master Budget) -- Complete. Ch. 7 (Flexible Budgets, Direct-Cost Variances) -- Complete. Ch. 8 (Overhead Variances) -- Complete.
-Remaining priority order: Ch. 12 (Relevant Costs, most cross-referenced), Ch. 9 (Inventory Costing), Ch. 10 (Cost Behavior), Ch. 11 (Data Analytics).
+Phase 2 -- Learn Section Chapters 5-12 -- Complete
+Ch. 5 (ABC), Ch. 6 (Master Budget), Ch. 7 (Flexible Budgets and Direct-Cost Variances), Ch. 8 (Overhead Variances), Ch. 9 (Inventory Costing and Capacity Analysis), Ch. 10 (Cost Behavior with scatter chart), Ch. 11 (Data Analytics and Prediction with ROC chart), Ch. 12 (Relevant Costs and Decision Making).
 
-Phase 3 -- Learn Section Chapters 13-24
-Ch. 13 (Strategy), Ch. 14 (Pricing), Ch. 15 (Customer Profitability), Ch. 16 (Support Dept Allocation),
-Ch. 17 (Joint Products), Ch. 18 (Process Costing), Ch. 19 (Spoilage), Ch. 20 (Quality and Time),
-Ch. 21 (Inventory Management), Ch. 22 (Capital Budgeting), Ch. 23 (Transfer Pricing), Ch. 24 (Performance Measurement).
+Phase 3 -- Learn Section Chapters 13-24 -- In Progress
+Ch. 13 (Strategy, Balanced Scorecard, Strategic Profitability) and Ch. 14 (Pricing Decisions and Cost Management) are complete. Next: Ch. 15 (Cost Allocation and Customer Profitability), then Ch. 16 through Ch. 24 in textbook order unless dependency needs dictate otherwise.
 
 Phase 4 -- Apply Section Level 1 (Concept)
 Build all 12 Apply scenario pages at Concept depth.
 
 Phase 5 -- Shared Chart Library Expansion
-scatter-chart, variance-chart, control-chart, pareto-chart.
+variance-chart, control-chart, pareto-chart, and any additional chart components needed for later chapters.
 
 Phase 6 -- Apply Section Level 2 (Analysis)
 Upgrade all 12 Apply scenarios to Analysis depth.
@@ -185,6 +183,8 @@ Zero means clean. Non-zero means collapsed rules that need a targeted `str.repla
 
 - View toggle buttons on Learn index need styling refinement
 - Apply section not yet started
+- CSS integrity audit previously found collapsed `}.selector` patterns in css/learn.css; browsers tolerate this, but it should be cleaned up in a polish pass
 - show-work not yet added to Ch. 1 (no numeric tools -- low priority)
 - formula-display.js, worked-example.js, term-tooltip.js not yet built
+- depth-selector.js not currently present and should be built when Apply section begins
 - js/data/managerial-terms.js not yet built

@@ -1,0 +1,338 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <meta name="description" content="Chapter 14: Pricing Decisions and Cost Management" />
+  <title>Ch. 14 &middot; Pricing Decisions and Cost Management</title>
+  <link rel="stylesheet" href="/css/base.css" />
+  <link rel="stylesheet" href="/css/components.css" />
+  <link rel="stylesheet" href="/css/learn.css" />
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet" />
+</head>
+<body>
+
+  <header class="site-header" role="banner">
+    <div class="site-header__inner">
+      <a href="/" class="site-header__logo">
+        <span>&#128202;</span>
+        <span>Managerial Accounting</span>
+      </a>
+      <nav class="site-header__nav" role="navigation" aria-label="Main navigation">
+        <a href="/pages/learn/" class="site-header__nav-link site-header__nav-link--active">Learn</a>
+        <a href="/pages/apply/" class="site-header__nav-link">Apply</a>
+      </nav>
+    </div>
+  </header>
+
+  <main>
+
+    <!-- HERO -->
+    <section class="page__hero">
+      <div class="container">
+        <div class="chapter-nav">
+          <div style="display:flex;gap:var(--space-4);align-items:center;">
+            <a href="/pages/learn/" class="chapter-nav__back">&larr; All Chapters</a>
+            <a href="/pages/learn/ch13.html" class="chapter-nav__back">&larr; Ch. 13</a>
+          </div>
+          <div class="chapter-nav__position">
+            <span>Chapter 14 of 24</span>
+            <a href="/pages/learn/ch15.html" class="chapter-nav__next">Ch. 15 &rarr;</a>
+          </div>
+        </div>
+        <div class="chapter-hero__meta">
+          <span class="chapter-badge chapter-badge--control">Pricing</span>
+          <span class="chapter-hero__number">Chapter 14</span>
+        </div>
+        <h1 class="page__hero-title">Pricing Decisions and Cost Management</h1>
+        <p class="page__hero-subtitle">
+          Evaluate short-run and long-run pricing decisions, compute cost-plus prices,
+          set target costs from market-based target prices, and manage product costs
+          across the full life cycle.
+        </p>
+        <div class="chapter-hero__progress" id="ch14-progress-indicator">
+          <span class="chapter-hero__progress-label" id="ch14-status">Not started</span>
+        </div>
+      </div>
+    </section>
+
+    <!-- LEARNING OBJECTIVES -->
+    <section class="learn-section">
+      <div class="container container--tool">
+        <div class="objectives-card card">
+          <h2 class="objectives-card__title">Learning Objectives</h2>
+          <ol class="objectives-list">
+            <li>Identify the major influences on pricing decisions</li>
+            <li>Distinguish short-run pricing decisions from long-run pricing decisions</li>
+            <li>Calculate cost-plus prices using alternative cost bases and markup formulas</li>
+            <li>Apply target pricing, target costing, and value engineering to reduce cost before production</li>
+            <li>Use life-cycle costing to understand profitability across the full value chain</li>
+          </ol>
+        </div>
+      </div>
+    </section>
+
+    <!-- TOOL 1 -->
+    <section class="learn-section learn-section--alt" id="tool-pricing-context">
+      <div class="container container--tool">
+        <div class="tool-header">
+          <div class="tool-header__label">Tool 1 of 4</div>
+          <h2 class="tool-header__title">Pricing Context Identifier</h2>
+          <p class="tool-header__desc">
+            Pricing decisions depend on context. In the short run, managers focus on
+            incremental revenues and incremental costs. In the long run, prices must
+            cover all value-chain costs and earn a target return. Classify each scenario.
+          </p>
+        </div>
+        <div class="card">
+          <div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:var(--space-4);">
+            <h3 style="font-size:var(--font-size-base);font-weight:700;margin:0;">Scenario Quiz</h3>
+            <button class="btn btn--secondary btn--sm" id="pc-reset-btn">&#127922; Reset &amp; Shuffle</button>
+          </div>
+          <button class="btn btn--primary" id="pc-next-btn">Show Scenario</button>
+          <div id="pc-scenario-area"></div>
+          <div id="pc-results-area"></div>
+        </div>
+      </div>
+    </section>
+
+    <!-- TOOL 2 -->
+    <section class="learn-section" id="tool-cost-plus">
+      <div class="container container--tool">
+        <div class="tool-header">
+          <div class="tool-header__label">Tool 2 of 4</div>
+          <h2 class="tool-header__title">Cost-Plus Pricing Calculator</h2>
+          <p class="tool-header__desc">
+            Cost-plus pricing begins with a chosen cost base and adds a markup.
+            In long-run pricing, the markup should recover costs excluded from the base
+            and provide the required return on invested capital.
+          </p>
+        </div>
+        <div class="card">
+          <div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:var(--space-4);">
+            <h3 style="font-size:var(--font-size-base);font-weight:700;margin:0;">Product and Cost Inputs</h3>
+            <div style="display:flex;gap:var(--space-3);">
+              <button class="btn btn--secondary btn--sm" id="cp-load-example">Load Example</button>
+              <button class="btn btn--secondary btn--sm" id="cp-randomize">&#127922; Randomize</button>
+            </div>
+          </div>
+
+          <div class="ohrate-grid">
+            <div class="form-group">
+              <label class="form-label" for="cp-units">Expected Units Sold</label>
+              <input class="form-input" type="number" id="cp-units" value="50000" min="1" />
+            </div>
+            <div class="form-group">
+              <label class="form-label" for="cp-var-mfg">Variable Manufacturing Cost per Unit</label>
+              <input class="form-input" type="number" id="cp-var-mfg" value="32" min="0" step="0.50" />
+            </div>
+            <div class="form-group">
+              <label class="form-label" for="cp-fixed-mfg">Fixed Manufacturing Costs</label>
+              <input class="form-input" type="number" id="cp-fixed-mfg" value="600000" min="0" />
+            </div>
+            <div class="form-group">
+              <label class="form-label" for="cp-var-sga">Variable Selling/Admin Cost per Unit</label>
+              <input class="form-input" type="number" id="cp-var-sga" value="8" min="0" step="0.50" />
+            </div>
+            <div class="form-group">
+              <label class="form-label" for="cp-fixed-sga">Fixed Selling/Admin Costs</label>
+              <input class="form-input" type="number" id="cp-fixed-sga" value="350000" min="0" />
+            </div>
+            <div class="form-group">
+              <label class="form-label" for="cp-invested-capital">Invested Capital</label>
+              <input class="form-input" type="number" id="cp-invested-capital" value="2500000" min="0" />
+            </div>
+            <div class="form-group">
+              <label class="form-label" for="cp-target-roi">Target ROI</label>
+              <input class="form-input" type="number" id="cp-target-roi" value="18" min="0" step="0.5" />
+            </div>
+            <div class="form-group">
+              <label class="form-label" for="cp-cost-base">Cost Base</label>
+              <select id="cp-cost-base" class="form-input">
+                <option value="variable-mfg">Variable manufacturing cost</option>
+                <option value="manufacturing" selected>Total manufacturing cost</option>
+                <option value="full-cost">Full product cost</option>
+              </select>
+            </div>
+          </div>
+
+          <button class="btn btn--primary" id="cp-calculate" style="margin-top:var(--space-4);">Calculate Cost-Plus Price &rarr;</button>
+        </div>
+      </div>
+    </section>
+
+    <!-- TOOL 3 -->
+    <section class="learn-section learn-section--alt" id="tool-target-costing">
+      <div class="container container--tool">
+        <div class="tool-header">
+          <div class="tool-header__label">Tool 3 of 4</div>
+          <h2 class="tool-header__title">Target Costing and Value Engineering</h2>
+          <p class="tool-header__desc">
+            Target costing starts with the market price customers are willing to pay,
+            subtracts target operating income, and produces the allowable target cost.
+            Value engineering then searches for design and process changes to close the cost gap.
+          </p>
+        </div>
+        <div class="card">
+          <div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:var(--space-4);">
+            <h3 style="font-size:var(--font-size-base);font-weight:700;margin:0;">Target Cost Inputs</h3>
+            <div style="display:flex;gap:var(--space-3);">
+              <button class="btn btn--secondary btn--sm" id="tc-load-example">Load Launch Case</button>
+              <button class="btn btn--secondary btn--sm" id="tc-randomize">&#127922; Randomize</button>
+            </div>
+          </div>
+
+          <div class="ohrate-grid">
+            <div class="form-group">
+              <label class="form-label" for="tc-target-price">Target Price per Unit</label>
+              <input class="form-input" type="number" id="tc-target-price" value="240" min="0" step="1" />
+            </div>
+            <div class="form-group">
+              <label class="form-label" for="tc-target-margin">Target Operating Income Margin</label>
+              <input class="form-input" type="number" id="tc-target-margin" value="22" min="0" max="90" step="0.5" />
+            </div>
+            <div class="form-group">
+              <label class="form-label" for="tc-current-cost">Current Estimated Cost per Unit</label>
+              <input class="form-input" type="number" id="tc-current-cost" value="205" min="0" step="1" />
+            </div>
+            <div class="form-group">
+              <label class="form-label" for="tc-annual-units">Expected Annual Units</label>
+              <input class="form-input" type="number" id="tc-annual-units" value="40000" min="1" />
+            </div>
+          </div>
+
+          <p class="ch9-section-label" style="margin-top:var(--space-4);">Value Engineering Levers</p>
+          <div class="ohrate-grid">
+            <div class="form-group">
+              <label class="form-label" for="tc-design-saving">Design Simplification Saving per Unit</label>
+              <input class="form-input" type="number" id="tc-design-saving" value="7" min="0" step="0.50" />
+            </div>
+            <div class="form-group">
+              <label class="form-label" for="tc-supplier-saving">Supplier / Materials Saving per Unit</label>
+              <input class="form-input" type="number" id="tc-supplier-saving" value="6" min="0" step="0.50" />
+            </div>
+            <div class="form-group">
+              <label class="form-label" for="tc-process-saving">Process Improvement Saving per Unit</label>
+              <input class="form-input" type="number" id="tc-process-saving" value="5" min="0" step="0.50" />
+            </div>
+            <div class="form-group">
+              <label class="form-label" for="tc-service-saving">Service / Distribution Saving per Unit</label>
+              <input class="form-input" type="number" id="tc-service-saving" value="3" min="0" step="0.50" />
+            </div>
+          </div>
+
+          <button class="btn btn--primary" id="tc-calculate" style="margin-top:var(--space-4);">Analyze Target Cost &rarr;</button>
+        </div>
+      </div>
+    </section>
+
+    <!-- TOOL 4 -->
+    <section class="learn-section" id="tool-life-cycle">
+      <div class="container container--tool">
+        <div class="tool-header">
+          <div class="tool-header__label">Tool 4 of 4</div>
+          <h2 class="tool-header__title">Life-Cycle Profitability Planner</h2>
+          <p class="tool-header__desc">
+            Product costs are often locked in before production begins, while revenues
+            and support costs occur over several years. Life-cycle costing evaluates
+            profitability over the full value chain rather than a single accounting period.
+          </p>
+        </div>
+        <div class="card">
+          <div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:var(--space-4);">
+            <h3 style="font-size:var(--font-size-base);font-weight:700;margin:0;">Life-Cycle Inputs</h3>
+            <div style="display:flex;gap:var(--space-3);">
+              <button class="btn btn--secondary btn--sm" id="lc-load-example">Load Device Case</button>
+              <button class="btn btn--secondary btn--sm" id="lc-randomize">&#127922; Randomize</button>
+            </div>
+          </div>
+
+          <div class="ohrate-grid">
+            <div class="form-group">
+              <label class="form-label" for="lc-price">Average Selling Price per Unit</label>
+              <input class="form-input" type="number" id="lc-price" value="320" min="0" step="1" />
+            </div>
+            <div class="form-group">
+              <label class="form-label" for="lc-units-y1">Year 1 Units</label>
+              <input class="form-input" type="number" id="lc-units-y1" value="18000" min="0" />
+            </div>
+            <div class="form-group">
+              <label class="form-label" for="lc-units-y2">Year 2 Units</label>
+              <input class="form-input" type="number" id="lc-units-y2" value="35000" min="0" />
+            </div>
+            <div class="form-group">
+              <label class="form-label" for="lc-units-y3">Year 3 Units</label>
+              <input class="form-input" type="number" id="lc-units-y3" value="22000" min="0" />
+            </div>
+          </div>
+
+          <p class="ch9-section-label" style="margin-top:var(--space-4);">Value-Chain Costs</p>
+          <div class="ohrate-grid">
+            <div class="form-group">
+              <label class="form-label" for="lc-rd">Research and Development</label>
+              <input class="form-input" type="number" id="lc-rd" value="2200000" min="0" />
+            </div>
+            <div class="form-group">
+              <label class="form-label" for="lc-design">Design and Tooling</label>
+              <input class="form-input" type="number" id="lc-design" value="1400000" min="0" />
+            </div>
+            <div class="form-group">
+              <label class="form-label" for="lc-var-mfg">Variable Manufacturing Cost per Unit</label>
+              <input class="form-input" type="number" id="lc-var-mfg" value="145" min="0" step="1" />
+            </div>
+            <div class="form-group">
+              <label class="form-label" for="lc-fixed-mfg">Fixed Manufacturing Support</label>
+              <input class="form-input" type="number" id="lc-fixed-mfg" value="1750000" min="0" />
+            </div>
+            <div class="form-group">
+              <label class="form-label" for="lc-marketing">Marketing and Distribution</label>
+              <input class="form-input" type="number" id="lc-marketing" value="1200000" min="0" />
+            </div>
+            <div class="form-group">
+              <label class="form-label" for="lc-support">Warranty and Customer Support</label>
+              <input class="form-input" type="number" id="lc-support" value="900000" min="0" />
+            </div>
+          </div>
+
+          <button class="btn btn--primary" id="lc-calculate" style="margin-top:var(--space-4);">Plan Life-Cycle Profitability &rarr;</button>
+        </div>
+      </div>
+    </section>
+
+    <!-- KEY TERMS -->
+    <section class="learn-section learn-section--alt">
+      <div class="container container--tool">
+        <div class="tool-header">
+          <h2 class="tool-header__title">Key Terms</h2>
+          <p class="tool-header__desc">Click any term to see its definition.</p>
+        </div>
+        <div class="key-terms-grid" id="key-terms-grid"></div>
+      </div>
+    </section>
+
+    <!-- CHAPTER COMPLETE -->
+    <section class="learn-section">
+      <div class="container container--tool">
+        <div class="chapter-complete card" id="chapter-complete">
+          <div class="chapter-complete__icon">&#9989;</div>
+          <h2 class="chapter-complete__title">Chapter 14 Complete</h2>
+          <p class="chapter-complete__desc">
+            You can now distinguish pricing contexts, calculate cost-plus prices,
+            use target costing and value engineering to manage costs before production,
+            and evaluate profitability over a product life cycle.
+          </p>
+          <div class="chapter-complete__actions">
+            <button class="btn btn--primary" id="mark-complete-btn">Mark as Complete</button>
+            <a href="/pages/learn/ch15.html" class="btn btn--secondary">Next: Ch. 15 &rarr;</a>
+          </div>
+        </div>
+      </div>
+    </section>
+
+  </main>
+
+  <script type="module" src="/js/learn/ch14.js"></script>
+</body>
+</html>
