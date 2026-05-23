@@ -1,0 +1,328 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <meta name="description" content="Chapter 15: Cost Allocation and Customer Profitability Analysis" />
+  <title>Ch. 15 &middot; Cost Allocation and Customer Profitability</title>
+  <link rel="stylesheet" href="/css/base.css" />
+  <link rel="stylesheet" href="/css/components.css" />
+  <link rel="stylesheet" href="/css/learn.css" />
+  <link rel="stylesheet" href="/css/settings-panel.css" />
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet" />
+  <script>
+    (function(){
+      var r = document.documentElement;
+      var w = localStorage.getItem('pref-width');
+      var f = localStorage.getItem('pref-font');
+      var t = localStorage.getItem('pref-theme');
+      if (w) r.style.setProperty('--max-width-tool', w + 'px');
+      if (f) r.style.setProperty('--font-scale', f);
+      if (t === 'dark') r.setAttribute('data-theme', 'dark');
+    })();
+  </script>
+</head>
+<body>
+
+  <header class="site-header" role="banner">
+    <div class="site-header__inner">
+      <a href="/" class="site-header__logo">
+        <span>&#128202;</span>
+        <span>Managerial Accounting</span>
+      </a>
+      <nav class="site-header__nav" role="navigation" aria-label="Main navigation">
+        <a href="/pages/learn/" class="site-header__nav-link site-header__nav-link--active">Learn</a>
+        <a href="/pages/apply/" class="site-header__nav-link">Apply</a>
+      </nav>
+    </div>
+  </header>
+
+  <main>
+
+    <!-- HERO -->
+    <section class="page__hero">
+      <div class="container">
+        <div class="chapter-nav">
+          <div style="display:flex;gap:var(--space-4);align-items:center;">
+            <a href="/pages/learn/" class="chapter-nav__back">&larr; All Chapters</a>
+            <a href="/pages/learn/ch14.html" class="chapter-nav__back">&larr; Ch. 14</a>
+          </div>
+          <div class="chapter-nav__position">
+            <span>Chapter 15 of 24</span>
+            <a href="/pages/learn/ch16.html" class="chapter-nav__next">Ch. 16 &rarr;</a>
+          </div>
+        </div>
+        <div class="chapter-hero__meta">
+          <span class="chapter-badge chapter-badge--control">Customer Profitability</span>
+          <span class="chapter-hero__number">Chapter 15</span>
+        </div>
+        <h1 class="page__hero-title">Cost Allocation and Customer Profitability Analysis</h1>
+        <p class="page__hero-subtitle">
+          Trace and allocate customer-related costs, analyze customer profitability,
+          visualize profit concentration with a whale curve, and decompose sales-volume
+          performance into mix, quantity, market-share, and market-size effects.
+        </p>
+        <div class="chapter-hero__progress" id="ch15-progress-indicator">
+          <span class="chapter-hero__progress-label" id="ch15-status">Not started</span>
+        </div>
+      </div>
+    </section>
+
+    <!-- LEARNING OBJECTIVES -->
+    <section class="learn-section">
+      <div class="container container--tool">
+        <div class="objectives-card card">
+          <h2 class="objectives-card__title">Learning Objectives</h2>
+          <ol class="objectives-list">
+            <li>Identify the purposes and criteria used to allocate costs to customers and channels</li>
+            <li>Classify customer costs using the customer cost hierarchy</li>
+            <li>Prepare and interpret customer profitability reports</li>
+            <li>Use whale-curve analysis to understand profit concentration and customer tiers</li>
+            <li>Calculate sales-volume, sales-mix, sales-quantity, market-share, and market-size variances</li>
+          </ol>
+        </div>
+      </div>
+    </section>
+
+    <!-- TOOL 1 -->
+    <section class="learn-section learn-section--alt" id="tool-customer-hierarchy">
+      <div class="container container--tool">
+        <div class="tool-header">
+          <div class="tool-header__label">Tool 1 of 4</div>
+          <h2 class="tool-header__title">Customer Cost Hierarchy Classifier</h2>
+          <p class="tool-header__desc">
+            Customer costs occur at different levels. Classify each cost as customer output-unit,
+            customer batch-level, customer-sustaining, distribution-channel, or corporate-sustaining.
+          </p>
+        </div>
+        <div class="card">
+          <div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:var(--space-4);">
+            <h3 style="font-size:var(--font-size-base);font-weight:700;margin:0;">Scenario Quiz</h3>
+            <button class="btn btn--secondary btn--sm" id="hier-reset-btn">&#127922; Reset &amp; Shuffle</button>
+          </div>
+          <button class="btn btn--primary" id="hier-next-btn">Show Cost Item</button>
+          <div id="hier-scenario-area"></div>
+          <div id="hier-results-area"></div>
+        </div>
+      </div>
+    </section>
+
+    <!-- TOOL 2 -->
+    <section class="learn-section" id="tool-customer-profitability">
+      <div class="container container--tool">
+        <div class="tool-header">
+          <div class="tool-header__label">Tool 2 of 4</div>
+          <h2 class="tool-header__title">Customer Profitability Analyzer</h2>
+          <p class="tool-header__desc">
+            A high-revenue customer is not always a high-profit customer. Enter customer revenues,
+            product costs, ordering, delivery, support, and returns data to compute customer-level operating income.
+          </p>
+        </div>
+        <div class="card">
+          <div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:var(--space-4);">
+            <h3 style="font-size:var(--font-size-base);font-weight:700;margin:0;">Customer Inputs</h3>
+            <div style="display:flex;gap:var(--space-3);">
+              <button class="btn btn--secondary btn--sm" id="cpa-load-example">Load Example</button>
+              <button class="btn btn--secondary btn--sm" id="cpa-randomize">&#127922; Randomize</button>
+            </div>
+          </div>
+
+          <div class="ohrate-grid">
+            <div class="form-group">
+              <label class="form-label" for="cpa-order-rate">Cost per Customer Order</label>
+              <input class="form-input" type="number" id="cpa-order-rate" value="90" min="0" step="5" />
+            </div>
+            <div class="form-group">
+              <label class="form-label" for="cpa-delivery-rate">Cost per Delivery</label>
+              <input class="form-input" type="number" id="cpa-delivery-rate" value="240" min="0" step="10" />
+            </div>
+            <div class="form-group">
+              <label class="form-label" for="cpa-support-rate">Cost per Support Hour</label>
+              <input class="form-input" type="number" id="cpa-support-rate" value="65" min="0" step="5" />
+            </div>
+          </div>
+
+          <div style="overflow-x:auto;margin-top:var(--space-4);">
+            <table class="ch12-result-table" aria-label="Customer profitability inputs">
+              <thead>
+                <tr>
+                  <th>Customer</th>
+                  <th>Revenue</th>
+                  <th>Product Cost</th>
+                  <th>Orders</th>
+                  <th>Deliveries</th>
+                  <th>Support Hours</th>
+                  <th>Returns / Discounts</th>
+                </tr>
+              </thead>
+              <tbody>
+                <tr>
+                  <td><input class="form-input form-input--sm" id="cpa-c1-name" value="Apex Retail" /></td>
+                  <td><input class="form-input form-input--sm" type="number" id="cpa-c1-revenue" value="920000" /></td>
+                  <td><input class="form-input form-input--sm" type="number" id="cpa-c1-product" value="598000" /></td>
+                  <td><input class="form-input form-input--sm" type="number" id="cpa-c1-orders" value="48" /></td>
+                  <td><input class="form-input form-input--sm" type="number" id="cpa-c1-deliveries" value="24" /></td>
+                  <td><input class="form-input form-input--sm" type="number" id="cpa-c1-support" value="140" /></td>
+                  <td><input class="form-input form-input--sm" type="number" id="cpa-c1-returns" value="36000" /></td>
+                </tr>
+                <tr>
+                  <td><input class="form-input form-input--sm" id="cpa-c2-name" value="Beacon Wholesale" /></td>
+                  <td><input class="form-input form-input--sm" type="number" id="cpa-c2-revenue" value="760000" /></td>
+                  <td><input class="form-input form-input--sm" type="number" id="cpa-c2-product" value="532000" /></td>
+                  <td><input class="form-input form-input--sm" type="number" id="cpa-c2-orders" value="18" /></td>
+                  <td><input class="form-input form-input--sm" type="number" id="cpa-c2-deliveries" value="10" /></td>
+                  <td><input class="form-input form-input--sm" type="number" id="cpa-c2-support" value="52" /></td>
+                  <td><input class="form-input form-input--sm" type="number" id="cpa-c2-returns" value="12000" /></td>
+                </tr>
+                <tr>
+                  <td><input class="form-input form-input--sm" id="cpa-c3-name" value="Cobalt Online" /></td>
+                  <td><input class="form-input form-input--sm" type="number" id="cpa-c3-revenue" value="510000" /></td>
+                  <td><input class="form-input form-input--sm" type="number" id="cpa-c3-product" value="357000" /></td>
+                  <td><input class="form-input form-input--sm" type="number" id="cpa-c3-orders" value="92" /></td>
+                  <td><input class="form-input form-input--sm" type="number" id="cpa-c3-deliveries" value="64" /></td>
+                  <td><input class="form-input form-input--sm" type="number" id="cpa-c3-support" value="260" /></td>
+                  <td><input class="form-input form-input--sm" type="number" id="cpa-c3-returns" value="42000" /></td>
+                </tr>
+              </tbody>
+            </table>
+          </div>
+
+          <button class="btn btn--primary" id="cpa-calculate" style="margin-top:var(--space-4);">Analyze Customer Profitability &rarr;</button>
+          <div id="cpa-output"></div>
+          <div id="cpa-show-work"></div>
+        </div>
+      </div>
+    </section>
+
+    <!-- TOOL 3 -->
+    <section class="learn-section learn-section--alt" id="tool-whale-curve">
+      <div class="container container--tool">
+        <div class="tool-header">
+          <div class="tool-header__label">Tool 3 of 4</div>
+          <h2 class="tool-header__title">Whale Curve Builder</h2>
+          <p class="tool-header__desc">
+            Whale curves rank customers from most profitable to least profitable and plot cumulative profit.
+            The curve often rises above total company profit before unprofitable customers pull it back down.
+          </p>
+        </div>
+        <div class="card">
+          <div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:var(--space-4);">
+            <h3 style="font-size:var(--font-size-base);font-weight:700;margin:0;">Customer Profit Pool</h3>
+            <div style="display:flex;gap:var(--space-3);">
+              <button class="btn btn--secondary btn--sm" id="whale-load-example">Load Example</button>
+              <button class="btn btn--secondary btn--sm" id="whale-randomize">&#127922; Randomize</button>
+            </div>
+          </div>
+          <p style="font-size:var(--font-size-sm);color:var(--color-gray-600);margin-top:0;">
+            Use the default 12-customer data set or randomize a new portfolio. The chart is generated from customer operating income values.
+          </p>
+          <button class="btn btn--primary" id="whale-build">Build Whale Curve &rarr;</button>
+          <div id="whale-output"></div>
+          <div id="whale-show-work"></div>
+        </div>
+      </div>
+    </section>
+
+    <!-- TOOL 4 -->
+    <section class="learn-section" id="tool-sales-variance">
+      <div class="container container--tool">
+        <div class="tool-header">
+          <div class="tool-header__label">Tool 4 of 4</div>
+          <h2 class="tool-header__title">Sales Variance Calculator</h2>
+          <p class="tool-header__desc">
+            Decompose sales-volume performance into sales-mix and sales-quantity variances,
+            then split quantity into market-share and market-size effects using market data.
+          </p>
+        </div>
+        <div class="card">
+          <div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:var(--space-4);">
+            <h3 style="font-size:var(--font-size-base);font-weight:700;margin:0;">Two-Product Sales Inputs</h3>
+            <div style="display:flex;gap:var(--space-3);">
+              <button class="btn btn--secondary btn--sm" id="sv-load-example">Load Example</button>
+              <button class="btn btn--secondary btn--sm" id="sv-randomize">&#127922; Randomize</button>
+            </div>
+          </div>
+
+          <div style="overflow-x:auto;">
+            <table class="ch12-result-table" aria-label="Sales variance inputs">
+              <thead>
+                <tr>
+                  <th>Product</th>
+                  <th>Budget Units</th>
+                  <th>Actual Units</th>
+                  <th>Budget CM / Unit</th>
+                </tr>
+              </thead>
+              <tbody>
+                <tr>
+                  <td><input class="form-input form-input--sm" id="sv-p1-name" value="Standard" /></td>
+                  <td><input class="form-input form-input--sm" type="number" id="sv-p1-bq" value="9000" /></td>
+                  <td><input class="form-input form-input--sm" type="number" id="sv-p1-aq" value="7600" /></td>
+                  <td><input class="form-input form-input--sm" type="number" id="sv-p1-cm" value="18" /></td>
+                </tr>
+                <tr>
+                  <td><input class="form-input form-input--sm" id="sv-p2-name" value="Premium" /></td>
+                  <td><input class="form-input form-input--sm" type="number" id="sv-p2-bq" value="6000" /></td>
+                  <td><input class="form-input form-input--sm" type="number" id="sv-p2-aq" value="8100" /></td>
+                  <td><input class="form-input form-input--sm" type="number" id="sv-p2-cm" value="35" /></td>
+                </tr>
+              </tbody>
+            </table>
+          </div>
+
+          <p class="ch9-section-label" style="margin-top:var(--space-4);">Market Data</p>
+          <div class="ohrate-grid">
+            <div class="form-group">
+              <label class="form-label" for="sv-budget-market">Budgeted Total Market Size</label>
+              <input class="form-input" type="number" id="sv-budget-market" value="150000" min="1" />
+            </div>
+            <div class="form-group">
+              <label class="form-label" for="sv-actual-market">Actual Total Market Size</label>
+              <input class="form-input" type="number" id="sv-actual-market" value="157000" min="1" />
+            </div>
+          </div>
+
+          <button class="btn btn--primary" id="sv-calculate" style="margin-top:var(--space-4);">Calculate Sales Variances &rarr;</button>
+          <div id="sv-output"></div>
+          <div id="sv-show-work"></div>
+        </div>
+      </div>
+    </section>
+
+    <!-- KEY TERMS -->
+    <section class="learn-section learn-section--alt">
+      <div class="container container--tool">
+        <div class="tool-header">
+          <h2 class="tool-header__title">Key Terms</h2>
+          <p class="tool-header__desc">Click any term to see its definition.</p>
+        </div>
+        <div class="key-terms-grid" id="key-terms-grid"></div>
+      </div>
+    </section>
+
+    <!-- CHAPTER COMPLETE -->
+    <section class="learn-section">
+      <div class="container container--tool">
+        <div class="chapter-complete card" id="chapter-complete">
+          <div class="chapter-complete__icon">&#9989;</div>
+          <h2 class="chapter-complete__title">Chapter 15 Complete</h2>
+          <p class="chapter-complete__desc">
+            You can now classify customer costs, build customer profitability reports,
+            interpret whale curves, and explain sales-volume performance using mix,
+            quantity, market-share, and market-size variances.
+          </p>
+          <div class="chapter-complete__actions">
+            <button class="btn btn--primary" id="mark-complete-btn">Mark as Complete</button>
+            <a href="/pages/learn/ch16.html" class="btn btn--secondary">Next: Ch. 16 &rarr;</a>
+          </div>
+        </div>
+      </div>
+    </section>
+
+  </main>
+
+  <script type="module" src="/js/learn/ch15.js"></script>
+</body>
+</html>

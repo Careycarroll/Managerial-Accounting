@@ -1,0 +1,441 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <meta name="description" content="Chapter 16: Allocation of Support-Department Costs, Common Costs, and Revenues" />
+  <title>Ch. 16 &middot; Support-Department Cost Allocation</title>
+  <link rel="stylesheet" href="/css/base.css" />
+  <link rel="stylesheet" href="/css/components.css" />
+  <link rel="stylesheet" href="/css/learn.css" />
+  <link rel="stylesheet" href="/css/settings-panel.css" />
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet" />
+  <script>
+    (function(){
+      var r = document.documentElement;
+      var w = localStorage.getItem('pref-width');
+      var f = localStorage.getItem('pref-font');
+      var t = localStorage.getItem('pref-theme');
+      if (w) r.style.setProperty('--max-width-tool', w + 'px');
+      if (f) r.style.setProperty('--font-scale', f);
+      if (t === 'dark') r.setAttribute('data-theme', 'dark');
+    })();
+  </script>
+</head>
+<body>
+
+  <header class="site-header" role="banner">
+    <div class="site-header__inner">
+      <a href="/" class="site-header__logo">
+        <span>&#128202;</span>
+        <span>Managerial Accounting</span>
+      </a>
+      <nav class="site-header__nav" role="navigation" aria-label="Main navigation">
+        <a href="/pages/learn/" class="site-header__nav-link site-header__nav-link--active">Learn</a>
+        <a href="/pages/apply/" class="site-header__nav-link">Apply</a>
+      </nav>
+    </div>
+  </header>
+
+  <main>
+
+    <!-- HERO -->
+    <section class="page__hero">
+      <div class="container">
+        <div class="chapter-nav">
+          <div style="display:flex;gap:var(--space-4);align-items:center;">
+            <a href="/pages/learn/" class="chapter-nav__back">&larr; All Chapters</a>
+            <a href="/pages/learn/ch15.html" class="chapter-nav__back">&larr; Ch. 15</a>
+          </div>
+          <div class="chapter-nav__position">
+            <span>Chapter 16 of 24</span>
+            <a href="/pages/learn/ch17.html" class="chapter-nav__next">Ch. 17 &rarr;</a>
+          </div>
+        </div>
+        <div class="chapter-hero__meta">
+          <span class="chapter-badge chapter-badge--control">Cost Allocation</span>
+          <span class="chapter-hero__number">Chapter 16</span>
+        </div>
+        <h1 class="page__hero-title">Allocation of Support-Department Costs, Common Costs, and Revenues</h1>
+        <p class="page__hero-subtitle">
+          Compare direct, step-down, and reciprocal allocation methods for support departments,
+          allocate common costs fairly, and distribute bundled revenues using standalone,
+          incremental, and Shapley value approaches.
+        </p>
+        <div class="chapter-hero__progress" id="ch16-progress-indicator">
+          <span class="chapter-hero__progress-label" id="ch16-status">Not started</span>
+        </div>
+      </div>
+    </section>
+
+    <!-- LEARNING OBJECTIVES -->
+    <section class="learn-section">
+      <div class="container container--tool">
+        <div class="objectives-card card">
+          <h2 class="objectives-card__title">Learning Objectives</h2>
+          <ol class="objectives-list">
+            <li>Identify the purposes of allocating support-department costs to operating departments</li>
+            <li>Distinguish between the direct, step-down, and reciprocal allocation methods</li>
+            <li>Allocate support-department costs using all three methods and explain the differences</li>
+            <li>Allocate common costs using the standalone and incremental methods</li>
+            <li>Allocate revenues from bundled products using standalone, incremental, and Shapley value methods</li>
+          </ol>
+        </div>
+      </div>
+    </section>
+
+    <!-- TOOL 1: Support Department Allocation Engine -->
+    <section class="learn-section learn-section--alt" id="tool-allocation-engine">
+      <div class="container container--tool">
+        <div class="tool-header">
+          <div class="tool-header__label">Tool 1 of 4</div>
+          <h2 class="tool-header__title">Support Department Allocation Engine</h2>
+          <p class="tool-header__desc">
+            Compare all three allocation methods side by side. Enter support department costs
+            and the usage percentages each department receives from the others. The direct method
+            ignores reciprocal services; the step-down method partially recognizes them; the
+            reciprocal method fully recognizes all interdepartmental services.
+          </p>
+        </div>
+        <div class="card">
+          <div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:var(--space-4);">
+            <h3 style="font-size:var(--font-size-base);font-weight:700;margin:0;">Department Setup</h3>
+            <div style="display:flex;gap:var(--space-3);">
+              <button class="btn btn--secondary btn--sm" id="alloc-load-example">Load Example</button>
+              <button class="btn btn--secondary btn--sm" id="alloc-randomize">&#127922; Randomize</button>
+            </div>
+          </div>
+
+          <p class="ch9-section-label">Support Departments</p>
+          <div class="ohrate-grid">
+            <div class="form-group">
+              <label class="form-label" for="sd1-name">Support Dept 1 Name</label>
+              <input class="form-input" type="text" id="sd1-name" value="Information Systems" />
+            </div>
+            <div class="form-group">
+              <label class="form-label" for="sd1-cost">Budgeted Cost ($)</label>
+              <input class="form-input" type="number" id="sd1-cost" value="600000" min="0" step="10000" />
+            </div>
+            <div class="form-group">
+              <label class="form-label" for="sd2-name">Support Dept 2 Name</label>
+              <input class="form-input" type="text" id="sd2-name" value="Administration" />
+            </div>
+            <div class="form-group">
+              <label class="form-label" for="sd2-cost">Budgeted Cost ($)</label>
+              <input class="form-input" type="number" id="sd2-cost" value="400000" min="0" step="10000" />
+            </div>
+          </div>
+
+          <p class="ch9-section-label" style="margin-top:var(--space-4);">Operating Departments</p>
+          <div class="ohrate-grid">
+            <div class="form-group">
+              <label class="form-label" for="od1-name">Operating Dept 1 Name</label>
+              <input class="form-input" type="text" id="od1-name" value="Manufacturing" />
+            </div>
+            <div class="form-group">
+              <label class="form-label" for="od2-name">Operating Dept 2 Name</label>
+              <input class="form-input" type="text" id="od2-name" value="Marketing" />
+            </div>
+          </div>
+
+          <p class="ch9-section-label" style="margin-top:var(--space-4);">Usage Percentages (rows must sum to 100%)</p>
+          <div style="overflow-x:auto;">
+            <table class="ch12-result-table" style="margin-bottom:var(--space-4);">
+              <thead>
+                <tr>
+                  <th>Services Used By &rarr;</th>
+                  <th id="col-sd1-label">IS</th>
+                  <th id="col-sd2-label">Admin</th>
+                  <th id="col-od1-label">Mfg</th>
+                  <th id="col-od2-label">Mktg</th>
+                </tr>
+              </thead>
+              <tbody>
+                <tr>
+                  <td><strong id="row-sd1-label">IS provides:</strong></td>
+                  <td><input class="form-input form-input--sm" type="number" id="sd1-to-sd1" value="0" min="0" max="100" step="5" /></td>
+                  <td><input class="form-input form-input--sm" type="number" id="sd1-to-sd2" value="25" min="0" max="100" step="5" /></td>
+                  <td><input class="form-input form-input--sm" type="number" id="sd1-to-od1" value="50" min="0" max="100" step="5" /></td>
+                  <td><input class="form-input form-input--sm" type="number" id="sd1-to-od2" value="25" min="0" max="100" step="5" /></td>
+                </tr>
+                <tr>
+                  <td><strong id="row-sd2-label">Admin provides:</strong></td>
+                  <td><input class="form-input form-input--sm" type="number" id="sd2-to-sd1" value="10" min="0" max="100" step="5" /></td>
+                  <td><input class="form-input form-input--sm" type="number" id="sd2-to-sd2" value="0" min="0" max="100" step="5" /></td>
+                  <td><input class="form-input form-input--sm" type="number" id="sd2-to-od1" value="60" min="0" max="100" step="5" /></td>
+                  <td><input class="form-input form-input--sm" type="number" id="sd2-to-od2" value="30" min="0" max="100" step="5" /></td>
+                </tr>
+              </tbody>
+            </table>
+          </div>
+
+          <button class="btn btn--primary" id="alloc-calculate">Compare Allocation Methods &rarr;</button>
+          <div id="alloc-output"></div>
+          <div id="alloc-show-work"></div>
+        </div>
+      </div>
+    </section>
+
+    <!-- TOOL 2: Common Cost Allocator -->
+    <section class="learn-section" id="tool-common-cost">
+      <div class="container container--tool">
+        <div class="tool-header">
+          <div class="tool-header__label">Tool 2 of 4</div>
+          <h2 class="tool-header__title">Common Cost Allocator</h2>
+          <p class="tool-header__desc">
+            A common cost is the cost of operating a facility shared by two or more users.
+            The standalone method allocates based on each user's proportional standalone cost.
+            The incremental method assigns costs based on a primary/secondary ranking.
+            Compare both methods and see how the choice affects each party.
+          </p>
+        </div>
+        <div class="card">
+          <div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:var(--space-4);">
+            <h3 style="font-size:var(--font-size-base);font-weight:700;margin:0;">Cost and User Inputs</h3>
+            <div style="display:flex;gap:var(--space-3);">
+              <button class="btn btn--secondary btn--sm" id="cc-load-example">Load Example</button>
+              <button class="btn btn--secondary btn--sm" id="cc-randomize">&#127922; Randomize</button>
+            </div>
+          </div>
+
+          <div class="ohrate-grid">
+            <div class="form-group">
+              <label class="form-label" for="cc-total-cost">Total Common Cost to Allocate ($)</label>
+              <input class="form-input" type="number" id="cc-total-cost" value="36000" min="0" step="1000" />
+            </div>
+          </div>
+
+          <p class="ch9-section-label" style="margin-top:var(--space-4);">Users and Standalone Costs</p>
+          <div class="ohrate-grid">
+            <div class="form-group">
+              <label class="form-label" for="cc-u1-name">User 1 Name</label>
+              <input class="form-input" type="text" id="cc-u1-name" value="Widgetron Division" />
+            </div>
+            <div class="form-group">
+              <label class="form-label" for="cc-u1-standalone">User 1 Standalone Cost ($)</label>
+              <input class="form-input" type="number" id="cc-u1-standalone" value="30000" min="0" step="1000" />
+            </div>
+            <div class="form-group">
+              <label class="form-label" for="cc-u2-name">User 2 Name</label>
+              <input class="form-input" type="text" id="cc-u2-name" value="Gadgetron Division" />
+            </div>
+            <div class="form-group">
+              <label class="form-label" for="cc-u2-standalone">User 2 Standalone Cost ($)</label>
+              <input class="form-input" type="number" id="cc-u2-standalone" value="20000" min="0" step="1000" />
+            </div>
+          </div>
+
+          <p class="ch9-section-label" style="margin-top:var(--space-4);">Incremental Method Ranking</p>
+          <div class="ohrate-grid">
+            <div class="form-group">
+              <label class="form-label" for="cc-primary">Primary User (ranked first)</label>
+              <select class="form-input" id="cc-primary">
+                <option value="u1">User 1</option>
+                <option value="u2">User 2</option>
+              </select>
+            </div>
+          </div>
+
+          <button class="btn btn--primary" id="cc-calculate" style="margin-top:var(--space-4);">Allocate Common Costs &rarr;</button>
+          <div id="cc-output"></div>
+          <div id="cc-show-work"></div>
+        </div>
+      </div>
+    </section>
+
+    <!-- TOOL 3: Revenue Allocation Calculator -->
+    <section class="learn-section learn-section--alt" id="tool-revenue-alloc">
+      <div class="container container--tool">
+        <div class="tool-header">
+          <div class="tool-header__label">Tool 3 of 4</div>
+          <h2 class="tool-header__title">Revenue Allocation Calculator</h2>
+          <p class="tool-header__desc">
+            When products are sold as a bundle, the bundle revenue must be allocated back to
+            individual products for profitability reporting. Compare standalone, incremental,
+            and Shapley value methods. The Shapley value allocates based on each product's
+            average marginal contribution across all possible orderings.
+          </p>
+        </div>
+        <div class="card">
+          <div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:var(--space-4);">
+            <h3 style="font-size:var(--font-size-base);font-weight:700;margin:0;">Bundle and Product Inputs</h3>
+            <div style="display:flex;gap:var(--space-3);">
+              <button class="btn btn--secondary btn--sm" id="ra-load-example">Load Example</button>
+              <button class="btn btn--secondary btn--sm" id="ra-randomize">&#127922; Randomize</button>
+            </div>
+          </div>
+
+          <div class="ohrate-grid">
+            <div class="form-group">
+              <label class="form-label" for="ra-bundle-price">Bundle Price ($)</label>
+              <input class="form-input" type="number" id="ra-bundle-price" value="150" min="0" step="5" />
+            </div>
+          </div>
+
+          <p class="ch9-section-label" style="margin-top:var(--space-4);">Products in Bundle</p>
+          <div class="ohrate-grid">
+            <div class="form-group">
+              <label class="form-label" for="ra-p1-name">Product 1 Name</label>
+              <input class="form-input" type="text" id="ra-p1-name" value="Hardware" />
+            </div>
+            <div class="form-group">
+              <label class="form-label" for="ra-p1-standalone">Product 1 Standalone Price ($)</label>
+              <input class="form-input" type="number" id="ra-p1-standalone" value="100" min="0" step="5" />
+            </div>
+            <div class="form-group">
+              <label class="form-label" for="ra-p2-name">Product 2 Name</label>
+              <input class="form-input" type="text" id="ra-p2-name" value="Software" />
+            </div>
+            <div class="form-group">
+              <label class="form-label" for="ra-p2-standalone">Product 2 Standalone Price ($)</label>
+              <input class="form-input" type="number" id="ra-p2-standalone" value="75" min="0" step="5" />
+            </div>
+            <div class="form-group">
+              <label class="form-label" for="ra-p3-name">Product 3 Name (optional)</label>
+              <input class="form-input" type="text" id="ra-p3-name" value="Support" />
+            </div>
+            <div class="form-group">
+              <label class="form-label" for="ra-p3-standalone">Product 3 Standalone Price ($, 0 to exclude)</label>
+              <input class="form-input" type="number" id="ra-p3-standalone" value="50" min="0" step="5" />
+            </div>
+          </div>
+
+          <p class="ch9-section-label" style="margin-top:var(--space-4);">Incremental Method Ranking</p>
+          <div class="ohrate-grid">
+            <div class="form-group">
+              <label class="form-label" for="ra-rank1">First (primary) product</label>
+              <select class="form-input" id="ra-rank1">
+                <option value="0">Product 1</option>
+                <option value="1">Product 2</option>
+                <option value="2">Product 3</option>
+              </select>
+            </div>
+            <div class="form-group">
+              <label class="form-label" for="ra-rank2">Second product</label>
+              <select class="form-input" id="ra-rank2">
+                <option value="1">Product 2</option>
+                <option value="0">Product 1</option>
+                <option value="2">Product 3</option>
+              </select>
+            </div>
+          </div>
+
+          <button class="btn btn--primary" id="ra-calculate" style="margin-top:var(--space-4);">Allocate Bundle Revenue &rarr;</button>
+          <div id="ra-output"></div>
+          <div id="ra-show-work"></div>
+        </div>
+      </div>
+    </section>
+
+    <!-- TOOL 4: Bundled Product Profitability Analyzer -->
+    <section class="learn-section" id="tool-bundle-profit">
+      <div class="container container--tool">
+        <div class="tool-header">
+          <div class="tool-header__label">Tool 4 of 4</div>
+          <h2 class="tool-header__title">Bundled Product Profitability Analyzer</h2>
+          <p class="tool-header__desc">
+            Should you bundle products or sell them separately? Enter customer willingness-to-pay
+            for each product individually and as a bundle, along with variable costs, to see
+            which strategy maximizes contribution margin across different customer segments.
+          </p>
+        </div>
+        <div class="card">
+          <div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:var(--space-4);">
+            <h3 style="font-size:var(--font-size-base);font-weight:700;margin:0;">Pricing and Cost Inputs</h3>
+            <div style="display:flex;gap:var(--space-3);">
+              <button class="btn btn--secondary btn--sm" id="bp-load-example">Load Example</button>
+              <button class="btn btn--secondary btn--sm" id="bp-randomize">&#127922; Randomize</button>
+            </div>
+          </div>
+
+          <div class="ohrate-grid">
+            <div class="form-group">
+              <label class="form-label" for="bp-p1-name">Product A Name</label>
+              <input class="form-input" type="text" id="bp-p1-name" value="Software License" />
+            </div>
+            <div class="form-group">
+              <label class="form-label" for="bp-p1-price">Product A Standalone Price ($)</label>
+              <input class="form-input" type="number" id="bp-p1-price" value="120" min="0" step="5" />
+            </div>
+            <div class="form-group">
+              <label class="form-label" for="bp-p1-vc">Product A Variable Cost ($)</label>
+              <input class="form-input" type="number" id="bp-p1-vc" value="20" min="0" step="5" />
+            </div>
+            <div class="form-group">
+              <label class="form-label" for="bp-p2-name">Product B Name</label>
+              <input class="form-input" type="text" id="bp-p2-name" value="Training Package" />
+            </div>
+            <div class="form-group">
+              <label class="form-label" for="bp-p2-price">Product B Standalone Price ($)</label>
+              <input class="form-input" type="number" id="bp-p2-price" value="80" min="0" step="5" />
+            </div>
+            <div class="form-group">
+              <label class="form-label" for="bp-p2-vc">Product B Variable Cost ($)</label>
+              <input class="form-input" type="number" id="bp-p2-vc" value="30" min="0" step="5" />
+            </div>
+            <div class="form-group">
+              <label class="form-label" for="bp-bundle-price">Bundle Price ($)</label>
+              <input class="form-input" type="number" id="bp-bundle-price" value="160" min="0" step="5" />
+            </div>
+            <div class="form-group">
+              <label class="form-label" for="bp-customers">Total Customers</label>
+              <input class="form-input" type="number" id="bp-customers" value="1000" min="1" step="100" />
+            </div>
+            <div class="form-group">
+              <label class="form-label" for="bp-pct-both">% Who Want Both Products</label>
+              <input class="form-input" type="number" id="bp-pct-both" value="40" min="0" max="100" step="5" />
+            </div>
+            <div class="form-group">
+              <label class="form-label" for="bp-pct-a-only">% Who Want A Only</label>
+              <input class="form-input" type="number" id="bp-pct-a-only" value="35" min="0" max="100" step="5" />
+            </div>
+            <div class="form-group">
+              <label class="form-label" for="bp-pct-b-only">% Who Want B Only</label>
+              <input class="form-input" type="number" id="bp-pct-b-only" value="25" min="0" max="100" step="5" />
+            </div>
+          </div>
+
+          <button class="btn btn--primary" id="bp-calculate" style="margin-top:var(--space-4);">Analyze Bundling Strategy &rarr;</button>
+          <div id="bp-output"></div>
+          <div id="bp-show-work"></div>
+        </div>
+      </div>
+    </section>
+
+    <!-- KEY TERMS -->
+    <section class="learn-section learn-section--alt">
+      <div class="container container--tool">
+        <div class="tool-header">
+          <h2 class="tool-header__title">Key Terms</h2>
+          <p class="tool-header__desc">Click any term to see its definition.</p>
+        </div>
+        <div class="key-terms-grid" id="key-terms-grid"></div>
+      </div>
+    </section>
+
+    <!-- CHAPTER COMPLETE -->
+    <section class="learn-section">
+      <div class="container container--tool">
+        <div class="chapter-complete card" id="chapter-complete">
+          <div class="chapter-complete__icon">&#9989;</div>
+          <h2 class="chapter-complete__title">Chapter 16 Complete</h2>
+          <p class="chapter-complete__desc">
+            You can now allocate support-department costs using direct, step-down, and reciprocal
+            methods; allocate common costs using standalone and incremental approaches; and
+            distribute bundled revenues using standalone, incremental, and Shapley value methods.
+          </p>
+          <div class="chapter-complete__actions">
+            <button class="btn btn--primary" id="mark-complete-btn">Mark as Complete</button>
+            <a href="/pages/learn/ch17.html" class="btn btn--secondary">Next: Ch. 17 &rarr;</a>
+          </div>
+        </div>
+      </div>
+    </section>
+
+  </main>
+
+  <script type="module" src="/js/learn/ch16.js"></script>
+</body>
+</html>

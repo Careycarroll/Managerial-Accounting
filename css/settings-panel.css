@@ -1,0 +1,366 @@
+/* ── Settings Gear Button ──────────────────────────────────────────────────── */
+.settings-gear-btn {
+  background: none;
+  border: none;
+  cursor: pointer;
+  font-size: 1.1rem;
+  padding: var(--space-1) var(--space-2);
+  color: var(--color-header-text, rgba(255, 255, 255, 0.85));
+  border-radius: var(--radius-sm);
+  transition:
+    color var(--transition-fast),
+    background var(--transition-fast);
+  line-height: 1;
+}
+
+.settings-gear-btn:hover {
+  color: #fff;
+  background: rgba(255, 255, 255, 0.1);
+}
+
+/* ── Settings Panel Dropdown ───────────────────────────────────────────────── */
+.settings-panel {
+  position: fixed;
+  z-index: 1000;
+  width: 280px;
+  background: var(--color-card-bg, #ffffff);
+  border: 1px solid var(--color-border, #e2e8f0);
+  border-radius: var(--radius-lg);
+  box-shadow: var(--shadow-lg);
+  font-family: var(--font-sans);
+  font-size: var(--font-size-sm);
+  color: var(--color-gray-900, #1a202c);
+}
+
+.settings-panel__header {
+  padding: var(--space-3) var(--space-4);
+  border-bottom: 1px solid var(--color-border, #e2e8f0);
+}
+
+.settings-panel__title {
+  font-weight: 700;
+  font-size: var(--font-size-sm);
+  color: var(--color-primary);
+}
+
+.settings-panel__body {
+  padding: var(--space-4);
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-5);
+}
+
+.settings-panel__footer {
+  padding: var(--space-3) var(--space-4);
+  border-top: 1px solid var(--color-border, #e2e8f0);
+  display: flex;
+  justify-content: flex-end;
+}
+
+/* ── Settings Row ──────────────────────────────────────────────────────────── */
+.settings-row {
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-2);
+}
+
+.settings-row__label {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  font-weight: 600;
+  color: var(--color-gray-800, #2d3748);
+}
+
+.settings-row__value {
+  font-weight: 700;
+  color: var(--color-primary);
+  min-width: 48px;
+  text-align: right;
+}
+
+.settings-row__hints {
+  display: flex;
+  justify-content: space-between;
+  font-size: var(--font-size-xs);
+  color: var(--color-gray-500, #718096);
+  margin-top: calc(-1 * var(--space-1));
+}
+
+/* ── Slider ────────────────────────────────────────────────────────────────── */
+.settings-slider {
+  -webkit-appearance: none;
+  appearance: none;
+  width: 100%;
+  height: 4px;
+  border-radius: 2px;
+  background: var(--color-gray-200, #e2e8f0);
+  outline: none;
+  cursor: pointer;
+  transition: background var(--transition-fast);
+}
+
+.settings-slider::-webkit-slider-thumb {
+  -webkit-appearance: none;
+  appearance: none;
+  width: 18px;
+  height: 18px;
+  border-radius: 50%;
+  background: var(--color-primary);
+  cursor: pointer;
+  border: 2px solid var(--color-card-bg, #fff);
+  box-shadow: 0 1px 4px rgba(0, 0, 0, 0.2);
+  transition:
+    background var(--transition-fast),
+    transform var(--transition-fast);
+}
+
+.settings-slider::-webkit-slider-thumb:hover {
+  background: var(--color-accent);
+  transform: scale(1.15);
+}
+
+.settings-slider::-moz-range-thumb {
+  width: 18px;
+  height: 18px;
+  border-radius: 50%;
+  background: var(--color-primary);
+  cursor: pointer;
+  border: 2px solid var(--color-card-bg, #fff);
+  box-shadow: 0 1px 4px rgba(0, 0, 0, 0.2);
+}
+
+/* ── Toggle Switch ─────────────────────────────────────────────────────────── */
+.settings-row--toggle {
+  flex-direction: row;
+  align-items: center;
+  gap: var(--space-3);
+}
+
+.settings-row__label-text {
+  font-weight: 600;
+  color: var(--color-gray-800, #2d3748);
+  flex: 1;
+}
+
+.settings-toggle {
+  position: relative;
+  display: inline-block;
+  width: 44px;
+  height: 24px;
+  flex-shrink: 0;
+  cursor: pointer;
+}
+
+.settings-toggle input {
+  opacity: 0;
+  width: 0;
+  height: 0;
+  position: absolute;
+}
+
+.settings-toggle__track {
+  position: absolute;
+  inset: 0;
+  background: var(--color-gray-300, #cbd5e0);
+  border-radius: 12px;
+  transition: background var(--transition-base);
+}
+
+.settings-toggle input:checked + .settings-toggle__track {
+  background: var(--color-primary);
+}
+
+.settings-toggle__thumb {
+  position: absolute;
+  top: 3px;
+  left: 3px;
+  width: 18px;
+  height: 18px;
+  background: #fff;
+  border-radius: 50%;
+  box-shadow: 0 1px 3px rgba(0, 0, 0, 0.2);
+  transition: transform var(--transition-base);
+  pointer-events: none;
+}
+
+.settings-toggle input:checked ~ .settings-toggle__thumb {
+  transform: translateX(20px);
+}
+
+/* ── Reset Button ──────────────────────────────────────────────────────────── */
+#settings-reset {
+  background: var(--color-primary, #1a365d) !important;
+  color: #ffffff !important;
+  border: none !important;
+  border-radius: var(--radius-md) !important;
+  padding: var(--space-2) var(--space-4) !important;
+  font-size: var(--font-size-sm) !important;
+  font-weight: 600 !important;
+  cursor: pointer !important;
+  transition:
+    background var(--transition-fast),
+    opacity var(--transition-fast) !important;
+  box-shadow: none !important;
+}
+
+#settings-reset:hover {
+  background: var(--color-primary-dark, #142849) !important;
+  opacity: 0.9 !important;
+}
+
+/* ── Dark Theme ────────────────────────────────────────────────────────────── */
+[data-theme="dark"] {
+  --color-surface: #1e2530;
+  --color-gray-50: #252d3a;
+  --color-gray-100: #2d3748;
+  --color-gray-200: #3d4f66;
+  --color-gray-300: #4a5568;
+  --color-gray-400: #718096;
+  --color-gray-500: #a0aec0;
+  --color-gray-600: #cbd5e0;
+  --color-gray-700: #e2e8f0;
+  --color-gray-800: #edf2f7;
+  --color-gray-900: #f7fafc;
+  --color-body-bg: #161c26;
+  --color-card-bg: #1e2530;
+  --color-border: #3d4f66;
+}
+
+[data-theme="dark"] body {
+  background: var(--color-body-bg);
+  color: #e2e8f0;
+}
+
+[data-theme="dark"] .card {
+  background: var(--color-card-bg);
+  border-color: var(--color-border);
+  color: #e2e8f0;
+}
+
+[data-theme="dark"] .objectives-card {
+  background: var(--color-card-bg);
+  border-color: var(--color-border);
+}
+
+[data-theme="dark"] .objectives-card__title {
+  color: #f7fafc;
+}
+
+[data-theme="dark"] .objectives-list li {
+  color: #e2e8f0;
+}
+
+[data-theme="dark"] .tool-header__title {
+  color: #f7fafc;
+}
+
+[data-theme="dark"] .tool-header__desc {
+  color: #cbd5e0;
+}
+
+[data-theme="dark"] .form-label {
+  color: #e2e8f0;
+}
+
+[data-theme="dark"] .form-input {
+  background: #2d3748;
+  border-color: #4a5568;
+  color: #e2e8f0;
+}
+
+[data-theme="dark"] .form-input:focus {
+  border-color: var(--color-accent);
+}
+
+[data-theme="dark"] .learn-section {
+  background: var(--color-body-bg);
+}
+
+[data-theme="dark"] .learn-section--alt {
+  background: #1a2030;
+}
+
+[data-theme="dark"] .page__hero {
+  background: #0f1520;
+}
+
+[data-theme="dark"] .chapter-nav__back,
+[data-theme="dark"] .chapter-nav__next {
+  color: #a0aec0;
+}
+
+[data-theme="dark"] .chapter-nav__back:hover,
+[data-theme="dark"] .chapter-nav__next:hover {
+  color: #fff;
+}
+
+[data-theme="dark"] .result-highlight {
+  color: #f7fafc;
+}
+
+[data-theme="dark"] .key-term {
+  background: var(--color-card-bg);
+  border-color: var(--color-border);
+  color: #e2e8f0;
+}
+
+[data-theme="dark"] .key-term__word {
+  color: #f7fafc;
+}
+
+[data-theme="dark"] .key-term__definition {
+  color: #cbd5e0;
+}
+
+[data-theme="dark"] .chapter-complete {
+  background: var(--color-card-bg);
+  border-color: var(--color-border);
+}
+
+[data-theme="dark"] .chapter-complete__title,
+[data-theme="dark"] .chapter-complete__desc {
+  color: #e2e8f0;
+}
+
+[data-theme="dark"] table {
+  color: #e2e8f0;
+}
+
+[data-theme="dark"] th {
+  background: #2d3748;
+  border-color: #4a5568;
+  color: #f7fafc;
+}
+
+[data-theme="dark"] td {
+  border-color: #4a5568;
+  color: #e2e8f0;
+}
+
+[data-theme="dark"] .ch12-insight {
+  background: #252d3a;
+  color: #cbd5e0;
+  border-color: #3d4f66;
+}
+
+[data-theme="dark"] .variance-fav {
+  color: #68d391;
+}
+
+[data-theme="dark"] .variance-unfav {
+  color: #fc8181;
+}
+
+[data-theme="dark"] .result-highlight {
+  color: #90cdf4;
+}
+
+/* ── Font Scale ────────────────────────────────────────────────────────────── */
+:root {
+  --font-scale: 1;
+}
+
+body {
+  font-size: calc(var(--font-size-base, 1rem) * var(--font-scale));
+}

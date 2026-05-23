@@ -5,6 +5,7 @@
 import { markChapterComplete, isChapterComplete, resetChapter } from '/js/core/progress-tracker.js';
 import { renderShowWork } from '/js/components/show-work.js';
 import { initRandomizer } from '/js/components/randomizer.js';
+import { initSettingsPanel } from '/js/components/settings-panel.js';
 
 const CLASSIFIER_ITEMS = [
   {
@@ -518,6 +519,7 @@ function initChapterComplete() {
 }
 
 document.addEventListener('DOMContentLoaded', () => {
+  initSettingsPanel();
   initCostClassifier();
   initRelevantRange();
   initCostFlow();
