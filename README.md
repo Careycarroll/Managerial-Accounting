@@ -45,13 +45,13 @@ Build a comprehensive interactive learning companion that covers every concept i
 | 12 | Decision Making and Relevant Information | Complete | Relevant cost identifier, special order analyzer, make-or-buy calculator, product mix/bottleneck manager, add/drop and equipment replacement |
 | 13 | Strategy, Balanced Scorecard, Strategic Profitability | Complete | Strategy identifier, balanced scorecard builder, strategic profitability analyzer, engineered vs discretionary cost classifier |
 | 14 | Pricing Decisions and Cost Management | Complete | Pricing context identifier, cost-plus pricing calculator, target costing/value engineering, life-cycle profitability planner |
-| 15 | Cost Allocation and Customer Profitability | Not started | Customer profitability analyzer, whale curve, sales variance calculator |
-| 16 | Allocation of Support-Department Costs | Not started | Multi-department allocation engine, Shapley value, revenue allocation |
-| 17 | Cost Allocation: Joint Products and Byproducts | Not started | Process flow visualizer, joint cost allocator, sell-or-process calculator |
-| 18 | Process Costing | Not started | Process costing engine, equivalent units visualizer, method comparison |
-| 19 | Spoilage, Rework, and Scrap | Not started | Spoilage classifier, inspection point visualizer, journal entry generator |
-| 20 | Balanced Scorecard: Quality and Time | Not started | COQ report builder, control chart visualizer, Pareto diagram, MCE calculator |
-| 21 | Inventory Management, JIT, and Simplified Costing | Not started | EOQ calculator, safety stock optimizer, backflush costing engine |
+| 15 | Cost Allocation and Customer Profitability | Complete | Customer cost hierarchy classifier, customer profitability analyzer, whale curve builder, sales variance calculator |
+| 16 | Allocation of Support-Department Costs | Complete | Support department allocation engine (direct/step-down/reciprocal), common cost allocator, revenue allocation with Shapley value, bundled product profitability analyzer |
+| 17 | Cost Allocation: Joint Products and Byproducts | Complete | Joint cost allocator (3 methods), sell-or-process-further calculator, byproduct accounting comparator, process flow visualizer |
+| 18 | Process Costing | Complete | Physical units flow tracker, equivalent units calculator, weighted-average engine, FIFO engine, method comparator |
+| 19 | Spoilage, Rework, and Scrap | Complete | Spoilage classifier, inspection point analyzer, process costing with spoilage (weighted-average), process costing with spoilage (FIFO), rework and scrap accounting |
+| 20 | Balanced Scorecard: Quality and Time | Complete | COQ report builder (two-period), quality cost trade-off analyzer, nonfinancial quality measures analyzer, MCE calculator, Pareto diagram (canvas) |
+| 21 | Inventory Management, JIT, and Simplified Costing | Not started | EOQ calculator, safety stock optimizer, JIT and backflush costing engine |
 | 22 | Capital Budgeting and Cost Analysis | Not started | Capital budgeting dashboard, relevant cash flow builder, sensitivity analysis |
 | 23 | Management Control Systems and Transfer Pricing | Not started | Transfer pricing calculator, goal congruence test, multinational tax tool |
 | 24 | Performance Measurement and Compensation | Not started | Performance dashboard, DuPont decomposition, WACC calculator |
@@ -65,6 +65,7 @@ Build a comprehensive interactive learning companion that covers every concept i
 | Randomizer | js/components/randomizer.js | Built | Numeric tools across Learn chapters |
 | Journal Entry | js/components/journal-entry.js | Built | Ch. 4, Ch. 6, journal-entry style tools |
 | Show Work | js/components/show-work.js | Built | Calculator tools across Learn chapters |
+| Settings Panel | js/components/settings-panel.js | Built | All chapter pages -- width, font, dark mode |
 | Depth Selector | js/components/depth-selector.js | Not built / pending | Planned for Apply section |
 | Formula Display | js/components/formula-display.js | Not built | Planned |
 | Term Tooltip | js/components/term-tooltip.js | Not built | Planned |
@@ -77,9 +78,9 @@ Build a comprehensive interactive learning companion that covers every concept i
 | CVP Chart | js/charts/cvp-chart.js | Built | Ch. 3 |
 | Scatter Plot | js/charts/scatter-chart.js | Built | Ch. 10 |
 | ROC Chart | js/charts/roc-chart.js | Built | Ch. 11 |
+| Pareto Diagram | js/charts/pareto-chart.js | Built | Ch. 20 |
 | Variance Diagram | js/charts/variance-chart.js | Not built | Planned |
-| Control Chart | js/charts/control-chart.js | Not built | Ch. 20 |
-| Pareto Diagram | js/charts/pareto-chart.js | Not built | Ch. 20 |
+| Control Chart | js/charts/control-chart.js | Not built | Planned |
 
 ---
 
@@ -111,9 +112,12 @@ Build a comprehensive interactive learning companion that covers every concept i
 - Progress tracking -- localStorage via progress-tracker.js, resetChapter() per chapter
 - Randomizer -- fires native input events so existing listeners update automatically
 - Show Work -- collapsible step-by-step panels, always rendered after output
+- Settings Panel -- gear icon in header; controls content width, font size, and dark/light theme; persisted to localStorage
+- Dark mode -- toggled via data-theme="dark" on html element; all overrides in css/settings-panel.css
+- No hardcoded hex in JS output -- all JS-generated HTML uses CSS custom property tokens only
 - Chart interactions -- chart components use canvas interaction patterns where applicable
 - Full-bleed layout -- .full-bleed + .full-bleed__inner for content wider than container--tool
-- JS-owned outputs -- interactive result sections are generally created or populated by JavaScript using getOrCreate patterns
+- JS-owned outputs -- interactive result sections created or populated by JavaScript using getOrCreate patterns
 - GitHub Pages -- base path /Managerial-Accounting/ in production, / in dev
 
 ---
@@ -129,13 +133,15 @@ Phase 2 -- Learn Section Chapters 5-12 -- Complete
 Ch. 5 (ABC), Ch. 6 (Master Budget), Ch. 7 (Flexible Budgets and Direct-Cost Variances), Ch. 8 (Overhead Variances), Ch. 9 (Inventory Costing and Capacity Analysis), Ch. 10 (Cost Behavior with scatter chart), Ch. 11 (Data Analytics and Prediction with ROC chart), Ch. 12 (Relevant Costs and Decision Making).
 
 Phase 3 -- Learn Section Chapters 13-24 -- In Progress
-Ch. 13 (Strategy, Balanced Scorecard, Strategic Profitability) and Ch. 14 (Pricing Decisions and Cost Management) are complete. Next: Ch. 15 (Cost Allocation and Customer Profitability), then Ch. 16 through Ch. 24 in textbook order unless dependency needs dictate otherwise.
+Ch. 13 (Strategy), Ch. 14 (Pricing), Ch. 15 (Customer Profitability), Ch. 16 (Support Dept Allocation), Ch. 17 (Joint Products), Ch. 18 (Process Costing), Ch. 19 (Spoilage), Ch. 20 (Quality and Time) -- all complete.
+Settings panel with dark mode, font scaling, and content width added to all pages.
+Next: Ch. 21 (Inventory Management, JIT, and Simplified Costing).
 
 Phase 4 -- Apply Section Level 1 (Concept)
 Build all 12 Apply scenario pages at Concept depth.
 
 Phase 5 -- Shared Chart Library Expansion
-variance-chart, control-chart, pareto-chart, and any additional chart components needed for later chapters.
+variance-chart, control-chart, and any additional chart components needed for later chapters.
 
 Phase 6 -- Apply Section Level 2 (Analysis)
 Upgrade all 12 Apply scenarios to Analysis depth.
@@ -154,7 +160,7 @@ Build Level 3 simulations for the 6 highest-value scenarios.
 
 ## CSS Authoring Rule
 
-Never write CSS inside Python triple-quoted strings passed through a shell heredoc (`<< 'PYEOF'`).
+Never write CSS inside Python triple-quoted strings passed through a shell heredoc.
 The terminal collapses newlines between closing braces and the next selector, producing broken
 output like `}.next-rule {` that renders correctly in browsers but is unreadable and hard to debug.
 
@@ -171,11 +177,23 @@ Always write CSS as a Python list of strings and join with newline:
     with open(path, 'a') as f:
         f.write('\n'.join(lines) + '\n')
 
-After appending CSS, always verify with:
+## Dark Mode Rule
 
-    grep -c "}\." css/learn.css
+Never use hardcoded hex color values in JS-generated HTML. Always use CSS custom property tokens so dark mode works automatically.
 
-Zero means clean. Non-zero means collapsed rules that need a targeted `str.replace()` fix.
+    WRONG:  background: '#f0fdf4'
+    RIGHT:  background: 'var(--color-success-bg)'
+
+Token reference for JS output:
+- var(--color-success-bg)     dark green background in dark mode
+- var(--color-danger-bg)      dark red background in dark mode
+- var(--color-warning-bg)     dark amber background in dark mode
+- var(--color-info-bg)        dark navy background in dark mode
+- var(--color-success)        teal text in dark mode
+- var(--color-danger)         red text in dark mode
+- var(--color-warning)        amber text in dark mode
+- var(--color-primary-text)   light blue text in dark mode, navy in light mode
+- var(--color-accent)         gold, same in both modes
 
 ---
 
