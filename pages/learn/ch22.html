@@ -1,0 +1,338 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <meta name="description" content="Chapter 22: Capital Budgeting and Cost Analysis" />
+  <title>Ch. 22 &middot; Capital Budgeting</title>
+  <link rel="stylesheet" href="/css/base.css" />
+  <link rel="stylesheet" href="/css/components.css" />
+  <link rel="stylesheet" href="/css/learn.css" />
+  <link rel="stylesheet" href="/css/settings-panel.css" />
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet" />
+  <script>
+    (function(){
+      var r = document.documentElement;
+      var w = localStorage.getItem('pref-width');
+      var f = localStorage.getItem('pref-font');
+      var t = localStorage.getItem('pref-theme');
+      if (w) r.style.setProperty('--max-width-tool', w + 'px');
+      if (f) r.style.setProperty('--font-scale', f);
+      if (t === 'dark') r.setAttribute('data-theme', 'dark');
+    })();
+  </script>
+</head>
+<body>
+  <header class="site-header" role="banner">
+    <div class="site-header__inner">
+      <a href="/" class="site-header__logo">
+        <span>&#128202;</span>
+        <span>Managerial Accounting</span>
+      </a>
+      <nav class="site-header__nav" role="navigation" aria-label="Main navigation">
+        <a href="/pages/learn/" class="site-header__nav-link site-header__nav-link--active">Learn</a>
+        <a href="/pages/apply/" class="site-header__nav-link">Apply</a>
+      </nav>
+    </div>
+  </header>
+
+  <main>
+    <section class="page__hero">
+      <div class="container">
+        <div class="chapter-nav">
+          <div style="display:flex;gap:var(--space-4);align-items:center;">
+            <a href="/pages/learn/" class="chapter-nav__back">&larr; All Chapters</a>
+            <a href="/pages/learn/ch21.html" class="chapter-nav__back">&larr; Ch. 21</a>
+          </div>
+          <div class="chapter-nav__position">
+            <span>Chapter 22 of 24</span>
+            <a href="/pages/learn/ch23.html" class="chapter-nav__next">Ch. 23 &rarr;</a>
+          </div>
+        </div>
+        <div class="chapter-hero__meta">
+          <span class="chapter-badge chapter-badge--control">Capital Budgeting</span>
+          <span class="chapter-hero__number">Chapter 22</span>
+        </div>
+        <h1 class="page__hero-title">Capital Budgeting and Cost Analysis</h1>
+        <p class="page__hero-subtitle">
+          Evaluate long-term investment decisions using NPV, IRR, payback, and
+          accrual rate of return; identify relevant cash flows; analyze the impact
+          of taxes; and run sensitivity analysis on key project assumptions.
+        </p>
+        <div class="chapter-hero__progress" id="ch22-progress-indicator">
+          <span class="chapter-hero__progress-label" id="ch22-status">Not started</span>
+        </div>
+      </div>
+    </section>
+
+    <section class="learn-section">
+      <div class="container container--tool">
+        <div class="objectives-card card">
+          <h2 class="objectives-card__title">Learning Objectives</h2>
+          <ol class="objectives-list">
+            <li>Identify the relevant cash flows for a capital investment decision</li>
+            <li>Calculate net present value and internal rate of return</li>
+            <li>Calculate payback period and accrual accounting rate of return</li>
+            <li>Incorporate income tax effects including depreciation tax shields and terminal value taxation</li>
+            <li>Use sensitivity analysis to evaluate the robustness of a capital budgeting decision</li>
+          </ol>
+        </div>
+      </div>
+    </section>
+
+    <section class="learn-section learn-section--alt" id="tool-relevant-cf">
+      <div class="container container--tool">
+        <div class="tool-header">
+          <div class="tool-header__label">Tool 1 of 5</div>
+          <h2 class="tool-header__title">Relevant Cash Flow Identifier</h2>
+          <p class="tool-header__desc">Before running NPV calculations, build conceptual clarity. Only future cash flows that differ between alternatives are relevant. Sunk costs are always irrelevant. Allocated overhead is rarely relevant. Opportunity costs and working capital changes are usually relevant. Classify each scenario.</p>
+        </div>
+        <div class="card">
+          <div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:var(--space-4);">
+            <h3 style="font-size:var(--font-size-base);font-weight:700;margin:0;">Cash Flow Classification Quiz</h3>
+            <button class="btn btn--secondary btn--sm" id="rcf-reset-btn">&#127922; Reset &amp; Shuffle</button>
+          </div>
+          <button class="btn btn--primary" id="rcf-next-btn">Show Cash Flow Item</button>
+          <div id="rcf-scenario-area"></div>
+          <div id="rcf-results-area"></div>
+        </div>
+      </div>
+    </section>
+
+    <section class="learn-section" id="tool-npv-irr">
+      <div class="container container--tool">
+        <div class="tool-header">
+          <div class="tool-header__label">Tool 2 of 5</div>
+          <h2 class="tool-header__title">NPV and IRR Calculator</h2>
+          <p class="tool-header__desc">Net present value discounts all future cash flows to today and subtracts the initial investment. A positive NPV means the project earns more than the required rate of return. IRR is the discount rate that makes NPV equal zero -- accept the project if IRR exceeds the required rate of return.</p>
+        </div>
+        <div class="card">
+          <div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:var(--space-4);">
+            <h3 style="font-size:var(--font-size-base);font-weight:700;margin:0;">Project Inputs</h3>
+            <div style="display:flex;gap:var(--space-3);">
+              <button class="btn btn--secondary btn--sm" id="npv-load-example">Load Example</button>
+              <button class="btn btn--secondary btn--sm" id="npv-randomize">&#127922; Randomize</button>
+            </div>
+          </div>
+          <div class="ohrate-grid">
+            <div class="form-group">
+              <label class="form-label" for="npv-initial">Initial Investment ($)</label>
+              <input class="form-input" type="number" id="npv-initial" value="500000" min="0" step="10000" />
+            </div>
+            <div class="form-group">
+              <label class="form-label" for="npv-rate">Required Rate of Return (%)</label>
+              <input class="form-input" type="number" id="npv-rate" value="10" min="0" max="50" step="0.5" />
+            </div>
+            <div class="form-group">
+              <label class="form-label" for="npv-years">Project Life (years)</label>
+              <input class="form-input" type="number" id="npv-years" value="5" min="1" max="15" step="1" />
+            </div>
+          </div>
+          <p class="ch9-section-label" style="margin-top:var(--space-4);">Annual Cash Flows</p>
+          <div class="ohrate-grid">
+            <div class="form-group">
+              <label class="form-label" for="npv-cf1">Year 1 ($)</label>
+              <input class="form-input" type="number" id="npv-cf1" value="150000" step="10000" />
+            </div>
+            <div class="form-group">
+              <label class="form-label" for="npv-cf2">Year 2 ($)</label>
+              <input class="form-input" type="number" id="npv-cf2" value="160000" step="10000" />
+            </div>
+            <div class="form-group">
+              <label class="form-label" for="npv-cf3">Year 3 ($)</label>
+              <input class="form-input" type="number" id="npv-cf3" value="170000" step="10000" />
+            </div>
+            <div class="form-group">
+              <label class="form-label" for="npv-cf4">Year 4 ($)</label>
+              <input class="form-input" type="number" id="npv-cf4" value="180000" step="10000" />
+            </div>
+            <div class="form-group">
+              <label class="form-label" for="npv-cf5">Year 5 ($)</label>
+              <input class="form-input" type="number" id="npv-cf5" value="190000" step="10000" />
+            </div>
+            <div class="form-group">
+              <label class="form-label" for="npv-terminal">Terminal Cash Flow at End ($)</label>
+              <input class="form-input" type="number" id="npv-terminal" value="50000" step="10000" />
+            </div>
+          </div>
+          <button class="btn btn--primary" id="npv-calculate" style="margin-top:var(--space-4);">Calculate NPV and IRR &rarr;</button>
+          <div id="npv-output"></div>
+          <div id="npv-show-work"></div>
+        </div>
+      </div>
+    </section>
+
+    <section class="learn-section learn-section--alt" id="tool-payback-aarr">
+      <div class="container container--tool">
+        <div class="tool-header">
+          <div class="tool-header__label">Tool 3 of 5</div>
+          <h2 class="tool-header__title">Payback Period and AARR Calculator</h2>
+          <p class="tool-header__desc">Payback period is the time required to recover the initial investment. Accrual accounting rate of return is average annual operating income divided by investment. Both are simpler than NPV but have serious limitations -- payback ignores cash flows beyond the payback date and AARR ignores time value of money entirely.</p>
+        </div>
+        <div class="card">
+          <div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:var(--space-4);">
+            <h3 style="font-size:var(--font-size-base);font-weight:700;margin:0;">Project Inputs</h3>
+            <div style="display:flex;gap:var(--space-3);">
+              <button class="btn btn--secondary btn--sm" id="pb-load-example">Load Example</button>
+              <button class="btn btn--secondary btn--sm" id="pb-randomize">&#127922; Randomize</button>
+            </div>
+          </div>
+          <div class="ohrate-grid">
+            <div class="form-group">
+              <label class="form-label" for="pb-initial">Initial Investment ($)</label>
+              <input class="form-input" type="number" id="pb-initial" value="500000" min="0" step="10000" />
+            </div>
+            <div class="form-group">
+              <label class="form-label" for="pb-annual-cf">Annual Cash Flow ($)</label>
+              <input class="form-input" type="number" id="pb-annual-cf" value="150000" step="5000" />
+            </div>
+            <div class="form-group">
+              <label class="form-label" for="pb-years">Project Life (years)</label>
+              <input class="form-input" type="number" id="pb-years" value="5" min="1" max="20" step="1" />
+            </div>
+            <div class="form-group">
+              <label class="form-label" for="pb-depreciation">Annual Depreciation ($)</label>
+              <input class="form-input" type="number" id="pb-depreciation" value="100000" step="5000" />
+            </div>
+            <div class="form-group">
+              <label class="form-label" for="pb-rate">Discount Rate (%)</label>
+              <input class="form-input" type="number" id="pb-rate" value="10" min="0" max="50" step="0.5" />
+            </div>
+          </div>
+          <button class="btn btn--primary" id="pb-calculate" style="margin-top:var(--space-4);">Calculate Payback &amp; AARR &rarr;</button>
+          <div id="pb-output"></div>
+          <div id="pb-show-work"></div>
+        </div>
+      </div>
+    </section>
+
+    <section class="learn-section" id="tool-cb-dashboard">
+      <div class="container container--tool">
+        <div class="tool-header">
+          <div class="tool-header__label">Tool 4 of 5</div>
+          <h2 class="tool-header__title">Capital Budgeting Dashboard</h2>
+          <p class="tool-header__desc">Full project evaluation with tax effects. Depreciation creates a tax shield that increases after-tax cash flows. Terminal value sales may trigger taxable gains. All four methods are computed side by side with a final accept or reject recommendation.</p>
+        </div>
+        <div class="card">
+          <div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:var(--space-4);">
+            <h3 style="font-size:var(--font-size-base);font-weight:700;margin:0;">Project and Tax Inputs</h3>
+            <div style="display:flex;gap:var(--space-3);">
+              <button class="btn btn--secondary btn--sm" id="cbd-load-example">Load Example</button>
+              <button class="btn btn--secondary btn--sm" id="cbd-randomize">&#127922; Randomize</button>
+            </div>
+          </div>
+          <div class="ohrate-grid">
+            <div class="form-group">
+              <label class="form-label" for="cbd-initial">Initial Investment ($)</label>
+              <input class="form-input" type="number" id="cbd-initial" value="800000" min="0" step="10000" />
+            </div>
+            <div class="form-group">
+              <label class="form-label" for="cbd-revenue">Annual Pretax Revenue ($)</label>
+              <input class="form-input" type="number" id="cbd-revenue" value="500000" step="10000" />
+            </div>
+            <div class="form-group">
+              <label class="form-label" for="cbd-opex">Annual Operating Expenses ($)</label>
+              <input class="form-input" type="number" id="cbd-opex" value="200000" step="10000" />
+            </div>
+            <div class="form-group">
+              <label class="form-label" for="cbd-years">Project Life (years)</label>
+              <input class="form-input" type="number" id="cbd-years" value="6" min="1" max="15" step="1" />
+            </div>
+            <div class="form-group">
+              <label class="form-label" for="cbd-salvage">Salvage Value at End ($)</label>
+              <input class="form-input" type="number" id="cbd-salvage" value="100000" step="10000" />
+            </div>
+            <div class="form-group">
+              <label class="form-label" for="cbd-tax-rate">Tax Rate (%)</label>
+              <input class="form-input" type="number" id="cbd-tax-rate" value="25" min="0" max="50" step="1" />
+            </div>
+            <div class="form-group">
+              <label class="form-label" for="cbd-discount">Required Rate of Return (%)</label>
+              <input class="form-input" type="number" id="cbd-discount" value="12" min="0" max="50" step="0.5" />
+            </div>
+          </div>
+          <button class="btn btn--primary" id="cbd-calculate" style="margin-top:var(--space-4);">Evaluate Project &rarr;</button>
+          <div id="cbd-output"></div>
+          <div id="cbd-show-work"></div>
+        </div>
+      </div>
+    </section>
+
+    <section class="learn-section learn-section--alt" id="tool-sensitivity">
+      <div class="container container--tool">
+        <div class="tool-header">
+          <div class="tool-header__label">Tool 5 of 5</div>
+          <h2 class="tool-header__title">Sensitivity Analyzer</h2>
+          <p class="tool-header__desc">Vary one input at a time to see how NPV changes. Identify which assumptions matter most -- those that flip the decision from accept to reject (or vice versa) with small changes are the high-risk variables that need careful estimation.</p>
+        </div>
+        <div class="card">
+          <div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:var(--space-4);">
+            <h3 style="font-size:var(--font-size-base);font-weight:700;margin:0;">Base Case Inputs</h3>
+            <div style="display:flex;gap:var(--space-3);">
+              <button class="btn btn--secondary btn--sm" id="sens-load-example">Load Example</button>
+              <button class="btn btn--secondary btn--sm" id="sens-randomize">&#127922; Randomize</button>
+            </div>
+          </div>
+          <div class="ohrate-grid">
+            <div class="form-group">
+              <label class="form-label" for="sens-initial">Initial Investment ($)</label>
+              <input class="form-input" type="number" id="sens-initial" value="500000" min="0" step="10000" />
+            </div>
+            <div class="form-group">
+              <label class="form-label" for="sens-annual-cf">Annual Cash Flow ($)</label>
+              <input class="form-input" type="number" id="sens-annual-cf" value="140000" step="5000" />
+            </div>
+            <div class="form-group">
+              <label class="form-label" for="sens-years">Project Life (years)</label>
+              <input class="form-input" type="number" id="sens-years" value="5" min="1" max="15" step="1" />
+            </div>
+            <div class="form-group">
+              <label class="form-label" for="sens-rate">Discount Rate (%)</label>
+              <input class="form-input" type="number" id="sens-rate" value="10" min="0" max="50" step="0.5" />
+            </div>
+            <div class="form-group">
+              <label class="form-label" for="sens-terminal">Terminal Value ($)</label>
+              <input class="form-input" type="number" id="sens-terminal" value="50000" step="10000" />
+            </div>
+          </div>
+          <button class="btn btn--primary" id="sens-calculate" style="margin-top:var(--space-4);">Run Sensitivity Analysis &rarr;</button>
+          <div id="sens-output"></div>
+          <div id="sens-show-work"></div>
+        </div>
+      </div>
+    </section>
+
+    <section class="learn-section">
+      <div class="container container--tool">
+        <div class="tool-header">
+          <h2 class="tool-header__title">Key Terms</h2>
+          <p class="tool-header__desc">Click any term to see its definition.</p>
+        </div>
+        <div class="key-terms-grid" id="key-terms-grid"></div>
+      </div>
+    </section>
+
+    <section class="learn-section learn-section--alt">
+      <div class="container container--tool">
+        <div class="chapter-complete card" id="chapter-complete">
+          <div class="chapter-complete__icon">&#9989;</div>
+          <h2 class="chapter-complete__title">Chapter 22 Complete</h2>
+          <p class="chapter-complete__desc">
+            You can now identify relevant cash flows for capital budgeting decisions; compute NPV, IRR, payback period, and AARR;
+            incorporate income tax effects including depreciation tax shields and terminal value taxation;
+            and use sensitivity analysis to identify the most critical project assumptions.
+          </p>
+          <div class="chapter-complete__actions">
+            <button class="btn btn--primary" id="mark-complete-btn">Mark as Complete</button>
+            <a href="/pages/learn/ch23.html" class="btn btn--secondary">Next: Ch. 23 &rarr;</a>
+          </div>
+        </div>
+      </div>
+    </section>
+  </main>
+
+  <script type="module" src="/js/learn/ch22.js"></script>
+</body>
+</html>

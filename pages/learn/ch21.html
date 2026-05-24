@@ -1,0 +1,330 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <meta name="description" content="Chapter 21: Inventory Management, JIT, and Simplified Costing" />
+  <title>Ch. 21 &middot; Inventory Management and JIT</title>
+  <link rel="stylesheet" href="/css/base.css" />
+  <link rel="stylesheet" href="/css/components.css" />
+  <link rel="stylesheet" href="/css/learn.css" />
+  <link rel="stylesheet" href="/css/settings-panel.css" />
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet" />
+  <script>
+    (function(){
+      var r = document.documentElement;
+      var w = localStorage.getItem('pref-width');
+      var f = localStorage.getItem('pref-font');
+      var t = localStorage.getItem('pref-theme');
+      if (w) r.style.setProperty('--max-width-tool', w + 'px');
+      if (f) r.style.setProperty('--font-scale', f);
+      if (t === 'dark') r.setAttribute('data-theme', 'dark');
+    })();
+  </script>
+</head>
+<body>
+  <header class="site-header" role="banner">
+    <div class="site-header__inner">
+      <a href="/" class="site-header__logo">
+        <span>&#128202;</span>
+        <span>Managerial Accounting</span>
+      </a>
+      <nav class="site-header__nav" role="navigation" aria-label="Main navigation">
+        <a href="/pages/learn/" class="site-header__nav-link site-header__nav-link--active">Learn</a>
+        <a href="/pages/apply/" class="site-header__nav-link">Apply</a>
+      </nav>
+    </div>
+  </header>
+
+  <main>
+    <section class="page__hero">
+      <div class="container">
+        <div class="chapter-nav">
+          <div style="display:flex;gap:var(--space-4);align-items:center;">
+            <a href="/pages/learn/" class="chapter-nav__back">&larr; All Chapters</a>
+            <a href="/pages/learn/ch20.html" class="chapter-nav__back">&larr; Ch. 20</a>
+          </div>
+          <div class="chapter-nav__position">
+            <span>Chapter 21 of 24</span>
+            <a href="/pages/learn/ch22.html" class="chapter-nav__next">Ch. 22 &rarr;</a>
+          </div>
+        </div>
+        <div class="chapter-hero__meta">
+          <span class="chapter-badge chapter-badge--control">Inventory</span>
+          <span class="chapter-hero__number">Chapter 21</span>
+        </div>
+        <h1 class="page__hero-title">Inventory Management, JIT, and Simplified Costing</h1>
+        <p class="page__hero-subtitle">
+          Calculate economic order quantities, set reorder points with safety stock,
+          evaluate JIT versus traditional inventory systems, and apply backflush
+          costing in lean manufacturing environments.
+        </p>
+        <div class="chapter-hero__progress" id="ch21-progress-indicator">
+          <span class="chapter-hero__progress-label" id="ch21-status">Not started</span>
+        </div>
+      </div>
+    </section>
+
+    <section class="learn-section">
+      <div class="container container--tool">
+        <div class="objectives-card card">
+          <h2 class="objectives-card__title">Learning Objectives</h2>
+          <ol class="objectives-list">
+            <li>Identify the costs associated with inventory decisions including ordering, carrying, and stockout costs</li>
+            <li>Calculate the economic order quantity and explain the trade-offs it balances</li>
+            <li>Compute safety stock and reorder point under demand and lead time uncertainty</li>
+            <li>Contrast JIT purchasing and production with traditional inventory management</li>
+            <li>Explain backflush costing and how it simplifies accounting in JIT environments</li>
+          </ol>
+        </div>
+      </div>
+    </section>
+
+    <!-- TOOL 1: Inventory Cost Identifier -->
+    <section class="learn-section learn-section--alt" id="tool-inv-cost">
+      <div class="container container--tool">
+        <div class="tool-header">
+          <div class="tool-header__label">Tool 1 of 5</div>
+          <h2 class="tool-header__title">Inventory Cost Identifier</h2>
+          <p class="tool-header__desc">Before calculating EOQ, build conceptual clarity. Inventory decisions involve three cost categories: ordering costs (incurred each time an order is placed), carrying costs (incurred to hold inventory), and stockout costs (incurred when inventory runs out). Classify each scenario.</p>
+        </div>
+        <div class="card">
+          <div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:var(--space-4);">
+            <h3 style="font-size:var(--font-size-base);font-weight:700;margin:0;">Cost Classification Quiz</h3>
+            <button class="btn btn--secondary btn--sm" id="ic-reset-btn">&#127922; Reset &amp; Shuffle</button>
+          </div>
+          <button class="btn btn--primary" id="ic-next-btn">Show Cost Item</button>
+          <div id="ic-scenario-area"></div>
+          <div id="ic-results-area"></div>
+        </div>
+      </div>
+    </section>
+
+    <!-- TOOL 2: EOQ Calculator -->
+    <section class="learn-section" id="tool-eoq">
+      <div class="container container--tool">
+        <div class="tool-header">
+          <div class="tool-header__label">Tool 2 of 5</div>
+          <h2 class="tool-header__title">EOQ Calculator</h2>
+          <p class="tool-header__desc">The economic order quantity minimizes total inventory costs by balancing ordering costs (which decrease as order size increases) against carrying costs (which increase as order size increases). The optimal order quantity is where these two costs are equal.</p>
+        </div>
+        <div class="card">
+          <div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:var(--space-4);">
+            <h3 style="font-size:var(--font-size-base);font-weight:700;margin:0;">Inventory Inputs</h3>
+            <div style="display:flex;gap:var(--space-3);">
+              <button class="btn btn--secondary btn--sm" id="eoq-load-example">Load Example</button>
+              <button class="btn btn--secondary btn--sm" id="eoq-randomize">&#127922; Randomize</button>
+            </div>
+          </div>
+          <div class="ohrate-grid">
+            <div class="form-group">
+              <label class="form-label" for="eoq-demand">Annual Demand (units)</label>
+              <input class="form-input" type="number" id="eoq-demand" value="10000" min="1" step="100" />
+            </div>
+            <div class="form-group">
+              <label class="form-label" for="eoq-order-cost">Ordering Cost per Order ($)</label>
+              <input class="form-input" type="number" id="eoq-order-cost" value="200" min="0" step="10" />
+            </div>
+            <div class="form-group">
+              <label class="form-label" for="eoq-carry-cost">Annual Carrying Cost per Unit ($)</label>
+              <input class="form-input" type="number" id="eoq-carry-cost" value="5" min="0" step="0.50" />
+            </div>
+            <div class="form-group">
+              <label class="form-label" for="eoq-current-qty">Current Order Quantity (units)</label>
+              <input class="form-input" type="number" id="eoq-current-qty" value="1000" min="1" step="100" />
+            </div>
+          </div>
+          <button class="btn btn--primary" id="eoq-calculate" style="margin-top:var(--space-4);">Calculate EOQ &rarr;</button>
+          <div id="eoq-output"></div>
+          <div id="eoq-show-work"></div>
+        </div>
+      </div>
+    </section>
+
+    <!-- TOOL 3: Safety Stock and Reorder Point -->
+    <section class="learn-section learn-section--alt" id="tool-safety">
+      <div class="container container--tool">
+        <div class="tool-header">
+          <div class="tool-header__label">Tool 3 of 5</div>
+          <h2 class="tool-header__title">Safety Stock and Reorder Point Calculator</h2>
+          <p class="tool-header__desc">The reorder point tells you when to place an order. Safety stock is extra inventory held as a buffer against demand spikes or supplier delays. More safety stock reduces stockout risk but increases carrying costs.</p>
+        </div>
+        <div class="card">
+          <div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:var(--space-4);">
+            <h3 style="font-size:var(--font-size-base);font-weight:700;margin:0;">Demand and Lead Time Inputs</h3>
+            <div style="display:flex;gap:var(--space-3);">
+              <button class="btn btn--secondary btn--sm" id="ss-load-example">Load Example</button>
+              <button class="btn btn--secondary btn--sm" id="ss-randomize">&#127922; Randomize</button>
+            </div>
+          </div>
+          <div class="ohrate-grid">
+            <div class="form-group">
+              <label class="form-label" for="ss-avg-demand">Average Daily Demand (units)</label>
+              <input class="form-input" type="number" id="ss-avg-demand" value="100" min="1" step="5" />
+            </div>
+            <div class="form-group">
+              <label class="form-label" for="ss-max-demand">Maximum Daily Demand (units)</label>
+              <input class="form-input" type="number" id="ss-max-demand" value="130" min="1" step="5" />
+            </div>
+            <div class="form-group">
+              <label class="form-label" for="ss-avg-lead">Average Lead Time (days)</label>
+              <input class="form-input" type="number" id="ss-avg-lead" value="10" min="1" step="1" />
+            </div>
+            <div class="form-group">
+              <label class="form-label" for="ss-max-lead">Maximum Lead Time (days)</label>
+              <input class="form-input" type="number" id="ss-max-lead" value="14" min="1" step="1" />
+            </div>
+            <div class="form-group">
+              <label class="form-label" for="ss-carry-cost">Carrying Cost per Unit per Day ($)</label>
+              <input class="form-input" type="number" id="ss-carry-cost" value="0.05" min="0" step="0.01" />
+            </div>
+            <div class="form-group">
+              <label class="form-label" for="ss-stockout-cost">Stockout Cost per Unit ($)</label>
+              <input class="form-input" type="number" id="ss-stockout-cost" value="25" min="0" step="1" />
+            </div>
+          </div>
+          <button class="btn btn--primary" id="ss-calculate" style="margin-top:var(--space-4);">Calculate Safety Stock &rarr;</button>
+          <div id="ss-output"></div>
+          <div id="ss-show-work"></div>
+        </div>
+      </div>
+    </section>
+
+    <!-- TOOL 4: JIT vs Traditional -->
+    <section class="learn-section" id="tool-jit">
+      <div class="container container--tool">
+        <div class="tool-header">
+          <div class="tool-header__label">Tool 4 of 5</div>
+          <h2 class="tool-header__title">JIT vs Traditional Inventory Analyzer</h2>
+          <p class="tool-header__desc">Just-in-Time inventory systems aim to eliminate waste by receiving materials only when needed. This reduces carrying costs but requires reliable suppliers and flexible production. Enter your inventory parameters to compare the financial impact of JIT versus traditional approaches.</p>
+        </div>
+        <div class="card">
+          <div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:var(--space-4);">
+            <h3 style="font-size:var(--font-size-base);font-weight:700;margin:0;">Current Inventory Parameters</h3>
+            <div style="display:flex;gap:var(--space-3);">
+              <button class="btn btn--secondary btn--sm" id="jit-load-example">Load Example</button>
+              <button class="btn btn--secondary btn--sm" id="jit-randomize">&#127922; Randomize</button>
+            </div>
+          </div>
+          <div class="ohrate-grid">
+            <div class="form-group">
+              <label class="form-label" for="jit-avg-inventory">Average Inventory (units)</label>
+              <input class="form-input" type="number" id="jit-avg-inventory" value="5000" min="0" step="100" />
+            </div>
+            <div class="form-group">
+              <label class="form-label" for="jit-unit-cost">Unit Cost ($)</label>
+              <input class="form-input" type="number" id="jit-unit-cost" value="40" min="0" step="1" />
+            </div>
+            <div class="form-group">
+              <label class="form-label" for="jit-carry-pct">Annual Carrying Cost (% of inventory value)</label>
+              <input class="form-input" type="number" id="jit-carry-pct" value="20" min="0" max="100" step="1" />
+            </div>
+            <div class="form-group">
+              <label class="form-label" for="jit-orders-per-year">Current Orders per Year</label>
+              <input class="form-input" type="number" id="jit-orders-per-year" value="12" min="1" step="1" />
+            </div>
+            <div class="form-group">
+              <label class="form-label" for="jit-order-cost">Cost per Order ($)</label>
+              <input class="form-input" type="number" id="jit-order-cost" value="500" min="0" step="50" />
+            </div>
+            <div class="form-group">
+              <label class="form-label" for="jit-jit-inventory">JIT Target Average Inventory (units)</label>
+              <input class="form-input" type="number" id="jit-jit-inventory" value="500" min="0" step="50" />
+            </div>
+            <div class="form-group">
+              <label class="form-label" for="jit-jit-orders">JIT Orders per Year</label>
+              <input class="form-input" type="number" id="jit-jit-orders" value="52" min="1" step="1" />
+            </div>
+            <div class="form-group">
+              <label class="form-label" for="jit-jit-order-cost">JIT Cost per Order ($)</label>
+              <input class="form-input" type="number" id="jit-jit-order-cost" value="100" min="0" step="10" />
+            </div>
+          </div>
+          <button class="btn btn--primary" id="jit-calculate" style="margin-top:var(--space-4);">Compare JIT vs Traditional &rarr;</button>
+          <div id="jit-output"></div>
+          <div id="jit-show-work"></div>
+        </div>
+      </div>
+    </section>
+
+    <!-- TOOL 5: Backflush Costing Engine -->
+    <section class="learn-section learn-section--alt" id="tool-backflush">
+      <div class="container container--tool">
+        <div class="tool-header">
+          <div class="tool-header__label">Tool 5 of 5</div>
+          <h2 class="tool-header__title">Backflush Costing Engine</h2>
+          <p class="tool-header__desc">Backflush costing delays recording of costs until a trigger point -- either completion of goods or point of sale. This simplifies accounting in JIT environments where WIP inventory is minimal. Compare three trigger point approaches side by side.</p>
+        </div>
+        <div class="card">
+          <div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:var(--space-4);">
+            <h3 style="font-size:var(--font-size-base);font-weight:700;margin:0;">Production and Cost Inputs</h3>
+            <div style="display:flex;gap:var(--space-3);">
+              <button class="btn btn--secondary btn--sm" id="bf-load-example">Load Example</button>
+              <button class="btn btn--secondary btn--sm" id="bf-randomize">&#127922; Randomize</button>
+            </div>
+          </div>
+          <div class="ohrate-grid">
+            <div class="form-group">
+              <label class="form-label" for="bf-units-started">Units Started</label>
+              <input class="form-input" type="number" id="bf-units-started" value="1000" min="1" step="100" />
+            </div>
+            <div class="form-group">
+              <label class="form-label" for="bf-units-completed">Units Completed</label>
+              <input class="form-input" type="number" id="bf-units-completed" value="900" min="0" step="100" />
+            </div>
+            <div class="form-group">
+              <label class="form-label" for="bf-units-sold">Units Sold</label>
+              <input class="form-input" type="number" id="bf-units-sold" value="800" min="0" step="100" />
+            </div>
+            <div class="form-group">
+              <label class="form-label" for="bf-dm-cost">Direct Materials Cost ($)</label>
+              <input class="form-input" type="number" id="bf-dm-cost" value="400000" min="0" step="10000" />
+            </div>
+            <div class="form-group">
+              <label class="form-label" for="bf-cc-cost">Conversion Costs ($)</label>
+              <input class="form-input" type="number" id="bf-cc-cost" value="200000" min="0" step="10000" />
+            </div>
+          </div>
+          <button class="btn btn--primary" id="bf-calculate" style="margin-top:var(--space-4);">Generate Backflush Entries &rarr;</button>
+          <div id="bf-output"></div>
+          <div id="bf-show-work"></div>
+        </div>
+      </div>
+    </section>
+
+    <!-- KEY TERMS -->
+    <section class="learn-section">
+      <div class="container container--tool">
+        <div class="tool-header">
+          <h2 class="tool-header__title">Key Terms</h2>
+          <p class="tool-header__desc">Click any term to see its definition.</p>
+        </div>
+        <div class="key-terms-grid" id="key-terms-grid"></div>
+      </div>
+    </section>
+
+    <!-- CHAPTER COMPLETE -->
+    <section class="learn-section learn-section--alt">
+      <div class="container container--tool">
+        <div class="chapter-complete card" id="chapter-complete">
+          <div class="chapter-complete__icon">&#9989;</div>
+          <h2 class="chapter-complete__title">Chapter 21 Complete</h2>
+          <p class="chapter-complete__desc">
+            You can now identify ordering, carrying, and stockout costs; calculate EOQ and total inventory costs;
+            set safety stock and reorder points under uncertainty; evaluate JIT versus traditional inventory systems;
+            and apply backflush costing in lean manufacturing environments.
+          </p>
+          <div class="chapter-complete__actions">
+            <button class="btn btn--primary" id="mark-complete-btn">Mark as Complete</button>
+            <a href="/pages/learn/ch22.html" class="btn btn--secondary">Next: Ch. 22 &rarr;</a>
+          </div>
+        </div>
+      </div>
+    </section>
+  </main>
+
+  <script type="module" src="/js/learn/ch21.js"></script>
+</body>
+</html>

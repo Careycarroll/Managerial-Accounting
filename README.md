@@ -29,77 +29,77 @@ Build a comprehensive interactive learning companion that covers every concept i
 
 ## Learn Section -- Chapter Status
 
-| # | Chapter | Status | Tools |
-|---|---------|--------|-------|
-| 1 | The Manager and Management Accounting | Complete | Accounting comparison, value chain builder, five-step process, IMA ethics |
-| 2 | An Introduction to Cost Terms and Purposes | Complete | Cost classifier, relevant range visualizer, manufacturing cost flow, unit cost trap |
-| 3 | Cost-Volume-Profit Analysis | Complete | CVP dashboard, CVP graph (canvas, interactive), sensitivity analysis, sales mix CVP |
-| 4 | Job Costing | Complete | Job cost record builder, normal vs actual costing, overhead disposal, job vs process classifier |
-| 5 | Activity-Based Costing and ABM | Complete | Simple vs ABC comparator, cost hierarchy classifier, ABC system builder (8 pools), ABM decisions |
-| 6 | Master Budget and Responsibility Accounting | Complete | Operating budget builder (9-step), sensitivity analysis, responsibility center classifier, cash budget, Kaizen simulator |
-| 7 | Flexible Budgets and Direct-Cost Variances | Complete | Static vs flexible budget analyzer, direct-cost variance calculator (Level 3 columnar), variance hierarchy diagram |
-| 8 | Flexible Budgets and Overhead Variances | Complete | Overhead rate developer (4-step), 4-variance overhead analyzer (Panels A+B), complete variance hierarchy (Exhibit 8-5) |
-| 9 | Inventory Costing and Capacity Analysis | Complete | Absorption vs variable costing comparator, capacity concepts calculator, denominator-level analysis, income effects |
-| 10 | Determining How Costs Behave | Complete | Cost estimation suite, scatter plot visualizer, regression/high-low comparison, learning curve calculator |
-| 11 | Data Analytic Thinking and Prediction | Complete | Data analytics workflow, decision tree/Gini tools, prediction model evaluation, ROC curve visualizer |
-| 12 | Decision Making and Relevant Information | Complete | Relevant cost identifier, special order analyzer, make-or-buy calculator, product mix/bottleneck manager, add/drop and equipment replacement |
-| 13 | Strategy, Balanced Scorecard, Strategic Profitability | Complete | Strategy identifier, balanced scorecard builder, strategic profitability analyzer, engineered vs discretionary cost classifier |
-| 14 | Pricing Decisions and Cost Management | Complete | Pricing context identifier, cost-plus pricing calculator, target costing/value engineering, life-cycle profitability planner |
-| 15 | Cost Allocation and Customer Profitability | Complete | Customer cost hierarchy classifier, customer profitability analyzer, whale curve builder, sales variance calculator |
-| 16 | Allocation of Support-Department Costs | Complete | Support department allocation engine (direct/step-down/reciprocal), common cost allocator, revenue allocation with Shapley value, bundled product profitability analyzer |
-| 17 | Cost Allocation: Joint Products and Byproducts | Complete | Joint cost allocator (3 methods), sell-or-process-further calculator, byproduct accounting comparator, process flow visualizer |
-| 18 | Process Costing | Complete | Physical units flow tracker, equivalent units calculator, weighted-average engine, FIFO engine, method comparator |
-| 19 | Spoilage, Rework, and Scrap | Complete | Spoilage classifier, inspection point analyzer, process costing with spoilage (weighted-average), process costing with spoilage (FIFO), rework and scrap accounting |
-| 20 | Balanced Scorecard: Quality and Time | Complete | COQ report builder (two-period), quality cost trade-off analyzer, nonfinancial quality measures analyzer, MCE calculator, Pareto diagram (canvas) |
-| 21 | Inventory Management, JIT, and Simplified Costing | Not started | EOQ calculator, safety stock optimizer, JIT and backflush costing engine |
-| 22 | Capital Budgeting and Cost Analysis | Not started | Capital budgeting dashboard, relevant cash flow builder, sensitivity analysis |
-| 23 | Management Control Systems and Transfer Pricing | Not started | Transfer pricing calculator, goal congruence test, multinational tax tool |
-| 24 | Performance Measurement and Compensation | Not started | Performance dashboard, DuPont decomposition, WACC calculator |
+| #   | Chapter                                               | Status      | Tools                                                                                                                                                                    |
+| --- | ----------------------------------------------------- | ----------- | ------------------------------------------------------------------------------------------------------------------------------------------------------------------------ |
+| 1   | The Manager and Management Accounting                 | Complete    | Accounting comparison, value chain builder, five-step process, IMA ethics                                                                                                |
+| 2   | An Introduction to Cost Terms and Purposes            | Complete    | Cost classifier, relevant range visualizer, manufacturing cost flow, unit cost trap                                                                                      |
+| 3   | Cost-Volume-Profit Analysis                           | Complete    | CVP dashboard, CVP graph (canvas, interactive), sensitivity analysis, sales mix CVP                                                                                      |
+| 4   | Job Costing                                           | Complete    | Job cost record builder, normal vs actual costing, overhead disposal, job vs process classifier                                                                          |
+| 5   | Activity-Based Costing and ABM                        | Complete    | Simple vs ABC comparator, cost hierarchy classifier, ABC system builder (8 pools), ABM decisions                                                                         |
+| 6   | Master Budget and Responsibility Accounting           | Complete    | Operating budget builder (9-step), sensitivity analysis, responsibility center classifier, cash budget, Kaizen simulator                                                 |
+| 7   | Flexible Budgets and Direct-Cost Variances            | Complete    | Static vs flexible budget analyzer, direct-cost variance calculator (Level 3 columnar), variance hierarchy diagram                                                       |
+| 8   | Flexible Budgets and Overhead Variances               | Complete    | Overhead rate developer (4-step), 4-variance overhead analyzer (Panels A+B), complete variance hierarchy (Exhibit 8-5)                                                   |
+| 9   | Inventory Costing and Capacity Analysis               | Complete    | Absorption vs variable costing comparator, capacity concepts calculator, denominator-level analysis, income effects                                                      |
+| 10  | Determining How Costs Behave                          | Complete    | Cost estimation suite, scatter plot visualizer, regression/high-low comparison, learning curve calculator                                                                |
+| 11  | Data Analytic Thinking and Prediction                 | Complete    | Data analytics workflow, decision tree/Gini tools, prediction model evaluation, ROC curve visualizer                                                                     |
+| 12  | Decision Making and Relevant Information              | Complete    | Relevant cost identifier, special order analyzer, make-or-buy calculator, product mix/bottleneck manager, add/drop and equipment replacement                             |
+| 13  | Strategy, Balanced Scorecard, Strategic Profitability | Complete    | Strategy identifier, balanced scorecard builder, strategic profitability analyzer, engineered vs discretionary cost classifier                                           |
+| 14  | Pricing Decisions and Cost Management                 | Complete    | Pricing context identifier, cost-plus pricing calculator, target costing/value engineering, life-cycle profitability planner                                             |
+| 15  | Cost Allocation and Customer Profitability            | Complete    | Customer cost hierarchy classifier, customer profitability analyzer, whale curve builder, sales variance calculator                                                      |
+| 16  | Allocation of Support-Department Costs                | Complete    | Support department allocation engine (direct/step-down/reciprocal), common cost allocator, revenue allocation with Shapley value, bundled product profitability analyzer |
+| 17  | Cost Allocation: Joint Products and Byproducts        | Complete    | Joint cost allocator (3 methods), sell-or-process-further calculator, byproduct accounting comparator, process flow visualizer                                           |
+| 18  | Process Costing                                       | Complete    | Physical units flow tracker, equivalent units calculator, weighted-average engine, FIFO engine, method comparator                                                        |
+| 19  | Spoilage, Rework, and Scrap                           | Complete    | Spoilage classifier, inspection point analyzer, process costing with spoilage (weighted-average), process costing with spoilage (FIFO), rework and scrap accounting      |
+| 20  | Balanced Scorecard: Quality and Time                  | Complete    | COQ report builder (two-period), quality cost trade-off analyzer, nonfinancial quality measures analyzer, MCE calculator, Pareto diagram (canvas)                        |
+| 21  | Inventory Management, JIT, and Simplified Costing     | Not started | EOQ calculator, safety stock optimizer, JIT and backflush costing engine                                                                                                 |
+| 22  | Capital Budgeting and Cost Analysis                   | Not started | Capital budgeting dashboard, relevant cash flow builder, sensitivity analysis                                                                                            |
+| 23  | Management Control Systems and Transfer Pricing       | Not started | Transfer pricing calculator, goal congruence test, multinational tax tool                                                                                                |
+| 24  | Performance Measurement and Compensation              | Not started | Performance dashboard, DuPont decomposition, WACC calculator                                                                                                             |
 
 ---
 
 ## Shared Components
 
-| Component | File | Status | Used In |
-|-----------|------|--------|---------|
-| Randomizer | js/components/randomizer.js | Built | Numeric tools across Learn chapters |
-| Journal Entry | js/components/journal-entry.js | Built | Ch. 4, Ch. 6, journal-entry style tools |
-| Show Work | js/components/show-work.js | Built | Calculator tools across Learn chapters |
-| Settings Panel | js/components/settings-panel.js | Built | All chapter pages -- width, font, dark mode |
-| Depth Selector | js/components/depth-selector.js | Not built / pending | Planned for Apply section |
-| Formula Display | js/components/formula-display.js | Not built | Planned |
-| Term Tooltip | js/components/term-tooltip.js | Not built | Planned |
+| Component       | File                             | Status              | Used In                                     |
+| --------------- | -------------------------------- | ------------------- | ------------------------------------------- |
+| Randomizer      | js/components/randomizer.js      | Built               | Numeric tools across Learn chapters         |
+| Journal Entry   | js/components/journal-entry.js   | Built               | Ch. 4, Ch. 6, journal-entry style tools     |
+| Show Work       | js/components/show-work.js       | Built               | Calculator tools across Learn chapters      |
+| Settings Panel  | js/components/settings-panel.js  | Built               | All chapter pages -- width, font, dark mode |
+| Depth Selector  | js/components/depth-selector.js  | Not built / pending | Planned for Apply section                   |
+| Formula Display | js/components/formula-display.js | Not built           | Planned                                     |
+| Term Tooltip    | js/components/term-tooltip.js    | Not built           | Planned                                     |
 
 ## Chart Library
 
-| Chart | File | Status | Used In |
-|-------|------|--------|---------|
-| Base Chart | js/charts/chart-core.js | Built | All chart components |
-| CVP Chart | js/charts/cvp-chart.js | Built | Ch. 3 |
-| Scatter Plot | js/charts/scatter-chart.js | Built | Ch. 10 |
-| ROC Chart | js/charts/roc-chart.js | Built | Ch. 11 |
-| Pareto Diagram | js/charts/pareto-chart.js | Built | Ch. 20 |
-| Variance Diagram | js/charts/variance-chart.js | Not built | Planned |
-| Control Chart | js/charts/control-chart.js | Not built | Planned |
+| Chart            | File                        | Status    | Used In              |
+| ---------------- | --------------------------- | --------- | -------------------- |
+| Base Chart       | js/charts/chart-core.js     | Built     | All chart components |
+| CVP Chart        | js/charts/cvp-chart.js      | Built     | Ch. 3                |
+| Scatter Plot     | js/charts/scatter-chart.js  | Built     | Ch. 10               |
+| ROC Chart        | js/charts/roc-chart.js      | Built     | Ch. 11               |
+| Pareto Diagram   | js/charts/pareto-chart.js   | Built     | Ch. 20               |
+| Variance Diagram | js/charts/variance-chart.js | Not built | Planned              |
+| Control Chart    | js/charts/control-chart.js  | Not built | Planned              |
 
 ---
 
 ## Apply Section -- Scenario Status
 
-| Scenario | Chapters | Status |
-|----------|----------|--------|
-| What does it cost to make this? | 2, 4, 5, 18 | Not started |
-| Will we break even? Make a profit? | 3, 9, 12 | Not started |
-| What's our plan for the year? | 6, 10 | Not started |
-| Did we hit our plan? | 7, 8 | Not started |
-| Should we make it or buy it? | 12, 5, 10, 23 | Not started |
-| What should we charge? | 14, 12, 3 | Not started |
-| Which customers are profitable? | 15, 16, 5 | Not started |
-| Are we managing inventory well? | 21, 9, 12 | Not started |
-| Is this investment worth it? | 22, 12, 24 | Not started |
-| How are we measuring performance? | 24, 23, 13 | Not started |
-| What do our costs tell us? | 10, 11 | Not started |
-| Are we producing quality? | 20, 19, 12 | Not started |
+| Scenario                           | Chapters      | Status      |
+| ---------------------------------- | ------------- | ----------- |
+| What does it cost to make this?    | 2, 4, 5, 18   | Not started |
+| Will we break even? Make a profit? | 3, 9, 12      | Not started |
+| What's our plan for the year?      | 6, 10         | Not started |
+| Did we hit our plan?               | 7, 8          | Not started |
+| Should we make it or buy it?       | 12, 5, 10, 23 | Not started |
+| What should we charge?             | 14, 12, 3     | Not started |
+| Which customers are profitable?    | 15, 16, 5     | Not started |
+| Are we managing inventory well?    | 21, 9, 12     | Not started |
+| Is this investment worth it?       | 22, 12, 24    | Not started |
+| How are we measuring performance?  | 24, 23, 13    | Not started |
+| What do our costs tell us?         | 10, 11        | Not started |
+| Are we producing quality?          | 20, 19, 12    | Not started |
 
 ---
 
@@ -116,7 +116,7 @@ Build a comprehensive interactive learning companion that covers every concept i
 - Dark mode -- toggled via data-theme="dark" on html element; all overrides in css/settings-panel.css
 - No hardcoded hex in JS output -- all JS-generated HTML uses CSS custom property tokens only
 - Chart interactions -- chart components use canvas interaction patterns where applicable
-- Full-bleed layout -- .full-bleed + .full-bleed__inner for content wider than container--tool
+- Full-bleed layout -- .full-bleed + .full-bleed\_\_inner for content wider than container--tool
 - JS-owned outputs -- interactive result sections created or populated by JavaScript using getOrCreate patterns
 - GitHub Pages -- base path /Managerial-Accounting/ in production, / in dev
 
@@ -185,15 +185,16 @@ Never use hardcoded hex color values in JS-generated HTML. Always use CSS custom
     RIGHT:  background: 'var(--color-success-bg)'
 
 Token reference for JS output:
-- var(--color-success-bg)     dark green background in dark mode
-- var(--color-danger-bg)      dark red background in dark mode
-- var(--color-warning-bg)     dark amber background in dark mode
-- var(--color-info-bg)        dark navy background in dark mode
-- var(--color-success)        teal text in dark mode
-- var(--color-danger)         red text in dark mode
-- var(--color-warning)        amber text in dark mode
-- var(--color-primary-text)   light blue text in dark mode, navy in light mode
-- var(--color-accent)         gold, same in both modes
+
+- var(--color-success-bg) dark green background in dark mode
+- var(--color-danger-bg) dark red background in dark mode
+- var(--color-warning-bg) dark amber background in dark mode
+- var(--color-info-bg) dark navy background in dark mode
+- var(--color-success) teal text in dark mode
+- var(--color-danger) red text in dark mode
+- var(--color-warning) amber text in dark mode
+- var(--color-primary-text) light blue text in dark mode, navy in light mode
+- var(--color-accent) gold, same in both modes
 
 ---
 
