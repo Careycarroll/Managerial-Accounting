@@ -490,3 +490,31 @@ body {
 [data-theme="dark"] .landing-section__label {
   color: #a0aec0;
 }
+
+[data-theme="dark"] .chapter-card {
+  background: var(--color-card-bg);
+  border-color: var(--color-border);
+}
+[data-theme="dark"] .chapter-card:hover {
+  border-color: #90cdf4;
+}
+[data-theme="dark"] .chapter-card--complete {
+  background: linear-gradient(135deg, var(--color-card-bg) 0%, #1a3a2a 100%);
+  border-color: var(--color-success);
+}
+[data-theme="dark"] .chapter-card__title {
+  color: #f7fafc;
+}
+[data-theme="dark"] .chapter-card__desc {
+  color: #cbd5e0;
+}
+[data-theme="dark"] .chapter-card__number {
+  color: #a0aec0;
+}
+[data-theme="dark"] .chapter-card__tool {
+  background: var(--color-gray-200);
+  color: #a0aec0;
+}
+[data-theme="dark"] .chapter-card__cta {
+  color: #90cdf4;
+}
