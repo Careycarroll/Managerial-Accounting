@@ -1,0 +1,79 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <meta name="description" content="Glossary of key terms from Horngren's Cost Accounting, 17th Edition" />
+  <title>Glossary - Managerial Accounting</title>
+  <link rel="stylesheet" href="/css/base.css" />
+  <link rel="stylesheet" href="/css/components.css" />
+  <link rel="stylesheet" href="/css/learn.css" />
+  <link rel="stylesheet" href="/css/settings-panel.css" />
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet" />
+  <script>
+    (function(){
+      var r = document.documentElement;
+      var w = localStorage.getItem('pref-width');
+      var f = localStorage.getItem('pref-font');
+      var t = localStorage.getItem('pref-theme');
+      if (w) r.style.setProperty('--max-width-tool', w + 'px');
+      if (f) r.style.setProperty('--font-scale', f);
+      if (t === 'dark') r.setAttribute('data-theme', 'dark');
+    })();
+  </script>
+</head>
+<body>
+  <header class="site-header" role="banner">
+    <div class="site-header__inner">
+      <a href="/" class="site-header__logo">
+        <span>&#128202;</span>
+        <span>Managerial Accounting</span>
+      </a>
+      <nav class="site-header__nav" role="navigation" aria-label="Main navigation">
+        <a href="/pages/learn/" class="site-header__nav-link">Learn</a>
+        <a href="/pages/apply/" class="site-header__nav-link">Apply</a>
+        <a href="/pages/glossary.html" class="site-header__nav-link site-header__nav-link--active">Glossary</a>
+      </nav>
+    </div>
+  </header>
+
+  <main>
+    <section class="page__hero">
+      <div class="container">
+        <a href="/" style="color:var(--color-gray-400);font-size:var(--font-size-sm);text-decoration:none;">&larr; Home</a>
+        <div class="chapter-hero__meta" style="margin-top:var(--space-4);">
+          <span class="chapter-badge chapter-badge--control">Reference</span>
+        </div>
+        <h1 class="page__hero-title">Glossary</h1>
+        <p class="page__hero-subtitle">337 key terms from all 24 chapters of Horngren's Cost Accounting, 17th Edition. Search by term or filter by chapter.</p>
+      </div>
+    </section>
+
+    <section class="learn-section">
+      <div class="container container--tool">
+        <div class="card" style="margin-bottom:var(--space-4);">
+          <div style="display:flex;flex-wrap:wrap;gap:var(--space-3);align-items:center;">
+            <div style="flex:1 1 280px;">
+              <input class="form-input" type="search" id="glossary-search" placeholder="Search terms..." autocomplete="off" />
+            </div>
+            <div style="display:flex;gap:var(--space-2);align-items:center;">
+              <span style="font-size:var(--font-size-sm);color:var(--color-gray-500);white-space:nowrap;" id="glossary-count"></span>
+              <button class="btn btn--secondary btn--sm" id="glossary-clear">Clear</button>
+            </div>
+          </div>
+          <div id="glossary-chapter-filters" style="display:flex;flex-wrap:wrap;gap:var(--space-2);margin-top:var(--space-4);"></div>
+        </div>
+        <div id="glossary-grid" class="key-terms-grid"></div>
+        <div id="glossary-empty" style="display:none;text-align:center;padding:var(--space-12);color:var(--color-gray-500);">
+          <p style="font-size:var(--font-size-lg);">No terms match your search.</p>
+          <button class="btn btn--secondary" id="glossary-empty-clear" style="margin-top:var(--space-4);">Clear filters</button>
+        </div>
+      </div>
+    </section>
+  </main>
+
+  <script type="module" src="/js/learn/glossary.js"></script>
+</body>
+</html>

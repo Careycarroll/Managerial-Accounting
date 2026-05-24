@@ -6,7 +6,12 @@ import { readdirSync } from 'fs';
 function getPages() {
   const pages = { main: resolve(__dirname, 'index.html') };
   try {
-    readdirSync(resolve(__dirname, 'pages/learn'))
+    readdirSync(resolve(__dirname, 'pages')).filter(f => f.endsWith('.html')).forEach(f => {
+        pages[`page-${f.replace('.html', '')}`] = resolve(__dirname, 'pages', f);
+      });
+    } catch {}
+    try {
+      readdirSync(resolve(__dirname, 'pages/learn'))
       .filter(f => f.endsWith('.html'))
       .forEach(f => {
         pages[`learn-${f.replace('.html', '')}`] = resolve(__dirname, 'pages/learn', f);
