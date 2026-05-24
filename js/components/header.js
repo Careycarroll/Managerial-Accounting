@@ -11,6 +11,7 @@ export function initHeader() {
   const path = window.location.pathname;
   const isLearn = path.includes("/pages/learn");
   const isApply = path.includes("/pages/apply");
+  const isGlossary = path.includes("/pages/glossary");
 
   header.innerHTML = `
     <div class="site-header__inner">
@@ -21,6 +22,7 @@ export function initHeader() {
       <nav class="site-header__nav" role="navigation" aria-label="Main navigation">
         <a href="/pages/learn/" class="site-header__nav-link${isLearn ? " site-header__nav-link--active" : ""}">Learn</a>
         <a href="/pages/apply/" class="site-header__nav-link${isApply ? " site-header__nav-link--active" : ""}">Apply</a>
+        <a href="/pages/glossary.html" class="site-header__nav-link${isGlossary ? " site-header__nav-link--active" : ""}">Glossary</a>
       </nav>
     </div>
   `;
