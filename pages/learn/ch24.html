@@ -1,0 +1,471 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <meta name="description" content="Chapter 24: Performance Measurement, Compensation, and Multinational Considerations" />
+  <title>Ch. 24 &middot; Performance Measurement</title>
+  <link rel="stylesheet" href="/css/base.css" />
+  <link rel="stylesheet" href="/css/components.css" />
+  <link rel="stylesheet" href="/css/learn.css" />
+  <link rel="stylesheet" href="/css/settings-panel.css" />
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet" />
+  <script>
+    (function(){
+      var r = document.documentElement;
+      var w = localStorage.getItem('pref-width');
+      var f = localStorage.getItem('pref-font');
+      var t = localStorage.getItem('pref-theme');
+      if (w) r.style.setProperty('--max-width-tool', w + 'px');
+      if (f) r.style.setProperty('--font-scale', f);
+      if (t === 'dark') r.setAttribute('data-theme', 'dark');
+    })();
+  </script>
+</head>
+<body>
+  <header class="site-header" role="banner">
+    <div class="site-header__inner">
+      <a href="/" class="site-header__logo">
+        <span>&#128202;</span>
+        <span>Managerial Accounting</span>
+      </a>
+      <nav class="site-header__nav" role="navigation" aria-label="Main navigation">
+        <a href="/pages/learn/" class="site-header__nav-link site-header__nav-link--active">Learn</a>
+        <a href="/pages/apply/" class="site-header__nav-link">Apply</a>
+      </nav>
+    </div>
+  </header>
+
+  <main>
+    <section class="page__hero">
+      <div class="container">
+        <div class="chapter-nav">
+          <div style="display:flex;gap:var(--space-4);align-items:center;">
+            <a href="/pages/learn/" class="chapter-nav__back">&larr; All Chapters</a>
+            <a href="/pages/learn/ch23.html" class="chapter-nav__back">&larr; Ch. 23</a>
+          </div>
+          <div class="chapter-nav__position">
+            <span>Chapter 24 of 24</span>
+            <a href="/pages/learn/" class="chapter-nav__next">All Chapters &rarr;</a>
+          </div>
+        </div>
+        <div class="chapter-hero__meta">
+          <span class="chapter-badge chapter-badge--control">Performance</span>
+          <span class="chapter-hero__number">Chapter 24</span>
+        </div>
+        <h1 class="page__hero-title">Performance Measurement, Compensation, and Multinational Considerations</h1>
+        <p class="page__hero-subtitle">
+          Calculate ROI, residual income, and EVA; decompose ROI using the DuPont
+          framework; design balanced performance dashboards; link compensation to
+          performance metrics; and adjust performance measurement for multinational
+          subunits.
+        </p>
+        <div class="chapter-hero__progress" id="ch24-progress-indicator">
+          <span class="chapter-hero__progress-label" id="ch24-status">Not started</span>
+        </div>
+      </div>
+    </section>
+
+    <section class="learn-section">
+      <div class="container container--tool">
+        <div class="objectives-card card">
+          <h2 class="objectives-card__title">Learning Objectives</h2>
+          <ol class="objectives-list">
+            <li>Calculate return on investment, residual income, and economic value added</li>
+            <li>Decompose ROI into profit margin and asset turnover using the DuPont framework</li>
+            <li>Compare investment centers using a balanced performance dashboard</li>
+            <li>Link manager compensation to performance metrics and identify goal-congruence issues</li>
+            <li>Adjust performance measurement for multinational subunits with different currencies and economic environments</li>
+          </ol>
+        </div>
+      </div>
+    </section>
+
+    <section class="learn-section learn-section--alt" id="tool-roi-ri">
+      <div class="container container--tool">
+        <div class="tool-header">
+          <div class="tool-header__label">Tool 1 of 6</div>
+          <h2 class="tool-header__title">ROI vs Residual Income Comparator</h2>
+          <p class="tool-header__desc">ROI is a percentage -- operating income divided by investment. Residual income is a dollar amount -- operating income minus a capital charge. The two metrics can lead to different decisions: managers focused on ROI may reject projects that would increase corporate value but lower their division's ROI.</p>
+        </div>
+        <div class="card">
+          <div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:var(--space-4);">
+            <h3 style="font-size:var(--font-size-base);font-weight:700;margin:0;">Division Inputs</h3>
+            <div style="display:flex;gap:var(--space-3);">
+              <button class="btn btn--secondary btn--sm" id="roi-load-example">Load Example</button>
+              <button class="btn btn--secondary btn--sm" id="roi-randomize">&#127922; Randomize</button>
+            </div>
+          </div>
+          <div class="ohrate-grid">
+            <div class="form-group">
+              <label class="form-label" for="roi-current-oi">Current Operating Income ($)</label>
+              <input class="form-input" type="number" id="roi-current-oi" value="240000" step="10000" />
+            </div>
+            <div class="form-group">
+              <label class="form-label" for="roi-current-inv">Current Investment ($)</label>
+              <input class="form-input" type="number" id="roi-current-inv" value="1500000" min="1" step="50000" />
+            </div>
+            <div class="form-group">
+              <label class="form-label" for="roi-required">Required Rate of Return (%)</label>
+              <input class="form-input" type="number" id="roi-required" value="12" min="0" max="50" step="0.5" />
+            </div>
+            <div class="form-group">
+              <label class="form-label" for="roi-new-oi">New Project Operating Income ($)</label>
+              <input class="form-input" type="number" id="roi-new-oi" value="60000" step="5000" />
+            </div>
+            <div class="form-group">
+              <label class="form-label" for="roi-new-inv">New Project Investment ($)</label>
+              <input class="form-input" type="number" id="roi-new-inv" value="400000" min="1" step="25000" />
+            </div>
+          </div>
+          <button class="btn btn--primary" id="roi-calculate" style="margin-top:var(--space-4);">Compare Metrics &rarr;</button>
+          <div id="roi-output"></div>
+          <div id="roi-show-work"></div>
+        </div>
+      </div>
+    </section>
+
+    <section class="learn-section" id="tool-eva">
+      <div class="container container--tool">
+        <div class="tool-header">
+          <div class="tool-header__label">Tool 2 of 6</div>
+          <h2 class="tool-header__title">EVA Calculator</h2>
+          <p class="tool-header__desc">Economic Value Added refines residual income by using net operating profit after tax (NOPAT) and the weighted-average cost of capital (WACC). It also adjusts the investment base by adding back certain capitalized items. EVA is often considered the truest measure of value creation.</p>
+        </div>
+        <div class="card">
+          <div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:var(--space-4);">
+            <h3 style="font-size:var(--font-size-base);font-weight:700;margin:0;">EVA Inputs</h3>
+            <div style="display:flex;gap:var(--space-3);">
+              <button class="btn btn--secondary btn--sm" id="eva-load-example">Load Example</button>
+              <button class="btn btn--secondary btn--sm" id="eva-randomize">&#127922; Randomize</button>
+            </div>
+          </div>
+          <div class="ohrate-grid">
+            <div class="form-group">
+              <label class="form-label" for="eva-ebit">Operating Income (EBIT) ($)</label>
+              <input class="form-input" type="number" id="eva-ebit" value="500000" step="10000" />
+            </div>
+            <div class="form-group">
+              <label class="form-label" for="eva-tax-rate">Tax Rate (%)</label>
+              <input class="form-input" type="number" id="eva-tax-rate" value="25" min="0" max="50" step="1" />
+            </div>
+            <div class="form-group">
+              <label class="form-label" for="eva-total-capital">Total Capital ($)</label>
+              <input class="form-input" type="number" id="eva-total-capital" value="3000000" min="1" step="100000" />
+            </div>
+            <div class="form-group">
+              <label class="form-label" for="eva-wacc">WACC (%)</label>
+              <input class="form-input" type="number" id="eva-wacc" value="10" min="0" max="50" step="0.5" />
+            </div>
+            <div class="form-group">
+              <label class="form-label" for="eva-required-ri">Required Rate for Simple RI (%)</label>
+              <input class="form-input" type="number" id="eva-required-ri" value="10" min="0" max="50" step="0.5" />
+            </div>
+          </div>
+          <button class="btn btn--primary" id="eva-calculate" style="margin-top:var(--space-4);">Calculate EVA &rarr;</button>
+          <div id="eva-output"></div>
+          <div id="eva-show-work"></div>
+        </div>
+      </div>
+    </section>
+
+    <section class="learn-section learn-section--alt" id="tool-dupont">
+      <div class="container container--tool">
+        <div class="tool-header">
+          <div class="tool-header__label">Tool 3 of 6</div>
+          <h2 class="tool-header__title">DuPont Decomposition</h2>
+          <p class="tool-header__desc">ROI breaks down into Profit Margin times Asset Turnover. Two divisions can have identical ROI but get there through completely different strategies -- one through high margins and slow turnover (luxury goods), another through low margins and fast turnover (grocery). Compare two divisions or two time periods.</p>
+        </div>
+        <div class="card">
+          <div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:var(--space-4);">
+            <h3 style="font-size:var(--font-size-base);font-weight:700;margin:0;">Comparison Inputs</h3>
+            <div style="display:flex;gap:var(--space-3);">
+              <button class="btn btn--secondary btn--sm" id="dp-load-example">Load Example</button>
+              <button class="btn btn--secondary btn--sm" id="dp-randomize">&#127922; Randomize</button>
+            </div>
+          </div>
+          <div class="ohrate-grid">
+            <div class="form-group">
+              <label class="form-label" for="dp-a-label">Division A Label</label>
+              <input class="form-input" type="text" id="dp-a-label" value="Luxury Goods" />
+            </div>
+            <div class="form-group">
+              <label class="form-label" for="dp-a-revenue">Division A Revenue ($)</label>
+              <input class="form-input" type="number" id="dp-a-revenue" value="2000000" step="50000" />
+            </div>
+            <div class="form-group">
+              <label class="form-label" for="dp-a-oi">Division A Operating Income ($)</label>
+              <input class="form-input" type="number" id="dp-a-oi" value="400000" step="10000" />
+            </div>
+            <div class="form-group">
+              <label class="form-label" for="dp-a-assets">Division A Investment ($)</label>
+              <input class="form-input" type="number" id="dp-a-assets" value="2500000" min="1" step="50000" />
+            </div>
+            <div class="form-group">
+              <label class="form-label" for="dp-b-label">Division B Label</label>
+              <input class="form-input" type="text" id="dp-b-label" value="Grocery" />
+            </div>
+            <div class="form-group">
+              <label class="form-label" for="dp-b-revenue">Division B Revenue ($)</label>
+              <input class="form-input" type="number" id="dp-b-revenue" value="10000000" step="50000" />
+            </div>
+            <div class="form-group">
+              <label class="form-label" for="dp-b-oi">Division B Operating Income ($)</label>
+              <input class="form-input" type="number" id="dp-b-oi" value="400000" step="10000" />
+            </div>
+            <div class="form-group">
+              <label class="form-label" for="dp-b-assets">Division B Investment ($)</label>
+              <input class="form-input" type="number" id="dp-b-assets" value="2500000" min="1" step="50000" />
+            </div>
+          </div>
+          <button class="btn btn--primary" id="dp-calculate" style="margin-top:var(--space-4);">Decompose ROI &rarr;</button>
+          <div id="dp-output"></div>
+          <div id="dp-show-work"></div>
+        </div>
+      </div>
+    </section>
+
+    <section class="learn-section" id="tool-dashboard">
+      <div class="container container--tool">
+        <div class="tool-header">
+          <div class="tool-header__label">Tool 4 of 6</div>
+          <h2 class="tool-header__title">Performance Dashboard</h2>
+          <p class="tool-header__desc">A balanced view of investment center performance. Compare two divisions or two time periods across ROI, RI, EVA, asset turnover, profit margin, and growth. No single metric tells the full story -- managers need a dashboard.</p>
+        </div>
+        <div class="card">
+          <div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:var(--space-4);">
+            <h3 style="font-size:var(--font-size-base);font-weight:700;margin:0;">Dashboard Inputs</h3>
+            <div style="display:flex;gap:var(--space-3);">
+              <button class="btn btn--secondary btn--sm" id="pd-load-example">Load Example</button>
+              <button class="btn btn--secondary btn--sm" id="pd-randomize">&#127922; Randomize</button>
+            </div>
+          </div>
+          <div class="ohrate-grid">
+            <div class="form-group">
+              <label class="form-label" for="pd-rate">Required Rate of Return (%)</label>
+              <input class="form-input" type="number" id="pd-rate" value="10" min="0" max="50" step="0.5" />
+            </div>
+            <div class="form-group">
+              <label class="form-label" for="pd-tax">Tax Rate (%)</label>
+              <input class="form-input" type="number" id="pd-tax" value="25" min="0" max="50" step="1" />
+            </div>
+          </div>
+          <p class="ch9-section-label" style="margin-top:var(--space-4);">Period 1</p>
+          <div class="ohrate-grid">
+            <div class="form-group">
+              <label class="form-label" for="pd-p1-revenue">Revenue ($)</label>
+              <input class="form-input" type="number" id="pd-p1-revenue" value="5000000" step="50000" />
+            </div>
+            <div class="form-group">
+              <label class="form-label" for="pd-p1-oi">Operating Income ($)</label>
+              <input class="form-input" type="number" id="pd-p1-oi" value="500000" step="10000" />
+            </div>
+            <div class="form-group">
+              <label class="form-label" for="pd-p1-assets">Investment ($)</label>
+              <input class="form-input" type="number" id="pd-p1-assets" value="4000000" min="1" step="50000" />
+            </div>
+          </div>
+          <p class="ch9-section-label" style="margin-top:var(--space-4);">Period 2</p>
+          <div class="ohrate-grid">
+            <div class="form-group">
+              <label class="form-label" for="pd-p2-revenue">Revenue ($)</label>
+              <input class="form-input" type="number" id="pd-p2-revenue" value="5500000" step="50000" />
+            </div>
+            <div class="form-group">
+              <label class="form-label" for="pd-p2-oi">Operating Income ($)</label>
+              <input class="form-input" type="number" id="pd-p2-oi" value="600000" step="10000" />
+            </div>
+            <div class="form-group">
+              <label class="form-label" for="pd-p2-assets">Investment ($)</label>
+              <input class="form-input" type="number" id="pd-p2-assets" value="4200000" min="1" step="50000" />
+            </div>
+          </div>
+          <button class="btn btn--primary" id="pd-calculate" style="margin-top:var(--space-4);">Generate Dashboard &rarr;</button>
+          <div id="pd-output"></div>
+          <div id="pd-show-work"></div>
+        </div>
+      </div>
+    </section>
+
+    <section class="learn-section learn-section--alt" id="tool-compensation">
+      <div class="container container--tool">
+        <div class="tool-header">
+          <div class="tool-header__label">Tool 5 of 6</div>
+          <h2 class="tool-header__title">Compensation Linkage Analyzer</h2>
+          <p class="tool-header__desc">Manager bonuses are typically tied to multiple performance metrics. The choice of metrics and weights drives manager behavior -- but the wrong mix creates incentives that conflict with corporate goals. Test how different weighting schemes affect both bonus payouts and incentive alignment.</p>
+        </div>
+        <div class="card">
+          <div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:var(--space-4);">
+            <h3 style="font-size:var(--font-size-base);font-weight:700;margin:0;">Performance and Targets</h3>
+            <div style="display:flex;gap:var(--space-3);">
+              <button class="btn btn--secondary btn--sm" id="comp-load-example">Load Example</button>
+              <button class="btn btn--secondary btn--sm" id="comp-randomize">&#127922; Randomize</button>
+            </div>
+          </div>
+          <div class="ohrate-grid">
+            <div class="form-group">
+              <label class="form-label" for="comp-base">Base Salary ($)</label>
+              <input class="form-input" type="number" id="comp-base" value="200000" min="0" step="10000" />
+            </div>
+            <div class="form-group">
+              <label class="form-label" for="comp-target-bonus">Target Bonus (% of base)</label>
+              <input class="form-input" type="number" id="comp-target-bonus" value="50" min="0" max="200" step="5" />
+            </div>
+          </div>
+          <p class="ch9-section-label" style="margin-top:var(--space-4);">Metric Targets and Actuals</p>
+          <div class="ohrate-grid">
+            <div class="form-group">
+              <label class="form-label" for="comp-roi-target">ROI Target (%)</label>
+              <input class="form-input" type="number" id="comp-roi-target" value="15" min="0" step="0.5" />
+            </div>
+            <div class="form-group">
+              <label class="form-label" for="comp-roi-actual">ROI Actual (%)</label>
+              <input class="form-input" type="number" id="comp-roi-actual" value="17" min="0" step="0.5" />
+            </div>
+            <div class="form-group">
+              <label class="form-label" for="comp-roi-weight">ROI Weight (%)</label>
+              <input class="form-input" type="number" id="comp-roi-weight" value="40" min="0" max="100" step="5" />
+            </div>
+            <div class="form-group">
+              <label class="form-label" for="comp-rev-target">Revenue Target ($M)</label>
+              <input class="form-input" type="number" id="comp-rev-target" value="5" min="0" step="0.5" />
+            </div>
+            <div class="form-group">
+              <label class="form-label" for="comp-rev-actual">Revenue Actual ($M)</label>
+              <input class="form-input" type="number" id="comp-rev-actual" value="5.5" min="0" step="0.1" />
+            </div>
+            <div class="form-group">
+              <label class="form-label" for="comp-rev-weight">Revenue Weight (%)</label>
+              <input class="form-input" type="number" id="comp-rev-weight" value="30" min="0" max="100" step="5" />
+            </div>
+            <div class="form-group">
+              <label class="form-label" for="comp-csat-target">Customer Satisfaction Target (1-10)</label>
+              <input class="form-input" type="number" id="comp-csat-target" value="8" min="0" max="10" step="0.1" />
+            </div>
+            <div class="form-group">
+              <label class="form-label" for="comp-csat-actual">Customer Satisfaction Actual (1-10)</label>
+              <input class="form-input" type="number" id="comp-csat-actual" value="8.5" min="0" max="10" step="0.1" />
+            </div>
+            <div class="form-group">
+              <label class="form-label" for="comp-csat-weight">Customer Satisfaction Weight (%)</label>
+              <input class="form-input" type="number" id="comp-csat-weight" value="30" min="0" max="100" step="5" />
+            </div>
+          </div>
+          <button class="btn btn--primary" id="comp-calculate" style="margin-top:var(--space-4);">Calculate Bonus &rarr;</button>
+          <div id="comp-output"></div>
+          <div id="comp-show-work"></div>
+        </div>
+      </div>
+    </section>
+
+    <section class="learn-section" id="tool-multinational-perf">
+      <div class="container container--tool">
+        <div class="tool-header">
+          <div class="tool-header__label">Tool 6 of 6</div>
+          <h2 class="tool-header__title">Multinational Performance Comparator</h2>
+          <p class="tool-header__desc">When two subsidiaries operate in different countries, raw financial comparisons can mislead. Currency exchange rates, inflation differences, and different economic conditions all affect reported performance. Adjust for these factors before judging which manager is performing better.</p>
+        </div>
+        <div class="card">
+          <div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:var(--space-4);">
+            <h3 style="font-size:var(--font-size-base);font-weight:700;margin:0;">Subsidiary Inputs</h3>
+            <div style="display:flex;gap:var(--space-3);">
+              <button class="btn btn--secondary btn--sm" id="mp-load-example">Load Example</button>
+              <button class="btn btn--secondary btn--sm" id="mp-randomize">&#127922; Randomize</button>
+            </div>
+          </div>
+          <p class="ch9-section-label">Subsidiary A</p>
+          <div class="ohrate-grid">
+            <div class="form-group">
+              <label class="form-label" for="mp-a-country">Country</label>
+              <input class="form-input" type="text" id="mp-a-country" value="United States" />
+            </div>
+            <div class="form-group">
+              <label class="form-label" for="mp-a-oi">Operating Income (local currency)</label>
+              <input class="form-input" type="number" id="mp-a-oi" value="500000" step="10000" />
+            </div>
+            <div class="form-group">
+              <label class="form-label" for="mp-a-assets">Investment (local currency)</label>
+              <input class="form-input" type="number" id="mp-a-assets" value="3000000" min="1" step="50000" />
+            </div>
+            <div class="form-group">
+              <label class="form-label" for="mp-a-fx">Exchange Rate to USD</label>
+              <input class="form-input" type="number" id="mp-a-fx" value="1" min="0" step="0.01" />
+            </div>
+            <div class="form-group">
+              <label class="form-label" for="mp-a-inflation">Local Inflation (%)</label>
+              <input class="form-input" type="number" id="mp-a-inflation" value="3" min="0" step="0.5" />
+            </div>
+            <div class="form-group">
+              <label class="form-label" for="mp-a-gdp">Local GDP Growth (%)</label>
+              <input class="form-input" type="number" id="mp-a-gdp" value="2.5" step="0.5" />
+            </div>
+          </div>
+          <p class="ch9-section-label" style="margin-top:var(--space-4);">Subsidiary B</p>
+          <div class="ohrate-grid">
+            <div class="form-group">
+              <label class="form-label" for="mp-b-country">Country</label>
+              <input class="form-input" type="text" id="mp-b-country" value="Brazil" />
+            </div>
+            <div class="form-group">
+              <label class="form-label" for="mp-b-oi">Operating Income (local currency)</label>
+              <input class="form-input" type="number" id="mp-b-oi" value="2500000" step="10000" />
+            </div>
+            <div class="form-group">
+              <label class="form-label" for="mp-b-assets">Investment (local currency)</label>
+              <input class="form-input" type="number" id="mp-b-assets" value="15000000" min="1" step="50000" />
+            </div>
+            <div class="form-group">
+              <label class="form-label" for="mp-b-fx">Exchange Rate to USD</label>
+              <input class="form-input" type="number" id="mp-b-fx" value="0.2" min="0" step="0.01" />
+            </div>
+            <div class="form-group">
+              <label class="form-label" for="mp-b-inflation">Local Inflation (%)</label>
+              <input class="form-input" type="number" id="mp-b-inflation" value="8" min="0" step="0.5" />
+            </div>
+            <div class="form-group">
+              <label class="form-label" for="mp-b-gdp">Local GDP Growth (%)</label>
+              <input class="form-input" type="number" id="mp-b-gdp" value="4" step="0.5" />
+            </div>
+          </div>
+          <button class="btn btn--primary" id="mp-calculate" style="margin-top:var(--space-4);">Compare Performance &rarr;</button>
+          <div id="mp-output"></div>
+          <div id="mp-show-work"></div>
+        </div>
+      </div>
+    </section>
+
+    <section class="learn-section learn-section--alt">
+      <div class="container container--tool">
+        <div class="tool-header">
+          <h2 class="tool-header__title">Key Terms</h2>
+          <p class="tool-header__desc">Click any term to see its definition.</p>
+        </div>
+        <div class="key-terms-grid" id="key-terms-grid"></div>
+      </div>
+    </section>
+
+    <section class="learn-section">
+      <div class="container container--tool">
+        <div class="chapter-complete card" id="chapter-complete">
+          <div class="chapter-complete__icon">&#127881;</div>
+          <h2 class="chapter-complete__title">Chapter 24 Complete -- Learn Section Finished!</h2>
+          <p class="chapter-complete__desc">
+            You have completed all 24 chapters of Horngren Cost Accounting. You can now calculate
+            ROI, residual income, and EVA; decompose returns using the DuPont framework; build
+            balanced performance dashboards; link compensation to performance metrics; and
+            adjust performance measurement across multinational subunits.
+          </p>
+          <div class="chapter-complete__actions">
+            <button class="btn btn--primary" id="mark-complete-btn">Mark as Complete</button>
+            <a href="/pages/learn/" class="btn btn--secondary">View All Chapters &rarr;</a>
+          </div>
+        </div>
+      </div>
+    </section>
+  </main>
+
+  <script type="module" src="/js/learn/ch24.js"></script>
+</body>
+</html>

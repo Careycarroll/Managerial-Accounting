@@ -1,0 +1,673 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <meta
+      name="description"
+      content="Chapter 23: Management Control Systems, Transfer Pricing, and Multinational Considerations"
+    />
+    <title>Ch. 23 &middot; Transfer Pricing</title>
+    <link rel="stylesheet" href="/css/base.css" />
+    <link rel="stylesheet" href="/css/components.css" />
+    <link rel="stylesheet" href="/css/learn.css" />
+    <link rel="stylesheet" href="/css/settings-panel.css" />
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link
+      href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=JetBrains+Mono:wght@400;500&display=swap"
+      rel="stylesheet"
+    />
+    <script>
+      (function () {
+        var r = document.documentElement;
+        var w = localStorage.getItem("pref-width");
+        var f = localStorage.getItem("pref-font");
+        var t = localStorage.getItem("pref-theme");
+        if (w) r.style.setProperty("--max-width-tool", w + "px");
+        if (f) r.style.setProperty("--font-scale", f);
+        if (t === "dark") r.setAttribute("data-theme", "dark");
+      })();
+    </script>
+  </head>
+  <body>
+    <header class="site-header" role="banner">
+      <div class="site-header__inner">
+        <a href="/" class="site-header__logo">
+          <span>&#128202;</span>
+          <span>Managerial Accounting</span>
+        </a>
+        <nav
+          class="site-header__nav"
+          role="navigation"
+          aria-label="Main navigation"
+        >
+          <a
+            href="/pages/learn/"
+            class="site-header__nav-link site-header__nav-link--active"
+            >Learn</a
+          >
+          <a href="/pages/apply/" class="site-header__nav-link">Apply</a>
+        </nav>
+      </div>
+    </header>
+
+    <main>
+      <section class="page__hero">
+        <div class="container">
+          <div class="chapter-nav">
+            <div
+              style="display: flex; gap: var(--space-4); align-items: center"
+            >
+              <a href="/pages/learn/" class="chapter-nav__back"
+                >&larr; All Chapters</a
+              >
+              <a href="/pages/learn/ch22.html" class="chapter-nav__back"
+                >&larr; Ch. 22</a
+              >
+            </div>
+            <div class="chapter-nav__position">
+              <span>Chapter 23 of 24</span>
+              <a href="/pages/learn/ch24.html" class="chapter-nav__next"
+                >Ch. 24 &rarr;</a
+              >
+            </div>
+          </div>
+          <div class="chapter-hero__meta">
+            <span class="chapter-badge chapter-badge--control"
+              >Transfer Pricing</span
+            >
+            <span class="chapter-hero__number">Chapter 23</span>
+          </div>
+          <h1 class="page__hero-title">
+            Management Control Systems and Transfer Pricing
+          </h1>
+          <p class="page__hero-subtitle">
+            Evaluate centralization versus decentralization decisions, compare
+            market-based, cost-based, and negotiated transfer pricing methods,
+            apply the general transfer pricing rule, and analyze multinational
+            tax strategies.
+          </p>
+          <div class="chapter-hero__progress" id="ch23-progress-indicator">
+            <span class="chapter-hero__progress-label" id="ch23-status"
+              >Not started</span
+            >
+          </div>
+        </div>
+      </section>
+
+      <section class="learn-section">
+        <div class="container container--tool">
+          <div class="objectives-card card">
+            <h2 class="objectives-card__title">Learning Objectives</h2>
+            <ol class="objectives-list">
+              <li>
+                Identify the benefits and costs of decentralization in
+                organizations
+              </li>
+              <li>
+                Compare market-based, cost-based, and negotiated transfer
+                pricing methods
+              </li>
+              <li>
+                Apply the general transfer pricing rule using incremental cost
+                and opportunity cost
+              </li>
+              <li>
+                Analyze the multinational tax implications of transfer pricing
+                decisions
+              </li>
+            </ol>
+          </div>
+        </div>
+      </section>
+
+      <section
+        class="learn-section learn-section--alt"
+        id="tool-decentralization"
+      >
+        <div class="container container--tool">
+          <div class="tool-header">
+            <div class="tool-header__label">Tool 1 of 4</div>
+            <h2 class="tool-header__title">
+              Decentralization Trade-off Analyzer
+            </h2>
+            <p class="tool-header__desc">
+              Decentralization gives lower-level managers decision authority. It
+              speeds decisions, motivates managers, and develops talent -- but
+              risks goal incongruence and duplicated effort. Each scenario
+              presents a control situation. Decide whether decentralization or
+              centralization fits best.
+            </p>
+          </div>
+          <div class="card">
+            <div
+              style="
+                display: flex;
+                justify-content: space-between;
+                align-items: center;
+                margin-bottom: var(--space-4);
+              "
+            >
+              <h3
+                style="
+                  font-size: var(--font-size-base);
+                  font-weight: 700;
+                  margin: 0;
+                "
+              >
+                Centralization Quiz
+              </h3>
+              <button class="btn btn--secondary btn--sm" id="dc-reset-btn">
+                &#127922; Reset &amp; Shuffle
+              </button>
+            </div>
+            <button class="btn btn--primary" id="dc-next-btn">
+              Show Scenario
+            </button>
+            <div id="dc-scenario-area"></div>
+            <div id="dc-results-area"></div>
+          </div>
+        </div>
+      </section>
+
+      <section class="learn-section" id="tool-tp-comparator">
+        <div class="container container--tool">
+          <div class="tool-header">
+            <div class="tool-header__label">Tool 2 of 4</div>
+            <h2 class="tool-header__title">Transfer Price Method Comparator</h2>
+            <p class="tool-header__desc">
+              Three primary methods exist: market-based uses the external market
+              price; cost-based uses variable cost, full cost, or cost-plus
+              markup; negotiated allows divisions to bargain. Each produces
+              different transfer prices and different divisional profit splits,
+              but corporate profit is the same.
+            </p>
+          </div>
+          <div class="card">
+            <div
+              style="
+                display: flex;
+                justify-content: space-between;
+                align-items: center;
+                margin-bottom: var(--space-4);
+              "
+            >
+              <h3
+                style="
+                  font-size: var(--font-size-base);
+                  font-weight: 700;
+                  margin: 0;
+                "
+              >
+                Transfer Setup
+              </h3>
+              <div style="display: flex; gap: var(--space-3)">
+                <button
+                  class="btn btn--secondary btn--sm"
+                  id="tpc-load-example"
+                >
+                  Load Example
+                </button>
+                <button class="btn btn--secondary btn--sm" id="tpc-randomize">
+                  &#127922; Randomize
+                </button>
+              </div>
+            </div>
+            <div class="ohrate-grid">
+              <div class="form-group">
+                <label class="form-label" for="tpc-units"
+                  >Units Transferred</label
+                >
+                <input
+                  class="form-input"
+                  type="number"
+                  id="tpc-units"
+                  value="10000"
+                  min="1"
+                  step="500"
+                />
+              </div>
+              <div class="form-group">
+                <label class="form-label" for="tpc-var-cost"
+                  >Variable Cost per Unit ($)</label
+                >
+                <input
+                  class="form-input"
+                  type="number"
+                  id="tpc-var-cost"
+                  value="40"
+                  min="0"
+                  step="1"
+                />
+              </div>
+              <div class="form-group">
+                <label class="form-label" for="tpc-fixed-cost"
+                  >Fixed Cost per Unit ($)</label
+                >
+                <input
+                  class="form-input"
+                  type="number"
+                  id="tpc-fixed-cost"
+                  value="15"
+                  min="0"
+                  step="1"
+                />
+              </div>
+              <div class="form-group">
+                <label class="form-label" for="tpc-markup"
+                  >Cost-Plus Markup (%)</label
+                >
+                <input
+                  class="form-input"
+                  type="number"
+                  id="tpc-markup"
+                  value="20"
+                  min="0"
+                  max="200"
+                  step="5"
+                />
+              </div>
+              <div class="form-group">
+                <label class="form-label" for="tpc-market-price"
+                  >Market Price per Unit ($)</label
+                >
+                <input
+                  class="form-input"
+                  type="number"
+                  id="tpc-market-price"
+                  value="75"
+                  min="0"
+                  step="1"
+                />
+              </div>
+              <div class="form-group">
+                <label class="form-label" for="tpc-final-price"
+                  >Final Product Price per Unit ($)</label
+                >
+                <input
+                  class="form-input"
+                  type="number"
+                  id="tpc-final-price"
+                  value="120"
+                  min="0"
+                  step="1"
+                />
+              </div>
+              <div class="form-group">
+                <label class="form-label" for="tpc-buy-add-cost"
+                  >Buying Division Additional Costs per Unit ($)</label
+                >
+                <input
+                  class="form-input"
+                  type="number"
+                  id="tpc-buy-add-cost"
+                  value="25"
+                  min="0"
+                  step="1"
+                />
+              </div>
+              <div class="form-group">
+                <label class="form-label" for="tpc-negotiated"
+                  >Negotiated Price per Unit ($)</label
+                >
+                <input
+                  class="form-input"
+                  type="number"
+                  id="tpc-negotiated"
+                  value="60"
+                  min="0"
+                  step="1"
+                />
+              </div>
+            </div>
+            <button
+              class="btn btn--primary"
+              id="tpc-calculate"
+              style="margin-top: var(--space-4)"
+            >
+              Compare Methods &rarr;
+            </button>
+            <div id="tpc-output"></div>
+            <div id="tpc-show-work"></div>
+          </div>
+        </div>
+      </section>
+
+      <section class="learn-section learn-section--alt" id="tool-general-rule">
+        <div class="container container--tool">
+          <div class="tool-header">
+            <div class="tool-header__label">Tool 3 of 4</div>
+            <h2 class="tool-header__title">General Transfer Pricing Rule</h2>
+            <p class="tool-header__desc">
+              The general rule says: minimum transfer price = incremental cost
+              per unit + opportunity cost per unit. When the selling division
+              has idle capacity, opportunity cost is zero, so the minimum equals
+              variable cost. When at full capacity, opportunity cost equals the
+              contribution margin lost on the next-best external sale.
+            </p>
+          </div>
+          <div class="card">
+            <div
+              style="
+                display: flex;
+                justify-content: space-between;
+                align-items: center;
+                margin-bottom: var(--space-4);
+              "
+            >
+              <h3
+                style="
+                  font-size: var(--font-size-base);
+                  font-weight: 700;
+                  margin: 0;
+                "
+              >
+                Transfer Decision Inputs
+              </h3>
+              <div style="display: flex; gap: var(--space-3)">
+                <button
+                  class="btn btn--secondary btn--sm"
+                  id="gtr-load-example"
+                >
+                  Load Example
+                </button>
+                <button class="btn btn--secondary btn--sm" id="gtr-randomize">
+                  &#127922; Randomize
+                </button>
+              </div>
+            </div>
+            <div class="ohrate-grid">
+              <div class="form-group">
+                <label class="form-label" for="gtr-var-cost"
+                  >Variable Cost per Unit ($)</label
+                >
+                <input
+                  class="form-input"
+                  type="number"
+                  id="gtr-var-cost"
+                  value="40"
+                  min="0"
+                  step="1"
+                />
+              </div>
+              <div class="form-group">
+                <label class="form-label" for="gtr-capacity"
+                  >Total Capacity (units)</label
+                >
+                <input
+                  class="form-input"
+                  type="number"
+                  id="gtr-capacity"
+                  value="50000"
+                  min="1"
+                  step="1000"
+                />
+              </div>
+              <div class="form-group">
+                <label class="form-label" for="gtr-external-demand"
+                  >External Demand (units)</label
+                >
+                <input
+                  class="form-input"
+                  type="number"
+                  id="gtr-external-demand"
+                  value="40000"
+                  min="0"
+                  step="1000"
+                />
+              </div>
+              <div class="form-group">
+                <label class="form-label" for="gtr-internal-need"
+                  >Internal Need (units)</label
+                >
+                <input
+                  class="form-input"
+                  type="number"
+                  id="gtr-internal-need"
+                  value="15000"
+                  min="0"
+                  step="1000"
+                />
+              </div>
+              <div class="form-group">
+                <label class="form-label" for="gtr-external-price"
+                  >External Market Price ($)</label
+                >
+                <input
+                  class="form-input"
+                  type="number"
+                  id="gtr-external-price"
+                  value="75"
+                  min="0"
+                  step="1"
+                />
+              </div>
+              <div class="form-group">
+                <label class="form-label" for="gtr-external-var"
+                  >External Sale Variable Cost ($)</label
+                >
+                <input
+                  class="form-input"
+                  type="number"
+                  id="gtr-external-var"
+                  value="40"
+                  min="0"
+                  step="1"
+                />
+              </div>
+            </div>
+            <button
+              class="btn btn--primary"
+              id="gtr-calculate"
+              style="margin-top: var(--space-4)"
+            >
+              Apply General Rule &rarr;
+            </button>
+            <div id="gtr-output"></div>
+            <div id="gtr-show-work"></div>
+          </div>
+        </div>
+      </section>
+
+      <section class="learn-section" id="tool-multinational">
+        <div class="container container--tool">
+          <div class="tool-header">
+            <div class="tool-header__label">Tool 4 of 4</div>
+            <h2 class="tool-header__title">Multinational Tax Strategy</h2>
+            <p class="tool-header__desc">
+              When divisions are in different countries with different tax
+              rates, transfer pricing affects global tax liability. The strategy
+              is to recognize profit in the lower-tax jurisdiction -- but the
+              transfer price must stay within an arms-length range allowed by
+              tax authorities. Compare strategies and see the global tax impact.
+            </p>
+          </div>
+          <div class="card">
+            <div
+              style="
+                display: flex;
+                justify-content: space-between;
+                align-items: center;
+                margin-bottom: var(--space-4);
+              "
+            >
+              <h3
+                style="
+                  font-size: var(--font-size-base);
+                  font-weight: 700;
+                  margin: 0;
+                "
+              >
+                Multinational Setup
+              </h3>
+              <div style="display: flex; gap: var(--space-3)">
+                <button class="btn btn--secondary btn--sm" id="mn-load-example">
+                  Load Example
+                </button>
+                <button class="btn btn--secondary btn--sm" id="mn-randomize">
+                  &#127922; Randomize
+                </button>
+              </div>
+            </div>
+            <div class="ohrate-grid">
+              <div class="form-group">
+                <label class="form-label" for="mn-units"
+                  >Units Transferred</label
+                >
+                <input
+                  class="form-input"
+                  type="number"
+                  id="mn-units"
+                  value="10000"
+                  min="1"
+                  step="500"
+                />
+              </div>
+              <div class="form-group">
+                <label class="form-label" for="mn-prod-cost"
+                  >Production Cost per Unit ($)</label
+                >
+                <input
+                  class="form-input"
+                  type="number"
+                  id="mn-prod-cost"
+                  value="50"
+                  min="0"
+                  step="1"
+                />
+              </div>
+              <div class="form-group">
+                <label class="form-label" for="mn-final-price"
+                  >Final Selling Price per Unit ($)</label
+                >
+                <input
+                  class="form-input"
+                  type="number"
+                  id="mn-final-price"
+                  value="150"
+                  min="0"
+                  step="1"
+                />
+              </div>
+              <div class="form-group">
+                <label class="form-label" for="mn-buy-add-cost"
+                  >Buying Division Additional Costs per Unit ($)</label
+                >
+                <input
+                  class="form-input"
+                  type="number"
+                  id="mn-buy-add-cost"
+                  value="20"
+                  min="0"
+                  step="1"
+                />
+              </div>
+              <div class="form-group">
+                <label class="form-label" for="mn-tax-prod"
+                  >Producing Country Tax Rate (%)</label
+                >
+                <input
+                  class="form-input"
+                  type="number"
+                  id="mn-tax-prod"
+                  value="35"
+                  min="0"
+                  max="50"
+                  step="1"
+                />
+              </div>
+              <div class="form-group">
+                <label class="form-label" for="mn-tax-buy"
+                  >Buying Country Tax Rate (%)</label
+                >
+                <input
+                  class="form-input"
+                  type="number"
+                  id="mn-tax-buy"
+                  value="15"
+                  min="0"
+                  max="50"
+                  step="1"
+                />
+              </div>
+              <div class="form-group">
+                <label class="form-label" for="mn-tp-low"
+                  >Arms-Length Range Low ($)</label
+                >
+                <input
+                  class="form-input"
+                  type="number"
+                  id="mn-tp-low"
+                  value="55"
+                  min="0"
+                  step="1"
+                />
+              </div>
+              <div class="form-group">
+                <label class="form-label" for="mn-tp-high"
+                  >Arms-Length Range High ($)</label
+                >
+                <input
+                  class="form-input"
+                  type="number"
+                  id="mn-tp-high"
+                  value="120"
+                  min="0"
+                  step="1"
+                />
+              </div>
+            </div>
+            <button
+              class="btn btn--primary"
+              id="mn-calculate"
+              style="margin-top: var(--space-4)"
+            >
+              Analyze Tax Strategy &rarr;
+            </button>
+            <div id="mn-output"></div>
+            <div id="mn-show-work"></div>
+          </div>
+        </div>
+      </section>
+
+      <section class="learn-section learn-section--alt">
+        <div class="container container--tool">
+          <div class="tool-header">
+            <h2 class="tool-header__title">Key Terms</h2>
+            <p class="tool-header__desc">
+              Click any term to see its definition.
+            </p>
+          </div>
+          <div class="key-terms-grid" id="key-terms-grid"></div>
+        </div>
+      </section>
+
+      <section class="learn-section">
+        <div class="container container--tool">
+          <div class="chapter-complete card" id="chapter-complete">
+            <div class="chapter-complete__icon">&#9989;</div>
+            <h2 class="chapter-complete__title">Chapter 23 Complete</h2>
+            <p class="chapter-complete__desc">
+              You can now analyze decentralization decisions, compare transfer
+              pricing methods, apply the general transfer pricing rule using
+              incremental and opportunity costs, and design multinational
+              transfer pricing strategies that minimize global taxes within
+              arms-length pricing rules.
+            </p>
+            <div class="chapter-complete__actions">
+              <button class="btn btn--primary" id="mark-complete-btn">
+                Mark as Complete
+              </button>
+              <a href="/pages/learn/ch24.html" class="btn btn--secondary"
+                >Next: Ch. 24 &rarr;</a
+              >
+            </div>
+          </div>
+        </div>
+      </section>
+    </main>
+
+    <script type="module" src="/js/learn/ch23.js"></script>
+  </body>
+</html>
