@@ -1,3 +1,4 @@
+
 # Managerial Accounting Interactive -- Agent Prompt
 
 You are a code agent for the Managerial Accounting Interactive project. This is a Vite-based multi-page web application that teaches Horngren's Cost Accounting (17th Edition) through interactive tools.
@@ -22,18 +23,19 @@ Stack: Vite 7, vanilla JS (ES modules), CSS custom properties, KaTeX, vite-plugi
 
 ### File Structure
 
-    pages/learn/          One HTML per chapter; ch01-ch14 built, ch15-ch24 pending
+    pages/learn/          One HTML per chapter; ch01-ch20 built, ch21-ch24 pending
     pages/apply/          Apply section pending
     js/core/              main.js, progress-tracker.js
-    js/components/        randomizer.js, journal-entry.js, show-work.js built
-    js/charts/            chart-core.js, cvp-chart.js, scatter-chart.js, roc-chart.js built
+    js/components/        randomizer.js, journal-entry.js, show-work.js, settings-panel.js (all built)
+    js/charts/            chart-core.js, cvp-chart.js, scatter-chart.js, roc-chart.js, pareto-chart.js (all built)
     js/engine/            scenarios directory present; simulation engine pending
-    js/learn/             index.js, ch01-ch14.js built, ch15-ch24.js pending
+    js/learn/             index.js, ch01-ch20.js built, ch21-ch24.js pending
     js/apply/             Present but not built
     js/data/              Present but managerial-terms.js pending
     css/base.css          Full custom property system built
     css/components.css    Shared UI components built
     css/learn.css         Learn section styles built
+    css/settings-panel.css Settings panel and dark mode overrides built
     css/apply.css         Not yet built
 
 ### Key Patterns
@@ -43,7 +45,8 @@ Stack: Vite 7, vanilla JS (ES modules), CSS custom properties, KaTeX, vite-plugi
 - Randomizer -- js/components/randomizer.js. Call initRandomizer(buttonId, fields, onRandomize?) on numeric tools.
 - Show Work -- js/components/show-work.js. Call renderShowWork(containerEl, steps, options) after calculation output is rendered.
 - Journal Entry -- js/components/journal-entry.js. Call renderJournalEntry(containerEl, entries, options) when accounting entries are needed.
-- Canvas charts -- chart-core.js provides the base chart layer; cvp-chart.js, scatter-chart.js, and roc-chart.js are built chart components.
+- Settings Panel -- js/components/settings-panel.js. Call initSettingsPanel() inside DOMContentLoaded on every chapter page. Injects gear button into header nav, manages width/font/theme preferences via localStorage.
+- Canvas charts -- chart-core.js provides the base chart layer; cvp-chart.js, scatter-chart.js, roc-chart.js, and pareto-chart.js are built chart components.
 - Full-bleed layout -- .full-bleed class in components.css for elements that need to break out of container--tool width.
 - Cross-page data sharing -- use sessionStorage to pass calculated results between chapter pages where needed, such as Ch. 7 to Ch. 8.
 - Chapter nav -- every built chapter page should include All Chapters, previous chapter, chapter position, and next chapter links in the hero nav.
@@ -51,20 +54,75 @@ Stack: Vite 7, vanilla JS (ES modules), CSS custom properties, KaTeX, vite-plugi
 
 ### CSS Design System
 All custom properties defined in css/base.css:
-- Colors: --color-primary (#1a365d navy), --color-accent (#c8973a gold), semantic colors (success/warning/danger/info), gray scale
+- Colors: --color-primary (#1a365d navy), --color-primary-text (#1a365d light mode / #90cdf4 dark mode), --color-accent (#c8973a gold), semantic colors (success/warning/danger/info), gray scale
 - Depth colors: --color-concept (blue), --color-analysis (green), --color-simulation (purple)
 - Spacing: --space-1 through --space-16
 - Typography: --font-sans (Inter), --font-mono (JetBrains Mono), --font-size-xs through --font-size-4xl
+- Font scale: --font-scale (1 by default, adjusted by settings panel)
 - Shadows, radii, transitions all defined
-- Max widths use min() for responsive scaling: min(900px, 92vw) for tools, min(1200px, 92vw) for content
+- Max widths: --max-width-tool (adjustable via settings panel, default 1100px), --max-width-content, --max-width-narrow
+
+---
+
+## Dark Mode Rules
+
+Dark mode is toggled via data-theme="dark" on the html element. All dark mode overrides live in css/settings-panel.css.
+
+### Critical Rule: No Hardcoded Hex in JS Output
+Never use hardcoded hex color values in JS-generated HTML. Always use CSS custom property references so dark mode works automatically.
+
+WRONG:
+    background: '#f0fdf4'
+    color: '#166534'
+    border: '1px solid #22c55e'
+
+RIGHT:
+    background: 'var(--color-success-bg)'
+    color: 'var(--color-success)'
+    border: '1px solid var(--color-success)'
+
+### Dark Mode Token Reference
+Use these tokens in all JS-generated output HTML:
+
+    Backgrounds:
+    --color-success-bg     dark green  (#1a3a2a in dark)
+    --color-danger-bg      dark red    (#3a1a1a in dark)
+    --color-warning-bg     dark amber  (#3a2a00 in dark)
+    --color-info-bg        dark navy   (#1a2a3a in dark)
+
+    Text/borders:
+    --color-success        teal        (#4fd1c5 in dark)
+    --color-danger         red         (#fc8181 in dark)
+    --color-warning        amber       (#f6ad55 in dark)
+    --color-info           light blue  (#90cdf4 in dark)
+    --color-primary-text   light blue  (#90cdf4 in dark, navy in light)
+    --color-accent         gold        (#c8973a, same in both)
+
+    Neutral:
+    --color-gray-50 through --color-gray-900  (all overridden in dark)
+    --color-border         dark border (#3d4f66 in dark)
+    --color-card-bg        dark card   (#1e2530 in dark)
+
+### Inline Script in Every HTML Head
+Every chapter HTML must include this inline script before </head> to prevent flash of unstyled content:
+
+    <script>
+      (function(){
+        var r = document.documentElement;
+        var w = localStorage.getItem('pref-width');
+        var f = localStorage.getItem('pref-font');
+        var t = localStorage.getItem('pref-theme');
+        if (w) r.style.setProperty('--max-width-tool', w + 'px');
+        if (f) r.style.setProperty('--font-scale', f);
+        if (t === 'dark') r.setAttribute('data-theme', 'dark');
+      })();
+    </script>
 
 ---
 
 ## What's Built
 
-### Completed Learn Pages
-- index.html -- landing page with Learn/Apply two-path navigation, progress bar
-- pages/learn/index.html -- chapter grid with By Topic / By Chapter toggle, progress indicators, Reset All button
+### Completed Learn Pages (Ch. 1-20)
 - pages/learn/ch01.html -- Chapter 1: The Manager and Management Accounting (4 tools)
 - pages/learn/ch02.html -- Chapter 2: Cost Terms and Purposes (4 tools)
 - pages/learn/ch03.html -- Chapter 3: CVP Analysis (4 tools including canvas chart)
@@ -74,28 +132,20 @@ All custom properties defined in css/base.css:
 - pages/learn/ch07.html -- Chapter 7: Flexible Budgets and Direct-Cost Variances (3 tools, sessionStorage export)
 - pages/learn/ch08.html -- Chapter 8: Overhead Cost Variances (3 tools, Pull from Ch. 7 feature)
 - pages/learn/ch09.html -- Chapter 9: Inventory Costing and Capacity Analysis
-- pages/learn/ch10.html -- Chapter 10: Determining How Costs Behave, including scatter chart support
-- pages/learn/ch11.html -- Chapter 11: Data Analytic Thinking and Prediction, including ROC chart support
-- pages/learn/ch12.html -- Chapter 12: Decision Making and Relevant Information
-- pages/learn/ch13.html -- Chapter 13: Strategy, Balanced Scorecard, and Strategic Profitability Analysis
-- pages/learn/ch14.html -- Chapter 14: Pricing Decisions and Cost Management
+- pages/learn/ch10.html -- Chapter 10: Determining How Costs Behave (scatter chart)
+- pages/learn/ch11.html -- Chapter 11: Data Analytic Thinking and Prediction (ROC chart)
+- pages/learn/ch12.html -- Chapter 12: Decision Making and Relevant Information (5 tools)
+- pages/learn/ch13.html -- Chapter 13: Strategy, Balanced Scorecard, and Strategic Profitability Analysis (4 tools)
+- pages/learn/ch14.html -- Chapter 14: Pricing Decisions and Cost Management (4 tools)
+- pages/learn/ch15.html -- Chapter 15: Cost Allocation and Customer Profitability Analysis (4 tools)
+- pages/learn/ch16.html -- Chapter 16: Allocation of Support-Department Costs, Common Costs, and Revenues (4 tools)
+- pages/learn/ch17.html -- Chapter 17: Cost Allocation: Joint Products and Byproducts (4 tools)
+- pages/learn/ch18.html -- Chapter 18: Process Costing (5 tools)
+- pages/learn/ch19.html -- Chapter 19: Spoilage, Rework, and Scrap (5 tools)
+- pages/learn/ch20.html -- Chapter 20: Balanced Scorecard: Quality and Time (5 tools, Pareto canvas chart)
 
-### Completed Learn JS
-- js/learn/index.js -- chapter grid renderer, view toggle, progress display, Reset All
-- js/learn/ch01.js -- accounting comparison, value chain builder, five-step process, IMA ethics
-- js/learn/ch02.js -- cost classifier, relevant range visualizer (SVG), manufacturing cost flow, unit cost trap
-- js/learn/ch03.js -- CVP dashboard (live calc, auto-range), CVP graph (canvas), sensitivity analysis, sales mix CVP
-- js/learn/ch04.js -- job cost record builder, normal vs actual costing, overhead disposal, job vs process classifier
-- js/learn/ch05.js -- simple vs ABC comparator, cost hierarchy classifier, ABC system builder (8 pools), ABM decisions
-- js/learn/ch06.js -- operating budget builder (9-step), sensitivity analysis, RC classifier, cash budget, Kaizen simulator
-- js/learn/ch07.js -- static vs flexible budget analyzer, direct-cost variance calculator (Level 3 columnar), variance hierarchy diagram
-- js/learn/ch08.js -- overhead rate developer (4-step), 4-variance overhead analyzer (Panels A+B), complete variance hierarchy (Exhibit 8-5)
-- js/learn/ch09.js -- inventory costing and capacity analysis tools
-- js/learn/ch10.js -- cost behavior tools and scatter-chart integration
-- js/learn/ch11.js -- data analytics and prediction tools with ROC chart integration
-- js/learn/ch12.js -- relevant cost, special order, make-or-buy, bottleneck, add/drop, and replacement tools
-- js/learn/ch13.js -- strategy identifier, balanced scorecard, strategic profitability, and cost-type classifier tools
-- js/learn/ch14.js -- pricing context, cost-plus pricing, target costing/value engineering, and life-cycle costing tools
+### Completed Learn JS (Ch. 1-20)
+- js/learn/ch01.js through js/learn/ch20.js -- all built
 
 ### Shared Core, Components, Charts, CSS
 - js/core/progress-tracker.js -- localStorage progress tracking, resetChapter() per chapter
@@ -103,20 +153,23 @@ All custom properties defined in css/base.css:
 - js/components/randomizer.js -- universal input randomizer
 - js/components/journal-entry.js -- journal entry renderer, T-account renderer
 - js/components/show-work.js -- step-by-step calculation renderer, collapsible panel
+- js/components/settings-panel.js -- gear button in header, width/font/theme sliders, localStorage persistence
 - js/charts/chart-core.js -- base Chart class with interaction layer
 - js/charts/cvp-chart.js -- CVP line chart extending Chart base
 - js/charts/scatter-chart.js -- scatter chart for Ch. 10
 - js/charts/roc-chart.js -- ROC chart for Ch. 11
-- css/base.css -- full design system, responsive min() max-widths
+- js/charts/pareto-chart.js -- canvas Pareto diagram with cumulative line, hover, 80% threshold
+- css/base.css -- full design system, --font-scale, --color-primary-text, responsive min() max-widths
 - css/components.css -- all shared UI components, full-bleed utility
 - css/learn.css -- Learn section layout and chapter tool styles
+- css/settings-panel.css -- settings panel styles, comprehensive dark mode overrides for all components
 
 ### Not Yet Built
-- pages/learn/ch15.html through ch24.html -- 10 remaining chapter pages
-- js/learn/ch15.js through ch24.js -- 10 remaining chapter scripts
+- pages/learn/ch21.html through ch24.html -- 4 remaining chapter pages
+- js/learn/ch21.js through ch24.js -- 4 remaining chapter scripts
 - pages/apply/index.html -- Apply section index
 - pages/apply/*.html -- 12 Apply scenario pages
-- js/charts/variance-chart.js, control-chart.js, pareto-chart.js -- planned
+- js/charts/variance-chart.js, control-chart.js -- planned
 - js/engine/scenario-engine.js -- simulation state machine pending
 - js/data/managerial-terms.js -- 200+ glossary terms pending
 - css/apply.css -- pending
@@ -126,61 +179,66 @@ All custom properties defined in css/base.css:
 
 ## Learn Page Template
 
-Use recent chapters such as Ch. 12, Ch. 13, and Ch. 14 as the current reference implementations.
+Use Ch. 15-20 as the current reference implementations.
 
 HTML structure:
-    Header with site logo and Learn/Apply nav
+    head includes: base.css, components.css, learn.css, settings-panel.css, Google Fonts, inline apply script
+    Header with site logo and Learn/Apply nav (settings panel injects gear button automatically)
     Hero with chapter nav (All Chapters + previous chapter link + chapter position + next chapter link)
-    Chapter metadata badge and chapter number
-    Learning Objectives card
+    Chapter metadata badge (chapter-badge chapter-badge--control) and chapter number
+    Learning Objectives card (objectives-card card with objectives-list)
     Tool 1 of N... Tool N of N (alternating learn-section / learn-section--alt)
-    Key Terms grid
+    Key Terms grid (key-terms-grid id, populated by JS)
     Chapter Complete card with mark-complete button and next chapter link
     script type=module src=/js/learn/chXX.js
 
 HTML rules:
     Keep static structure, inputs, labels, and buttons in HTML.
-    JS should create or populate output elements after user action using getOrCreate where practical.
+    JS creates output elements after user action using getOrCreate.
     Chapter nav must include both previous chapter link and next chapter link.
-    Never use apostrophes inside single-quoted JS strings unless escaped. Prefer double quotes when needed.
+    Never use apostrophes inside single-quoted JS strings unless escaped.
+    Every HTML head must include the inline apply script and settings-panel.css link.
 
 JS file pattern:
     import { markChapterComplete, isChapterComplete, resetChapter } from '/js/core/progress-tracker.js';
     import { initRandomizer } from '/js/components/randomizer.js';
     import { renderShowWork } from '/js/components/show-work.js';
+    import { initSettingsPanel } from '/js/components/settings-panel.js';
     DATA constants at top
-    Formatter helpers such as fmt, fmtN, fmtPct
+    Formatter helpers: fmt, fmtN, fmtPct, fmtD
     getOrCreate helper for dynamic output elements
     One init function per tool
-    Numeric tools should get randomizer support where appropriate and show-work panels for calculations
     initChapterComplete() wires mark-complete button and injects reset button after completion
-    document.addEventListener('DOMContentLoaded', () => { init all tools });
-
-Cross-page data sharing pattern:
-    In chapter A JS -- after calculation: try { sessionStorage.setItem('chA-results', JSON.stringify(results)); } catch {}
-    In chapter B JS -- on pull button click: const stored = sessionStorage.getItem('chA-results'); if (stored) {...}
+    document.addEventListener('DOMContentLoaded', () => {
+      initSettingsPanel();
+      initTool1();
+      ...
+      initKeyTerms();
+      initChapterComplete();
+    });
 
 ---
 
 ## Chapter Build Priority
 
-Completed: Ch. 1-14
+Completed: Ch. 1-20
 
 Next priority order:
-1. Ch. 15 -- Cost Allocation and Customer Profitability
-2. Ch. 16 -- Allocation of Support-Department Costs
-3. Ch. 17 -- Cost Allocation: Joint Products and Byproducts
-4. Ch. 18 -- Process Costing
-5. Ch. 19 -- Spoilage, Rework, and Scrap
-6. Ch. 20 -- Balanced Scorecard: Quality and Time
-7. Ch. 21 -- Inventory Management, JIT, and Simplified Costing
-8. Ch. 22 -- Capital Budgeting and Cost Analysis
-9. Ch. 23 -- Management Control Systems and Transfer Pricing
-10. Ch. 24 -- Performance Measurement and Compensation
+1. Ch. 21 -- Inventory Management, JIT, and Simplified Costing
+2. Ch. 22 -- Capital Budgeting and Cost Analysis
+3. Ch. 23 -- Management Control Systems and Transfer Pricing
+4. Ch. 24 -- Performance Measurement and Compensation
+5. Apply section after all 24 chapters complete
 
 ---
 
 ## Component Reference
+
+### initSettingsPanel()
+    Call inside DOMContentLoaded on every chapter page.
+    Injects gear button into .site-header__nav.
+    Manages --max-width-tool, --font-scale, and data-theme via localStorage.
+    Keys: pref-width, pref-font, pref-theme.
 
 ### initRandomizer(buttonId, fields, onRandomize?)
     fields: [{ id, min, max, step, integer?, constraint? }]
@@ -190,31 +248,31 @@ Next priority order:
 ### renderShowWork(containerEl, steps, options?)
     steps: [{ label, formula, values, result, highlight?, note?, step? }]
     options: { title, defaultOpen, id }
-    highlight: true = blue background, marks key result
+    highlight: true = amber background in dark mode, blue in light mode
     Always call after output is rendered, never before
 
 ### renderJournalEntry(containerEl, entries, options?)
     entries: [{ account, debit, credit, indent }]
     options: { title, subtitle, showTotals, balanced }
 
+### ParetoChart(canvasEl, config)
+    config: { data: [{ label, value }], title }
+    chart.update(config) -- redraws with new data
+    Used by Ch. 20 Tool 5.
+
 ### CVPChart(canvasEl, config)
     config: { sellingPrice, variableCost, fixedCosts, maxUnits, currentUnits? }
-    chart.update(config) -- redraws with new config, resets zoom and pins
-
-### ScatterChart(canvasEl, config)
-    Used by Ch. 10 cost behavior tools.
-
-### ROCChart(canvasEl, config)
-    Used by Ch. 11 prediction/classification evaluation tools.
+    chart.update(config) -- redraws with new config
 
 ### getOrCreate(id, tag, className, parent)
-    const el = document.getElementById(id) || (() => {
-      const e = document.createElement(tag || 'div');
-      e.id = id;
-      if (className) e.className = className;
-      if (parent) parent.appendChild(e);
-      return e;
-    })();
+    let el = document.getElementById(id);
+    if (!el) {
+      el = document.createElement(tag || 'div');
+      el.id = id;
+      if (className) el.className = className;
+      if (parent) parent.appendChild(el);
+    }
+    return el;
 
 ---
 
@@ -238,59 +296,36 @@ Source: Horngren, Datar & Rajan -- Cost Accounting: A Managerial Emphasis, 17th 
 All 24 chapters have been read and catalogued.
 
 Key chapter dependencies:
-- Ch. 12 (relevant costs) is referenced by Ch. 14, 17, 20, 21, 22, 23 and is complete
-- Ch. 7 and Ch. 8 are companion chapters (direct costs then overhead) and are complete
-- Ch. 18 (process costing) is prerequisite for Ch. 19 (spoilage)
-- Ch. 4 (job costing) is prerequisite for Ch. 5 (ABC) and both are complete
-- Ch. 10 (cost behavior) introduces scatter plot canvas chart and is complete
-- Ch. 11 introduces prediction evaluation including ROC chart and is complete
-- Ch. 14 pricing builds on Ch. 12 relevant cost concepts and is complete
+- Ch. 12 (relevant costs) is referenced by Ch. 14, 17, 20, 21, 22, 23 -- complete
+- Ch. 7 and Ch. 8 are companion chapters -- both complete
+- Ch. 18 (process costing) is prerequisite for Ch. 19 (spoilage) -- both complete
+- Ch. 4 (job costing) is prerequisite for Ch. 5 (ABC) -- both complete
+- Ch. 10 (cost behavior) introduces scatter chart -- complete
+- Ch. 11 introduces ROC chart -- complete
+- Ch. 20 (quality) introduces Pareto canvas chart -- complete
 
 ---
 
 ## Development Rules
 
-Discovery first. Before touching unfamiliar files, run simple discovery commands to map current state. Never assume file contents.
+Discovery first. Before touching unfamiliar files, run simple discovery commands. Never assume file contents.
 
-Use simple zsh commands that are safe to paste into VS Code. Prefer single-line commands with full paths when asking the user to run commands. Avoid complex multi-line shell blocks.
+Use simple zsh commands safe to paste into VS Code terminal. Use full paths. Avoid complex multi-line shell blocks. Avoid unescaped ! characters (zsh history expansion).
 
-File creation. Use explicit file writes and avoid fragile shell heredocs for JS or CSS where possible. If using Python for file writes, use simple scripts and full paths.
+No hardcoded hex in JS output. Use CSS custom property tokens only. See Dark Mode Rules section above.
 
-CSS writing rule. Never write CSS inside a Python triple-quoted string passed via shell heredoc. The terminal can collapse newlines between closing braces and the next selector, producing output like }.next-rule {. Instead, write CSS as a Python list of strings and join with newline:
-
-    lines = [
-      ".my-class {",
-      "  color: red;",
-      "}",
-      ".next-class {",
-      "  color: blue;",
-      "}",
-    ]
-    with open(path, 'a') as f:
-        f.write('\n'.join(lines) + '\n')
-
-Always verify CSS after appending by running:
-    grep -c "}\." css/learn.css
-Zero collapsed rules means the file is clean. Any non-zero count means a newline was dropped and should be fixed in a polish pass.
-
-Terminal commands:
-- Use full paths when the user is not guaranteed to be in the project directory.
-- Do not assume audit.py exists.
-- Avoid zsh history expansion issues; do not paste shebangs or commands containing unescaped ! into the interactive terminal.
-- ls -R works. find may not be preferred by this user.
+CSS writing rule. Write CSS as a Python list of strings joined with newline. Never use shell heredocs for CSS.
 
 Kill dev server:
     lsof -ti :5173,:5174,:5175,:5176 | xargs kill -9 2>/dev/null; pkill -9 -f vite 2>/dev/null; echo done
 
-Commit after each chapter or logical milestone. Message format:
+Commit after each chapter or logical milestone:
     feat: Chapter N -- Title
     - pages/learn/chNN.html: what is in it
     - js/learn/chNN.js: tools built
-    - css/documentation changes if any
 
-Check for syntax errors before testing in browser:
+Check for syntax errors before browser testing:
     node --input-type=module < js/learn/chXX.js 2>&1 | head -20
-    Module not found errors are expected in some contexts and OK; syntax errors are not.
 
 ---
 
@@ -298,32 +333,39 @@ Check for syntax errors before testing in browser:
 
 - View toggle buttons on Learn index need styling refinement
 - Apply section not yet started
-- depth-selector.js is not currently present; build it when Apply section begins
+- depth-selector.js not currently present; build when Apply section begins
 - formula-display.js, worked-example.js, term-tooltip.js not yet built
 - js/data/managerial-terms.js not yet built
 - show-work not yet added to Ch. 1 (no numeric tools -- low priority)
-- Ch. 7 variance hierarchy diagram shows Ch. 8 placeholders -- by design, resolves when user visits Ch. 8
-- CSS integrity audit previously found collapsed `}.selector` patterns in css/learn.css; browsers tolerate this, but it should be cleaned up in a polish pass
+- Ch. 7 variance hierarchy diagram shows Ch. 8 placeholders -- by design
+- CSS learn.css has some collapsed rules from early development; browsers tolerate this but should be cleaned in a polish pass
+- Ch. 17 Tool 4 byproduct card background still uses gray-500 -- needs dark mode review
+- Ch. 20 Tool 4 MCE card titles may still show navy on dark -- monitor after primary-text fix
 
 ---
 
 ## Completed Phases
 
 Phase 0 -- Foundation (April 2026)
-Vite 7 + vite-plugin-pwa setup, CSS design system (base.css, components.css), landing page, Learn index with chapter grid and view toggle, Chapter 1 fully interactive, progress tracking system, README and agent prompt.
+Vite 7 + vite-plugin-pwa, CSS design system, landing page, Learn index, Chapter 1, progress tracking.
 
-Phase 1 -- Learn Section Chapters 2-4 (April 2026)
-Chapter 2 (Cost Terms), Chapter 3 (CVP Analysis with canvas), Chapter 4 (Job Costing).
-Shared components built: randomizer.js, journal-entry.js, show-work.js.
-Chart library started: chart-core.js (base class with full interaction layer), cvp-chart.js.
-Patterns established: randomizer on numeric tools, show-work on calculators, JS-owned output elements, full-bleed layout for wide content, getOrCreate helper, responsive min() widths.
+Phase 1 -- Chapters 2-4 (April 2026)
+Ch. 2 (Cost Terms), Ch. 3 (CVP with canvas), Ch. 4 (Job Costing).
+Components: randomizer.js, journal-entry.js, show-work.js.
+Charts: chart-core.js, cvp-chart.js.
 
-Phase 2 -- Learn Section Chapters 5-8 (May 2026)
-Chapter 5 (ABC Costing), Chapter 6 (Master Budget -- 5 tools including cash budget and Kaizen simulator), Chapter 7 (Flexible Budgets and Direct-Cost Variances), Chapter 8 (Overhead Cost Variances).
-New patterns: sessionStorage for cross-page data sharing (Ch. 7 to Ch. 8), previous chapter nav links on all pages, syntax error check before browser testing.
+Phase 2 -- Chapters 5-8 (May 2026)
+Ch. 5 (ABC), Ch. 6 (Master Budget), Ch. 7 (Flexible Budgets), Ch. 8 (Overhead Variances).
+Patterns: sessionStorage cross-page, previous chapter nav links.
 
-Phase 3A -- Learn Section Chapters 9-12 (May 2026)
-Chapter 9 (Inventory Costing and Capacity Analysis), Chapter 10 (Determining How Costs Behave with scatter chart), Chapter 11 (Data Analytic Thinking and Prediction with ROC chart), Chapter 12 (Decision Making and Relevant Information).
+Phase 3A -- Chapters 9-12 (May 2026)
+Ch. 9 (Inventory Costing), Ch. 10 (Cost Behavior + scatter chart), Ch. 11 (Data Analytics + ROC chart), Ch. 12 (Relevant Costs).
 
-Phase 3B -- Learn Section Chapters 13-14 (May 2026)
-Chapter 13 (Strategy, Balanced Scorecard, and Strategic Profitability Analysis) and Chapter 14 (Pricing Decisions and Cost Management) completed. Ch. 15 is the next Learn chapter.
+Phase 3B -- Chapters 13-16 (May 2026)
+Ch. 13 (Strategy + BSC), Ch. 14 (Pricing), Ch. 15 (Customer Profitability), Ch. 16 (Support Dept Allocation).
+
+Phase 3C -- Chapters 17-20 (May 2026)
+Ch. 17 (Joint Products), Ch. 18 (Process Costing -- 5 tools), Ch. 19 (Spoilage -- 5 tools), Ch. 20 (Quality + Time -- 5 tools + Pareto canvas chart).
+Settings panel: width slider, font size slider, dark mode toggle, localStorage persistence.
+Dark mode: comprehensive CSS variable overrides, --color-primary-text decoupled from --color-primary, no-hardcoded-hex rule established for all future JS output.
+New charts: scatter-chart.js, roc-chart.js, pareto-chart.js.

@@ -168,7 +168,7 @@ function handleStratAnswer(chosen) {
 
   const label = s.answer === 'differentiation' ? 'Product Differentiation' : 'Cost Leadership';
   feedback.innerHTML = `
-    <div class="feedback-card feedback-card--${correct ? 'correct' : 'incorrect'}" style="margin-top:var(--space-4);padding:var(--space-4);border-radius:var(--radius-md);background:${correct ? 'var(--color-success-bg, #f0fdf4)' : 'var(--color-danger-bg, #fef2f2)'};border:1px solid ${correct ? 'var(--color-success, #22c55e)' : 'var(--color-danger, #ef4444)'};">
+    <div class="feedback-card feedback-card--${correct ? 'correct' : 'incorrect'}" style="margin-top:var(--space-4);padding:var(--space-4);border-radius:var(--radius-md);background:${correct ? 'var(--color-success-bg, #1a3a2a)' : 'var(--color-danger-bg, #3a1a1a)'};border:1px solid ${correct ? 'var(--color-success)' : 'var(--color-danger)'};">
       <h4 style="margin:0 0 var(--space-2);">${correct ? 'Correct' : 'Not quite'} — ${label}</h4>
       <p style="margin:0;">${s.why}</p>
     </div>
@@ -540,7 +540,7 @@ function handleCostAnswer(chosen) {
 
   const label = s.answer === 'engineered' ? 'Engineered Cost' : 'Discretionary Cost';
   feedback.innerHTML = `
-    <div class="feedback-card feedback-card--${correct ? 'correct' : 'incorrect'}" style="margin-top:var(--space-4);padding:var(--space-4);border-radius:var(--radius-md);background:${correct ? 'var(--color-success-bg, #f0fdf4)' : 'var(--color-danger-bg, #fef2f2)'};border:1px solid ${correct ? 'var(--color-success, #22c55e)' : 'var(--color-danger, #ef4444)'};">
+    <div class="feedback-card feedback-card--${correct ? 'correct' : 'incorrect'}" style="margin-top:var(--space-4);padding:var(--space-4);border-radius:var(--radius-md);background:${correct ? 'var(--color-success-bg, #1a3a2a)' : 'var(--color-danger-bg, #3a1a1a)'};border:1px solid ${correct ? 'var(--color-success)' : 'var(--color-danger)'};">
       <h4 style="margin:0 0 var(--space-2);">${correct ? 'Correct' : 'Not quite'} — ${label}</h4>
       <p style="margin:0;">${s.why}</p>
     </div>

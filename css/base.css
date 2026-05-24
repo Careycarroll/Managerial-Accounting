@@ -3,6 +3,7 @@
    ============================================================ */
 :root {
   --color-primary:          #1a365d;
+  --color-primary-text:      #1a365d;
   --color-primary-light:    #2a4a7f;
   --color-primary-dark:     #0f2340;
   --color-accent:           #c8973a;
@@ -97,7 +98,7 @@ body {
 img, svg, canvas { display: block; max-width: 100%; }
 input, button, select, textarea { font: inherit; color: inherit; }
 button { cursor: pointer; }
-a { color: var(--color-primary); text-decoration: none; }
+a { color: var(--color-primary-text); text-decoration: none; }
 a:hover { text-decoration: underline; }
 
 h1, h2, h3, h4, h5, h6 {

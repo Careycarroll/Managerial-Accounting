@@ -142,7 +142,7 @@ function handlePricingAnswer(chosen) {
   pcTotal++;
   if (correct) pcCorrect++;
   const label = s.answer === 'short-run' ? 'Short-Run Pricing' : 'Long-Run Pricing';
-  feedback.innerHTML = '<div class="feedback-card" style="margin-top:var(--space-4);padding:var(--space-4);border-radius:var(--radius-md);background:' + (correct ? 'var(--color-success-bg, #f0fdf4)' : 'var(--color-danger-bg, #fef2f2)') + ';border:1px solid ' + (correct ? 'var(--color-success, #22c55e)' : 'var(--color-danger, #ef4444)') + ';">'
+  feedback.innerHTML = '<div class="feedback-card" style="margin-top:var(--space-4);padding:var(--space-4);border-radius:var(--radius-md);background:' + (correct ? 'var(--color-success-bg, #1a3a2a)' : 'var(--color-danger-bg, #3a1a1a)') + ';border:1px solid ' + (correct ? 'var(--color-success)' : 'var(--color-danger)') + ';">'
     + '<h4 style="margin:0 0 var(--space-2);">' + (correct ? 'Correct' : 'Not quite') + '</h4>'
     + '<p><strong>Best answer:</strong> ' + label + '</p>'
     + '<p style="margin-bottom:0;">' + s.why + '</p>'

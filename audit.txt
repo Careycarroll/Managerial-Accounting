@@ -1,8 +1,0 @@
-=== agent_prompt CSS rule ===
-226:CSS writing rule. Never write CSS inside a Python triple-quoted string passed via << heredoc. The terminal collapses newlines between closing braces and the next selector, producing broken output like }.next-rule {. Instead, write CSS as a Python list of strings and join with newline:
-241:Zero collapsed rules means the file is clean. Any non-zero count means a newline was dropped and must be fixed with a targeted str.replace() patch.
----
-=== README CSS rule ===
-157:## CSS Authoring Rule
-163:Always write CSS as a Python list of strings and join with newline:
-180:Zero means clean. Non-zero means collapsed rules that need a targeted `str.replace()` fix.

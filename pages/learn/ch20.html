@@ -1,0 +1,418 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <meta name="description" content="Chapter 20: Balanced Scorecard: Quality and Time" />
+  <title>Ch. 20 &middot; Quality and Time</title>
+  <link rel="stylesheet" href="/css/base.css" />
+  <link rel="stylesheet" href="/css/components.css" />
+  <link rel="stylesheet" href="/css/learn.css" />
+  <link rel="stylesheet" href="/css/settings-panel.css" />
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet" />
+  <script>
+    (function(){
+      var r = document.documentElement;
+      var w = localStorage.getItem('pref-width');
+      var f = localStorage.getItem('pref-font');
+      var t = localStorage.getItem('pref-theme');
+      if (w) r.style.setProperty('--max-width-tool', w + 'px');
+      if (f) r.style.setProperty('--font-scale', f);
+      if (t === 'dark') r.setAttribute('data-theme', 'dark');
+    })();
+  </script>
+</head>
+<body>
+
+  <header class="site-header" role="banner">
+    <div class="site-header__inner">
+      <a href="/" class="site-header__logo">
+        <span>&#128202;</span>
+        <span>Managerial Accounting</span>
+      </a>
+      <nav class="site-header__nav" role="navigation" aria-label="Main navigation">
+        <a href="/pages/learn/" class="site-header__nav-link site-header__nav-link--active">Learn</a>
+        <a href="/pages/apply/" class="site-header__nav-link">Apply</a>
+      </nav>
+    </div>
+  </header>
+
+  <main>
+
+    <!-- HERO -->
+    <section class="page__hero">
+      <div class="container">
+        <div class="chapter-nav">
+          <div style="display:flex;gap:var(--space-4);align-items:center;">
+            <a href="/pages/learn/" class="chapter-nav__back">&larr; All Chapters</a>
+            <a href="/pages/learn/ch19.html" class="chapter-nav__back">&larr; Ch. 19</a>
+          </div>
+          <div class="chapter-nav__position">
+            <span>Chapter 20 of 24</span>
+            <a href="/pages/learn/ch21.html" class="chapter-nav__next">Ch. 21 &rarr;</a>
+          </div>
+        </div>
+        <div class="chapter-hero__meta">
+          <span class="chapter-badge chapter-badge--control">Quality &amp; Time</span>
+          <span class="chapter-hero__number">Chapter 20</span>
+        </div>
+        <h1 class="page__hero-title">Balanced Scorecard: Quality and Time</h1>
+        <p class="page__hero-subtitle">
+          Build cost-of-quality reports, analyze quality cost trade-offs, measure
+          nonfinancial quality indicators, calculate manufacturing cycle efficiency,
+          and identify the vital few defects with Pareto analysis.
+        </p>
+        <div class="chapter-hero__progress" id="ch20-progress-indicator">
+          <span class="chapter-hero__progress-label" id="ch20-status">Not started</span>
+        </div>
+      </div>
+    </section>
+
+    <!-- LEARNING OBJECTIVES -->
+    <section class="learn-section">
+      <div class="container container--tool">
+        <div class="objectives-card card">
+          <h2 class="objectives-card__title">Learning Objectives</h2>
+          <ol class="objectives-list">
+            <li>Identify the four categories of quality costs and explain how they trade off against each other</li>
+            <li>Prepare and interpret a cost-of-quality report</li>
+            <li>Analyze nonfinancial measures of quality including defect rates and customer satisfaction</li>
+            <li>Calculate manufacturing cycle time and manufacturing cycle efficiency</li>
+            <li>Use Pareto analysis to identify and prioritize the most significant quality problems</li>
+          </ol>
+        </div>
+      </div>
+    </section>
+
+    <!-- TOOL 1: COQ Report Builder -->
+    <section class="learn-section learn-section--alt" id="tool-coq">
+      <div class="container container--tool">
+        <div class="tool-header">
+          <div class="tool-header__label">Tool 1 of 5</div>
+          <h2 class="tool-header__title">Cost of Quality (COQ) Report Builder</h2>
+          <p class="tool-header__desc">
+            Quality costs fall into four categories: prevention (avoiding defects), appraisal
+            (detecting defects), internal failure (fixing defects before delivery), and external
+            failure (fixing defects after delivery). Enter two periods to see whether your quality
+            investment is paying off.
+          </p>
+        </div>
+        <div class="card">
+          <div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:var(--space-4);">
+            <h3 style="font-size:var(--font-size-base);font-weight:700;margin:0;">Quality Cost Inputs</h3>
+            <div style="display:flex;gap:var(--space-3);">
+              <button class="btn btn--secondary btn--sm" id="coq-load-example">Load Example</button>
+              <button class="btn btn--secondary btn--sm" id="coq-randomize">&#127922; Randomize</button>
+            </div>
+          </div>
+
+          <div class="ohrate-grid">
+            <div class="form-group">
+              <label class="form-label" for="coq-revenue-y1">Year 1 Revenue ($)</label>
+              <input class="form-input" type="number" id="coq-revenue-y1" value="10000000" min="1" step="100000" />
+            </div>
+            <div class="form-group">
+              <label class="form-label" for="coq-revenue-y2">Year 2 Revenue ($)</label>
+              <input class="form-input" type="number" id="coq-revenue-y2" value="11000000" min="1" step="100000" />
+            </div>
+          </div>
+
+          <p class="ch9-section-label" style="margin-top:var(--space-4);">Prevention Costs</p>
+          <div class="ohrate-grid">
+            <div class="form-group">
+              <label class="form-label" for="coq-prev-y1">Year 1 ($)</label>
+              <input class="form-input" type="number" id="coq-prev-y1" value="400000" min="0" step="10000" />
+            </div>
+            <div class="form-group">
+              <label class="form-label" for="coq-prev-y2">Year 2 ($)</label>
+              <input class="form-input" type="number" id="coq-prev-y2" value="600000" min="0" step="10000" />
+            </div>
+          </div>
+
+          <p class="ch9-section-label" style="margin-top:var(--space-4);">Appraisal Costs</p>
+          <div class="ohrate-grid">
+            <div class="form-group">
+              <label class="form-label" for="coq-appr-y1">Year 1 ($)</label>
+              <input class="form-input" type="number" id="coq-appr-y1" value="300000" min="0" step="10000" />
+            </div>
+            <div class="form-group">
+              <label class="form-label" for="coq-appr-y2">Year 2 ($)</label>
+              <input class="form-input" type="number" id="coq-appr-y2" value="350000" min="0" step="10000" />
+            </div>
+          </div>
+
+          <p class="ch9-section-label" style="margin-top:var(--space-4);">Internal Failure Costs</p>
+          <div class="ohrate-grid">
+            <div class="form-group">
+              <label class="form-label" for="coq-int-y1">Year 1 ($)</label>
+              <input class="form-input" type="number" id="coq-int-y1" value="800000" min="0" step="10000" />
+            </div>
+            <div class="form-group">
+              <label class="form-label" for="coq-int-y2">Year 2 ($)</label>
+              <input class="form-input" type="number" id="coq-int-y2" value="500000" min="0" step="10000" />
+            </div>
+          </div>
+
+          <p class="ch9-section-label" style="margin-top:var(--space-4);">External Failure Costs</p>
+          <div class="ohrate-grid">
+            <div class="form-group">
+              <label class="form-label" for="coq-ext-y1">Year 1 ($)</label>
+              <input class="form-input" type="number" id="coq-ext-y1" value="1200000" min="0" step="10000" />
+            </div>
+            <div class="form-group">
+              <label class="form-label" for="coq-ext-y2">Year 2 ($)</label>
+              <input class="form-input" type="number" id="coq-ext-y2" value="700000" min="0" step="10000" />
+            </div>
+          </div>
+
+          <button class="btn btn--primary" id="coq-calculate" style="margin-top:var(--space-4);">Build COQ Report &rarr;</button>
+          <div id="coq-output"></div>
+          <div id="coq-show-work"></div>
+        </div>
+      </div>
+    </section>
+
+    <!-- TOOL 2: Quality Cost Trade-off Analyzer -->
+    <section class="learn-section" id="tool-tradeoff">
+      <div class="container container--tool">
+        <div class="tool-header">
+          <div class="tool-header__label">Tool 2 of 5</div>
+          <h2 class="tool-header__title">Quality Cost Trade-off Analyzer</h2>
+          <p class="tool-header__desc">
+            As conformance costs (prevention + appraisal) increase, nonconformance costs
+            (internal + external failure) decrease. The optimal quality spending level minimizes
+            total quality cost. Enter your cost parameters to find the crossover point.
+          </p>
+        </div>
+        <div class="card">
+          <div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:var(--space-4);">
+            <h3 style="font-size:var(--font-size-base);font-weight:700;margin:0;">Trade-off Parameters</h3>
+            <div style="display:flex;gap:var(--space-3);">
+              <button class="btn btn--secondary btn--sm" id="toa-load-example">Load Example</button>
+              <button class="btn btn--secondary btn--sm" id="toa-randomize">&#127922; Randomize</button>
+            </div>
+          </div>
+          <div class="ohrate-grid">
+            <div class="form-group">
+              <label class="form-label" for="toa-revenue">Annual Revenue ($)</label>
+              <input class="form-input" type="number" id="toa-revenue" value="10000000" min="1" step="100000" />
+            </div>
+            <div class="form-group">
+              <label class="form-label" for="toa-max-failure">Max Failure Cost at Zero Conformance ($)</label>
+              <input class="form-input" type="number" id="toa-max-failure" value="3000000" min="0" step="100000" />
+            </div>
+            <div class="form-group">
+              <label class="form-label" for="toa-conformance-budget">Current Conformance Spending ($)</label>
+              <input class="form-input" type="number" id="toa-conformance-budget" value="700000" min="0" step="50000" />
+            </div>
+            <div class="form-group">
+              <label class="form-label" for="toa-failure-elasticity">Failure Cost Reduction per $1 Conformance</label>
+              <input class="form-input" type="number" id="toa-failure-elasticity" value="2.50" min="0.1" step="0.1" />
+            </div>
+          </div>
+          <button class="btn btn--primary" id="toa-calculate" style="margin-top:var(--space-4);">Analyze Trade-off &rarr;</button>
+          <div id="toa-output"></div>
+          <div id="toa-show-work"></div>
+        </div>
+      </div>
+    </section>
+
+    <!-- TOOL 3: Nonfinancial Quality Measures -->
+    <section class="learn-section learn-section--alt" id="tool-nfq">
+      <div class="container container--tool">
+        <div class="tool-header">
+          <div class="tool-header__label">Tool 3 of 5</div>
+          <h2 class="tool-header__title">Nonfinancial Quality Measures Analyzer</h2>
+          <p class="tool-header__desc">
+            Financial COQ reports capture costs but miss leading indicators. Nonfinancial
+            measures like defect rates, on-time delivery, and customer satisfaction often
+            signal quality problems before they appear in financial statements.
+          </p>
+        </div>
+        <div class="card">
+          <div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:var(--space-4);">
+            <h3 style="font-size:var(--font-size-base);font-weight:700;margin:0;">Quality Scorecard Inputs</h3>
+            <div style="display:flex;gap:var(--space-3);">
+              <button class="btn btn--secondary btn--sm" id="nfq-load-example">Load Example</button>
+              <button class="btn btn--secondary btn--sm" id="nfq-randomize">&#127922; Randomize</button>
+            </div>
+          </div>
+          <div style="overflow-x:auto;">
+            <table class="ch12-result-table">
+              <thead>
+                <tr>
+                  <th>Measure</th>
+                  <th>Target</th>
+                  <th>Prior Period</th>
+                  <th>Current Period</th>
+                  <th>Unit</th>
+                </tr>
+              </thead>
+              <tbody>
+                <tr>
+                  <td>Defect Rate</td>
+                  <td><input class="form-input form-input--sm" type="number" id="nfq-defect-target" value="1.0" step="0.1" min="0" /></td>
+                  <td><input class="form-input form-input--sm" type="number" id="nfq-defect-prior" value="3.2" step="0.1" min="0" /></td>
+                  <td><input class="form-input form-input--sm" type="number" id="nfq-defect-current" value="2.1" step="0.1" min="0" /></td>
+                  <td>% of units</td>
+                </tr>
+                <tr>
+                  <td>On-Time Delivery</td>
+                  <td><input class="form-input form-input--sm" type="number" id="nfq-otd-target" value="98" step="0.5" min="0" max="100" /></td>
+                  <td><input class="form-input form-input--sm" type="number" id="nfq-otd-prior" value="91" step="0.5" min="0" max="100" /></td>
+                  <td><input class="form-input form-input--sm" type="number" id="nfq-otd-current" value="94" step="0.5" min="0" max="100" /></td>
+                  <td>%</td>
+                </tr>
+                <tr>
+                  <td>Customer Satisfaction</td>
+                  <td><input class="form-input form-input--sm" type="number" id="nfq-sat-target" value="90" step="1" min="0" max="100" /></td>
+                  <td><input class="form-input form-input--sm" type="number" id="nfq-sat-prior" value="82" step="1" min="0" max="100" /></td>
+                  <td><input class="form-input form-input--sm" type="number" id="nfq-sat-current" value="86" step="1" min="0" max="100" /></td>
+                  <td>% satisfied</td>
+                </tr>
+                <tr>
+                  <td>Warranty Claims</td>
+                  <td><input class="form-input form-input--sm" type="number" id="nfq-warranty-target" value="50" step="5" min="0" /></td>
+                  <td><input class="form-input form-input--sm" type="number" id="nfq-warranty-prior" value="180" step="5" min="0" /></td>
+                  <td><input class="form-input form-input--sm" type="number" id="nfq-warranty-current" value="120" step="5" min="0" /></td>
+                  <td>claims/month</td>
+                </tr>
+                <tr>
+                  <td>Customer Complaints</td>
+                  <td><input class="form-input form-input--sm" type="number" id="nfq-complaints-target" value="10" step="1" min="0" /></td>
+                  <td><input class="form-input form-input--sm" type="number" id="nfq-complaints-prior" value="45" step="1" min="0" /></td>
+                  <td><input class="form-input form-input--sm" type="number" id="nfq-complaints-current" value="28" step="1" min="0" /></td>
+                  <td>per month</td>
+                </tr>
+              </tbody>
+            </table>
+          </div>
+          <button class="btn btn--primary" id="nfq-calculate" style="margin-top:var(--space-4);">Analyze Quality Measures &rarr;</button>
+          <div id="nfq-output"></div>
+        </div>
+      </div>
+    </section>
+
+    <!-- TOOL 4: MCE Calculator -->
+    <section class="learn-section" id="tool-mce">
+      <div class="container container--tool">
+        <div class="tool-header">
+          <div class="tool-header__label">Tool 4 of 5</div>
+          <h2 class="tool-header__title">Manufacturing Cycle Efficiency (MCE) Calculator</h2>
+          <p class="tool-header__desc">
+            Manufacturing cycle time is the total time from when an order is received until
+            it is delivered. Only processing time adds value. Inspection, waiting, and moving
+            are non-value-added activities. MCE = Processing Time / Manufacturing Cycle Time.
+            A perfect MCE of 1.0 means zero waste.
+          </p>
+        </div>
+        <div class="card">
+          <div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:var(--space-4);">
+            <h3 style="font-size:var(--font-size-base);font-weight:700;margin:0;">Time Component Inputs</h3>
+            <div style="display:flex;gap:var(--space-3);">
+              <button class="btn btn--secondary btn--sm" id="mce-load-example">Load Example</button>
+              <button class="btn btn--secondary btn--sm" id="mce-randomize">&#127922; Randomize</button>
+            </div>
+          </div>
+          <div class="ohrate-grid">
+            <div class="form-group">
+              <label class="form-label" for="mce-processing">Processing Time (hours)</label>
+              <input class="form-input" type="number" id="mce-processing" value="8" min="0" step="0.5" />
+            </div>
+            <div class="form-group">
+              <label class="form-label" for="mce-inspection">Inspection Time (hours)</label>
+              <input class="form-input" type="number" id="mce-inspection" value="3" min="0" step="0.5" />
+            </div>
+            <div class="form-group">
+              <label class="form-label" for="mce-waiting">Waiting Time (hours)</label>
+              <input class="form-input" type="number" id="mce-waiting" value="12" min="0" step="0.5" />
+            </div>
+            <div class="form-group">
+              <label class="form-label" for="mce-moving">Moving Time (hours)</label>
+              <input class="form-input" type="number" id="mce-moving" value="5" min="0" step="0.5" />
+            </div>
+            <div class="form-group">
+              <label class="form-label" for="mce-target-mce">Target MCE (%)</label>
+              <input class="form-input" type="number" id="mce-target-mce" value="80" min="1" max="100" step="5" />
+            </div>
+          </div>
+          <button class="btn btn--primary" id="mce-calculate" style="margin-top:var(--space-4);">Calculate MCE &rarr;</button>
+          <div id="mce-output"></div>
+          <div id="mce-show-work"></div>
+        </div>
+      </div>
+    </section>
+
+    <!-- TOOL 5: Pareto Diagram Builder -->
+    <section class="learn-section learn-section--alt" id="tool-pareto">
+      <div class="container container--tool">
+        <div class="tool-header">
+          <div class="tool-header__label">Tool 5 of 5</div>
+          <h2 class="tool-header__title">Pareto Diagram Builder</h2>
+          <p class="tool-header__desc">
+            The Pareto principle states that roughly 80% of defects come from 20% of causes.
+            Enter up to 8 defect types with their frequencies. The diagram ranks them from
+            most to least frequent and overlays a cumulative percentage line so you can
+            identify which defects to address first.
+          </p>
+        </div>
+        <div class="card">
+          <div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:var(--space-4);">
+            <h3 style="font-size:var(--font-size-base);font-weight:700;margin:0;">Defect Data</h3>
+            <div style="display:flex;gap:var(--space-3);">
+              <button class="btn btn--secondary btn--sm" id="pareto-load-example">Load Example</button>
+              <button class="btn btn--secondary btn--sm" id="pareto-randomize">&#127922; Randomize</button>
+            </div>
+          </div>
+
+          <div id="pareto-inputs-grid" style="display:grid;grid-template-columns:1fr 1fr;gap:var(--space-3);margin-bottom:var(--space-4);"></div>
+
+          <div style="margin-bottom:var(--space-4);">
+            <input class="form-input" type="text" id="pareto-title" value="Defect Analysis" placeholder="Chart title" style="max-width:300px;" />
+          </div>
+
+          <button class="btn btn--primary" id="pareto-build">Build Pareto Diagram &rarr;</button>
+          <div id="pareto-output" style="margin-top:var(--space-5);">
+            <canvas id="pareto-canvas" style="width:100%;height:420px;display:block;"></canvas>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- KEY TERMS -->
+    <section class="learn-section">
+      <div class="container container--tool">
+        <div class="tool-header">
+          <h2 class="tool-header__title">Key Terms</h2>
+          <p class="tool-header__desc">Click any term to see its definition.</p>
+        </div>
+        <div class="key-terms-grid" id="key-terms-grid"></div>
+      </div>
+    </section>
+
+    <!-- CHAPTER COMPLETE -->
+    <section class="learn-section learn-section--alt">
+      <div class="container container--tool">
+        <div class="chapter-complete card" id="chapter-complete">
+          <div class="chapter-complete__icon">&#9989;</div>
+          <h2 class="chapter-complete__title">Chapter 20 Complete</h2>
+          <p class="chapter-complete__desc">
+            You can now build cost-of-quality reports, analyze prevention vs. failure cost
+            trade-offs, interpret nonfinancial quality measures, calculate manufacturing
+            cycle efficiency, and use Pareto analysis to prioritize quality improvements.
+          </p>
+          <div class="chapter-complete__actions">
+            <button class="btn btn--primary" id="mark-complete-btn">Mark as Complete</button>
+            <a href="/pages/learn/ch21.html" class="btn btn--secondary">Next: Ch. 21 &rarr;</a>
+          </div>
+        </div>
+      </div>
+    </section>
+
+  </main>
+
+  <script type="module" src="/js/learn/ch20.js"></script>
+</body>
+</html>

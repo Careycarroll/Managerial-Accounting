@@ -1,0 +1,475 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <meta name="description" content="Chapter 19: Spoilage, Rework, and Scrap" />
+  <title>Ch. 19 &middot; Spoilage, Rework, and Scrap</title>
+  <link rel="stylesheet" href="/css/base.css" />
+  <link rel="stylesheet" href="/css/components.css" />
+  <link rel="stylesheet" href="/css/learn.css" />
+  <link rel="stylesheet" href="/css/settings-panel.css" />
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet" />
+  <script>
+    (function(){
+      var r = document.documentElement;
+      var w = localStorage.getItem('pref-width');
+      var f = localStorage.getItem('pref-font');
+      var t = localStorage.getItem('pref-theme');
+      if (w) r.style.setProperty('--max-width-tool', w + 'px');
+      if (f) r.style.setProperty('--font-scale', f);
+      if (t === 'dark') r.setAttribute('data-theme', 'dark');
+    })();
+  </script>
+</head>
+<body>
+
+  <header class="site-header" role="banner">
+    <div class="site-header__inner">
+      <a href="/" class="site-header__logo">
+        <span>&#128202;</span>
+        <span>Managerial Accounting</span>
+      </a>
+      <nav class="site-header__nav" role="navigation" aria-label="Main navigation">
+        <a href="/pages/learn/" class="site-header__nav-link site-header__nav-link--active">Learn</a>
+        <a href="/pages/apply/" class="site-header__nav-link">Apply</a>
+      </nav>
+    </div>
+  </header>
+
+  <main>
+
+    <!-- HERO -->
+    <section class="page__hero">
+      <div class="container">
+        <div class="chapter-nav">
+          <div style="display:flex;gap:var(--space-4);align-items:center;">
+            <a href="/pages/learn/" class="chapter-nav__back">&larr; All Chapters</a>
+            <a href="/pages/learn/ch18.html" class="chapter-nav__back">&larr; Ch. 18</a>
+          </div>
+          <div class="chapter-nav__position">
+            <span>Chapter 19 of 24</span>
+            <a href="/pages/learn/ch20.html" class="chapter-nav__next">Ch. 20 &rarr;</a>
+          </div>
+        </div>
+        <div class="chapter-hero__meta">
+          <span class="chapter-badge chapter-badge--control">Process Costing</span>
+          <span class="chapter-hero__number">Chapter 19</span>
+        </div>
+        <h1 class="page__hero-title">Spoilage, Rework, and Scrap</h1>
+        <p class="page__hero-subtitle">
+          Distinguish normal from abnormal spoilage, determine how inspection point affects
+          cost assignment, apply process costing with spoilage under weighted-average and
+          FIFO methods, and account for rework and scrap under job and process costing.
+        </p>
+        <div class="chapter-hero__progress" id="ch19-progress-indicator">
+          <span class="chapter-hero__progress-label" id="ch19-status">Not started</span>
+        </div>
+      </div>
+    </section>
+
+    <!-- LEARNING OBJECTIVES -->
+    <section class="learn-section">
+      <div class="container container--tool">
+        <div class="objectives-card card">
+          <h2 class="objectives-card__title">Learning Objectives</h2>
+          <ol class="objectives-list">
+            <li>Distinguish normal spoilage from abnormal spoilage</li>
+            <li>Identify the inspection point and explain how it determines which units bear spoilage costs</li>
+            <li>Account for spoilage in process costing using the weighted-average method</li>
+            <li>Account for spoilage in process costing using the FIFO method</li>
+            <li>Account for rework in job costing and process costing</li>
+            <li>Account for scrap using the production method and the sales method</li>
+          </ol>
+        </div>
+      </div>
+    </section>
+
+    <!-- TOOL 1: Spoilage Classifier -->
+    <section class="learn-section learn-section--alt" id="tool-spoilage-classifier">
+      <div class="container container--tool">
+        <div class="tool-header">
+          <div class="tool-header__label">Tool 1 of 5</div>
+          <h2 class="tool-header__title">Spoilage, Rework, and Scrap Classifier</h2>
+          <p class="tool-header__desc">
+            Before diving into calculations, build conceptual clarity. Normal spoilage is
+            inherent in an efficient production process and is absorbed into good unit costs.
+            Abnormal spoilage exceeds normal levels and is expensed immediately. Rework fixes
+            defective units. Scrap is a residual with low sales value. Classify each scenario.
+          </p>
+        </div>
+        <div class="card">
+          <div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:var(--space-4);">
+            <h3 style="font-size:var(--font-size-base);font-weight:700;margin:0;">Scenario Quiz</h3>
+            <button class="btn btn--secondary btn--sm" id="sc-reset-btn">&#127922; Reset &amp; Shuffle</button>
+          </div>
+          <button class="btn btn--primary" id="sc-next-btn">Show Scenario</button>
+          <div id="sc-scenario-area"></div>
+          <div id="sc-results-area"></div>
+        </div>
+      </div>
+    </section>
+
+    <!-- TOOL 2: Inspection Point Analyzer -->
+    <section class="learn-section" id="tool-inspection-point">
+      <div class="container container--tool">
+        <div class="tool-header">
+          <div class="tool-header__label">Tool 2 of 5</div>
+          <h2 class="tool-header__title">Inspection Point Analyzer</h2>
+          <p class="tool-header__desc">
+            The inspection point determines which units bear spoilage costs. Units that have
+            not yet reached the inspection point when the period ends do not bear spoilage costs.
+            Enter the completion percentages and inspection point to see exactly which units
+            are inspected and how normal vs. abnormal spoilage is counted.
+          </p>
+        </div>
+        <div class="card">
+          <div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:var(--space-4);">
+            <h3 style="font-size:var(--font-size-base);font-weight:700;margin:0;">Process Inputs</h3>
+            <div style="display:flex;gap:var(--space-3);">
+              <button class="btn btn--secondary btn--sm" id="ip-load-example">Load Example</button>
+              <button class="btn btn--secondary btn--sm" id="ip-randomize">&#127922; Randomize</button>
+            </div>
+          </div>
+          <div class="ohrate-grid">
+            <div class="form-group">
+              <label class="form-label" for="ip-beg-wip">Beginning WIP Units</label>
+              <input class="form-input" type="number" id="ip-beg-wip" value="500" min="0" step="50" />
+            </div>
+            <div class="form-group">
+              <label class="form-label" for="ip-beg-pct">Beginning WIP Completion %</label>
+              <input class="form-input" type="number" id="ip-beg-pct" value="40" min="0" max="100" step="5" />
+            </div>
+            <div class="form-group">
+              <label class="form-label" for="ip-started">Units Started This Period</label>
+              <input class="form-input" type="number" id="ip-started" value="2000" min="0" step="100" />
+            </div>
+            <div class="form-group">
+              <label class="form-label" for="ip-good-completed">Good Units Completed</label>
+              <input class="form-input" type="number" id="ip-good-completed" value="1800" min="0" step="100" />
+            </div>
+            <div class="form-group">
+              <label class="form-label" for="ip-spoiled">Total Spoiled Units</label>
+              <input class="form-input" type="number" id="ip-spoiled" value="100" min="0" step="10" />
+            </div>
+            <div class="form-group">
+              <label class="form-label" for="ip-end-wip">Ending WIP Units</label>
+              <input class="form-input" type="number" id="ip-end-wip" value="600" min="0" step="50" />
+            </div>
+            <div class="form-group">
+              <label class="form-label" for="ip-end-pct">Ending WIP Completion %</label>
+              <input class="form-input" type="number" id="ip-end-pct" value="25" min="0" max="100" step="5" />
+            </div>
+            <div class="form-group">
+              <label class="form-label" for="ip-inspection">Inspection Point %</label>
+              <input class="form-input" type="number" id="ip-inspection" value="100" min="0" max="100" step="5" />
+            </div>
+            <div class="form-group">
+              <label class="form-label" for="ip-normal-rate">Normal Spoilage Rate (% of good units inspected)</label>
+              <input class="form-input" type="number" id="ip-normal-rate" value="5" min="0" max="100" step="0.5" />
+            </div>
+          </div>
+          <button class="btn btn--primary" id="ip-calculate" style="margin-top:var(--space-4);">Analyze Inspection Point &rarr;</button>
+          <div id="ip-output"></div>
+          <div id="ip-show-work"></div>
+        </div>
+      </div>
+    </section>
+
+    <!-- TOOL 3: Weighted-Average with Spoilage -->
+    <section class="learn-section learn-section--alt" id="tool-wa-spoilage">
+      <div class="container container--tool">
+        <div class="tool-header">
+          <div class="tool-header__label">Tool 3 of 5</div>
+          <h2 class="tool-header__title">Weighted-Average Process Costing with Spoilage</h2>
+          <p class="tool-header__desc">
+            Extend the five-step process costing procedure to include normal and abnormal spoilage
+            under the weighted-average method. Normal spoilage costs are spread across good completed
+            units. Abnormal spoilage costs are expensed separately and never assigned to good units.
+          </p>
+        </div>
+        <div class="card">
+          <div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:var(--space-4);">
+            <h3 style="font-size:var(--font-size-base);font-weight:700;margin:0;">Physical Units and Costs</h3>
+            <div style="display:flex;gap:var(--space-3);">
+              <button class="btn btn--secondary btn--sm" id="wa-load-example">Load Example</button>
+              <button class="btn btn--secondary btn--sm" id="wa-randomize">&#127922; Randomize</button>
+            </div>
+          </div>
+
+          <p class="ch9-section-label">Physical Units</p>
+          <div class="ohrate-grid">
+            <div class="form-group">
+              <label class="form-label" for="wa-beg-wip">Beginning WIP Units</label>
+              <input class="form-input" type="number" id="wa-beg-wip" value="1000" min="0" step="100" />
+            </div>
+            <div class="form-group">
+              <label class="form-label" for="wa-beg-pct-dm">Beginning WIP % Complete (DM)</label>
+              <input class="form-input" type="number" id="wa-beg-pct-dm" value="100" min="0" max="100" step="5" />
+            </div>
+            <div class="form-group">
+              <label class="form-label" for="wa-beg-pct-cc">Beginning WIP % Complete (Conversion)</label>
+              <input class="form-input" type="number" id="wa-beg-pct-cc" value="40" min="0" max="100" step="5" />
+            </div>
+            <div class="form-group">
+              <label class="form-label" for="wa-started">Units Started</label>
+              <input class="form-input" type="number" id="wa-started" value="4000" min="0" step="100" />
+            </div>
+            <div class="form-group">
+              <label class="form-label" for="wa-good-units">Good Units Completed</label>
+              <input class="form-input" type="number" id="wa-good-units" value="4000" min="0" step="100" />
+            </div>
+            <div class="form-group">
+              <label class="form-label" for="wa-normal-spoil">Normal Spoilage Units</label>
+              <input class="form-input" type="number" id="wa-normal-spoil" value="200" min="0" step="10" />
+            </div>
+            <div class="form-group">
+              <label class="form-label" for="wa-abnormal-spoil">Abnormal Spoilage Units</label>
+              <input class="form-input" type="number" id="wa-abnormal-spoil" value="100" min="0" step="10" />
+            </div>
+            <div class="form-group">
+              <label class="form-label" for="wa-end-wip">Ending WIP Units</label>
+              <input class="form-input" type="number" id="wa-end-wip" value="700" min="0" step="100" />
+            </div>
+            <div class="form-group">
+              <label class="form-label" for="wa-end-pct-dm">Ending WIP % Complete (DM)</label>
+              <input class="form-input" type="number" id="wa-end-pct-dm" value="100" min="0" max="100" step="5" />
+            </div>
+            <div class="form-group">
+              <label class="form-label" for="wa-end-pct-cc">Ending WIP % Complete (Conversion)</label>
+              <input class="form-input" type="number" id="wa-end-pct-cc" value="30" min="0" max="100" step="5" />
+            </div>
+            <div class="form-group">
+              <label class="form-label" for="wa-inspection">Inspection Point %</label>
+              <input class="form-input" type="number" id="wa-inspection" value="100" min="0" max="100" step="5" />
+            </div>
+          </div>
+
+          <p class="ch9-section-label" style="margin-top:var(--space-4);">Costs</p>
+          <div class="ohrate-grid">
+            <div class="form-group">
+              <label class="form-label" for="wa-beg-cost-dm">Beginning WIP Cost -- DM ($)</label>
+              <input class="form-input" type="number" id="wa-beg-cost-dm" value="1595" min="0" step="100" />
+            </div>
+            <div class="form-group">
+              <label class="form-label" for="wa-beg-cost-cc">Beginning WIP Cost -- Conversion ($)</label>
+              <input class="form-input" type="number" id="wa-beg-cost-cc" value="1146" min="0" step="100" />
+            </div>
+            <div class="form-group">
+              <label class="form-label" for="wa-curr-cost-dm">Current Period Cost -- DM ($)</label>
+              <input class="form-input" type="number" id="wa-curr-cost-dm" value="6405" min="0" step="100" />
+            </div>
+            <div class="form-group">
+              <label class="form-label" for="wa-curr-cost-cc">Current Period Cost -- Conversion ($)</label>
+              <input class="form-input" type="number" id="wa-curr-cost-cc" value="8604" min="0" step="100" />
+            </div>
+          </div>
+
+          <button class="btn btn--primary" id="wa-calculate" style="margin-top:var(--space-4);">Calculate Weighted-Average with Spoilage &rarr;</button>
+          <div id="wa-output"></div>
+          <div id="wa-show-work"></div>
+        </div>
+      </div>
+    </section>
+
+    <!-- TOOL 4: FIFO with Spoilage -->
+    <section class="learn-section" id="tool-fifo-spoilage">
+      <div class="container container--tool">
+        <div class="tool-header">
+          <div class="tool-header__label">Tool 4 of 5</div>
+          <h2 class="tool-header__title">FIFO Process Costing with Spoilage</h2>
+          <p class="tool-header__desc">
+            Under FIFO, beginning WIP costs are kept separate from current period costs.
+            Spoilage is identified at the inspection point and classified as normal or abnormal.
+            Normal spoilage is absorbed only by units that passed the inspection point this period.
+          </p>
+        </div>
+        <div class="card">
+          <div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:var(--space-4);">
+            <h3 style="font-size:var(--font-size-base);font-weight:700;margin:0;">Physical Units and Costs</h3>
+            <div style="display:flex;gap:var(--space-3);">
+              <button class="btn btn--secondary btn--sm" id="fifo-load-example">Load Example</button>
+              <button class="btn btn--secondary btn--sm" id="fifo-randomize">&#127922; Randomize</button>
+            </div>
+          </div>
+
+          <p class="ch9-section-label">Physical Units</p>
+          <div class="ohrate-grid">
+            <div class="form-group">
+              <label class="form-label" for="fifo-beg-wip">Beginning WIP Units</label>
+              <input class="form-input" type="number" id="fifo-beg-wip" value="1000" min="0" step="100" />
+            </div>
+            <div class="form-group">
+              <label class="form-label" for="fifo-beg-pct-dm">Beginning WIP % Complete (DM)</label>
+              <input class="form-input" type="number" id="fifo-beg-pct-dm" value="100" min="0" max="100" step="5" />
+            </div>
+            <div class="form-group">
+              <label class="form-label" for="fifo-beg-pct-cc">Beginning WIP % Complete (Conversion)</label>
+              <input class="form-input" type="number" id="fifo-beg-pct-cc" value="40" min="0" max="100" step="5" />
+            </div>
+            <div class="form-group">
+              <label class="form-label" for="fifo-started">Units Started</label>
+              <input class="form-input" type="number" id="fifo-started" value="4000" min="0" step="100" />
+            </div>
+            <div class="form-group">
+              <label class="form-label" for="fifo-good-units">Good Units Completed</label>
+              <input class="form-input" type="number" id="fifo-good-units" value="4000" min="0" step="100" />
+            </div>
+            <div class="form-group">
+              <label class="form-label" for="fifo-normal-spoil">Normal Spoilage Units</label>
+              <input class="form-input" type="number" id="fifo-normal-spoil" value="200" min="0" step="10" />
+            </div>
+            <div class="form-group">
+              <label class="form-label" for="fifo-abnormal-spoil">Abnormal Spoilage Units</label>
+              <input class="form-input" type="number" id="fifo-abnormal-spoil" value="100" min="0" step="10" />
+            </div>
+            <div class="form-group">
+              <label class="form-label" for="fifo-end-wip">Ending WIP Units</label>
+              <input class="form-input" type="number" id="fifo-end-wip" value="700" min="0" step="100" />
+            </div>
+            <div class="form-group">
+              <label class="form-label" for="fifo-end-pct-dm">Ending WIP % Complete (DM)</label>
+              <input class="form-input" type="number" id="fifo-end-pct-dm" value="100" min="0" max="100" step="5" />
+            </div>
+            <div class="form-group">
+              <label class="form-label" for="fifo-end-pct-cc">Ending WIP % Complete (Conversion)</label>
+              <input class="form-input" type="number" id="fifo-end-pct-cc" value="30" min="0" max="100" step="5" />
+            </div>
+            <div class="form-group">
+              <label class="form-label" for="fifo-inspection">Inspection Point %</label>
+              <input class="form-input" type="number" id="fifo-inspection" value="100" min="0" max="100" step="5" />
+            </div>
+          </div>
+
+          <p class="ch9-section-label" style="margin-top:var(--space-4);">Costs</p>
+          <div class="ohrate-grid">
+            <div class="form-group">
+              <label class="form-label" for="fifo-beg-cost-dm">Beginning WIP Cost -- DM ($)</label>
+              <input class="form-input" type="number" id="fifo-beg-cost-dm" value="1595" min="0" step="100" />
+            </div>
+            <div class="form-group">
+              <label class="form-label" for="fifo-beg-cost-cc">Beginning WIP Cost -- Conversion ($)</label>
+              <input class="form-input" type="number" id="fifo-beg-cost-cc" value="1146" min="0" step="100" />
+            </div>
+            <div class="form-group">
+              <label class="form-label" for="fifo-curr-cost-dm">Current Period Cost -- DM ($)</label>
+              <input class="form-input" type="number" id="fifo-curr-cost-dm" value="6405" min="0" step="100" />
+            </div>
+            <div class="form-group">
+              <label class="form-label" for="fifo-curr-cost-cc">Current Period Cost -- Conversion ($)</label>
+              <input class="form-input" type="number" id="fifo-curr-cost-cc" value="8604" min="0" step="100" />
+            </div>
+          </div>
+
+          <button class="btn btn--primary" id="fifo-calculate" style="margin-top:var(--space-4);">Calculate FIFO with Spoilage &rarr;</button>
+          <div id="fifo-output"></div>
+          <div id="fifo-show-work"></div>
+        </div>
+      </div>
+    </section>
+
+    <!-- TOOL 5: Rework and Scrap Accounting -->
+    <section class="learn-section learn-section--alt" id="tool-rework-scrap">
+      <div class="container container--tool">
+        <div class="tool-header">
+          <div class="tool-header__label">Tool 5 of 5</div>
+          <h2 class="tool-header__title">Rework and Scrap Accounting</h2>
+          <p class="tool-header__desc">
+            Rework and scrap each have multiple accounting treatments depending on whether
+            they are normal or abnormal, and whether scrap is recognized at production or at sale.
+            Compare journal entries and income statement effects side by side.
+          </p>
+        </div>
+        <div class="card">
+          <div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:var(--space-4);">
+            <h3 style="font-size:var(--font-size-base);font-weight:700;margin:0;">Rework and Scrap Inputs</h3>
+            <div style="display:flex;gap:var(--space-3);">
+              <button class="btn btn--secondary btn--sm" id="rs-load-example">Load Example</button>
+              <button class="btn btn--secondary btn--sm" id="rs-randomize">&#127922; Randomize</button>
+            </div>
+          </div>
+
+          <p class="ch9-section-label">Rework Inputs</p>
+          <div class="ohrate-grid">
+            <div class="form-group">
+              <label class="form-label" for="rs-rework-units">Units Reworked</label>
+              <input class="form-input" type="number" id="rs-rework-units" value="50" min="0" step="5" />
+            </div>
+            <div class="form-group">
+              <label class="form-label" for="rs-rework-cost">Rework Cost per Unit ($)</label>
+              <input class="form-input" type="number" id="rs-rework-cost" value="100" min="0" step="10" />
+            </div>
+            <div class="form-group">
+              <label class="form-label" for="rs-rework-type">Rework Type</label>
+              <select class="form-input" id="rs-rework-type">
+                <option value="normal-job">Normal -- charged to specific job</option>
+                <option value="normal-overhead">Normal -- charged to manufacturing overhead</option>
+                <option value="abnormal">Abnormal -- expensed immediately</option>
+              </select>
+            </div>
+          </div>
+
+          <p class="ch9-section-label" style="margin-top:var(--space-4);">Scrap Inputs</p>
+          <div class="ohrate-grid">
+            <div class="form-group">
+              <label class="form-label" for="rs-scrap-units">Scrap Units</label>
+              <input class="form-input" type="number" id="rs-scrap-units" value="200" min="0" step="10" />
+            </div>
+            <div class="form-group">
+              <label class="form-label" for="rs-scrap-value">Scrap Sales Value per Unit ($)</label>
+              <input class="form-input" type="number" id="rs-scrap-value" value="5" min="0" step="0.50" />
+            </div>
+            <div class="form-group">
+              <label class="form-label" for="rs-scrap-method">Scrap Recognition Method</label>
+              <select class="form-input" id="rs-scrap-method">
+                <option value="production">At production -- reduces WIP cost</option>
+                <option value="sale">At sale -- recognized as revenue when sold</option>
+              </select>
+            </div>
+          </div>
+
+          <button class="btn btn--primary" id="rs-calculate" style="margin-top:var(--space-4);">Show Accounting Treatment &rarr;</button>
+          <div id="rs-output"></div>
+          <div id="rs-show-work"></div>
+        </div>
+      </div>
+    </section>
+
+    <!-- KEY TERMS -->
+    <section class="learn-section">
+      <div class="container container--tool">
+        <div class="tool-header">
+          <h2 class="tool-header__title">Key Terms</h2>
+          <p class="tool-header__desc">Click any term to see its definition.</p>
+        </div>
+        <div class="key-terms-grid" id="key-terms-grid"></div>
+      </div>
+    </section>
+
+    <!-- CHAPTER COMPLETE -->
+    <section class="learn-section learn-section--alt">
+      <div class="container container--tool">
+        <div class="chapter-complete card" id="chapter-complete">
+          <div class="chapter-complete__icon">&#9989;</div>
+          <h2 class="chapter-complete__title">Chapter 19 Complete</h2>
+          <p class="chapter-complete__desc">
+            You can now distinguish normal from abnormal spoilage, determine how the inspection
+            point affects cost assignment, apply process costing with spoilage under both
+            weighted-average and FIFO methods, and account for rework and scrap using all
+            recognized accounting treatments.
+          </p>
+          <div class="chapter-complete__actions">
+            <button class="btn btn--primary" id="mark-complete-btn">Mark as Complete</button>
+            <a href="/pages/learn/ch20.html" class="btn btn--secondary">Next: Ch. 20 &rarr;</a>
+          </div>
+        </div>
+      </div>
+    </section>
+
+  </main>
+
+  <script type="module" src="/js/learn/ch19.js"></script>
+</body>
+</html>

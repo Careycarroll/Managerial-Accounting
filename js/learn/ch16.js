@@ -35,8 +35,8 @@ function panelGrid(innerHTML) {
 }
 
 function panel(title, bodyHTML, noteHTML) {
-  return '<div style="flex:1 1 300px;min-width:280px;background:var(--color-gray-50,#f9fafb);border:1px solid var(--color-gray-200);border-radius:var(--radius-md);padding:var(--space-4);">'
-    + '<div style="font-weight:700;font-size:var(--font-size-sm);margin-bottom:var(--space-3);color:var(--color-primary);">' + title + '</div>'
+  return '<div style="flex:1 1 300px;min-width:280px;background:var(--color-gray-50);border:1px solid var(--color-gray-200);border-radius:var(--radius-md);padding:var(--space-4);">'
+    + '<div style="font-weight:700;font-size:var(--font-size-sm);margin-bottom:var(--space-3);color:var(--color-primary-text);">' + title + '</div>'
     + '<div style="overflow-x:auto;">' + bodyHTML + '</div>'
     + (noteHTML ? '<p style="font-size:var(--font-size-xs);color:var(--color-gray-500);margin:var(--space-3) 0 0;font-style:italic;">' + noteHTML + '</p>' : '')
     + '</div>';
@@ -142,7 +142,7 @@ function calcAllocation() {
   const outEl  = getOrCreate('alloc-output', 'div', 'tool-output', el('alloc-calculate').parentElement);
 
   if (!valid.row1Valid || !valid.row2Valid) {
-    outEl.innerHTML = '<div style="background:var(--color-danger-bg,#fef2f2);border:1px solid var(--color-danger,#ef4444);padding:var(--space-4);border-radius:var(--radius-md);">'
+    outEl.innerHTML = '<div style="background:var(--color-danger-bg, #3a1a1a);border:1px solid var(--color-danger);padding:var(--space-4);border-radius:var(--radius-md);">'
       + '<strong>Usage percentages must sum to 100%.</strong><br>'
       + inputs.sd1Name + ' row sums to ' + Math.round(valid.row1 * 100) + '%.<br>'
       + inputs.sd2Name + ' row sums to ' + Math.round(valid.row2 * 100) + '%.'
@@ -169,8 +169,8 @@ function calcAllocation() {
       + '<tr><td style="padding:var(--space-1) var(--space-2);">' + inputs.sd2Name + ' to ' + inputs.od2Name + '</td><td style="text-align:right;padding:var(--space-1) var(--space-2);">' + fmt(result.sd2ToOd2) + '</td></tr>'
       + '</tbody>'
       + '<tfoot>'
-      + '<tr style="border-top:2px solid var(--color-gray-300);font-weight:700;"><td style="padding:var(--space-2);">' + inputs.od1Name + ' receives</td><td style="text-align:right;padding:var(--space-2);color:var(--color-primary);">' + fmt(result.od1Total) + '</td></tr>'
-      + '<tr style="font-weight:700;"><td style="padding:var(--space-1) var(--space-2);">' + inputs.od2Name + ' receives</td><td style="text-align:right;padding:var(--space-1) var(--space-2);color:var(--color-primary);">' + fmt(result.od2Total) + '</td></tr>'
+      + '<tr style="border-top:2px solid var(--color-gray-300);font-weight:700;"><td style="padding:var(--space-2);">' + inputs.od1Name + ' receives</td><td style="text-align:right;padding:var(--space-2);color:var(--color-primary-text);">' + fmt(result.od1Total) + '</td></tr>'
+      + '<tr style="font-weight:700;"><td style="padding:var(--space-1) var(--space-2);">' + inputs.od2Name + ' receives</td><td style="text-align:right;padding:var(--space-1) var(--space-2);color:var(--color-primary-text);">' + fmt(result.od2Total) + '</td></tr>'
       + '<tr style="border-top:1px solid var(--color-gray-200);"><td style="padding:var(--space-1) var(--space-2);font-size:var(--font-size-xs);color:var(--color-gray-500);">Total allocated</td><td style="text-align:right;padding:var(--space-1) var(--space-2);font-size:var(--font-size-xs);color:var(--color-gray-500);">' + fmt(result.od1Total + result.od2Total) + '</td></tr>'
       + '</tfoot>'
       + '</table>';
@@ -262,7 +262,7 @@ function calcCommonCost() {
   const outEl       = getOrCreate('cc-output', 'div', 'tool-output', el('cc-calculate').parentElement);
 
   if (!totalCost || !u1Standalone || !u2Standalone) {
-    outEl.innerHTML = '<div style="background:var(--color-danger-bg,#fef2f2);border:1px solid var(--color-danger,#ef4444);padding:var(--space-4);border-radius:var(--radius-md);margin-top:var(--space-4);">Enter total common cost and standalone costs for both users.</div>';
+    outEl.innerHTML = '<div style="background:var(--color-danger-bg, #3a1a1a);border:1px solid var(--color-danger);padding:var(--space-4);border-radius:var(--radius-md);margin-top:var(--space-4);">Enter total common cost and standalone costs for both users.</div>';
     return;
   }
 
@@ -327,7 +327,7 @@ function calcCommonCost() {
         panel('Standalone Cost-Allocation Method', standaloneTable, 'Both parties share savings proportionally. Neither party pays more than their standalone cost.')
         + panel('Incremental Cost-Allocation Method', incrementalTable, 'The primary party is allocated up to their standalone cost. The secondary party gets the remainder -- which may be less than their standalone cost, or even zero if the primary party absorbs everything.')
       )
-    + '<div style="margin-top:var(--space-4);padding:var(--space-4);background:var(--color-success-bg,#f0fdf4);border-radius:var(--radius-md);border:1px solid var(--color-success,#22c55e);">'
+    + '<div style="margin-top:var(--space-4);padding:var(--space-4);background:var(--color-success-bg, #1a3a2a);border-radius:var(--radius-md);border:1px solid var(--color-success);">'
     + 'Total savings from sharing: <strong>' + fmt(totalSavings) + '</strong> (' + fmtPct(savingsPct) + ' of combined standalone costs). '
     + 'The standalone method distributes savings evenly. The incremental method favors the secondary party when total cost is low.'
     + '</div>'
@@ -391,7 +391,7 @@ function calcRevenueAllocation() {
 
   const totalSA = p1SA + p2SA + p3SA;
   if (!bundlePrice || !totalSA) {
-    outEl.innerHTML = '<div style="background:var(--color-danger-bg,#fef2f2);border:1px solid var(--color-danger,#ef4444);padding:var(--space-4);border-radius:var(--radius-md);margin-top:var(--space-4);">Enter bundle price and standalone prices for all three products.</div>';
+    outEl.innerHTML = '<div style="background:var(--color-danger-bg, #3a1a1a);border:1px solid var(--color-danger);padding:var(--space-4);border-radius:var(--radius-md);margin-top:var(--space-4);">Enter bundle price and standalone prices for all three products.</div>';
     return;
   }
 
@@ -455,7 +455,7 @@ function calcRevenueAllocation() {
       '<tr>'
       + '<td style="padding:var(--space-1) var(--space-2);">' + p.name + '</td>'
       + '<td style="text-align:right;padding:var(--space-1) var(--space-2);">' + fmt(p.sa) + '</td>'
-      + '<td style="text-align:right;padding:var(--space-1) var(--space-2);font-weight:700;color:var(--color-primary);">' + fmt(p.alloc) + '</td>'
+      + '<td style="text-align:right;padding:var(--space-1) var(--space-2);font-weight:700;color:var(--color-primary-text);">' + fmt(p.alloc) + '</td>'
       + '<td style="text-align:right;padding:var(--space-1) var(--space-2);">' + fmtPct(p.alloc / bundlePrice) + '</td>'
       + '</tr>'
     ).join('');
@@ -575,7 +575,7 @@ function calcBundleProfit() {
           + '<tfoot><tr style="border-top:2px solid var(--color-gray-300);font-weight:700;"><td style="padding:var(--space-2);">Total</td><td style="text-align:right;padding:var(--space-2);">' + fmtN(customers) + '</td><td style="text-align:right;padding:var(--space-2);">' + fmt(bundleRev) + '</td><td style="text-align:right;padding:var(--space-2);">' + fmt(bundleCMTotal) + '</td></tr></tfoot>'
           + '</table>', 'Customers who buy both pay the bundle price instead of individual prices.')
       )
-    + '<div style="margin-top:var(--space-4);padding:var(--space-4);background:' + (bundlingBetter ? 'var(--color-success-bg,#f0fdf4)' : 'var(--color-danger-bg,#fef2f2)') + ';border-radius:var(--radius-md);border:1px solid ' + (bundlingBetter ? 'var(--color-success,#22c55e)' : 'var(--color-danger,#ef4444)') + ';">'
+    + '<div style="margin-top:var(--space-4);padding:var(--space-4);background:' + (bundlingBetter ? 'var(--color-success-bg, #1a3a2a)' : 'var(--color-danger-bg, #3a1a1a)') + ';border-radius:var(--radius-md);border:1px solid ' + (bundlingBetter ? 'var(--color-success)' : 'var(--color-danger)') + ';">'
     + (bundlingBetter
         ? 'Bundling is <strong>more profitable</strong>. Contribution margin increases by <strong>' + fmt(cmDiff) + '</strong>. The bundle price of ' + fmt(bundlePrice) + ' generates more total CM than standalone pricing even though the per-customer revenue drops by ' + fmt(Math.abs(revDiff / (custBoth || 1))) + ' per bundle customer.'
         : 'Standalone pricing is <strong>more profitable</strong>. Bundling reduces contribution margin by <strong>' + fmt(Math.abs(cmDiff)) + '</strong>. The bundle discount of ' + fmt((p1Price + p2Price) - bundlePrice) + ' per customer exceeds the benefit of any incremental volume.')

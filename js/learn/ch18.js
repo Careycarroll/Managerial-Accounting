@@ -37,7 +37,7 @@ function insight(text) {
 
 function panel(title, body, note) {
   return '<div style="flex:1 1 300px;min-width:280px;background:var(--color-gray-50);border:1px solid var(--color-gray-200);border-radius:var(--radius-md);padding:var(--space-4);">'
-    + '<div style="font-weight:700;font-size:var(--font-size-sm);margin-bottom:var(--space-3);color:var(--color-primary);">' + title + '</div>'
+    + '<div style="font-weight:700;font-size:var(--font-size-sm);margin-bottom:var(--space-3);color:var(--color-primary-text);">' + title + '</div>'
     + '<div style="overflow-x:auto;">' + body + '</div>'
     + (note ? '<p style="font-size:var(--font-size-xs);color:var(--color-gray-500);margin:var(--space-3) 0 0;font-style:italic;">' + note + '</p>' : '')
     + '</div>';
@@ -87,7 +87,7 @@ function calcPhysicalUnits() {
         'Every unit must be either completed or still in process at period end.'
       )
     + '</div>'
-    + '<div style="margin-top:var(--space-4);padding:var(--space-4);border-radius:var(--radius-md);border:2px solid ' + statusColor + ';background:' + (balanced ? 'var(--color-success-light,#c6f6d5)' : 'var(--color-danger-light,#fed7d7)') + ';">'
+    + '<div style="margin-top:var(--space-4);padding:var(--space-4);border-radius:var(--radius-md);border:2px solid ' + statusColor + ';background:' + (balanced ? 'var(--color-success-light)' : 'var(--color-danger-light)') + ';">'
     + '<strong style="color:' + statusColor + ';">' + statusText + '</strong>'
     + (balanced ? '<br />Units to account for (' + fmtN(toAccountFor) + ') = Units accounted for (' + fmtN(accountedFor) + '). You are ready to proceed to Step 2.' : '<br />Units to account for: ' + fmtN(toAccountFor) + ' | Units accounted for: ' + fmtN(accountedFor) + ' | Difference: ' + fmtN(Math.abs(toAccountFor - accountedFor)))
     + '</div>'

@@ -27,8 +27,8 @@ const sval = id => { const n = el(id); return n ? n.value.trim() : ''; };
 function setVal(id, v) { const n = el(id); if (n) n.value = v; }
 
 function panel(title, bodyHTML, noteHTML) {
-  return '<div style="flex:1 1 300px;min-width:280px;background:var(--color-gray-50,#f9fafb);border:1px solid var(--color-gray-200);border-radius:var(--radius-md);padding:var(--space-4);">'
-    + '<div style="font-weight:700;font-size:var(--font-size-sm);margin-bottom:var(--space-3);color:var(--color-primary);">' + title + '</div>'
+  return '<div style="flex:1 1 300px;min-width:280px;background:var(--color-gray-50);border:1px solid var(--color-gray-200);border-radius:var(--radius-md);padding:var(--space-4);">'
+    + '<div style="font-weight:700;font-size:var(--font-size-sm);margin-bottom:var(--space-3);color:var(--color-primary-text);">' + title + '</div>'
     + '<div style="overflow-x:auto;">' + bodyHTML + '</div>'
     + (noteHTML ? '<p style="font-size:var(--font-size-xs);color:var(--color-gray-500);margin:var(--space-3) 0 0;font-style:italic;">' + noteHTML + '</p>' : '')
     + '</div>';
@@ -201,7 +201,7 @@ function calcSellOrProcess() {
     + '<td class="' + (r.incrRevenue >= 0 ? 'variance-fav' : 'variance-unfav') + '">' + (r.incrRevenue >= 0 ? '+' : '') + fmt(r.incrRevenue) + '</td>'
     + '<td>(' + fmt(r.incrCost) + ')</td>'
     + '<td class="' + (r.netBenefit >= 0 ? 'variance-fav' : 'variance-unfav') + '"><strong>' + (r.netBenefit >= 0 ? '+' : '') + fmt(r.netBenefit) + '</strong></td>'
-    + '<td><span style="font-weight:700;color:' + (r.shouldProcess ? 'var(--color-success,#22c55e)' : 'var(--color-danger,#ef4444)') + ';">' + (r.shouldProcess ? 'Process Further' : 'Sell at Splitoff') + '</span></td>'
+    + '<td><span style="font-weight:700;color:' + (r.shouldProcess ? 'var(--color-success)' : 'var(--color-danger)') + ';">' + (r.shouldProcess ? 'Process Further' : 'Sell at Splitoff') + '</span></td>'
     + '</tr>'
   ).join('');
 
@@ -395,7 +395,8 @@ function buildProcessFlow() {
   }
 
   const mainCards   = mainProducts.map(p => productCard(p, 'var(--color-primary)')).join('');
-  const byCards     = byproducts.map(p => productCard(p, 'var(--color-gray-500,#718096)')).join('');
+  const isDark = document.documentElement.getAttribute('data-theme') === 'dark';
+  const byCards     = byproducts.map(p => productCard(p, isDark ? 'var(--color-gray-200)' : 'var(--color-gray-500)')).join('');
 
   out.innerHTML = '<div style="margin-top:var(--space-5);">'
 
