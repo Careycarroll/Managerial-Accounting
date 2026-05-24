@@ -1,7 +1,7 @@
 import { markChapterComplete, isChapterComplete, resetChapter } from '/js/core/progress-tracker.js';
 import { initRandomizer } from '/js/components/randomizer.js';
 import { renderShowWork } from '/js/components/show-work.js';
-import { initSettingsPanel } from '/js/components/settings-panel.js';
+import { initHeader } from '/js/components/header.js';
 import { ParetoChart } from '/js/charts/pareto-chart.js';
 
 // ── Formatters ────────────────────────────────────────────────────────────────
@@ -604,7 +604,7 @@ function initChapterComplete() {
 // ══════════════════════════════════════════════════════════════════════════════
 
 document.addEventListener('DOMContentLoaded', () => {
-  initSettingsPanel();
+  initHeader();
   initCOQ();
   initTradeoff();
   initNFQ();

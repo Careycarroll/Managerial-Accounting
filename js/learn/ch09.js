@@ -1,7 +1,7 @@
 import { markChapterComplete, isChapterComplete, resetChapter } from '/js/core/progress-tracker.js';
 import { initRandomizer } from '/js/components/randomizer.js';
 import { renderShowWork } from '/js/components/show-work.js';
-import { initSettingsPanel } from '/js/components/settings-panel.js';
+import { initHeader } from '/js/components/header.js';
 
 const fmt    = n => '$' + Math.abs(Math.round(n)).toLocaleString();
 const fmtN   = n => Math.round(n).toLocaleString();
@@ -590,7 +590,7 @@ function initChapterComplete() {
 // ── INIT ──────────────────────────────────────────────────────────────────────
 
 document.addEventListener('DOMContentLoaded', () => {
-  initSettingsPanel();
+  initHeader();
   initTool1();
   initTool2();
   initTool3();

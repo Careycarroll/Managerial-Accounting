@@ -2,6 +2,7 @@
  * main.js — Landing page entry point
  */
 import { getCompletedChapterCount } from './progress-tracker.js';
+import { initHeader } from '/js/components/header.js';
 
 function initLandingPage() {
   const completed = getCompletedChapterCount();
@@ -14,3 +15,4 @@ function initLandingPage() {
 }
 
 initLandingPage();
+initHeader();

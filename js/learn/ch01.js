@@ -3,7 +3,7 @@
  * Interactive tools: accounting comparison, value chain, five-step process, IMA ethics
  */
 import { markChapterComplete, isChapterComplete, resetChapter } from '/js/core/progress-tracker.js';
-import { initSettingsPanel } from '/js/components/settings-panel.js';
+import { initHeader } from '/js/components/header.js';
 
 // ── Data ──────────────────────────────────────────────────────
 
@@ -562,7 +562,7 @@ function initChapterComplete() {
 // ── Init ──────────────────────────────────────────────────────
 
 document.addEventListener('DOMContentLoaded', () => {
-  initSettingsPanel();
+  initHeader();
   initAccountingComparison();
   initValueChain();
   initFiveStep();

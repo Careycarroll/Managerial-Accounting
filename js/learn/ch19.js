@@ -1,7 +1,7 @@
 import { markChapterComplete, isChapterComplete, resetChapter } from '/js/core/progress-tracker.js';
 import { initRandomizer } from '/js/components/randomizer.js';
 import { renderShowWork } from '/js/components/show-work.js';
-import { initSettingsPanel } from '/js/components/settings-panel.js';
+import { initHeader } from '/js/components/header.js';
 
 // ── Formatters ────────────────────────────────────────────────────────────────
 const fmt    = n => '$' + Math.abs(Math.round(n)).toLocaleString();
@@ -835,7 +835,7 @@ function initChapterComplete() {
 // ══════════════════════════════════════════════════════════════════════════════
 
 document.addEventListener('DOMContentLoaded', () => {
-  initSettingsPanel();
+  initHeader();
   initSpoilageClassifier();
   initInspectionPoint();
   initWASpoilage();

@@ -1127,7 +1127,7 @@ function initChapterComplete() {
 // ══════════════════════════════════════════════════════════════════════════════
 
 document.addEventListener("DOMContentLoaded", () => {
-  initSettingsPanel();
+  initHeader();
   initInventoryCostIdentifier();
   initEOQ();
   initSafetyStock();

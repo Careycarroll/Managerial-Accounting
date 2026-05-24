@@ -3,6 +3,7 @@
  * Renders chapter cards grouped by category with progress indicators
  */
 import { getProgress, resetProgress } from '/js/core/progress-tracker.js';
+import { initHeader } from '/js/components/header.js';
 
 const CHAPTERS = [
   // Foundations
@@ -299,3 +300,5 @@ function initResetAll() {
 }
 
 initResetAll();
+
+initHeader();

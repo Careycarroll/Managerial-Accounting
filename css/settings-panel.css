@@ -447,3 +447,46 @@ body {
   background: var(--color-gray-50);
   color: var(--color-gray-500);
 }
+
+[data-theme="dark"] .view-toggle__btn {
+  background: var(--color-gray-100);
+  border-color: var(--color-border);
+  color: var(--color-gray-600);
+}
+[data-theme="dark"] .view-toggle__btn--active {
+  background: var(--color-primary);
+  border-color: var(--color-primary);
+  color: #ffffff;
+}
+[data-theme="dark"] .view-toggle__btn:hover {
+  background: var(--color-gray-200);
+  color: var(--color-gray-800);
+}
+
+[data-theme="dark"] .landing-card__desc {
+  color: #cbd5e0;
+}
+[data-theme="dark"] .landing-card {
+  background: var(--color-card-bg);
+  border-color: var(--color-border);
+}
+[data-theme="dark"] .landing-card__title {
+  color: #f7fafc;
+}
+[data-theme="dark"] .landing-card__cta {
+  color: #90cdf4;
+}
+[data-theme="dark"] .landing-progress__label {
+  color: #cbd5e0;
+}
+[data-theme="dark"] .chapter-path__label {
+  color: #cbd5e0;
+}
+[data-theme="dark"] .chapter-path__item {
+  background: var(--color-gray-100);
+  border-color: var(--color-border);
+  color: #e2e8f0;
+}
+[data-theme="dark"] .landing-section__label {
+  color: #a0aec0;
+}
