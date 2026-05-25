@@ -278,6 +278,11 @@
   background: var(--color-body-bg);
 }
 
+[data-theme="dark"] .learn-section .card {
+  background: var(--color-card-bg);
+  border-color: var(--color-border);
+}
+
 [data-theme="dark"] .learn-section--alt {
   background: #1a2030;
 }
@@ -517,4 +522,42 @@ body {
 }
 [data-theme="dark"] .chapter-card__cta {
   color: #90cdf4;
+}
+
+.depth-btn {
+  padding: var(--space-2) var(--space-5);
+  border-radius: var(--radius-full);
+  border: 2px solid var(--color-border);
+  background: transparent;
+  color: var(--color-gray-600);
+  font-size: var(--font-size-sm);
+  font-weight: 600;
+  cursor: pointer;
+  transition: all var(--transition-fast);
+}
+.depth-btn:hover {
+  border-color: var(--color-primary);
+  color: var(--color-primary-text);
+}
+.depth-btn--active {
+  background: var(--color-primary);
+  border-color: var(--color-primary);
+  color: #ffffff;
+}
+.depth-btn--disabled {
+  opacity: 0.4;
+  cursor: not-allowed;
+}
+[data-theme="dark"] .depth-btn {
+  border-color: var(--color-border);
+  color: var(--color-gray-500);
+}
+[data-theme="dark"] .depth-btn:hover {
+  border-color: #90cdf4;
+  color: #90cdf4;
+}
+[data-theme="dark"] .depth-btn--active {
+  background: var(--color-primary);
+  border-color: var(--color-primary);
+  color: #ffffff;
 }

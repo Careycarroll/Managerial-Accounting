@@ -1,0 +1,81 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <meta name="description" content="Apply accounting concepts to real business decisions" />
+  <title>Apply &middot; Managerial Accounting</title>
+  <link rel="stylesheet" href="/css/base.css" />
+  <link rel="stylesheet" href="/css/components.css" />
+  <link rel="stylesheet" href="/css/learn.css" />
+  <link rel="stylesheet" href="/css/settings-panel.css" />
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet" />
+  <script>
+    (function(){
+      var r = document.documentElement;
+      var w = localStorage.getItem('pref-width');
+      var f = localStorage.getItem('pref-font');
+      var t = localStorage.getItem('pref-theme');
+      if (w) r.style.setProperty('--max-width-tool', w + 'px');
+      if (f) r.style.setProperty('--font-scale', f);
+      if (t === 'dark') r.setAttribute('data-theme', 'dark');
+    })();
+  </script>
+</head>
+<body>
+  <header class="site-header" role="banner">
+    <div class="site-header__inner">
+      <a href="/" class="site-header__logo">
+        <span>&#128202;</span>
+        <span>Managerial Accounting</span>
+      </a>
+      <nav class="site-header__nav" role="navigation" aria-label="Main navigation">
+        <a href="/pages/learn/" class="site-header__nav-link">Learn</a>
+        <a href="/pages/apply/" class="site-header__nav-link site-header__nav-link--active">Apply</a>
+        <a href="/pages/glossary.html" class="site-header__nav-link">Glossary</a>
+      </nav>
+    </div>
+  </header>
+
+  <main>
+    <section class="page__hero">
+      <div class="container">
+        <a href="/" style="color:var(--color-gray-400);font-size:var(--font-size-sm);text-decoration:none;">&larr; Home</a>
+        <div class="chapter-hero__meta" style="margin-top:var(--space-4);">
+          <span class="chapter-badge chapter-badge--control">Apply</span>
+        </div>
+        <h1 class="page__hero-title">Apply</h1>
+        <p class="page__hero-subtitle">
+          Real business decisions that draw on multiple chapters. Each scenario has three depth levels --
+          start with Concept for a quick answer, go deeper with Analysis, or work through a full
+          Simulation with sequential decisions and consequences.
+        </p>
+        <div style="display:flex;gap:var(--space-3);margin-top:var(--space-5);flex-wrap:wrap;">
+          <span style="display:flex;align-items:center;gap:var(--space-2);font-size:var(--font-size-sm);">
+            <span style="width:10px;height:10px;border-radius:50%;background:var(--color-concept);display:inline-block;"></span>
+            <strong>Concept</strong> -- Quick answer, 2-3 inputs
+          </span>
+          <span style="display:flex;align-items:center;gap:var(--space-2);font-size:var(--font-size-sm);">
+            <span style="width:10px;height:10px;border-radius:50%;background:var(--color-analysis);display:inline-block;"></span>
+            <strong>Analysis</strong> -- Full model, sensitivity output
+          </span>
+          <span style="display:flex;align-items:center;gap:var(--space-2);font-size:var(--font-size-sm);">
+            <span style="width:10px;height:10px;border-radius:50%;background:var(--color-simulation);display:inline-block;"></span>
+            <strong>Simulation</strong> -- Sequential decisions, consequences
+          </span>
+        </div>
+      </div>
+    </section>
+
+    <section class="learn-section">
+      <div class="container container--tool">
+        <div id="apply-grid" style="display:grid;grid-template-columns:repeat(auto-fill,minmax(320px,1fr));gap:var(--space-5);"></div>
+      </div>
+    </section>
+  </main>
+
+  <script type="module" src="/js/apply/index.js"></script>
+</body>
+</html>
