@@ -28,8 +28,8 @@ const SCENARIOS = [
     chapters: [6, 10],
     chapterLabels: ['Ch. 6 Master Budget', 'Ch. 10 Cost Behavior'],
     href: '/pages/apply/annual-plan.html',
-    status: 'coming-soon',
-    depths: { concept: false, analysis: false, simulation: false }
+    status: 'available',
+    depths: { concept: true, analysis: true, simulation: false }
   },
   {
     id: 'variance',

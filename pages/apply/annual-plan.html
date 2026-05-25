@@ -1,0 +1,206 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <meta name="description" content="What is our plan for the year? -- Apply Scenario" />
+  <title>Annual Plan &middot; Apply</title>
+  <link rel="stylesheet" href="/css/base.css" />
+  <link rel="stylesheet" href="/css/components.css" />
+  <link rel="stylesheet" href="/css/learn.css" />
+  <link rel="stylesheet" href="/css/settings-panel.css" />
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet" />
+  <script>
+    (function(){
+      var r = document.documentElement;
+      var w = localStorage.getItem('pref-width');
+      var f = localStorage.getItem('pref-font');
+      var t = localStorage.getItem('pref-theme');
+      if (w) r.style.setProperty('--max-width-tool', w + 'px');
+      if (f) r.style.setProperty('--font-scale', f);
+      if (t === 'dark') r.setAttribute('data-theme', 'dark');
+    })();
+  </script>
+</head>
+<body>
+  <header class="site-header" role="banner">
+    <div class="site-header__inner">
+      <a href="/" class="site-header__logo">
+        <span>&#128202;</span>
+        <span>Managerial Accounting</span>
+      </a>
+      <nav class="site-header__nav" role="navigation" aria-label="Main navigation">
+        <a href="/pages/learn/" class="site-header__nav-link">Learn</a>
+        <a href="/pages/apply/" class="site-header__nav-link site-header__nav-link--active">Apply</a>
+        <a href="/pages/glossary.html" class="site-header__nav-link">Glossary</a>
+      </nav>
+    </div>
+  </header>
+
+  <main>
+    <section class="page__hero">
+      <div class="container">
+        <div class="chapter-nav">
+          <div style="display:flex;gap:var(--space-4);align-items:center;">
+            <a href="/pages/apply/" class="chapter-nav__back">&larr; All Scenarios</a>
+          </div>
+          <div class="chapter-nav__position">
+            <span style="display:flex;gap:var(--space-2);">
+              <span style="font-size:0.65rem;font-weight:600;padding:2px 8px;border-radius:9999px;background:var(--color-concept);color:#fff;">Concept</span>
+              <span style="font-size:0.65rem;font-weight:600;padding:2px 8px;border-radius:9999px;background:var(--color-analysis);color:#fff;">Analysis</span>
+              <span style="font-size:0.65rem;font-weight:600;padding:2px 8px;border-radius:9999px;background:var(--color-gray-600);color:#fff;opacity:0.5;">Simulation</span>
+            </span>
+          </div>
+        </div>
+        <div class="chapter-hero__meta" style="margin-top:var(--space-4);">
+          <span class="chapter-badge chapter-badge--control">Ch. 6</span>
+          <span class="chapter-badge chapter-badge--control" style="margin-left:var(--space-2);">Ch. 10</span>
+          <span class="chapter-badge chapter-badge--control" style="margin-left:var(--space-2);">Ch. 3</span>
+        </div>
+        <h1 class="page__hero-title">What is our plan for the year?</h1>
+        <p class="page__hero-subtitle">Build a projected income statement, stress-test your assumptions, and find out how much volume you need to hit your profit target.</p>
+        <div style="display:flex;gap:var(--space-2);margin-top:var(--space-5);">
+          <button class="depth-btn depth-btn--active" data-depth="concept">Concept</button>
+          <button class="depth-btn" data-depth="analysis">Analysis</button>
+          <button class="depth-btn depth-btn--disabled" data-depth="simulation" disabled>Simulation</button>
+        </div>
+      </div>
+    </section>
+
+    <div id="depth-concept" class="depth-panel depth-panel--active">
+      <section class="learn-section">
+        <div class="container container--tool" style="padding-bottom:0;">
+          <div id="scenario-card" class="card" style="background:var(--color-info-bg);border-color:var(--color-info);margin-bottom:var(--space-4);">
+            <div style="display:flex;justify-content:space-between;align-items:center;">
+              <div style="font-weight:700;color:var(--color-primary-text);">&#128203; Business Scenario</div>
+              <button class="btn btn--secondary btn--sm" id="scenario-toggle">Hide scenario</button>
+            </div>
+            <div id="scenario-body" style="margin-top:var(--space-3);">
+              <p style="font-size:var(--font-size-sm);line-height:1.7;margin:0 0 var(--space-3);">You are the CFO heading into budget season. Your sales team forecasts <strong>10,000 units at $85</strong>. Variable manufacturing costs are <strong>$32 per unit</strong>, variable selling costs are <strong>$8 per unit</strong>, fixed manufacturing is <strong>$180,000</strong>, and fixed selling and admin is <strong>$120,000</strong>. The board wants at least a <strong>15% operating margin</strong>. Does your plan deliver?</p>
+              <button class="btn btn--primary btn--sm" id="scenario-use-btn">Use these numbers &rarr;</button>
+            </div>
+          </div>
+        </div>
+        <div class="container container--tool">
+          <div class="tool-header">
+            <div class="tool-header__label">Concept</div>
+            <h2 class="tool-header__title">Projected Income Statement</h2>
+            <p class="tool-header__desc">Enter your plan assumptions and see the projected income statement, breakeven point, and operating leverage. The plan is only as good as its assumptions -- we will stress-test them below.</p>
+          </div>
+          <div class="card">
+            <div class="ohrate-grid">
+              <div class="form-group">
+                <label class="form-label" for="c-units">Expected Units Sold</label>
+                <input class="form-input" type="number" id="c-units" value="10000" min="1" step="100" />
+              </div>
+              <div class="form-group">
+                <label class="form-label" for="c-price">Selling Price per Unit ($)</label>
+                <input class="form-input" type="number" id="c-price" value="85" min="0" step="1" />
+              </div>
+              <div class="form-group">
+                <label class="form-label" for="c-var-mfg">Variable Mfg Cost per Unit ($)</label>
+                <input class="form-input" type="number" id="c-var-mfg" value="32" min="0" step="1" />
+              </div>
+              <div class="form-group">
+                <label class="form-label" for="c-var-sga">Variable Selling/Admin per Unit ($)</label>
+                <input class="form-input" type="number" id="c-var-sga" value="8" min="0" step="1" />
+              </div>
+              <div class="form-group">
+                <label class="form-label" for="c-fixed-mfg">Fixed Manufacturing Costs ($)</label>
+                <input class="form-input" type="number" id="c-fixed-mfg" value="180000" min="0" step="5000" />
+              </div>
+              <div class="form-group">
+                <label class="form-label" for="c-fixed-sga">Fixed Selling/Admin Costs ($)</label>
+                <input class="form-input" type="number" id="c-fixed-sga" value="120000" min="0" step="5000" />
+              </div>
+              <div class="form-group">
+                <label class="form-label" for="c-target-margin">Board Target Operating Margin (%)</label>
+                <input class="form-input" type="number" id="c-target-margin" value="15" min="0" max="100" step="1" />
+              </div>
+            </div>
+            <button class="btn btn--primary" id="c-calculate" style="margin-top:var(--space-4);">Build Plan &rarr;</button>
+            <div id="c-output"></div>
+            <div id="c-show-work"></div>
+          </div>
+        </div>
+      </section>
+    </div>
+
+    <div id="depth-analysis" class="depth-panel">
+      <section class="learn-section">
+        <div class="container container--tool">
+          <div class="tool-header">
+            <div class="tool-header__label">Analysis</div>
+            <h2 class="tool-header__title">Full Master Budget</h2>
+            <p class="tool-header__desc">Build the complete operating budget: sales, production, materials, labor, overhead, and budgeted income statement. Then stress-test it across six volume scenarios to see how sensitive your plan is to volume assumptions.</p>
+          </div>
+          <div class="card">
+            <p class="ch9-section-label">Revenue and Cost Structure</p>
+            <div class="ohrate-grid">
+              <div class="form-group">
+                <label class="form-label" for="a-units">Budgeted Units Sold</label>
+                <input class="form-input" type="number" id="a-units" value="10000" min="1" step="100" />
+              </div>
+              <div class="form-group">
+                <label class="form-label" for="a-price">Selling Price per Unit ($)</label>
+                <input class="form-input" type="number" id="a-price" value="85" min="0" step="1" />
+              </div>
+              <div class="form-group">
+                <label class="form-label" for="a-var-mfg">Variable Mfg Cost per Unit ($)</label>
+                <input class="form-input" type="number" id="a-var-mfg" value="32" min="0" step="1" />
+              </div>
+              <div class="form-group">
+                <label class="form-label" for="a-var-sga">Variable Selling/Admin per Unit ($)</label>
+                <input class="form-input" type="number" id="a-var-sga" value="8" min="0" step="1" />
+              </div>
+              <div class="form-group">
+                <label class="form-label" for="a-fixed-mfg">Fixed Manufacturing ($)</label>
+                <input class="form-input" type="number" id="a-fixed-mfg" value="180000" min="0" step="5000" />
+              </div>
+              <div class="form-group">
+                <label class="form-label" for="a-fixed-sga">Fixed Selling/Admin ($)</label>
+                <input class="form-input" type="number" id="a-fixed-sga" value="120000" min="0" step="5000" />
+              </div>
+            </div>
+            <p class="ch9-section-label" style="margin-top:var(--space-4);">Production Budget Inputs</p>
+            <div class="ohrate-grid">
+              <div class="form-group">
+                <label class="form-label" for="a-beg-fg">Beginning Finished Goods (units)</label>
+                <input class="form-input" type="number" id="a-beg-fg" value="500" min="0" step="50" />
+              </div>
+              <div class="form-group">
+                <label class="form-label" for="a-end-fg">Target Ending Finished Goods (units)</label>
+                <input class="form-input" type="number" id="a-end-fg" value="600" min="0" step="50" />
+              </div>
+              <div class="form-group">
+                <label class="form-label" for="a-dm-per-unit">Direct Materials per Unit (lbs)</label>
+                <input class="form-input" type="number" id="a-dm-per-unit" value="4" min="0" step="0.5" />
+              </div>
+              <div class="form-group">
+                <label class="form-label" for="a-dm-cost">DM Cost per lb ($)</label>
+                <input class="form-input" type="number" id="a-dm-cost" value="8" min="0" step="0.25" />
+              </div>
+              <div class="form-group">
+                <label class="form-label" for="a-dl-hrs">Direct Labor Hours per Unit</label>
+                <input class="form-input" type="number" id="a-dl-hrs" value="1.5" min="0" step="0.25" />
+              </div>
+              <div class="form-group">
+                <label class="form-label" for="a-dl-rate">Direct Labor Rate per Hour ($)</label>
+                <input class="form-input" type="number" id="a-dl-rate" value="18" min="0" step="1" />
+              </div>
+            </div>
+            <button class="btn btn--primary" id="a-calculate" style="margin-top:var(--space-4);">Build Master Budget &rarr;</button>
+            <div id="a-output"></div>
+            <div id="a-show-work"></div>
+          </div>
+        </div>
+      </section>
+    </div>
+
+  </main>
+
+  <script type="module" src="/js/apply/annual-plan.js"></script>
+</body>
+</html>
