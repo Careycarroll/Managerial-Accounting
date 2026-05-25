@@ -1,6 +1,33 @@
-              <button
-                class="btn btn--primary"
-                id="c-calculate"
-                style="margin-top: var(--space-4)"
-              >
-                Analyze Variances &rarr;
+    id: "investment",
+    objective: "profit",
+    title: "Is this investment worth it?",
+    desc: "Evaluate a capital project using NPV, IRR, payback, and AARR with full tax effects.",
+    chapters: [22, 12, 24],
+    chapterLabels: [
+      "Ch. 22 Capital Budgeting",
+      "Ch. 12 Relevant Costs",
+      "Ch. 24 Performance",
+    ],
+    href: "/pages/apply/investment.html",
+    status: "coming-soon",
+    depths: { concept: false, analysis: false, simulation: false },
+  },
+  {
+    id: "performance",
+    objective: "profit",
+    title: "How are we measuring performance?",
+    desc: "Evaluate divisions using ROI, residual income, and EVA. Design a compensation system that aligns incentives.",
+    chapters: [24, 23, 13],
+    chapterLabels: [
+--
+    desc: "Build a cost-of-quality report, identify the vital few defects, and evaluate quality improvement investments.",
+    chapters: [20, 19, 12],
+    chapterLabels: [
+      "Ch. 20 Quality",
+      "Ch. 19 Spoilage",
+      "Ch. 12 Relevant Costs",
+    ],
+    href: "/pages/apply/quality.html",
+    status: "coming-soon",
+    depths: { concept: false, analysis: false, simulation: false },
+  },

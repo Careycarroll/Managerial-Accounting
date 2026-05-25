@@ -1,0 +1,618 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <meta
+      name="description"
+      content="Are we producing quality? -- Apply Scenario"
+    />
+    <title>Quality &middot; Apply</title>
+    <link rel="stylesheet" href="/css/base.css" />
+    <link rel="stylesheet" href="/css/components.css" />
+    <link rel="stylesheet" href="/css/learn.css" />
+    <link rel="stylesheet" href="/css/settings-panel.css" />
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link
+      href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=JetBrains+Mono:wght@400;500&display=swap"
+      rel="stylesheet"
+    />
+    <script>
+      (function () {
+        var r = document.documentElement;
+        var w = localStorage.getItem("pref-width");
+        var f = localStorage.getItem("pref-font");
+        var t = localStorage.getItem("pref-theme");
+        if (w) r.style.setProperty("--max-width-tool", w + "px");
+        if (f) r.style.setProperty("--font-scale", f);
+        if (t === "dark") r.setAttribute("data-theme", "dark");
+      })();
+    </script>
+  </head>
+  <body>
+    <header class="site-header" role="banner">
+      <div class="site-header__inner">
+        <a href="/" class="site-header__logo">
+          <span>&#128202;</span>
+          <span>Managerial Accounting</span>
+        </a>
+        <nav
+          class="site-header__nav"
+          role="navigation"
+          aria-label="Main navigation"
+        >
+          <a href="/pages/learn/" class="site-header__nav-link">Learn</a>
+          <a
+            href="/pages/apply/"
+            class="site-header__nav-link site-header__nav-link--active"
+            >Apply</a
+          >
+          <a href="/pages/glossary.html" class="site-header__nav-link"
+            >Glossary</a
+          >
+        </nav>
+      </div>
+    </header>
+
+    <main>
+      <section class="page__hero">
+        <div class="container">
+          <div class="chapter-nav">
+            <div
+              style="display: flex; gap: var(--space-4); align-items: center"
+            >
+              <a href="/pages/apply/" class="chapter-nav__back"
+                >&larr; All Scenarios</a
+              >
+            </div>
+            <div class="chapter-nav__position">
+              <span style="display: flex; gap: var(--space-2)">
+                <span
+                  style="
+                    font-size: 0.65rem;
+                    font-weight: 600;
+                    padding: 2px 8px;
+                    border-radius: 9999px;
+                    background: var(--color-concept);
+                    color: #fff;
+                  "
+                  >Concept</span
+                >
+                <span
+                  style="
+                    font-size: 0.65rem;
+                    font-weight: 600;
+                    padding: 2px 8px;
+                    border-radius: 9999px;
+                    background: var(--color-analysis);
+                    color: #fff;
+                  "
+                  >Analysis</span
+                >
+                <span
+                  style="
+                    font-size: 0.65rem;
+                    font-weight: 600;
+                    padding: 2px 8px;
+                    border-radius: 9999px;
+                    background: var(--color-gray-600);
+                    color: #fff;
+                    opacity: 0.5;
+                  "
+                  >Simulation</span
+                >
+              </span>
+            </div>
+          </div>
+          <div class="chapter-hero__meta" style="margin-top: var(--space-4)">
+            <span class="chapter-badge chapter-badge--control">Ch. 20</span>
+            <span
+              class="chapter-badge chapter-badge--control"
+              style="margin-left: var(--space-2)"
+              >Ch. 19</span
+            >
+            <span
+              class="chapter-badge chapter-badge--control"
+              style="margin-left: var(--space-2)"
+              >Ch. 12</span
+            >
+          </div>
+          <h1 class="page__hero-title">Are we producing quality?</h1>
+          <p class="page__hero-subtitle">
+            Build a cost-of-quality report, identify where failure costs are
+            concentrated, and evaluate whether investing more in prevention pays
+            off.
+          </p>
+          <div
+            style="
+              display: flex;
+              gap: var(--space-2);
+              margin-top: var(--space-5);
+            "
+          >
+            <button class="depth-btn depth-btn--active" data-depth="concept">
+              Concept
+            </button>
+            <button class="depth-btn" data-depth="analysis">Analysis</button>
+            <button
+              class="depth-btn depth-btn--disabled"
+              data-depth="simulation"
+              disabled
+            >
+              Simulation
+            </button>
+          </div>
+        </div>
+      </section>
+
+      <!-- ── Concept ── -->
+      <div id="depth-concept" class="depth-panel depth-panel--active">
+        <section class="learn-section">
+          <div class="container container--tool" style="padding-bottom: 0">
+            <div
+              id="scenario-card"
+              class="card"
+              style="
+                background: var(--color-info-bg);
+                border-color: var(--color-info);
+                margin-bottom: var(--space-4);
+              "
+            >
+              <div
+                style="
+                  display: flex;
+                  justify-content: space-between;
+                  align-items: center;
+                "
+              >
+                <div style="font-weight: 700; color: var(--color-primary-text)">
+                  &#127919; Business Scenario
+                </div>
+                <button class="btn btn--secondary btn--sm" id="scenario-toggle">
+                  Hide scenario
+                </button>
+              </div>
+              <div id="scenario-body" style="margin-top: var(--space-3)">
+                <p
+                  style="
+                    font-size: var(--font-size-sm);
+                    line-height: 1.7;
+                    margin: 0 0 var(--space-3);
+                  "
+                >
+                  Your plant spends <strong>$40,000 on prevention</strong> and
+                  <strong>$25,000 on appraisal</strong>, but incurs
+                  <strong>$80,000 in internal failures</strong> and
+                  <strong>$120,000 in external failures</strong> on
+                  <strong>$2,000,000 in revenue</strong>. The industry benchmark
+                  is <strong>4% of revenue</strong>. Where should you focus your
+                  quality investment?
+                </p>
+                <button class="btn btn--primary btn--sm" id="scenario-use-btn">
+                  Use these numbers &rarr;
+                </button>
+              </div>
+            </div>
+          </div>
+          <div class="container container--tool">
+            <div class="tool-header">
+              <div class="tool-header__label">Concept</div>
+              <h2 class="tool-header__title">Cost-of-Quality Report</h2>
+              <p class="tool-header__desc">
+                Quality costs fall into four categories: prevention, appraisal,
+                internal failure, and external failure. The first two are costs
+                of conformance -- investments to avoid defects. The last two are
+                costs of nonconformance -- what you pay when quality fails.
+              </p>
+            </div>
+            <div class="card">
+              <p class="ch9-section-label">Costs of Conformance</p>
+              <div class="ohrate-grid">
+                <div class="form-group">
+                  <label class="form-label" for="c-prevention"
+                    >Prevention Costs ($)</label
+                  >
+                  <input
+                    class="form-input"
+                    type="number"
+                    id="c-prevention"
+                    value="40000"
+                    min="0"
+                    step="1000"
+                  />
+                </div>
+                <div class="form-group">
+                  <label class="form-label" for="c-appraisal"
+                    >Appraisal Costs ($)</label
+                  >
+                  <input
+                    class="form-input"
+                    type="number"
+                    id="c-appraisal"
+                    value="25000"
+                    min="0"
+                    step="1000"
+                  />
+                </div>
+              </div>
+              <p class="ch9-section-label" style="margin-top: var(--space-4)">
+                Costs of Nonconformance
+              </p>
+              <div class="ohrate-grid">
+                <div class="form-group">
+                  <label class="form-label" for="c-internal"
+                    >Internal Failure Costs ($)</label
+                  >
+                  <input
+                    class="form-input"
+                    type="number"
+                    id="c-internal"
+                    value="80000"
+                    min="0"
+                    step="1000"
+                  />
+                </div>
+                <div class="form-group">
+                  <label class="form-label" for="c-external"
+                    >External Failure Costs ($)</label
+                  >
+                  <input
+                    class="form-input"
+                    type="number"
+                    id="c-external"
+                    value="120000"
+                    min="0"
+                    step="1000"
+                  />
+                </div>
+              </div>
+              <p class="ch9-section-label" style="margin-top: var(--space-4)">
+                Benchmark
+              </p>
+              <div class="ohrate-grid">
+                <div class="form-group">
+                  <label class="form-label" for="c-revenue"
+                    >Total Revenue ($)</label
+                  >
+                  <input
+                    class="form-input"
+                    type="number"
+                    id="c-revenue"
+                    value="2000000"
+                    min="1"
+                    step="50000"
+                  />
+                </div>
+                <div class="form-group">
+                  <label class="form-label" for="c-benchmark"
+                    >Industry Benchmark COQ (% of revenue)</label
+                  >
+                  <input
+                    class="form-input"
+                    type="number"
+                    id="c-benchmark"
+                    value="4"
+                    min="0"
+                    max="30"
+                    step="0.5"
+                  />
+                </div>
+              </div>
+              <div
+                style="
+                  display: flex;
+                  gap: var(--space-3);
+                  margin-top: var(--space-4);
+                  flex-wrap: wrap;
+                "
+              >
+                <button class="btn btn--primary" id="c-calculate">
+                  Build COQ Report &rarr;
+                </button>
+                <button class="btn btn--secondary btn--sm" id="c-rand-failure">
+                  &#127922; Failure Heavy
+                </button>
+                <button
+                  class="btn btn--secondary btn--sm"
+                  id="c-rand-prevention"
+                >
+                  &#127922; Prevention Heavy
+                </button>
+                <button class="btn btn--secondary btn--sm" id="c-rand-balanced">
+                  &#127922; Balanced
+                </button>
+              </div>
+              <div id="c-output"></div>
+              <div id="c-show-work"></div>
+            </div>
+          </div>
+        </section>
+      </div>
+
+      <!-- ── Analysis ── -->
+      <div id="depth-analysis" class="depth-panel">
+        <section class="learn-section">
+          <div class="container container--tool">
+            <div class="tool-header">
+              <div class="tool-header__label">Analysis</div>
+              <h2 class="tool-header__title">Full Quality Analysis</h2>
+              <p class="tool-header__desc">
+                Break down each COQ category into line items, analyze spoilage
+                costs, and evaluate whether a proposed prevention investment
+                will pay off by reducing failure costs.
+              </p>
+            </div>
+            <div class="card">
+              <p class="ch9-section-label">Costs of Conformance</p>
+              <div class="ohrate-grid">
+                <div class="form-group">
+                  <label class="form-label" for="a-prev1"
+                    >Prevention -- Training ($)</label
+                  >
+                  <input
+                    class="form-input"
+                    type="number"
+                    id="a-prev1"
+                    value="20000"
+                    min="0"
+                    step="1000"
+                  />
+                </div>
+                <div class="form-group">
+                  <label class="form-label" for="a-prev2"
+                    >Prevention -- Process Design ($)</label
+                  >
+                  <input
+                    class="form-input"
+                    type="number"
+                    id="a-prev2"
+                    value="12000"
+                    min="0"
+                    step="1000"
+                  />
+                </div>
+                <div class="form-group">
+                  <label class="form-label" for="a-prev3"
+                    >Prevention -- Supplier Evaluation ($)</label
+                  >
+                  <input
+                    class="form-input"
+                    type="number"
+                    id="a-prev3"
+                    value="8000"
+                    min="0"
+                    step="1000"
+                  />
+                </div>
+                <div class="form-group">
+                  <label class="form-label" for="a-appr1"
+                    >Appraisal -- Inspection ($)</label
+                  >
+                  <input
+                    class="form-input"
+                    type="number"
+                    id="a-appr1"
+                    value="15000"
+                    min="0"
+                    step="1000"
+                  />
+                </div>
+                <div class="form-group">
+                  <label class="form-label" for="a-appr2"
+                    >Appraisal -- Testing ($)</label
+                  >
+                  <input
+                    class="form-input"
+                    type="number"
+                    id="a-appr2"
+                    value="10000"
+                    min="0"
+                    step="1000"
+                  />
+                </div>
+              </div>
+              <p class="ch9-section-label" style="margin-top: var(--space-4)">
+                Costs of Nonconformance
+              </p>
+              <div class="ohrate-grid">
+                <div class="form-group">
+                  <label class="form-label" for="a-int1"
+                    >Internal -- Scrap ($)</label
+                  >
+                  <input
+                    class="form-input"
+                    type="number"
+                    id="a-int1"
+                    value="35000"
+                    min="0"
+                    step="1000"
+                  />
+                </div>
+                <div class="form-group">
+                  <label class="form-label" for="a-int2"
+                    >Internal -- Rework ($)</label
+                  >
+                  <input
+                    class="form-input"
+                    type="number"
+                    id="a-int2"
+                    value="30000"
+                    min="0"
+                    step="1000"
+                  />
+                </div>
+                <div class="form-group">
+                  <label class="form-label" for="a-int3"
+                    >Internal -- Downtime ($)</label
+                  >
+                  <input
+                    class="form-input"
+                    type="number"
+                    id="a-int3"
+                    value="15000"
+                    min="0"
+                    step="1000"
+                  />
+                </div>
+                <div class="form-group">
+                  <label class="form-label" for="a-ext1"
+                    >External -- Warranty ($)</label
+                  >
+                  <input
+                    class="form-input"
+                    type="number"
+                    id="a-ext1"
+                    value="70000"
+                    min="0"
+                    step="1000"
+                  />
+                </div>
+                <div class="form-group">
+                  <label class="form-label" for="a-ext2"
+                    >External -- Returns ($)</label
+                  >
+                  <input
+                    class="form-input"
+                    type="number"
+                    id="a-ext2"
+                    value="30000"
+                    min="0"
+                    step="1000"
+                  />
+                </div>
+                <div class="form-group">
+                  <label class="form-label" for="a-ext3"
+                    >External -- Lost Customers ($)</label
+                  >
+                  <input
+                    class="form-input"
+                    type="number"
+                    id="a-ext3"
+                    value="20000"
+                    min="0"
+                    step="1000"
+                  />
+                </div>
+              </div>
+              <p class="ch9-section-label" style="margin-top: var(--space-4)">
+                Spoilage
+              </p>
+              <div class="ohrate-grid">
+                <div class="form-group">
+                  <label class="form-label" for="a-normal-spoil"
+                    >Normal Spoilage Units</label
+                  >
+                  <input
+                    class="form-input"
+                    type="number"
+                    id="a-normal-spoil"
+                    value="200"
+                    min="0"
+                    step="10"
+                  />
+                </div>
+                <div class="form-group">
+                  <label class="form-label" for="a-abnormal-spoil"
+                    >Abnormal Spoilage Units</label
+                  >
+                  <input
+                    class="form-input"
+                    type="number"
+                    id="a-abnormal-spoil"
+                    value="80"
+                    min="0"
+                    step="10"
+                  />
+                </div>
+                <div class="form-group">
+                  <label class="form-label" for="a-spoil-cost"
+                    >Cost per Spoiled Unit ($)</label
+                  >
+                  <input
+                    class="form-input"
+                    type="number"
+                    id="a-spoil-cost"
+                    value="45"
+                    min="0"
+                    step="1"
+                  />
+                </div>
+              </div>
+              <p class="ch9-section-label" style="margin-top: var(--space-4)">
+                Prevention Investment Decision
+              </p>
+              <div class="ohrate-grid">
+                <div class="form-group">
+                  <label class="form-label" for="a-invest"
+                    >Proposed Prevention Investment ($)</label
+                  >
+                  <input
+                    class="form-input"
+                    type="number"
+                    id="a-invest"
+                    value="50000"
+                    min="0"
+                    step="5000"
+                  />
+                </div>
+                <div class="form-group">
+                  <label class="form-label" for="a-reduction"
+                    >Expected Failure Cost Reduction (%)</label
+                  >
+                  <input
+                    class="form-input"
+                    type="number"
+                    id="a-reduction"
+                    value="30"
+                    min="0"
+                    max="100"
+                    step="5"
+                  />
+                </div>
+                <div class="form-group">
+                  <label class="form-label" for="a-revenue"
+                    >Total Revenue ($)</label
+                  >
+                  <input
+                    class="form-input"
+                    type="number"
+                    id="a-revenue"
+                    value="2000000"
+                    min="1"
+                    step="50000"
+                  />
+                </div>
+                <div class="form-group">
+                  <label class="form-label" for="a-benchmark"
+                    >Industry Benchmark COQ (% of revenue)</label
+                  >
+                  <input
+                    class="form-input"
+                    type="number"
+                    id="a-benchmark"
+                    value="4"
+                    min="0"
+                    max="30"
+                    step="0.5"
+                  />
+                </div>
+              </div>
+              <button
+                class="btn btn--primary"
+                id="a-calculate"
+                style="margin-top: var(--space-4)"
+              >
+                Run Full Analysis &rarr;
+              </button>
+              <div id="a-output"></div>
+              <div id="a-show-work"></div>
+            </div>
+          </div>
+        </section>
+      </div>
+    </main>
+
+    <script type="module" src="/js/apply/quality.js"></script>
+  </body>
+</html>

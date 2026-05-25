@@ -156,8 +156,8 @@ const SCENARIOS = [
       "Ch. 12 Relevant Costs",
     ],
     href: "/pages/apply/quality.html",
-    status: "coming-soon",
-    depths: { concept: false, analysis: false, simulation: false },
+    status: "available",
+    depths: { concept: true, analysis: true, simulation: false },
   },
 ];
 
