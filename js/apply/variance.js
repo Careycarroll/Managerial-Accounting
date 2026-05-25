@@ -243,5 +243,35 @@ document.addEventListener('DOMContentLoaded', () => {
   initDepthToggle();
   initScenario();
   el('c-calculate') && el('c-calculate').addEventListener('click', calcConcept);
+  el('c-rand-favorable') && el('c-rand-favorable').addEventListener('click', () => {
+    const budUnits = Math.round((5000 + Math.random() * 10000) / 100) * 100;
+    const budPrice = Math.round(50 + Math.random() * 80);
+    const budVC    = Math.round(budPrice * (0.35 + Math.random() * 0.2));
+    const budFixed = Math.round((100000 + Math.random() * 300000) / 5000) * 5000;
+    const actUnits = Math.round(budUnits * (1.05 + Math.random() * 0.15));
+    const actPrice = Math.round(budPrice * (1.02 + Math.random() * 0.06));
+    const actVC    = Math.round(budVC * (0.92 + Math.random() * 0.06));
+    const actFixed = Math.round(budFixed * (0.93 + Math.random() * 0.05));
+    setVal('c-bud-units', budUnits); setVal('c-act-units', actUnits);
+    setVal('c-bud-price', budPrice); setVal('c-act-price', actPrice);
+    setVal('c-bud-vc', budVC); setVal('c-act-vc', actVC);
+    setVal('c-bud-fixed', budFixed); setVal('c-act-fixed', actFixed);
+    calcConcept();
+  });
+  el('c-rand-unfavorable') && el('c-rand-unfavorable').addEventListener('click', () => {
+    const budUnits = Math.round((5000 + Math.random() * 10000) / 100) * 100;
+    const budPrice = Math.round(50 + Math.random() * 80);
+    const budVC    = Math.round(budPrice * (0.35 + Math.random() * 0.2));
+    const budFixed = Math.round((100000 + Math.random() * 300000) / 5000) * 5000;
+    const actUnits = Math.round(budUnits * (0.75 + Math.random() * 0.15));
+    const actPrice = Math.round(budPrice * (0.92 + Math.random() * 0.06));
+    const actVC    = Math.round(budVC * (1.05 + Math.random() * 0.1));
+    const actFixed = Math.round(budFixed * (1.04 + Math.random() * 0.08));
+    setVal('c-bud-units', budUnits); setVal('c-act-units', actUnits);
+    setVal('c-bud-price', budPrice); setVal('c-act-price', actPrice);
+    setVal('c-bud-vc', budVC); setVal('c-act-vc', actVC);
+    setVal('c-bud-fixed', budFixed); setVal('c-act-fixed', actFixed);
+    calcConcept();
+  });
   el('a-calculate') && el('a-calculate').addEventListener('click', calcAnalysis);
 });

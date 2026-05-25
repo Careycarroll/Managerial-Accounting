@@ -270,5 +270,38 @@ document.addEventListener('DOMContentLoaded', () => {
   initDepthToggle();
   initScenario();
   el('c-calculate') && el('c-calculate').addEventListener('click', calcConcept);
+  el('c-rand-profitable') && el('c-rand-profitable').addEventListener('click', () => {
+    const price    = Math.round(50 + Math.random() * 100);
+    const varMfg   = Math.round(price * (0.25 + Math.random() * 0.15));
+    const varSGA   = Math.round(price * (0.05 + Math.random() * 0.08));
+    const fixedMfg = Math.round((80000 + Math.random() * 200000) / 5000) * 5000;
+    const fixedSGA = Math.round((40000 + Math.random() * 120000) / 5000) * 5000;
+    const cm       = price - varMfg - varSGA;
+    const totalFixed = fixedMfg + fixedSGA;
+    const targetMgn = 15;
+    const minUnits = Math.ceil(totalFixed / cm * 1.4);
+    const units    = Math.round(minUnits * (1.1 + Math.random() * 0.4) / 100) * 100;
+    setVal('c-units', units); setVal('c-price', price);
+    setVal('c-var-mfg', varMfg); setVal('c-var-sga', varSGA);
+    setVal('c-fixed-mfg', fixedMfg); setVal('c-fixed-sga', fixedSGA);
+    setVal('c-target-margin', targetMgn);
+    calcConcept();
+  });
+  el('c-rand-unprofitable') && el('c-rand-unprofitable').addEventListener('click', () => {
+    const price    = Math.round(50 + Math.random() * 100);
+    const varMfg   = Math.round(price * (0.25 + Math.random() * 0.15));
+    const varSGA   = Math.round(price * (0.05 + Math.random() * 0.08));
+    const fixedMfg = Math.round((80000 + Math.random() * 200000) / 5000) * 5000;
+    const fixedSGA = Math.round((40000 + Math.random() * 120000) / 5000) * 5000;
+    const cm       = price - varMfg - varSGA;
+    const totalFixed = fixedMfg + fixedSGA;
+    const beUnits  = Math.ceil(totalFixed / cm);
+    const units    = Math.round(beUnits * (0.5 + Math.random() * 0.35) / 100) * 100;
+    setVal('c-units', Math.max(100, units)); setVal('c-price', price);
+    setVal('c-var-mfg', varMfg); setVal('c-var-sga', varSGA);
+    setVal('c-fixed-mfg', fixedMfg); setVal('c-fixed-sga', fixedSGA);
+    setVal('c-target-margin', 15);
+    calcConcept();
+  });
   el('a-calculate') && el('a-calculate').addEventListener('click', calcAnalysis);
 });

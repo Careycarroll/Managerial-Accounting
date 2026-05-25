@@ -1,20 +1,6 @@
-    + '<tr><td>' + p1Name + '</td><td>' + fmt2(p1SimpleCost) + '</td><td>' + fmt2(p1ABCCost) + '</td><td class="' + (p1Diff >= 0 ? 'variance-unfav' : 'variance-fav') + '">' + (p1Diff >= 0 ? '+' : '') + fmt2(p1Diff) + '</td><td>' + (p1Diff > 0.5 ? p1Name + ' is <strong>under-costed</strong> under simple allocation' : p1Diff < -0.5 ? p1Name + ' is <strong>over-costed</strong> under simple allocation' : 'Methods agree') + '</td></tr>'
-    + '<tr><td>' + p2Name + '</td><td>' + fmt2(p2SimpleCost) + '</td><td>' + fmt2(p2ABCCost) + '</td><td class="' + (p2Diff >= 0 ? 'variance-unfav' : 'variance-fav') + '">' + (p2Diff >= 0 ? '+' : '') + fmt2(p2Diff) + '</td><td>' + (p2Diff > 0.5 ? p2Name + ' is <strong>under-costed</strong> under simple allocation' : p2Diff < -0.5 ? p2Name + ' is <strong>over-costed</strong> under simple allocation' : 'Methods agree') + '</td></tr>'
-    + '</tbody></table>'
-
-    + '<div style="padding:var(--space-4);background:var(--color-gray-50);border-radius:var(--radius-md);border:1px solid var(--color-gray-200);font-size:var(--font-size-sm);color:var(--color-gray-600);">'
-    + '<strong>Why this matters:</strong> If you price based on simple overhead costs, you may be overcharging for high-volume simple products (losing sales) and undercharging for low-volume complex products (losing money). ABC reveals the true cost of complexity.'
-    + '</div>'
-
-    + '</div>';
-}
-
-// ── Init ──────────────────────────────────────────────────────────────────────
-
-document.addEventListener('DOMContentLoaded', () => {
-  initHeader();
-  initDepthToggle();
-  initScenario();
-  el('c-calculate') && el('c-calculate').addEventListener('click', calcConcept);
-  el('a-calculate') && el('a-calculate').addEventListener('click', calcAnalysis);
-});
+              <button
+                class="btn btn--primary"
+                id="c-calculate"
+                style="margin-top: var(--space-4)"
+              >
+                Analyze Variances &rarr;

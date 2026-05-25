@@ -225,5 +225,33 @@ document.addEventListener('DOMContentLoaded', () => {
   initDepthToggle();
   initScenario();
   el('c-calculate') && el('c-calculate').addEventListener('click', calcConcept);
+  el('c-rand-profitable') && el('c-rand-profitable').addEventListener('click', () => {
+    const dmQty  = Math.round((2 + Math.random() * 8) * 2) / 2;
+    const dmRate = Math.round((3 + Math.random() * 12) * 4) / 4;
+    const dlHrs  = Math.round((0.5 + Math.random() * 4) * 4) / 4;
+    const dlRate = Math.round(15 + Math.random() * 25);
+    const ohRate = Math.round(10 + Math.random() * 20);
+    const cost   = dmQty * dmRate + dlHrs * dlRate + dlHrs * ohRate;
+    const price  = Math.round(cost * (1.35 + Math.random() * 0.4));
+    const units  = Math.round(10 + Math.random() * 90);
+    setVal('c-units', units); setVal('c-selling-price', price);
+    setVal('c-dm-qty', dmQty); setVal('c-dm-rate', dmRate);
+    setVal('c-dl-hrs', dlHrs); setVal('c-dl-rate', dlRate); setVal('c-oh-rate', ohRate);
+    calcConcept();
+  });
+  el('c-rand-unprofitable') && el('c-rand-unprofitable').addEventListener('click', () => {
+    const dmQty  = Math.round((2 + Math.random() * 8) * 2) / 2;
+    const dmRate = Math.round((3 + Math.random() * 12) * 4) / 4;
+    const dlHrs  = Math.round((0.5 + Math.random() * 4) * 4) / 4;
+    const dlRate = Math.round(15 + Math.random() * 25);
+    const ohRate = Math.round(10 + Math.random() * 20);
+    const cost   = dmQty * dmRate + dlHrs * dlRate + dlHrs * ohRate;
+    const price  = Math.round(cost * (0.75 + Math.random() * 0.2));
+    const units  = Math.round(10 + Math.random() * 90);
+    setVal('c-units', units); setVal('c-selling-price', price);
+    setVal('c-dm-qty', dmQty); setVal('c-dm-rate', dmRate);
+    setVal('c-dl-hrs', dlHrs); setVal('c-dl-rate', dlRate); setVal('c-oh-rate', ohRate);
+    calcConcept();
+  });
   el('a-calculate') && el('a-calculate').addEventListener('click', calcAnalysis);
 });

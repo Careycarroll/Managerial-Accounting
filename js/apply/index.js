@@ -48,8 +48,8 @@ const SCENARIOS = [
     chapters: [12, 5, 10, 23],
     chapterLabels: ['Ch. 12 Relevant Costs', 'Ch. 5 ABC', 'Ch. 10 Cost Behavior', 'Ch. 23 Transfer Pricing'],
     href: '/pages/apply/make-or-buy.html',
-    status: 'coming-soon',
-    depths: { concept: false, analysis: false, simulation: false }
+    status: 'available',
+    depths: { concept: true, analysis: true, simulation: false }
   },
   {
     id: 'pricing',

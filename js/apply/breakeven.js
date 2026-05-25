@@ -247,5 +247,27 @@ document.addEventListener('DOMContentLoaded', () => {
   initDepthToggle();
   initScenario();
   el('c-calculate') && el('c-calculate').addEventListener('click', calcConcept);
+  el('c-rand-profitable') && el('c-rand-profitable').addEventListener('click', () => {
+    const price = Math.round(40 + Math.random() * 60);
+    const vc    = Math.round(price * (0.3 + Math.random() * 0.25));
+    const fc    = Math.round((50000 + Math.random() * 150000) / 1000) * 1000;
+    const cm    = price - vc;
+    const be    = Math.ceil(fc / cm);
+    const units = Math.round(be * (1.3 + Math.random() * 0.7));
+    setVal('c-price', price); setVal('c-vc', vc); setVal('c-fc', fc);
+    setVal('c-actual', units); setVal('c-target', Math.round(fc * 0.3 / 1000) * 1000);
+    calcConcept();
+  });
+  el('c-rand-unprofitable') && el('c-rand-unprofitable').addEventListener('click', () => {
+    const price = Math.round(40 + Math.random() * 60);
+    const vc    = Math.round(price * (0.3 + Math.random() * 0.25));
+    const fc    = Math.round((50000 + Math.random() * 150000) / 1000) * 1000;
+    const cm    = price - vc;
+    const be    = Math.ceil(fc / cm);
+    const units = Math.round(be * (0.4 + Math.random() * 0.45));
+    setVal('c-price', price); setVal('c-vc', vc); setVal('c-fc', fc);
+    setVal('c-actual', units); setVal('c-target', Math.round(fc * 0.3 / 1000) * 1000);
+    calcConcept();
+  });
   el('a-calculate') && el('a-calculate').addEventListener('click', calcAnalysis);
 });

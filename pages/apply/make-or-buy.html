@@ -1,0 +1,199 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <meta name="description" content="Should we make it or buy it? -- Apply Scenario" />
+  <title>Make or Buy &middot; Apply</title>
+  <link rel="stylesheet" href="/css/base.css" />
+  <link rel="stylesheet" href="/css/components.css" />
+  <link rel="stylesheet" href="/css/learn.css" />
+  <link rel="stylesheet" href="/css/settings-panel.css" />
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet" />
+  <script>
+    (function(){
+      var r = document.documentElement;
+      var w = localStorage.getItem('pref-width');
+      var f = localStorage.getItem('pref-font');
+      var t = localStorage.getItem('pref-theme');
+      if (w) r.style.setProperty('--max-width-tool', w + 'px');
+      if (f) r.style.setProperty('--font-scale', f);
+      if (t === 'dark') r.setAttribute('data-theme', 'dark');
+    })();
+  </script>
+</head>
+<body>
+  <header class="site-header" role="banner">
+    <div class="site-header__inner">
+      <a href="/" class="site-header__logo">
+        <span>&#128202;</span>
+        <span>Managerial Accounting</span>
+      </a>
+      <nav class="site-header__nav" role="navigation" aria-label="Main navigation">
+        <a href="/pages/learn/" class="site-header__nav-link">Learn</a>
+        <a href="/pages/apply/" class="site-header__nav-link site-header__nav-link--active">Apply</a>
+        <a href="/pages/glossary.html" class="site-header__nav-link">Glossary</a>
+      </nav>
+    </div>
+  </header>
+
+  <main>
+    <section class="page__hero">
+      <div class="container">
+        <div class="chapter-nav">
+          <div style="display:flex;gap:var(--space-4);align-items:center;">
+            <a href="/pages/apply/" class="chapter-nav__back">&larr; All Scenarios</a>
+          </div>
+          <div class="chapter-nav__position">
+            <span style="display:flex;gap:var(--space-2);">
+              <span style="font-size:0.65rem;font-weight:600;padding:2px 8px;border-radius:9999px;background:var(--color-concept);color:#fff;">Concept</span>
+              <span style="font-size:0.65rem;font-weight:600;padding:2px 8px;border-radius:9999px;background:var(--color-analysis);color:#fff;">Analysis</span>
+              <span style="font-size:0.65rem;font-weight:600;padding:2px 8px;border-radius:9999px;background:var(--color-gray-600);color:#fff;opacity:0.5;">Simulation</span>
+            </span>
+          </div>
+        </div>
+        <div class="chapter-hero__meta" style="margin-top:var(--space-4);">
+          <span class="chapter-badge chapter-badge--control">Ch. 12</span>
+          <span class="chapter-badge chapter-badge--control" style="margin-left:var(--space-2);">Ch. 5</span>
+          <span class="chapter-badge chapter-badge--control" style="margin-left:var(--space-2);">Ch. 10</span>
+          <span class="chapter-badge chapter-badge--control" style="margin-left:var(--space-2);">Ch. 23</span>
+        </div>
+        <h1 class="page__hero-title">Should we make it or buy it?</h1>
+        <p class="page__hero-subtitle">Compare the relevant costs of producing in-house versus outsourcing. Factor in opportunity costs, avoidable fixed costs, and qualitative considerations.</p>
+        <div style="display:flex;gap:var(--space-2);margin-top:var(--space-5);">
+          <button class="depth-btn depth-btn--active" data-depth="concept">Concept</button>
+          <button class="depth-btn" data-depth="analysis">Analysis</button>
+          <button class="depth-btn depth-btn--disabled" data-depth="simulation" disabled>Simulation</button>
+        </div>
+      </div>
+    </section>
+
+    <div id="depth-concept" class="depth-panel depth-panel--active">
+      <section class="learn-section">
+        <div class="container container--tool" style="padding-bottom:0;">
+          <div id="scenario-card" class="card" style="background:var(--color-info-bg);border-color:var(--color-info);margin-bottom:var(--space-4);">
+            <div style="display:flex;justify-content:space-between;align-items:center;">
+              <div style="font-weight:700;color:var(--color-primary-text);">&#127981; Business Scenario</div>
+              <button class="btn btn--secondary btn--sm" id="scenario-toggle">Hide scenario</button>
+            </div>
+            <div id="scenario-body" style="margin-top:var(--space-3);">
+              <p style="font-size:var(--font-size-sm);line-height:1.7;margin:0 0 var(--space-3);">Your factory makes a component used in your main product. You produce <strong>50,000 units per year</strong>. Variable cost is <strong>$38 per unit</strong>, avoidable fixed costs are <strong>$400,000</strong>, and unavoidable fixed costs are <strong>$600,000</strong>. A supplier offers to sell the component for <strong>$58 per unit</strong>. If you outsource, the freed capacity could generate <strong>$300,000</strong> in operating income from an alternative use. Should you make or buy?</p>
+              <button class="btn btn--primary btn--sm" id="scenario-use-btn">Use these numbers &rarr;</button>
+            </div>
+          </div>
+        </div>
+        <div class="container container--tool">
+          <div class="tool-header">
+            <div class="tool-header__label">Concept</div>
+            <h2 class="tool-header__title">Make vs Buy Decision</h2>
+            <p class="tool-header__desc">Only relevant costs matter. Unavoidable fixed costs are the same whether you make or buy -- they are irrelevant. The opportunity cost of freed capacity is relevant if you have a better use for it.</p>
+          </div>
+          <div class="card">
+            <div class="ohrate-grid">
+              <div class="form-group">
+                <label class="form-label" for="c-units">Units Required per Year</label>
+                <input class="form-input" type="number" id="c-units" value="50000" min="1" step="1000" />
+              </div>
+              <div class="form-group">
+                <label class="form-label" for="c-var-cost">Variable Cost per Unit to Make ($)</label>
+                <input class="form-input" type="number" id="c-var-cost" value="38" min="0" step="1" />
+              </div>
+              <div class="form-group">
+                <label class="form-label" for="c-avoidable-fixed">Avoidable Fixed Costs ($)</label>
+                <input class="form-input" type="number" id="c-avoidable-fixed" value="400000" min="0" step="10000" />
+              </div>
+              <div class="form-group">
+                <label class="form-label" for="c-unavoidable-fixed">Unavoidable Fixed Costs ($)</label>
+                <input class="form-input" type="number" id="c-unavoidable-fixed" value="600000" min="0" step="10000" />
+              </div>
+              <div class="form-group">
+                <label class="form-label" for="c-buy-price">Outside Purchase Price per Unit ($)</label>
+                <input class="form-input" type="number" id="c-buy-price" value="58" min="0" step="1" />
+              </div>
+              <div class="form-group">
+                <label class="form-label" for="c-opp-income">Opportunity Income if Capacity Freed ($)</label>
+                <input class="form-input" type="number" id="c-opp-income" value="300000" min="0" step="10000" />
+              </div>
+            </div>
+            <div style="display:flex;gap:var(--space-3);margin-top:var(--space-4);flex-wrap:wrap;"><button class="btn btn--primary" id="c-calculate">Analyze Decision &rarr;</button><button class="btn btn--secondary btn--sm" id="c-rand-buy">&#127922; Buy Wins</button><button class="btn btn--secondary btn--sm" id="c-rand-make">&#127922; Make Wins</button></div>
+            <div id="c-output"></div>
+            <div id="c-show-work"></div>
+          </div>
+        </div>
+      </section>
+    </div>
+
+    <div id="depth-analysis" class="depth-panel">
+      <section class="learn-section">
+        <div class="container container--tool">
+          <div class="tool-header">
+            <div class="tool-header__label">Analysis</div>
+            <h2 class="tool-header__title">Full Relevant Cost Analysis</h2>
+            <p class="tool-header__desc">Break down the make cost into its components. Find the indifference price -- the outside price at which you are exactly neutral. Evaluate qualitative factors. If buying from a sister division, apply the general transfer pricing rule.</p>
+          </div>
+          <div class="card">
+            <p class="ch9-section-label">Make Cost Components</p>
+            <div class="ohrate-grid">
+              <div class="form-group">
+                <label class="form-label" for="a-units">Units Required per Year</label>
+                <input class="form-input" type="number" id="a-units" value="50000" min="1" step="1000" />
+              </div>
+              <div class="form-group">
+                <label class="form-label" for="a-dm">Direct Materials per Unit ($)</label>
+                <input class="form-input" type="number" id="a-dm" value="18" min="0" step="1" />
+              </div>
+              <div class="form-group">
+                <label class="form-label" for="a-dl">Direct Labor per Unit ($)</label>
+                <input class="form-input" type="number" id="a-dl" value="12" min="0" step="1" />
+              </div>
+              <div class="form-group">
+                <label class="form-label" for="a-var-oh">Variable Overhead per Unit ($)</label>
+                <input class="form-input" type="number" id="a-var-oh" value="8" min="0" step="1" />
+              </div>
+              <div class="form-group">
+                <label class="form-label" for="a-avoidable-fixed">Avoidable Fixed Costs ($)</label>
+                <input class="form-input" type="number" id="a-avoidable-fixed" value="400000" min="0" step="10000" />
+              </div>
+              <div class="form-group">
+                <label class="form-label" for="a-unavoidable-fixed">Unavoidable Fixed Costs ($)</label>
+                <input class="form-input" type="number" id="a-unavoidable-fixed" value="600000" min="0" step="10000" />
+              </div>
+              <div class="form-group">
+                <label class="form-label" for="a-buy-price">Outside Purchase Price per Unit ($)</label>
+                <input class="form-input" type="number" id="a-buy-price" value="58" min="0" step="1" />
+              </div>
+              <div class="form-group">
+                <label class="form-label" for="a-opp-income">Opportunity Income if Capacity Freed ($)</label>
+                <input class="form-input" type="number" id="a-opp-income" value="300000" min="0" step="10000" />
+              </div>
+            </div>
+            <p class="ch9-section-label" style="margin-top:var(--space-4);">Transfer Pricing (if buying from sister division)</p>
+            <div class="ohrate-grid">
+              <div class="form-group">
+                <label class="form-label" for="a-seller-capacity">Seller Division Total Capacity (units)</label>
+                <input class="form-input" type="number" id="a-seller-capacity" value="80000" min="1" step="1000" />
+              </div>
+              <div class="form-group">
+                <label class="form-label" for="a-seller-external">Seller External Demand (units)</label>
+                <input class="form-input" type="number" id="a-seller-external" value="65000" min="0" step="1000" />
+              </div>
+              <div class="form-group">
+                <label class="form-label" for="a-seller-ext-price">Seller External Price ($)</label>
+                <input class="form-input" type="number" id="a-seller-ext-price" value="70" min="0" step="1" />
+              </div>
+            </div>
+            <button class="btn btn--primary" id="a-calculate" style="margin-top:var(--space-4);">Run Full Analysis &rarr;</button>
+            <div id="a-output"></div>
+            <div id="a-show-work"></div>
+          </div>
+        </div>
+      </section>
+    </div>
+
+  </main>
+
+  <script type="module" src="/js/apply/make-or-buy.js"></script>
+</body>
+</html>
