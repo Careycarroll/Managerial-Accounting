@@ -1,0 +1,194 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <meta name="description" content="What should we charge? -- Apply Scenario" />
+  <title>Pricing &middot; Apply</title>
+  <link rel="stylesheet" href="/css/base.css" />
+  <link rel="stylesheet" href="/css/components.css" />
+  <link rel="stylesheet" href="/css/learn.css" />
+  <link rel="stylesheet" href="/css/settings-panel.css" />
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet" />
+  <script>
+    (function(){
+      var r = document.documentElement;
+      var w = localStorage.getItem('pref-width');
+      var f = localStorage.getItem('pref-font');
+      var t = localStorage.getItem('pref-theme');
+      if (w) r.style.setProperty('--max-width-tool', w + 'px');
+      if (f) r.style.setProperty('--font-scale', f);
+      if (t === 'dark') r.setAttribute('data-theme', 'dark');
+    })();
+  </script>
+</head>
+<body>
+  <header class="site-header" role="banner">
+    <div class="site-header__inner">
+      <a href="/" class="site-header__logo">
+        <span>&#128202;</span>
+        <span>Managerial Accounting</span>
+      </a>
+      <nav class="site-header__nav" role="navigation" aria-label="Main navigation">
+        <a href="/pages/learn/" class="site-header__nav-link">Learn</a>
+        <a href="/pages/apply/" class="site-header__nav-link site-header__nav-link--active">Apply</a>
+        <a href="/pages/glossary.html" class="site-header__nav-link">Glossary</a>
+      </nav>
+    </div>
+  </header>
+
+  <main>
+    <section class="page__hero">
+      <div class="container">
+        <div class="chapter-nav">
+          <div style="display:flex;gap:var(--space-4);align-items:center;">
+            <a href="/pages/apply/" class="chapter-nav__back">&larr; All Scenarios</a>
+          </div>
+          <div class="chapter-nav__position">
+            <span style="display:flex;gap:var(--space-2);">
+              <span style="font-size:0.65rem;font-weight:600;padding:2px 8px;border-radius:9999px;background:var(--color-concept);color:#fff;">Concept</span>
+              <span style="font-size:0.65rem;font-weight:600;padding:2px 8px;border-radius:9999px;background:var(--color-analysis);color:#fff;">Analysis</span>
+              <span style="font-size:0.65rem;font-weight:600;padding:2px 8px;border-radius:9999px;background:var(--color-gray-600);color:#fff;opacity:0.5;">Simulation</span>
+            </span>
+          </div>
+        </div>
+        <div class="chapter-hero__meta" style="margin-top:var(--space-4);">
+          <span class="chapter-badge chapter-badge--control">Ch. 14</span>
+          <span class="chapter-badge chapter-badge--control" style="margin-left:var(--space-2);">Ch. 12</span>
+          <span class="chapter-badge chapter-badge--control" style="margin-left:var(--space-2);">Ch. 3</span>
+        </div>
+        <h1 class="page__hero-title">What should we charge?</h1>
+        <p class="page__hero-subtitle">Set a price that covers costs, earns your target return, and fits the market. Compare cost-plus pricing to target costing and find the price that works.</p>
+        <div style="display:flex;gap:var(--space-2);margin-top:var(--space-5);">
+          <button class="depth-btn depth-btn--active" data-depth="concept">Concept</button>
+          <button class="depth-btn" data-depth="analysis">Analysis</button>
+          <button class="depth-btn depth-btn--disabled" data-depth="simulation" disabled>Simulation</button>
+        </div>
+      </div>
+    </section>
+
+    <div id="depth-concept" class="depth-panel depth-panel--active">
+      <section class="learn-section">
+        <div class="container container--tool" style="padding-bottom:0;">
+          <div id="scenario-card" class="card" style="background:var(--color-info-bg);border-color:var(--color-info);margin-bottom:var(--space-4);">
+            <div style="display:flex;justify-content:space-between;align-items:center;">
+              <div style="font-weight:700;color:var(--color-primary-text);">&#127991; Business Scenario</div>
+              <button class="btn btn--secondary btn--sm" id="scenario-toggle">Hide scenario</button>
+            </div>
+            <div id="scenario-body" style="margin-top:var(--space-3);">
+              <p style="font-size:var(--font-size-sm);line-height:1.7;margin:0 0 var(--space-3);">You are launching a new product. Your full cost is <strong>$142 per unit</strong>. Competitors charge <strong>$180</strong>. Your target ROI is <strong>20%</strong> on <strong>$2M invested capital</strong>. You expect to sell <strong>25,000 units</strong>. What should you charge?</p>
+              <button class="btn btn--primary btn--sm" id="scenario-use-btn">Use these numbers &rarr;</button>
+            </div>
+          </div>
+        </div>
+        <div class="container container--tool">
+          <div class="tool-header">
+            <div class="tool-header__label">Concept</div>
+            <h2 class="tool-header__title">Cost-Plus and Target Pricing</h2>
+            <p class="tool-header__desc">Cost-plus pricing starts with cost and adds a markup. Target pricing starts with the market price and works backwards to an allowable cost. Both approaches are shown side by side.</p>
+          </div>
+          <div class="card">
+            <div class="ohrate-grid">
+              <div class="form-group">
+                <label class="form-label" for="c-units">Expected Units Sold</label>
+                <input class="form-input" type="number" id="c-units" value="25000" min="1" step="500" />
+              </div>
+              <div class="form-group">
+                <label class="form-label" for="c-var-cost">Variable Cost per Unit ($)</label>
+                <input class="form-input" type="number" id="c-var-cost" value="90" min="0" step="1" />
+              </div>
+              <div class="form-group">
+                <label class="form-label" for="c-fixed-cost">Total Fixed Costs ($)</label>
+                <input class="form-input" type="number" id="c-fixed-cost" value="1300000" min="0" step="10000" />
+              </div>
+              <div class="form-group">
+                <label class="form-label" for="c-invested-capital">Invested Capital ($)</label>
+                <input class="form-input" type="number" id="c-invested-capital" value="2000000" min="0" step="50000" />
+              </div>
+              <div class="form-group">
+                <label class="form-label" for="c-target-roi">Target ROI (%)</label>
+                <input class="form-input" type="number" id="c-target-roi" value="20" min="0" max="100" step="1" />
+              </div>
+              <div class="form-group">
+                <label class="form-label" for="c-market-price">Competitor Market Price ($)</label>
+                <input class="form-input" type="number" id="c-market-price" value="180" min="0" step="1" />
+              </div>
+              <div class="form-group">
+                <label class="form-label" for="c-target-margin">Target Operating Margin (%)</label>
+                <input class="form-input" type="number" id="c-target-margin" value="18" min="0" max="100" step="1" />
+              </div>
+            </div>
+            <div style="display:flex;gap:var(--space-3);margin-top:var(--space-4);flex-wrap:wrap;">
+              <button class="btn btn--primary" id="c-calculate">Calculate Pricing &rarr;</button>
+              <button class="btn btn--secondary btn--sm" id="c-rand-viable">&#127922; Viable Price</button>
+              <button class="btn btn--secondary btn--sm" id="c-rand-stretch">&#127922; Stretch Target</button>
+            </div>
+            <div id="c-output"></div>
+            <div id="c-show-work"></div>
+          </div>
+        </div>
+      </section>
+    </div>
+
+    <div id="depth-analysis" class="depth-panel">
+      <section class="learn-section">
+        <div class="container container--tool">
+          <div class="tool-header">
+            <div class="tool-header__label">Analysis</div>
+            <h2 class="tool-header__title">Full Pricing Analysis</h2>
+            <p class="tool-header__desc">Compare all cost-plus methods side by side. Run target costing to find the allowable cost gap. See how price changes with volume as fixed costs are spread over more units.</p>
+          </div>
+          <div class="card">
+            <div class="ohrate-grid">
+              <div class="form-group">
+                <label class="form-label" for="a-units">Expected Units Sold</label>
+                <input class="form-input" type="number" id="a-units" value="25000" min="1" step="500" />
+              </div>
+              <div class="form-group">
+                <label class="form-label" for="a-var-mfg">Variable Mfg Cost per Unit ($)</label>
+                <input class="form-input" type="number" id="a-var-mfg" value="65" min="0" step="1" />
+              </div>
+              <div class="form-group">
+                <label class="form-label" for="a-var-sga">Variable SGA per Unit ($)</label>
+                <input class="form-input" type="number" id="a-var-sga" value="25" min="0" step="1" />
+              </div>
+              <div class="form-group">
+                <label class="form-label" for="a-fixed-mfg">Fixed Mfg Costs ($)</label>
+                <input class="form-input" type="number" id="a-fixed-mfg" value="800000" min="0" step="10000" />
+              </div>
+              <div class="form-group">
+                <label class="form-label" for="a-fixed-sga">Fixed SGA Costs ($)</label>
+                <input class="form-input" type="number" id="a-fixed-sga" value="500000" min="0" step="10000" />
+              </div>
+              <div class="form-group">
+                <label class="form-label" for="a-invested-capital">Invested Capital ($)</label>
+                <input class="form-input" type="number" id="a-invested-capital" value="2000000" min="0" step="50000" />
+              </div>
+              <div class="form-group">
+                <label class="form-label" for="a-target-roi">Target ROI (%)</label>
+                <input class="form-input" type="number" id="a-target-roi" value="20" min="0" max="100" step="1" />
+              </div>
+              <div class="form-group">
+                <label class="form-label" for="a-market-price">Market Price ($)</label>
+                <input class="form-input" type="number" id="a-market-price" value="180" min="0" step="1" />
+              </div>
+              <div class="form-group">
+                <label class="form-label" for="a-target-margin">Target Operating Margin (%)</label>
+                <input class="form-input" type="number" id="a-target-margin" value="18" min="0" max="100" step="1" />
+              </div>
+            </div>
+            <button class="btn btn--primary" id="a-calculate" style="margin-top:var(--space-4);">Run Full Pricing Analysis &rarr;</button>
+            <div id="a-output"></div>
+            <div id="a-show-work"></div>
+          </div>
+        </div>
+      </section>
+    </div>
+
+  </main>
+
+  <script type="module" src="/js/apply/pricing.js"></script>
+</body>
+</html>

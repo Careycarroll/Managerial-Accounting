@@ -58,8 +58,8 @@ const SCENARIOS = [
     chapters: [14, 12, 3],
     chapterLabels: ['Ch. 14 Pricing', 'Ch. 12 Relevant Costs', 'Ch. 3 CVP'],
     href: '/pages/apply/pricing.html',
-    status: 'coming-soon',
-    depths: { concept: false, analysis: false, simulation: false }
+    status: 'available',
+    depths: { concept: true, analysis: true, simulation: false }
   },
   {
     id: 'customer-profit',
