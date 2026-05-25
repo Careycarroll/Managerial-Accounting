@@ -1,0 +1,498 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <meta
+      name="description"
+      content="Is this investment worth it? -- Apply Scenario"
+    />
+    <title>Capital Investment &middot; Apply</title>
+    <link rel="stylesheet" href="/css/base.css" />
+    <link rel="stylesheet" href="/css/components.css" />
+    <link rel="stylesheet" href="/css/learn.css" />
+    <link rel="stylesheet" href="/css/settings-panel.css" />
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link
+      href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=JetBrains+Mono:wght@400;500&display=swap"
+      rel="stylesheet"
+    />
+    <script>
+      (function () {
+        var r = document.documentElement;
+        var w = localStorage.getItem("pref-width");
+        var f = localStorage.getItem("pref-font");
+        var t = localStorage.getItem("pref-theme");
+        if (w) r.style.setProperty("--max-width-tool", w + "px");
+        if (f) r.style.setProperty("--font-scale", f);
+        if (t === "dark") r.setAttribute("data-theme", "dark");
+      })();
+    </script>
+  </head>
+  <body>
+    <header class="site-header" role="banner">
+      <div class="site-header__inner">
+        <a href="/" class="site-header__logo">
+          <span>&#128202;</span>
+          <span>Managerial Accounting</span>
+        </a>
+        <nav
+          class="site-header__nav"
+          role="navigation"
+          aria-label="Main navigation"
+        >
+          <a href="/pages/learn/" class="site-header__nav-link">Learn</a>
+          <a
+            href="/pages/apply/"
+            class="site-header__nav-link site-header__nav-link--active"
+            >Apply</a
+          >
+          <a href="/pages/glossary.html" class="site-header__nav-link"
+            >Glossary</a
+          >
+        </nav>
+      </div>
+    </header>
+
+    <main>
+      <section class="page__hero">
+        <div class="container">
+          <div class="chapter-nav">
+            <div
+              style="display: flex; gap: var(--space-4); align-items: center"
+            >
+              <a href="/pages/apply/" class="chapter-nav__back"
+                >&larr; All Scenarios</a
+              >
+            </div>
+            <div class="chapter-nav__position">
+              <span style="display: flex; gap: var(--space-2)">
+                <span
+                  style="
+                    font-size: 0.65rem;
+                    font-weight: 600;
+                    padding: 2px 8px;
+                    border-radius: 9999px;
+                    background: var(--color-concept);
+                    color: #fff;
+                  "
+                  >Concept</span
+                >
+                <span
+                  style="
+                    font-size: 0.65rem;
+                    font-weight: 600;
+                    padding: 2px 8px;
+                    border-radius: 9999px;
+                    background: var(--color-analysis);
+                    color: #fff;
+                  "
+                  >Analysis</span
+                >
+                <span
+                  style="
+                    font-size: 0.65rem;
+                    font-weight: 600;
+                    padding: 2px 8px;
+                    border-radius: 9999px;
+                    background: var(--color-gray-600);
+                    color: #fff;
+                    opacity: 0.5;
+                  "
+                  >Simulation</span
+                >
+              </span>
+            </div>
+          </div>
+          <div class="chapter-hero__meta" style="margin-top: var(--space-4)">
+            <span class="chapter-badge chapter-badge--control">Ch. 22</span>
+            <span
+              class="chapter-badge chapter-badge--control"
+              style="margin-left: var(--space-2)"
+              >Ch. 12</span
+            >
+            <span
+              class="chapter-badge chapter-badge--control"
+              style="margin-left: var(--space-2)"
+              >Ch. 24</span
+            >
+          </div>
+          <h1 class="page__hero-title">Is this investment worth it?</h1>
+          <p class="page__hero-subtitle">
+            Evaluate a capital project using NPV, IRR, payback, and AARR. Factor
+            in tax effects, salvage value, and working capital to make a
+            fully-informed go or no-go decision.
+          </p>
+          <div
+            style="
+              display: flex;
+              gap: var(--space-2);
+              margin-top: var(--space-5);
+            "
+          >
+            <button class="depth-btn depth-btn--active" data-depth="concept">
+              Concept
+            </button>
+            <button class="depth-btn" data-depth="analysis">Analysis</button>
+            <button
+              class="depth-btn depth-btn--disabled"
+              data-depth="simulation"
+              disabled
+            >
+              Simulation
+            </button>
+          </div>
+        </div>
+      </section>
+
+      <!-- ── Concept ── -->
+      <div id="depth-concept" class="depth-panel depth-panel--active">
+        <section class="learn-section">
+          <div class="container container--tool" style="padding-bottom: 0">
+            <div
+              id="scenario-card"
+              class="card"
+              style="
+                background: var(--color-info-bg);
+                border-color: var(--color-info);
+                margin-bottom: var(--space-4);
+              "
+            >
+              <div
+                style="
+                  display: flex;
+                  justify-content: space-between;
+                  align-items: center;
+                "
+              >
+                <div style="font-weight: 700; color: var(--color-primary-text)">
+                  &#127970; Business Scenario
+                </div>
+                <button class="btn btn--secondary btn--sm" id="scenario-toggle">
+                  Hide scenario
+                </button>
+              </div>
+              <div id="scenario-body" style="margin-top: var(--space-3)">
+                <p
+                  style="
+                    font-size: var(--font-size-sm);
+                    line-height: 1.7;
+                    margin: 0 0 var(--space-3);
+                  "
+                >
+                  Your plant manager wants to replace aging equipment with a new
+                  machine costing
+                  <strong>$500,000</strong>. It will reduce labor and material
+                  costs by <strong>$120,000 per year</strong> over a
+                  <strong>6-year</strong> life, with a salvage value of
+                  <strong>$50,000</strong>. Your company requires a
+                  <strong>12% return</strong> and pays <strong>30% tax</strong>.
+                  Is this investment worth it?
+                </p>
+                <button class="btn btn--primary btn--sm" id="scenario-use-btn">
+                  Use these numbers &rarr;
+                </button>
+              </div>
+            </div>
+          </div>
+          <div class="container container--tool">
+            <div class="tool-header">
+              <div class="tool-header__label">Concept</div>
+              <h2 class="tool-header__title">NPV, Payback &amp; IRR</h2>
+              <p class="tool-header__desc">
+                Enter the key parameters of a capital project. NPV tells you
+                whether the investment creates value at your required rate of
+                return. Payback shows how quickly you recover your cash. IRR is
+                the rate that makes NPV zero.
+              </p>
+            </div>
+            <div class="card">
+              <p class="ch9-section-label">Project Inputs</p>
+              <div class="ohrate-grid">
+                <div class="form-group">
+                  <label class="form-label" for="c-investment"
+                    >Initial Investment ($)</label
+                  >
+                  <input
+                    class="form-input"
+                    type="number"
+                    id="c-investment"
+                    value="500000"
+                    min="1"
+                    step="10000"
+                  />
+                </div>
+                <div class="form-group">
+                  <label class="form-label" for="c-cashflow"
+                    >Annual Net Cash Inflow ($)</label
+                  >
+                  <input
+                    class="form-input"
+                    type="number"
+                    id="c-cashflow"
+                    value="120000"
+                    min="0"
+                    step="5000"
+                  />
+                </div>
+                <div class="form-group">
+                  <label class="form-label" for="c-life"
+                    >Project Life (years)</label
+                  >
+                  <input
+                    class="form-input"
+                    type="number"
+                    id="c-life"
+                    value="6"
+                    min="1"
+                    max="30"
+                    step="1"
+                  />
+                </div>
+                <div class="form-group">
+                  <label class="form-label" for="c-salvage"
+                    >Salvage Value ($)</label
+                  >
+                  <input
+                    class="form-input"
+                    type="number"
+                    id="c-salvage"
+                    value="50000"
+                    min="0"
+                    step="5000"
+                  />
+                </div>
+                <div class="form-group">
+                  <label class="form-label" for="c-rate"
+                    >Required Rate of Return (%)</label
+                  >
+                  <input
+                    class="form-input"
+                    type="number"
+                    id="c-rate"
+                    value="12"
+                    min="1"
+                    max="50"
+                    step="0.5"
+                  />
+                </div>
+                <div class="form-group">
+                  <label class="form-label" for="c-tax">Tax Rate (%)</label>
+                  <input
+                    class="form-input"
+                    type="number"
+                    id="c-tax"
+                    value="30"
+                    min="0"
+                    max="60"
+                    step="1"
+                  />
+                </div>
+              </div>
+              <div
+                style="
+                  display: flex;
+                  gap: var(--space-3);
+                  margin-top: var(--space-4);
+                  flex-wrap: wrap;
+                "
+              >
+                <button class="btn btn--primary" id="c-calculate">
+                  Calculate &rarr;
+                </button>
+                <button class="btn btn--secondary btn--sm" id="c-rand-yes">
+                  &#127922; Clear Yes
+                </button>
+                <button class="btn btn--secondary btn--sm" id="c-rand-no">
+                  &#127922; Clear No
+                </button>
+                <button class="btn btn--secondary btn--sm" id="c-rand-border">
+                  &#127922; Borderline
+                </button>
+              </div>
+              <div id="c-output"></div>
+              <div id="c-show-work"></div>
+            </div>
+          </div>
+        </section>
+      </div>
+
+      <!-- ── Analysis ── -->
+      <div id="depth-analysis" class="depth-panel">
+        <section class="learn-section">
+          <div class="container container--tool">
+            <div class="tool-header">
+              <div class="tool-header__label">Analysis</div>
+              <h2 class="tool-header__title">Full Capital Budgeting Model</h2>
+              <p class="tool-header__desc">
+                Build a complete after-tax cash flow model with depreciation tax
+                shields, salvage value, and working capital recovery. Compare
+                NPV, IRR, payback, and AARR side by side, then test how
+                sensitive the decision is to your hurdle rate assumption.
+              </p>
+            </div>
+            <div class="card">
+              <p class="ch9-section-label">Investment &amp; Project Life</p>
+              <div class="ohrate-grid">
+                <div class="form-group">
+                  <label class="form-label" for="a-investment"
+                    >Initial Investment ($)</label
+                  >
+                  <input
+                    class="form-input"
+                    type="number"
+                    id="a-investment"
+                    value="500000"
+                    min="1"
+                    step="10000"
+                  />
+                </div>
+                <div class="form-group">
+                  <label class="form-label" for="a-salvage"
+                    >Salvage Value ($)</label
+                  >
+                  <input
+                    class="form-input"
+                    type="number"
+                    id="a-salvage"
+                    value="50000"
+                    min="0"
+                    step="5000"
+                  />
+                </div>
+                <div class="form-group">
+                  <label class="form-label" for="a-life"
+                    >Project Life (years)</label
+                  >
+                  <input
+                    class="form-input"
+                    type="number"
+                    id="a-life"
+                    value="6"
+                    min="1"
+                    max="30"
+                    step="1"
+                  />
+                </div>
+                <div class="form-group">
+                  <label class="form-label" for="a-working-cap"
+                    >Working Capital Required ($)</label
+                  >
+                  <input
+                    class="form-input"
+                    type="number"
+                    id="a-working-cap"
+                    value="20000"
+                    min="0"
+                    step="5000"
+                  />
+                </div>
+              </div>
+              <p class="ch9-section-label" style="margin-top: var(--space-4)">
+                Annual Cash Flows
+              </p>
+              <div class="ohrate-grid">
+                <div class="form-group">
+                  <label class="form-label" for="a-revenue"
+                    >Annual Revenue Increase ($)</label
+                  >
+                  <input
+                    class="form-input"
+                    type="number"
+                    id="a-revenue"
+                    value="0"
+                    min="0"
+                    step="5000"
+                  />
+                </div>
+                <div class="form-group">
+                  <label class="form-label" for="a-cost-savings"
+                    >Annual Cost Savings ($)</label
+                  >
+                  <input
+                    class="form-input"
+                    type="number"
+                    id="a-cost-savings"
+                    value="120000"
+                    min="0"
+                    step="5000"
+                  />
+                </div>
+                <div class="form-group">
+                  <label class="form-label" for="a-cash-costs"
+                    >Annual Cash Operating Costs ($)</label
+                  >
+                  <input
+                    class="form-input"
+                    type="number"
+                    id="a-cash-costs"
+                    value="0"
+                    min="0"
+                    step="5000"
+                  />
+                </div>
+              </div>
+              <p class="ch9-section-label" style="margin-top: var(--space-4)">
+                Rates &amp; Tax
+              </p>
+              <div class="ohrate-grid">
+                <div class="form-group">
+                  <label class="form-label" for="a-rate"
+                    >Required Rate of Return (%)</label
+                  >
+                  <input
+                    class="form-input"
+                    type="number"
+                    id="a-rate"
+                    value="12"
+                    min="1"
+                    max="50"
+                    step="0.5"
+                  />
+                </div>
+                <div class="form-group">
+                  <label class="form-label" for="a-tax">Tax Rate (%)</label>
+                  <input
+                    class="form-input"
+                    type="number"
+                    id="a-tax"
+                    value="30"
+                    min="0"
+                    max="60"
+                    step="1"
+                  />
+                </div>
+                <div class="form-group">
+                  <label class="form-label" for="a-cost-of-cap"
+                    >Cost of Capital for RI (%)</label
+                  >
+                  <input
+                    class="form-input"
+                    type="number"
+                    id="a-cost-of-cap"
+                    value="10"
+                    min="1"
+                    max="50"
+                    step="0.5"
+                  />
+                </div>
+              </div>
+              <button
+                class="btn btn--primary"
+                id="a-calculate"
+                style="margin-top: var(--space-4)"
+              >
+                Run Full Analysis &rarr;
+              </button>
+              <div id="a-output"></div>
+              <div id="a-show-work"></div>
+            </div>
+          </div>
+        </section>
+      </div>
+    </main>
+
+    <script type="module" src="/js/apply/investment.js"></script>
+  </body>
+</html>

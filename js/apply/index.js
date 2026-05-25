@@ -115,8 +115,8 @@ const SCENARIOS = [
       "Ch. 24 Performance",
     ],
     href: "/pages/apply/investment.html",
-    status: "coming-soon",
-    depths: { concept: false, analysis: false, simulation: false },
+    status: "available",
+    depths: { concept: true, analysis: true, simulation: false },
   },
   {
     id: "performance",
