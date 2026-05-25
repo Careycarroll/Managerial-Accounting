@@ -1,0 +1,624 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <meta
+      name="description"
+      content="What do our costs tell us? -- Apply Scenario"
+    />
+    <title>Cost Behavior &middot; Apply</title>
+    <link rel="stylesheet" href="/css/base.css" />
+    <link rel="stylesheet" href="/css/components.css" />
+    <link rel="stylesheet" href="/css/learn.css" />
+    <link rel="stylesheet" href="/css/settings-panel.css" />
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link
+      href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=JetBrains+Mono:wght@400;500&display=swap"
+      rel="stylesheet"
+    />
+    <script>
+      (function () {
+        var r = document.documentElement;
+        var w = localStorage.getItem("pref-width");
+        var f = localStorage.getItem("pref-font");
+        var t = localStorage.getItem("pref-theme");
+        if (w) r.style.setProperty("--max-width-tool", w + "px");
+        if (f) r.style.setProperty("--font-scale", f);
+        if (t === "dark") r.setAttribute("data-theme", "dark");
+      })();
+    </script>
+  </head>
+  <body>
+    <header class="site-header" role="banner">
+      <div class="site-header__inner">
+        <a href="/" class="site-header__logo">
+          <span>&#128202;</span>
+          <span>Managerial Accounting</span>
+        </a>
+        <nav
+          class="site-header__nav"
+          role="navigation"
+          aria-label="Main navigation"
+        >
+          <a href="/pages/learn/" class="site-header__nav-link">Learn</a>
+          <a
+            href="/pages/apply/"
+            class="site-header__nav-link site-header__nav-link--active"
+            >Apply</a
+          >
+          <a href="/pages/glossary.html" class="site-header__nav-link"
+            >Glossary</a
+          >
+        </nav>
+      </div>
+    </header>
+
+    <main>
+      <section class="page__hero">
+        <div class="container">
+          <div class="chapter-nav">
+            <div
+              style="display: flex; gap: var(--space-4); align-items: center"
+            >
+              <a href="/pages/apply/" class="chapter-nav__back"
+                >&larr; All Scenarios</a
+              >
+            </div>
+            <div class="chapter-nav__position">
+              <span style="display: flex; gap: var(--space-2)">
+                <span
+                  style="
+                    font-size: 0.65rem;
+                    font-weight: 600;
+                    padding: 2px 8px;
+                    border-radius: 9999px;
+                    background: var(--color-concept);
+                    color: #fff;
+                  "
+                  >Concept</span
+                >
+                <span
+                  style="
+                    font-size: 0.65rem;
+                    font-weight: 600;
+                    padding: 2px 8px;
+                    border-radius: 9999px;
+                    background: var(--color-analysis);
+                    color: #fff;
+                  "
+                  >Analysis</span
+                >
+                <span
+                  style="
+                    font-size: 0.65rem;
+                    font-weight: 600;
+                    padding: 2px 8px;
+                    border-radius: 9999px;
+                    background: var(--color-gray-600);
+                    color: #fff;
+                    opacity: 0.5;
+                  "
+                  >Simulation</span
+                >
+              </span>
+            </div>
+          </div>
+          <div class="chapter-hero__meta" style="margin-top: var(--space-4)">
+            <span class="chapter-badge chapter-badge--control">Ch. 10</span>
+            <span
+              class="chapter-badge chapter-badge--control"
+              style="margin-left: var(--space-2)"
+              >Ch. 11</span
+            >
+          </div>
+          <h1 class="page__hero-title">What do our costs tell us?</h1>
+          <p class="page__hero-subtitle">
+            Estimate cost functions using the high-low method and regression
+            analysis. Predict future costs at new activity levels and understand
+            what drives your cost structure.
+          </p>
+          <div
+            style="
+              display: flex;
+              gap: var(--space-2);
+              margin-top: var(--space-5);
+            "
+          >
+            <button class="depth-btn depth-btn--active" data-depth="concept">
+              Concept
+            </button>
+            <button class="depth-btn" data-depth="analysis">Analysis</button>
+            <button
+              class="depth-btn depth-btn--disabled"
+              data-depth="simulation"
+              disabled
+            >
+              Simulation
+            </button>
+          </div>
+        </div>
+      </section>
+
+      <!-- ── Concept ── -->
+      <div id="depth-concept" class="depth-panel depth-panel--active">
+        <section class="learn-section">
+          <div class="container container--tool" style="padding-bottom: 0">
+            <div
+              id="scenario-card"
+              class="card"
+              style="
+                background: var(--color-info-bg);
+                border-color: var(--color-info);
+                margin-bottom: var(--space-4);
+              "
+            >
+              <div
+                style="
+                  display: flex;
+                  justify-content: space-between;
+                  align-items: center;
+                "
+              >
+                <div style="font-weight: 700; color: var(--color-primary-text)">
+                  &#128200; Business Scenario
+                </div>
+                <button class="btn btn--secondary btn--sm" id="scenario-toggle">
+                  Hide scenario
+                </button>
+              </div>
+              <div id="scenario-body" style="margin-top: var(--space-3)">
+                <p
+                  style="
+                    font-size: var(--font-size-sm);
+                    line-height: 1.7;
+                    margin: 0 0 var(--space-3);
+                  "
+                >
+                  Your plant ran at <strong>8,000 machine hours</strong> last
+                  month with total overhead of <strong>$94,000</strong>. Your
+                  lowest month was <strong>3,000 hours</strong> at
+                  <strong>$64,000</strong>. Next month you expect
+                  <strong>6,500 hours</strong>. What will overhead cost?
+                </p>
+                <button class="btn btn--primary btn--sm" id="scenario-use-btn">
+                  Use these numbers &rarr;
+                </button>
+              </div>
+            </div>
+          </div>
+          <div class="container container--tool">
+            <div class="tool-header">
+              <div class="tool-header__label">Concept</div>
+              <h2 class="tool-header__title">High-Low Cost Estimation</h2>
+              <p class="tool-header__desc">
+                The high-low method uses the highest and lowest activity
+                observations to separate fixed and variable costs. Enter your
+                two data points and a predicted activity level to estimate
+                future costs.
+              </p>
+            </div>
+            <div class="card">
+              <p class="ch9-section-label">High Activity Period</p>
+              <div class="ohrate-grid">
+                <div class="form-group">
+                  <label class="form-label" for="c-high-units"
+                    >High Activity Level (units/hours)</label
+                  >
+                  <input
+                    class="form-input"
+                    type="number"
+                    id="c-high-units"
+                    value="8000"
+                    min="1"
+                    step="100"
+                  />
+                </div>
+                <div class="form-group">
+                  <label class="form-label" for="c-high-cost"
+                    >Total Cost at High Activity ($)</label
+                  >
+                  <input
+                    class="form-input"
+                    type="number"
+                    id="c-high-cost"
+                    value="94000"
+                    min="0"
+                    step="1000"
+                  />
+                </div>
+              </div>
+              <p class="ch9-section-label" style="margin-top: var(--space-4)">
+                Low Activity Period
+              </p>
+              <div class="ohrate-grid">
+                <div class="form-group">
+                  <label class="form-label" for="c-low-units"
+                    >Low Activity Level (units/hours)</label
+                  >
+                  <input
+                    class="form-input"
+                    type="number"
+                    id="c-low-units"
+                    value="3000"
+                    min="0"
+                    step="100"
+                  />
+                </div>
+                <div class="form-group">
+                  <label class="form-label" for="c-low-cost"
+                    >Total Cost at Low Activity ($)</label
+                  >
+                  <input
+                    class="form-input"
+                    type="number"
+                    id="c-low-cost"
+                    value="64000"
+                    min="0"
+                    step="1000"
+                  />
+                </div>
+              </div>
+              <p class="ch9-section-label" style="margin-top: var(--space-4)">
+                Prediction
+              </p>
+              <div class="ohrate-grid">
+                <div class="form-group">
+                  <label class="form-label" for="c-predict-units"
+                    >Predicted Activity Level (units/hours)</label
+                  >
+                  <input
+                    class="form-input"
+                    type="number"
+                    id="c-predict-units"
+                    value="6500"
+                    min="0"
+                    step="100"
+                  />
+                </div>
+              </div>
+              <div
+                style="
+                  display: flex;
+                  gap: var(--space-3);
+                  margin-top: var(--space-4);
+                  flex-wrap: wrap;
+                "
+              >
+                <button class="btn btn--primary" id="c-calculate">
+                  Estimate Cost &rarr;
+                </button>
+                <button
+                  class="btn btn--secondary btn--sm"
+                  id="c-rand-high-fixed"
+                >
+                  &#127922; High Fixed
+                </button>
+                <button
+                  class="btn btn--secondary btn--sm"
+                  id="c-rand-high-variable"
+                >
+                  &#127922; High Variable
+                </button>
+                <button class="btn btn--secondary btn--sm" id="c-rand-mixed">
+                  &#127922; Mixed
+                </button>
+              </div>
+              <div id="c-output"></div>
+              <div id="c-show-work"></div>
+            </div>
+          </div>
+        </section>
+      </div>
+
+      <!-- ── Analysis ── -->
+      <div id="depth-analysis" class="depth-panel">
+        <section class="learn-section">
+          <div class="container container--tool">
+            <div class="tool-header">
+              <div class="tool-header__label">Analysis</div>
+              <h2 class="tool-header__title">
+                Regression vs High-Low Analysis
+              </h2>
+              <p class="tool-header__desc">
+                Enter up to six months of data. Compare the high-low method
+                against simple linear regression. See R&sup2; goodness of fit,
+                evaluate which method gives a more reliable cost prediction, and
+                apply a learning curve adjustment if your process improves with
+                cumulative volume.
+              </p>
+            </div>
+            <div class="card">
+              <p class="ch9-section-label">
+                Monthly Observations (Activity &amp; Cost)
+              </p>
+              <div
+                style="
+                  display: grid;
+                  grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+                  gap: var(--space-3);
+                  margin-bottom: var(--space-4);
+                "
+              >
+                <div
+                  style="
+                    display: flex;
+                    gap: var(--space-2);
+                    align-items: center;
+                  "
+                >
+                  <div class="form-group" style="flex: 1; margin: 0">
+                    <label class="form-label" for="a-x1"
+                      >Month 1 Activity</label
+                    >
+                    <input
+                      class="form-input"
+                      type="number"
+                      id="a-x1"
+                      value="3000"
+                      min="0"
+                      step="100"
+                    />
+                  </div>
+                  <div class="form-group" style="flex: 1; margin: 0">
+                    <label class="form-label" for="a-y1"
+                      >Month 1 Cost ($)</label
+                    >
+                    <input
+                      class="form-input"
+                      type="number"
+                      id="a-y1"
+                      value="64000"
+                      min="0"
+                      step="500"
+                    />
+                  </div>
+                </div>
+                <div
+                  style="
+                    display: flex;
+                    gap: var(--space-2);
+                    align-items: center;
+                  "
+                >
+                  <div class="form-group" style="flex: 1; margin: 0">
+                    <label class="form-label" for="a-x2"
+                      >Month 2 Activity</label
+                    >
+                    <input
+                      class="form-input"
+                      type="number"
+                      id="a-x2"
+                      value="4500"
+                      min="0"
+                      step="100"
+                    />
+                  </div>
+                  <div class="form-group" style="flex: 1; margin: 0">
+                    <label class="form-label" for="a-y2"
+                      >Month 2 Cost ($)</label
+                    >
+                    <input
+                      class="form-input"
+                      type="number"
+                      id="a-y2"
+                      value="71000"
+                      min="0"
+                      step="500"
+                    />
+                  </div>
+                </div>
+                <div
+                  style="
+                    display: flex;
+                    gap: var(--space-2);
+                    align-items: center;
+                  "
+                >
+                  <div class="form-group" style="flex: 1; margin: 0">
+                    <label class="form-label" for="a-x3"
+                      >Month 3 Activity</label
+                    >
+                    <input
+                      class="form-input"
+                      type="number"
+                      id="a-x3"
+                      value="5500"
+                      min="0"
+                      step="100"
+                    />
+                  </div>
+                  <div class="form-group" style="flex: 1; margin: 0">
+                    <label class="form-label" for="a-y3"
+                      >Month 3 Cost ($)</label
+                    >
+                    <input
+                      class="form-input"
+                      type="number"
+                      id="a-y3"
+                      value="77000"
+                      min="0"
+                      step="500"
+                    />
+                  </div>
+                </div>
+                <div
+                  style="
+                    display: flex;
+                    gap: var(--space-2);
+                    align-items: center;
+                  "
+                >
+                  <div class="form-group" style="flex: 1; margin: 0">
+                    <label class="form-label" for="a-x4"
+                      >Month 4 Activity</label
+                    >
+                    <input
+                      class="form-input"
+                      type="number"
+                      id="a-x4"
+                      value="6000"
+                      min="0"
+                      step="100"
+                    />
+                  </div>
+                  <div class="form-group" style="flex: 1; margin: 0">
+                    <label class="form-label" for="a-y4"
+                      >Month 4 Cost ($)</label
+                    >
+                    <input
+                      class="form-input"
+                      type="number"
+                      id="a-y4"
+                      value="80000"
+                      min="0"
+                      step="500"
+                    />
+                  </div>
+                </div>
+                <div
+                  style="
+                    display: flex;
+                    gap: var(--space-2);
+                    align-items: center;
+                  "
+                >
+                  <div class="form-group" style="flex: 1; margin: 0">
+                    <label class="form-label" for="a-x5"
+                      >Month 5 Activity</label
+                    >
+                    <input
+                      class="form-input"
+                      type="number"
+                      id="a-x5"
+                      value="7000"
+                      min="0"
+                      step="100"
+                    />
+                  </div>
+                  <div class="form-group" style="flex: 1; margin: 0">
+                    <label class="form-label" for="a-y5"
+                      >Month 5 Cost ($)</label
+                    >
+                    <input
+                      class="form-input"
+                      type="number"
+                      id="a-y5"
+                      value="87000"
+                      min="0"
+                      step="500"
+                    />
+                  </div>
+                </div>
+                <div
+                  style="
+                    display: flex;
+                    gap: var(--space-2);
+                    align-items: center;
+                  "
+                >
+                  <div class="form-group" style="flex: 1; margin: 0">
+                    <label class="form-label" for="a-x6"
+                      >Month 6 Activity</label
+                    >
+                    <input
+                      class="form-input"
+                      type="number"
+                      id="a-x6"
+                      value="8000"
+                      min="0"
+                      step="100"
+                    />
+                  </div>
+                  <div class="form-group" style="flex: 1; margin: 0">
+                    <label class="form-label" for="a-y6"
+                      >Month 6 Cost ($)</label
+                    >
+                    <input
+                      class="form-input"
+                      type="number"
+                      id="a-y6"
+                      value="94000"
+                      min="0"
+                      step="500"
+                    />
+                  </div>
+                </div>
+              </div>
+              <p class="ch9-section-label" style="margin-top: var(--space-2)">
+                Prediction &amp; Learning Curve
+              </p>
+              <div class="ohrate-grid">
+                <div class="form-group">
+                  <label class="form-label" for="a-predict"
+                    >Predicted Activity Level</label
+                  >
+                  <input
+                    class="form-input"
+                    type="number"
+                    id="a-predict"
+                    value="6500"
+                    min="0"
+                    step="100"
+                  />
+                </div>
+                <div class="form-group">
+                  <label class="form-label" for="a-learn-rate"
+                    >Learning Curve Rate (%)</label
+                  >
+                  <input
+                    class="form-input"
+                    type="number"
+                    id="a-learn-rate"
+                    value="80"
+                    min="50"
+                    max="99"
+                    step="1"
+                  />
+                </div>
+                <div class="form-group">
+                  <label class="form-label" for="a-learn-initial"
+                    >Initial Unit Cost ($)</label
+                  >
+                  <input
+                    class="form-input"
+                    type="number"
+                    id="a-learn-initial"
+                    value="1000"
+                    min="1"
+                    step="50"
+                  />
+                </div>
+                <div class="form-group">
+                  <label class="form-label" for="a-learn-units"
+                    >Cumulative Units Produced</label
+                  >
+                  <input
+                    class="form-input"
+                    type="number"
+                    id="a-learn-units"
+                    value="16"
+                    min="1"
+                    step="1"
+                  />
+                </div>
+              </div>
+              <button
+                class="btn btn--primary"
+                id="a-calculate"
+                style="margin-top: var(--space-4)"
+              >
+                Run Full Analysis &rarr;
+              </button>
+              <div id="a-output"></div>
+              <div id="a-show-work"></div>
+            </div>
+          </div>
+        </section>
+      </div>
+    </main>
+
+    <script type="module" src="/js/apply/cost-behavior.js"></script>
+  </body>
+</html>

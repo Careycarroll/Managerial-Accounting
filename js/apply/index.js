@@ -130,8 +130,8 @@ const SCENARIOS = [
       "Ch. 13 Strategy",
     ],
     href: "/pages/apply/performance.html",
-    status: "coming-soon",
-    depths: { concept: false, analysis: false, simulation: false },
+    status: "available",
+    depths: { concept: true, analysis: true, simulation: false },
   },
   {
     id: "cost-behavior",
@@ -141,8 +141,8 @@ const SCENARIOS = [
     chapters: [10, 11],
     chapterLabels: ["Ch. 10 Cost Behavior", "Ch. 11 Data Analytics"],
     href: "/pages/apply/cost-behavior.html",
-    status: "coming-soon",
-    depths: { concept: false, analysis: false, simulation: false },
+    status: "available",
+    depths: { concept: true, analysis: true, simulation: false },
   },
   {
     id: "quality",
