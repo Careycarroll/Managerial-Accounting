@@ -1,0 +1,543 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <meta
+      name="description"
+      content="Are we managing inventory well? -- Apply Scenario"
+    />
+    <title>Inventory Management &middot; Apply</title>
+    <link rel="stylesheet" href="/css/base.css" />
+    <link rel="stylesheet" href="/css/components.css" />
+    <link rel="stylesheet" href="/css/learn.css" />
+    <link rel="stylesheet" href="/css/settings-panel.css" />
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link
+      href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=JetBrains+Mono:wght@400;500&display=swap"
+      rel="stylesheet"
+    />
+    <script>
+      (function () {
+        var r = document.documentElement;
+        var w = localStorage.getItem("pref-width");
+        var f = localStorage.getItem("pref-font");
+        var t = localStorage.getItem("pref-theme");
+        if (w) r.style.setProperty("--max-width-tool", w + "px");
+        if (f) r.style.setProperty("--font-scale", f);
+        if (t === "dark") r.setAttribute("data-theme", "dark");
+      })();
+    </script>
+  </head>
+  <body>
+    <header class="site-header" role="banner">
+      <div class="site-header__inner">
+        <a href="/" class="site-header__logo">
+          <span>&#128202;</span>
+          <span>Managerial Accounting</span>
+        </a>
+        <nav
+          class="site-header__nav"
+          role="navigation"
+          aria-label="Main navigation"
+        >
+          <a href="/pages/learn/" class="site-header__nav-link">Learn</a>
+          <a
+            href="/pages/apply/"
+            class="site-header__nav-link site-header__nav-link--active"
+            >Apply</a
+          >
+          <a href="/pages/glossary.html" class="site-header__nav-link"
+            >Glossary</a
+          >
+        </nav>
+      </div>
+    </header>
+
+    <main>
+      <section class="page__hero">
+        <div class="container">
+          <div class="chapter-nav">
+            <div
+              style="display: flex; gap: var(--space-4); align-items: center"
+            >
+              <a href="/pages/apply/" class="chapter-nav__back"
+                >&larr; All Scenarios</a
+              >
+            </div>
+            <div class="chapter-nav__position">
+              <span style="display: flex; gap: var(--space-2)">
+                <span
+                  style="
+                    font-size: 0.65rem;
+                    font-weight: 600;
+                    padding: 2px 8px;
+                    border-radius: 9999px;
+                    background: var(--color-concept);
+                    color: #fff;
+                  "
+                  >Concept</span
+                >
+                <span
+                  style="
+                    font-size: 0.65rem;
+                    font-weight: 600;
+                    padding: 2px 8px;
+                    border-radius: 9999px;
+                    background: var(--color-analysis);
+                    color: #fff;
+                  "
+                  >Analysis</span
+                >
+                <span
+                  style="
+                    font-size: 0.65rem;
+                    font-weight: 600;
+                    padding: 2px 8px;
+                    border-radius: 9999px;
+                    background: var(--color-gray-600);
+                    color: #fff;
+                    opacity: 0.5;
+                  "
+                  >Simulation</span
+                >
+              </span>
+            </div>
+          </div>
+          <div class="chapter-hero__meta" style="margin-top: var(--space-4)">
+            <span class="chapter-badge chapter-badge--control">Ch. 21</span>
+            <span
+              class="chapter-badge chapter-badge--control"
+              style="margin-left: var(--space-2)"
+              >Ch. 9</span
+            >
+            <span
+              class="chapter-badge chapter-badge--control"
+              style="margin-left: var(--space-2)"
+              >Ch. 12</span
+            >
+          </div>
+          <h1 class="page__hero-title">Are we managing inventory well?</h1>
+          <p class="page__hero-subtitle">
+            Find the optimal order quantity, set the right reorder point, and
+            understand how inventory costing methods affect reported profit.
+          </p>
+          <div
+            style="
+              display: flex;
+              gap: var(--space-2);
+              margin-top: var(--space-5);
+            "
+          >
+            <button class="depth-btn depth-btn--active" data-depth="concept">
+              Concept
+            </button>
+            <button class="depth-btn" data-depth="analysis">Analysis</button>
+            <button
+              class="depth-btn depth-btn--disabled"
+              data-depth="simulation"
+              disabled
+            >
+              Simulation
+            </button>
+          </div>
+        </div>
+      </section>
+
+      <div id="depth-concept" class="depth-panel depth-panel--active">
+        <section class="learn-section">
+          <div class="container container--tool" style="padding-bottom: 0">
+            <div
+              id="scenario-card"
+              class="card"
+              style="
+                background: var(--color-info-bg);
+                border-color: var(--color-info);
+                margin-bottom: var(--space-4);
+              "
+            >
+              <div
+                style="
+                  display: flex;
+                  justify-content: space-between;
+                  align-items: center;
+                "
+              >
+                <div style="font-weight: 700; color: var(--color-primary-text)">
+                  &#128230; Business Scenario
+                </div>
+                <button class="btn btn--secondary btn--sm" id="scenario-toggle">
+                  Hide scenario
+                </button>
+              </div>
+              <div id="scenario-body" style="margin-top: var(--space-3)">
+                <p
+                  style="
+                    font-size: var(--font-size-sm);
+                    line-height: 1.7;
+                    margin: 0 0 var(--space-3);
+                  "
+                >
+                  Your warehouse manager orders <strong>2,000 units</strong> at
+                  a time. Annual demand is <strong>24,000 units</strong>. Each
+                  order costs <strong>$150</strong> to place. Carrying cost is
+                  <strong>$8 per unit per year</strong>. Average daily demand is
+                  <strong>66 units</strong>, max daily demand is
+                  <strong>90 units</strong>, average lead time is
+                  <strong>5 days</strong>, and max lead time is
+                  <strong>8 days</strong>. Is this the right order quantity?
+                </p>
+                <button class="btn btn--primary btn--sm" id="scenario-use-btn">
+                  Use these numbers &rarr;
+                </button>
+              </div>
+            </div>
+          </div>
+          <div class="container container--tool">
+            <div class="tool-header">
+              <div class="tool-header__label">Concept</div>
+              <h2 class="tool-header__title">EOQ and Reorder Point</h2>
+              <p class="tool-header__desc">
+                The economic order quantity minimizes total inventory costs. The
+                reorder point tells you when to place the next order. Safety
+                stock protects against demand spikes and supplier delays.
+              </p>
+            </div>
+            <div class="card">
+              <p class="ch9-section-label">Order Quantity Inputs</p>
+              <div class="ohrate-grid">
+                <div class="form-group">
+                  <label class="form-label" for="c-demand"
+                    >Annual Demand (units)</label
+                  >
+                  <input
+                    class="form-input"
+                    type="number"
+                    id="c-demand"
+                    value="24000"
+                    min="1"
+                    step="500"
+                  />
+                </div>
+                <div class="form-group">
+                  <label class="form-label" for="c-order-cost"
+                    >Ordering Cost per Order ($)</label
+                  >
+                  <input
+                    class="form-input"
+                    type="number"
+                    id="c-order-cost"
+                    value="150"
+                    min="0"
+                    step="10"
+                  />
+                </div>
+                <div class="form-group">
+                  <label class="form-label" for="c-carry-cost"
+                    >Carrying Cost per Unit per Year ($)</label
+                  >
+                  <input
+                    class="form-input"
+                    type="number"
+                    id="c-carry-cost"
+                    value="8"
+                    min="0"
+                    step="0.50"
+                  />
+                </div>
+                <div class="form-group">
+                  <label class="form-label" for="c-current-qty"
+                    >Current Order Quantity (units)</label
+                  >
+                  <input
+                    class="form-input"
+                    type="number"
+                    id="c-current-qty"
+                    value="2000"
+                    min="1"
+                    step="100"
+                  />
+                </div>
+              </div>
+              <p class="ch9-section-label" style="margin-top: var(--space-4)">
+                Reorder Point Inputs
+              </p>
+              <div class="ohrate-grid">
+                <div class="form-group">
+                  <label class="form-label" for="c-avg-demand"
+                    >Average Daily Demand (units)</label
+                  >
+                  <input
+                    class="form-input"
+                    type="number"
+                    id="c-avg-demand"
+                    value="66"
+                    min="1"
+                    step="1"
+                  />
+                </div>
+                <div class="form-group">
+                  <label class="form-label" for="c-max-demand"
+                    >Maximum Daily Demand (units)</label
+                  >
+                  <input
+                    class="form-input"
+                    type="number"
+                    id="c-max-demand"
+                    value="90"
+                    min="1"
+                    step="1"
+                  />
+                </div>
+                <div class="form-group">
+                  <label class="form-label" for="c-avg-lead"
+                    >Average Lead Time (days)</label
+                  >
+                  <input
+                    class="form-input"
+                    type="number"
+                    id="c-avg-lead"
+                    value="5"
+                    min="1"
+                    step="1"
+                  />
+                </div>
+                <div class="form-group">
+                  <label class="form-label" for="c-max-lead"
+                    >Maximum Lead Time (days)</label
+                  >
+                  <input
+                    class="form-input"
+                    type="number"
+                    id="c-max-lead"
+                    value="8"
+                    min="1"
+                    step="1"
+                  />
+                </div>
+              </div>
+              <div
+                style="
+                  display: flex;
+                  gap: var(--space-3);
+                  margin-top: var(--space-4);
+                  flex-wrap: wrap;
+                "
+              >
+                <button class="btn btn--primary" id="c-calculate">
+                  Calculate EOQ &rarr;
+                </button>
+                <button
+                  class="btn btn--secondary btn--sm"
+                  id="c-rand-suboptimal"
+                >
+                  &#127922; Large Savings
+                </button>
+                <button class="btn btn--secondary btn--sm" id="c-rand-optimal">
+                  &#127922; Near Optimal
+                </button>
+              </div>
+              <div id="c-output"></div>
+              <div id="c-show-work"></div>
+            </div>
+          </div>
+        </section>
+      </div>
+
+      <div id="depth-analysis" class="depth-panel">
+        <section class="learn-section">
+          <div class="container container--tool">
+            <div class="tool-header">
+              <div class="tool-header__label">Analysis</div>
+              <h2 class="tool-header__title">Full Inventory Analysis</h2>
+              <p class="tool-header__desc">
+                Compare EOQ, current, and JIT approaches. Then explore how
+                absorption vs variable costing affects reported income when
+                production and sales volumes differ -- a classic management
+                accounting trap.
+              </p>
+            </div>
+            <div class="card">
+              <p class="ch9-section-label">Inventory Management</p>
+              <div class="ohrate-grid">
+                <div class="form-group">
+                  <label class="form-label" for="a-demand"
+                    >Annual Demand (units)</label
+                  >
+                  <input
+                    class="form-input"
+                    type="number"
+                    id="a-demand"
+                    value="24000"
+                    min="1"
+                    step="500"
+                  />
+                </div>
+                <div class="form-group">
+                  <label class="form-label" for="a-order-cost"
+                    >Ordering Cost per Order ($)</label
+                  >
+                  <input
+                    class="form-input"
+                    type="number"
+                    id="a-order-cost"
+                    value="150"
+                    min="0"
+                    step="10"
+                  />
+                </div>
+                <div class="form-group">
+                  <label class="form-label" for="a-carry-cost"
+                    >Carrying Cost per Unit per Year ($)</label
+                  >
+                  <input
+                    class="form-input"
+                    type="number"
+                    id="a-carry-cost"
+                    value="8"
+                    min="0"
+                    step="0.50"
+                  />
+                </div>
+                <div class="form-group">
+                  <label class="form-label" for="a-current-qty"
+                    >Current Order Quantity (units)</label
+                  >
+                  <input
+                    class="form-input"
+                    type="number"
+                    id="a-current-qty"
+                    value="2000"
+                    min="1"
+                    step="100"
+                  />
+                </div>
+                <div class="form-group">
+                  <label class="form-label" for="a-jit-order-cost"
+                    >JIT Ordering Cost per Order ($)</label
+                  >
+                  <input
+                    class="form-input"
+                    type="number"
+                    id="a-jit-order-cost"
+                    value="25"
+                    min="0"
+                    step="5"
+                  />
+                </div>
+              </div>
+              <p class="ch9-section-label" style="margin-top: var(--space-4)">
+                Absorption vs Variable Costing
+              </p>
+              <div class="ohrate-grid">
+                <div class="form-group">
+                  <label class="form-label" for="a-units-produced"
+                    >Units Produced</label
+                  >
+                  <input
+                    class="form-input"
+                    type="number"
+                    id="a-units-produced"
+                    value="10000"
+                    min="1"
+                    step="500"
+                  />
+                </div>
+                <div class="form-group">
+                  <label class="form-label" for="a-units-sold"
+                    >Units Sold</label
+                  >
+                  <input
+                    class="form-input"
+                    type="number"
+                    id="a-units-sold"
+                    value="8000"
+                    min="0"
+                    step="500"
+                  />
+                </div>
+                <div class="form-group">
+                  <label class="form-label" for="a-selling-price"
+                    >Selling Price per Unit ($)</label
+                  >
+                  <input
+                    class="form-input"
+                    type="number"
+                    id="a-selling-price"
+                    value="50"
+                    min="0"
+                    step="1"
+                  />
+                </div>
+                <div class="form-group">
+                  <label class="form-label" for="a-var-cost"
+                    >Variable Mfg Cost per Unit ($)</label
+                  >
+                  <input
+                    class="form-input"
+                    type="number"
+                    id="a-var-cost"
+                    value="20"
+                    min="0"
+                    step="1"
+                  />
+                </div>
+                <div class="form-group">
+                  <label class="form-label" for="a-fixed-mfg"
+                    >Fixed Manufacturing Costs ($)</label
+                  >
+                  <input
+                    class="form-input"
+                    type="number"
+                    id="a-fixed-mfg"
+                    value="100000"
+                    min="0"
+                    step="5000"
+                  />
+                </div>
+                <div class="form-group">
+                  <label class="form-label" for="a-var-sga"
+                    >Variable SGA per Unit Sold ($)</label
+                  >
+                  <input
+                    class="form-input"
+                    type="number"
+                    id="a-var-sga"
+                    value="3"
+                    min="0"
+                    step="1"
+                  />
+                </div>
+                <div class="form-group">
+                  <label class="form-label" for="a-fixed-sga"
+                    >Fixed SGA Costs ($)</label
+                  >
+                  <input
+                    class="form-input"
+                    type="number"
+                    id="a-fixed-sga"
+                    value="40000"
+                    min="0"
+                    step="5000"
+                  />
+                </div>
+              </div>
+              <button
+                class="btn btn--primary"
+                id="a-calculate"
+                style="margin-top: var(--space-4)"
+              >
+                Run Full Analysis &rarr;
+              </button>
+              <div id="a-output"></div>
+              <div id="a-show-work"></div>
+            </div>
+          </div>
+        </section>
+      </div>
+    </main>
+
+    <script type="module" src="/js/apply/inventory.js"></script>
+  </body>
+</html>

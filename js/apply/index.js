@@ -78,8 +78,8 @@ const SCENARIOS = [
     chapters: [21, 9, 12],
     chapterLabels: ['Ch. 21 Inventory Mgmt', 'Ch. 9 Inventory Costing', 'Ch. 12 Relevant Costs'],
     href: '/pages/apply/inventory.html',
-    status: 'coming-soon',
-    depths: { concept: false, analysis: false, simulation: false }
+    status: 'available',
+    depths: { concept: true, analysis: true, simulation: false }
   },
   {
     id: 'investment',
