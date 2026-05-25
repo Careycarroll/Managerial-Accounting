@@ -73,6 +73,18 @@
 
     <div id="depth-concept" class="depth-panel depth-panel--active">
       <section class="learn-section">
+        <div class="container container--tool" style="padding-bottom:0;">
+          <div id="scenario-card" class="card" style="background:var(--color-info-bg);border-color:var(--color-info);margin-bottom:var(--space-4);">
+            <div style="display:flex;justify-content:space-between;align-items:center;">
+              <div style="font-weight:700;color:var(--color-primary-text);">&#127970; Business Scenario</div>
+              <button class="btn btn--secondary btn--sm" id="scenario-toggle">Hide scenario</button>
+            </div>
+            <div id="scenario-body" style="margin-top:var(--space-3);">
+              <p style="font-size:var(--font-size-sm);line-height:1.7;margin:0 0 var(--space-3);">You are the CFO of a mid-size manufacturer considering a new product line. Your team estimates a selling price of <strong>$50</strong>, variable costs of <strong>$30 per unit</strong>, and annual fixed costs of <strong>$100,000</strong>. Your sales team believes you can sell <strong>8,000 units</strong> in year one. Your target operating profit is <strong>$40,000</strong>. Should you move forward?</p>
+              <button class="btn btn--primary btn--sm" id="scenario-use-btn">Use these numbers &rarr;</button>
+            </div>
+          </div>
+        </div>
         <div class="container container--tool">
           <div class="tool-header">
             <div class="tool-header__label">Concept</div>
@@ -104,6 +116,9 @@
             </div>
             <button class="btn btn--primary" id="c-calculate" style="margin-top:var(--space-4);">Calculate &rarr;</button>
             <div id="c-output"></div>
+            <div id="c-chart-container" style="display:none;margin-top:var(--space-5);">
+              <canvas id="c-cvp-canvas" style="width:100%;height:360px;display:block;"></canvas>
+            </div>
           </div>
         </div>
       </section>
@@ -111,6 +126,18 @@
 
     <div id="depth-analysis" class="depth-panel">
       <section class="learn-section">
+        <div class="container container--tool" style="padding-bottom:0;">
+          <div id="scenario-card" class="card" style="background:var(--color-info-bg);border-color:var(--color-info);margin-bottom:var(--space-4);">
+            <div style="display:flex;justify-content:space-between;align-items:center;">
+              <div style="font-weight:700;color:var(--color-primary-text);">&#127970; Business Scenario</div>
+              <button class="btn btn--secondary btn--sm" id="scenario-toggle">Hide scenario</button>
+            </div>
+            <div id="scenario-body" style="margin-top:var(--space-3);">
+              <p style="font-size:var(--font-size-sm);line-height:1.7;margin:0 0 var(--space-3);">You are the CFO of a mid-size manufacturer considering a new product line. Your team estimates a selling price of <strong>$50</strong>, variable costs of <strong>$30 per unit</strong>, and annual fixed costs of <strong>$100,000</strong>. Your sales team believes you can sell <strong>8,000 units</strong> in year one. Your target operating profit is <strong>$40,000</strong>. Should you move forward?</p>
+              <button class="btn btn--primary btn--sm" id="scenario-use-btn">Use these numbers &rarr;</button>
+            </div>
+          </div>
+        </div>
         <div class="container container--tool">
           <div class="tool-header">
             <div class="tool-header__label">Analysis</div>

@@ -527,25 +527,25 @@ body {
 .depth-btn {
   padding: var(--space-2) var(--space-5);
   border-radius: var(--radius-full);
-  border: 2px solid var(--color-border);
+  border: 2px solid rgba(255,255,255,0.4);
   background: transparent;
-  color: var(--color-gray-600);
+  color: rgba(255,255,255,0.7);
   font-size: var(--font-size-sm);
   font-weight: 600;
   cursor: pointer;
   transition: all var(--transition-fast);
 }
 .depth-btn:hover {
-  border-color: var(--color-primary);
-  color: var(--color-primary-text);
-}
-.depth-btn--active {
-  background: var(--color-primary);
-  border-color: var(--color-primary);
+  border-color: rgba(255,255,255,0.9);
   color: #ffffff;
 }
+.depth-btn--active {
+  background: #ffffff;
+  border-color: #ffffff;
+  color: var(--color-primary);
+}
 .depth-btn--disabled {
-  opacity: 0.4;
+  opacity: 0.35;
   cursor: not-allowed;
 }
 [data-theme="dark"] .depth-btn {
