@@ -38,8 +38,8 @@ const SCENARIOS = [
     chapters: [7, 8],
     chapterLabels: ['Ch. 7 Direct Variances', 'Ch. 8 Overhead Variances'],
     href: '/pages/apply/variance.html',
-    status: 'coming-soon',
-    depths: { concept: false, analysis: false, simulation: false }
+    status: 'available',
+    depths: { concept: true, analysis: true, simulation: false }
   },
   {
     id: 'make-or-buy',

@@ -1,0 +1,558 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <meta name="description" content="Did we hit our plan? -- Apply Scenario" />
+    <title>Variance Analysis &middot; Apply</title>
+    <link rel="stylesheet" href="/css/base.css" />
+    <link rel="stylesheet" href="/css/components.css" />
+    <link rel="stylesheet" href="/css/learn.css" />
+    <link rel="stylesheet" href="/css/settings-panel.css" />
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link
+      href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=JetBrains+Mono:wght@400;500&display=swap"
+      rel="stylesheet"
+    />
+    <script>
+      (function () {
+        var r = document.documentElement;
+        var w = localStorage.getItem("pref-width");
+        var f = localStorage.getItem("pref-font");
+        var t = localStorage.getItem("pref-theme");
+        if (w) r.style.setProperty("--max-width-tool", w + "px");
+        if (f) r.style.setProperty("--font-scale", f);
+        if (t === "dark") r.setAttribute("data-theme", "dark");
+      })();
+    </script>
+  </head>
+  <body>
+    <header class="site-header" role="banner">
+      <div class="site-header__inner">
+        <a href="/" class="site-header__logo">
+          <span>&#128202;</span>
+          <span>Managerial Accounting</span>
+        </a>
+        <nav
+          class="site-header__nav"
+          role="navigation"
+          aria-label="Main navigation"
+        >
+          <a href="/pages/learn/" class="site-header__nav-link">Learn</a>
+          <a
+            href="/pages/apply/"
+            class="site-header__nav-link site-header__nav-link--active"
+            >Apply</a
+          >
+          <a href="/pages/glossary.html" class="site-header__nav-link"
+            >Glossary</a
+          >
+        </nav>
+      </div>
+    </header>
+
+    <main>
+      <section class="page__hero">
+        <div class="container">
+          <div class="chapter-nav">
+            <div
+              style="display: flex; gap: var(--space-4); align-items: center"
+            >
+              <a href="/pages/apply/" class="chapter-nav__back"
+                >&larr; All Scenarios</a
+              >
+            </div>
+            <div class="chapter-nav__position">
+              <span style="display: flex; gap: var(--space-2)">
+                <span
+                  style="
+                    font-size: 0.65rem;
+                    font-weight: 600;
+                    padding: 2px 8px;
+                    border-radius: 9999px;
+                    background: var(--color-concept);
+                    color: #fff;
+                  "
+                  >Concept</span
+                >
+                <span
+                  style="
+                    font-size: 0.65rem;
+                    font-weight: 600;
+                    padding: 2px 8px;
+                    border-radius: 9999px;
+                    background: var(--color-analysis);
+                    color: #fff;
+                  "
+                  >Analysis</span
+                >
+                <span
+                  style="
+                    font-size: 0.65rem;
+                    font-weight: 600;
+                    padding: 2px 8px;
+                    border-radius: 9999px;
+                    background: var(--color-gray-600);
+                    color: #fff;
+                    opacity: 0.5;
+                  "
+                  >Simulation</span
+                >
+              </span>
+            </div>
+          </div>
+          <div class="chapter-hero__meta" style="margin-top: var(--space-4)">
+            <span class="chapter-badge chapter-badge--control">Ch. 7</span>
+            <span
+              class="chapter-badge chapter-badge--control"
+              style="margin-left: var(--space-2)"
+              >Ch. 8</span
+            >
+          </div>
+          <h1 class="page__hero-title">Did we hit our plan?</h1>
+          <p class="page__hero-subtitle">
+            Compare actual results to budget. Separate the volume effect from
+            the price effect from the cost effect. Find out exactly what went
+            right and what went wrong.
+          </p>
+          <div
+            style="
+              display: flex;
+              gap: var(--space-2);
+              margin-top: var(--space-5);
+            "
+          >
+            <button class="depth-btn depth-btn--active" data-depth="concept">
+              Concept
+            </button>
+            <button class="depth-btn" data-depth="analysis">Analysis</button>
+            <button
+              class="depth-btn depth-btn--disabled"
+              data-depth="simulation"
+              disabled
+            >
+              Simulation
+            </button>
+          </div>
+        </div>
+      </section>
+
+      <div id="depth-concept" class="depth-panel depth-panel--active">
+        <section class="learn-section">
+          <div class="container container--tool" style="padding-bottom: 0">
+            <div
+              id="scenario-card"
+              class="card"
+              style="
+                background: var(--color-info-bg);
+                border-color: var(--color-info);
+                margin-bottom: var(--space-4);
+              "
+            >
+              <div
+                style="
+                  display: flex;
+                  justify-content: space-between;
+                  align-items: center;
+                "
+              >
+                <div style="font-weight: 700; color: var(--color-primary-text)">
+                  &#128202; Business Scenario
+                </div>
+                <button class="btn btn--secondary btn--sm" id="scenario-toggle">
+                  Hide scenario
+                </button>
+              </div>
+              <div id="scenario-body" style="margin-top: var(--space-3)">
+                <p
+                  style="
+                    font-size: var(--font-size-sm);
+                    line-height: 1.7;
+                    margin: 0 0 var(--space-3);
+                  "
+                >
+                  Your budget called for
+                  <strong>10,000 units at $85</strong> with variable costs of
+                  <strong>$40 per unit</strong> and fixed costs of
+                  <strong>$300,000</strong>. Actual results:
+                  <strong>9,200 units sold at $83</strong> with actual variable
+                  costs of <strong>$42 per unit</strong>. The board wants to
+                  know: pricing problem, volume problem, or cost problem?
+                </p>
+                <button class="btn btn--primary btn--sm" id="scenario-use-btn">
+                  Use these numbers &rarr;
+                </button>
+              </div>
+            </div>
+          </div>
+          <div class="container container--tool">
+            <div class="tool-header">
+              <div class="tool-header__label">Concept</div>
+              <h2 class="tool-header__title">Budget vs Actual Analysis</h2>
+              <p class="tool-header__desc">
+                Enter your budgeted and actual results. The flexible budget is
+                the bridge -- it shows what results should have been at actual
+                volume. This separates the volume effect (did we sell enough?)
+                from the price and cost effects (did we execute well?).
+              </p>
+            </div>
+            <div class="card">
+              <div class="ohrate-grid">
+                <div class="form-group">
+                  <label class="form-label" for="c-bud-units"
+                    >Budgeted Units</label
+                  >
+                  <input
+                    class="form-input"
+                    type="number"
+                    id="c-bud-units"
+                    value="10000"
+                    min="1"
+                    step="100"
+                  />
+                </div>
+                <div class="form-group">
+                  <label class="form-label" for="c-act-units"
+                    >Actual Units Sold</label
+                  >
+                  <input
+                    class="form-input"
+                    type="number"
+                    id="c-act-units"
+                    value="9200"
+                    min="1"
+                    step="100"
+                  />
+                </div>
+                <div class="form-group">
+                  <label class="form-label" for="c-bud-price"
+                    >Budgeted Price per Unit ($)</label
+                  >
+                  <input
+                    class="form-input"
+                    type="number"
+                    id="c-bud-price"
+                    value="85"
+                    min="0"
+                    step="1"
+                  />
+                </div>
+                <div class="form-group">
+                  <label class="form-label" for="c-act-price"
+                    >Actual Price per Unit ($)</label
+                  >
+                  <input
+                    class="form-input"
+                    type="number"
+                    id="c-act-price"
+                    value="83"
+                    min="0"
+                    step="1"
+                  />
+                </div>
+                <div class="form-group">
+                  <label class="form-label" for="c-bud-vc"
+                    >Budgeted Variable Cost per Unit ($)</label
+                  >
+                  <input
+                    class="form-input"
+                    type="number"
+                    id="c-bud-vc"
+                    value="40"
+                    min="0"
+                    step="1"
+                  />
+                </div>
+                <div class="form-group">
+                  <label class="form-label" for="c-act-vc"
+                    >Actual Variable Cost per Unit ($)</label
+                  >
+                  <input
+                    class="form-input"
+                    type="number"
+                    id="c-act-vc"
+                    value="42"
+                    min="0"
+                    step="1"
+                  />
+                </div>
+                <div class="form-group">
+                  <label class="form-label" for="c-bud-fixed"
+                    >Budgeted Fixed Costs ($)</label
+                  >
+                  <input
+                    class="form-input"
+                    type="number"
+                    id="c-bud-fixed"
+                    value="300000"
+                    min="0"
+                    step="5000"
+                  />
+                </div>
+                <div class="form-group">
+                  <label class="form-label" for="c-act-fixed"
+                    >Actual Fixed Costs ($)</label
+                  >
+                  <input
+                    class="form-input"
+                    type="number"
+                    id="c-act-fixed"
+                    value="308000"
+                    min="0"
+                    step="5000"
+                  />
+                </div>
+              </div>
+              <button
+                class="btn btn--primary"
+                id="c-calculate"
+                style="margin-top: var(--space-4)"
+              >
+                Analyze Variances &rarr;
+              </button>
+              <div id="c-output"></div>
+              <div id="c-show-work"></div>
+            </div>
+          </div>
+        </section>
+      </div>
+
+      <div id="depth-analysis" class="depth-panel">
+        <section class="learn-section">
+          <div class="container container--tool">
+            <div class="tool-header">
+              <div class="tool-header__label">Analysis</div>
+              <h2 class="tool-header__title">Level 3 Variance Analysis</h2>
+              <p class="tool-header__desc">
+                Full direct cost variance analysis. For direct materials and
+                direct labor, separate the price variance (did we pay the right
+                rate?) from the efficiency variance (did we use the right
+                quantity?). Each variance points to a different manager and a
+                different corrective action.
+              </p>
+            </div>
+            <div class="card">
+              <p class="ch9-section-label">Volume</p>
+              <div class="ohrate-grid">
+                <div class="form-group">
+                  <label class="form-label" for="a-bud-units"
+                    >Budgeted Units</label
+                  >
+                  <input
+                    class="form-input"
+                    type="number"
+                    id="a-bud-units"
+                    value="10000"
+                    min="1"
+                    step="100"
+                  />
+                </div>
+                <div class="form-group">
+                  <label class="form-label" for="a-act-units"
+                    >Actual Units Produced/Sold</label
+                  >
+                  <input
+                    class="form-input"
+                    type="number"
+                    id="a-act-units"
+                    value="9200"
+                    min="1"
+                    step="100"
+                  />
+                </div>
+              </div>
+              <p class="ch9-section-label" style="margin-top: var(--space-4)">
+                Revenue
+              </p>
+              <div class="ohrate-grid">
+                <div class="form-group">
+                  <label class="form-label" for="a-bud-price"
+                    >Budgeted Price ($)</label
+                  >
+                  <input
+                    class="form-input"
+                    type="number"
+                    id="a-bud-price"
+                    value="85"
+                    min="0"
+                    step="1"
+                  />
+                </div>
+                <div class="form-group">
+                  <label class="form-label" for="a-act-price"
+                    >Actual Price ($)</label
+                  >
+                  <input
+                    class="form-input"
+                    type="number"
+                    id="a-act-price"
+                    value="83"
+                    min="0"
+                    step="1"
+                  />
+                </div>
+              </div>
+              <p class="ch9-section-label" style="margin-top: var(--space-4)">
+                Direct Materials
+              </p>
+              <div class="ohrate-grid">
+                <div class="form-group">
+                  <label class="form-label" for="a-dm-std-qty"
+                    >Standard DM Qty per Unit (lbs)</label
+                  >
+                  <input
+                    class="form-input"
+                    type="number"
+                    id="a-dm-std-qty"
+                    value="4"
+                    min="0"
+                    step="0.25"
+                  />
+                </div>
+                <div class="form-group">
+                  <label class="form-label" for="a-dm-std-price"
+                    >Standard DM Price per lb ($)</label
+                  >
+                  <input
+                    class="form-input"
+                    type="number"
+                    id="a-dm-std-price"
+                    value="8"
+                    min="0"
+                    step="0.25"
+                  />
+                </div>
+                <div class="form-group">
+                  <label class="form-label" for="a-dm-act-qty"
+                    >Actual DM Used (total lbs)</label
+                  >
+                  <input
+                    class="form-input"
+                    type="number"
+                    id="a-dm-act-qty"
+                    value="38000"
+                    min="0"
+                    step="100"
+                  />
+                </div>
+                <div class="form-group">
+                  <label class="form-label" for="a-dm-act-price"
+                    >Actual DM Price per lb ($)</label
+                  >
+                  <input
+                    class="form-input"
+                    type="number"
+                    id="a-dm-act-price"
+                    value="8.50"
+                    min="0"
+                    step="0.25"
+                  />
+                </div>
+              </div>
+              <p class="ch9-section-label" style="margin-top: var(--space-4)">
+                Direct Labor
+              </p>
+              <div class="ohrate-grid">
+                <div class="form-group">
+                  <label class="form-label" for="a-dl-std-hrs"
+                    >Standard DL Hours per Unit</label
+                  >
+                  <input
+                    class="form-input"
+                    type="number"
+                    id="a-dl-std-hrs"
+                    value="1.5"
+                    min="0"
+                    step="0.25"
+                  />
+                </div>
+                <div class="form-group">
+                  <label class="form-label" for="a-dl-std-rate"
+                    >Standard DL Rate per Hour ($)</label
+                  >
+                  <input
+                    class="form-input"
+                    type="number"
+                    id="a-dl-std-rate"
+                    value="18"
+                    min="0"
+                    step="1"
+                  />
+                </div>
+                <div class="form-group">
+                  <label class="form-label" for="a-dl-act-hrs"
+                    >Actual DL Hours Worked</label
+                  >
+                  <input
+                    class="form-input"
+                    type="number"
+                    id="a-dl-act-hrs"
+                    value="14500"
+                    min="0"
+                    step="100"
+                  />
+                </div>
+                <div class="form-group">
+                  <label class="form-label" for="a-dl-act-rate"
+                    >Actual DL Rate per Hour ($)</label
+                  >
+                  <input
+                    class="form-input"
+                    type="number"
+                    id="a-dl-act-rate"
+                    value="18.50"
+                    min="0"
+                    step="0.25"
+                  />
+                </div>
+              </div>
+              <p class="ch9-section-label" style="margin-top: var(--space-4)">
+                Fixed Costs
+              </p>
+              <div class="ohrate-grid">
+                <div class="form-group">
+                  <label class="form-label" for="a-bud-fixed"
+                    >Budgeted Fixed Costs ($)</label
+                  >
+                  <input
+                    class="form-input"
+                    type="number"
+                    id="a-bud-fixed"
+                    value="300000"
+                    min="0"
+                    step="5000"
+                  />
+                </div>
+                <div class="form-group">
+                  <label class="form-label" for="a-act-fixed"
+                    >Actual Fixed Costs ($)</label
+                  >
+                  <input
+                    class="form-input"
+                    type="number"
+                    id="a-act-fixed"
+                    value="308000"
+                    min="0"
+                    step="5000"
+                  />
+                </div>
+              </div>
+              <button
+                class="btn btn--primary"
+                id="a-calculate"
+                style="margin-top: var(--space-4)"
+              >
+                Run Full Variance Analysis &rarr;
+              </button>
+              <div id="a-output"></div>
+              <div id="a-show-work"></div>
+            </div>
+          </div>
+        </section>
+      </div>
+    </main>
+
+    <script type="module" src="/js/apply/variance.js"></script>
+  </body>
+</html>
