@@ -51,10 +51,10 @@ Build a comprehensive interactive learning companion that covers every concept i
 | 18  | Process Costing                                       | Complete    | Physical units flow tracker, equivalent units calculator, weighted-average engine, FIFO engine, method comparator                                                        |
 | 19  | Spoilage, Rework, and Scrap                           | Complete    | Spoilage classifier, inspection point analyzer, process costing with spoilage (weighted-average), process costing with spoilage (FIFO), rework and scrap accounting      |
 | 20  | Balanced Scorecard: Quality and Time                  | Complete    | COQ report builder (two-period), quality cost trade-off analyzer, nonfinancial quality measures analyzer, MCE calculator, Pareto diagram (canvas)                        |
-| 21  | Inventory Management, JIT, and Simplified Costing     | Not started | EOQ calculator, safety stock optimizer, JIT and backflush costing engine                                                                                                 |
-| 22  | Capital Budgeting and Cost Analysis                   | Not started | Capital budgeting dashboard, relevant cash flow builder, sensitivity analysis                                                                                            |
-| 23  | Management Control Systems and Transfer Pricing       | Not started | Transfer pricing calculator, goal congruence test, multinational tax tool                                                                                                |
-| 24  | Performance Measurement and Compensation              | Not started | Performance dashboard, DuPont decomposition, WACC calculator                                                                                                             |
+| 21  | Inventory Management, JIT, and Simplified Costing     | Complete    | EOQ calculator, safety stock and reorder point, JIT vs traditional analyzer, backflush costing engine                                                                                                 |
+| 22  | Capital Budgeting and Cost Analysis                   | Complete    | Relevant cash flow identifier, NPV and IRR calculator, payback and AARR, capital budgeting dashboard with tax effects, sensitivity analyzer                                                                                            |
+| 23  | Management Control Systems and Transfer Pricing       | Complete    | Decentralization analyzer, transfer price method comparator, general transfer pricing rule calculator, multinational tax strategy tool                                                                                                |
+| 24  | Performance Measurement and Compensation              | Complete    | ROI vs RI comparator, EVA calculator, DuPont decomposition, performance dashboard, compensation linkage analyzer, multinational performance comparator                                                                                                             |
 
 ---
 
@@ -88,18 +88,18 @@ Build a comprehensive interactive learning companion that covers every concept i
 
 | Scenario                           | Chapters      | Status      |
 | ---------------------------------- | ------------- | ----------- |
-| What does it cost to make this?    | 2, 4, 5, 18   | Not started |
-| Will we break even? Make a profit? | 3, 9, 12      | Not started |
-| What's our plan for the year?      | 6, 10         | Not started |
-| Did we hit our plan?               | 7, 8          | Not started |
-| Should we make it or buy it?       | 12, 5, 10, 23 | Not started |
-| What should we charge?             | 14, 12, 3     | Not started |
-| Which customers are profitable?    | 15, 16, 5     | Not started |
-| Are we managing inventory well?    | 21, 9, 12     | Not started |
-| Is this investment worth it?       | 22, 12, 24    | Not started |
-| How are we measuring performance?  | 24, 23, 13    | Not started |
-| What do our costs tell us?         | 10, 11        | Not started |
-| Are we producing quality?          | 20, 19, 12    | Not started |
+| What does it cost to make this?    | 2, 4, 5, 18   | Concept + Analysis |
+| Will we break even? Make a profit? | 3, 9, 12      | Concept + Analysis |
+| What is our plan for the year?     | 6, 10         | Concept + Analysis |
+| Did we hit our plan?               | 7, 8          | Concept + Analysis |
+| Should we make it or buy it?       | 12, 5, 10, 23 | Concept + Analysis |
+| What should we charge?             | 14, 12, 3     | Concept + Analysis |
+| Which customers are profitable?    | 15, 16, 5     | Concept + Analysis |
+| Are we managing inventory well?    | 21, 9, 12     | Concept + Analysis |
+| Is this investment worth it?       | 22, 12, 24    | Not started        |
+| How are we measuring performance?  | 24, 23, 13    | Not started        |
+| What do our costs tell us?         | 10, 11        | Not started        |
+| Are we producing quality?          | 20, 19, 12    | Not started        |
 
 ---
 
@@ -133,12 +133,15 @@ Phase 2 -- Learn Section Chapters 5-12 -- Complete
 Ch. 5 (ABC), Ch. 6 (Master Budget), Ch. 7 (Flexible Budgets and Direct-Cost Variances), Ch. 8 (Overhead Variances), Ch. 9 (Inventory Costing and Capacity Analysis), Ch. 10 (Cost Behavior with scatter chart), Ch. 11 (Data Analytics and Prediction with ROC chart), Ch. 12 (Relevant Costs and Decision Making).
 
 Phase 3 -- Learn Section Chapters 13-24 -- Complete
-Ch. 13 (Strategy), Ch. 14 (Pricing), Ch. 15 (Customer Profitability), Ch. 16 (Support Dept Allocation), Ch. 17 (Joint Products), Ch. 18 (Process Costing), Ch. 19 (Spoilage), Ch. 20 (Quality and Time) -- all complete.
+All 24 chapters complete. Ch. 13-24 includes Strategy, Pricing, Customer Profitability, Support Dept Allocation, Joint Products, Process Costing, Spoilage, Quality and Time, Inventory Management, Capital Budgeting, Transfer Pricing, and Performance Measurement.
 Settings panel with dark mode, font scaling, and content width added to all pages.
-Next: Ch. 21 (Inventory Management, JIT, and Simplified Costing).
+Glossary page with 337 searchable terms added.
 
 Phase 4 -- Apply Section -- In Progress
-Apply index page and 2 of 12 scenarios built (breakeven, product cost). Each scenario has Concept and Analysis depth.
+Apply index page and 8 of 12 scenarios built at Concept + Analysis depth.
+Scenarios complete: breakeven, product cost, annual plan, variance analysis, make or buy, pricing, customer profitability, inventory management.
+Each scenario has outcome-directed randomizers (e.g. Profitable/Unprofitable, Buy Wins/Make Wins).
+Revenue vs Profit objective badges on all scenario cards.
 
 Phase 5 -- Shared Chart Library Expansion
 variance-chart, control-chart, and any additional chart components needed for later chapters.
@@ -201,9 +204,9 @@ Token reference for JS output:
 ## Known Issues / Polish Backlog
 
 - View toggle buttons on Learn index need styling refinement
-- Apply section not yet started
+- Apply section 8 of 12 scenarios complete at Concept + Analysis depth
 - CSS integrity audit previously found collapsed `}.selector` patterns in css/learn.css; browsers tolerate this, but it should be cleaned up in a polish pass
 - show-work not yet added to Ch. 1 (no numeric tools -- low priority)
 - formula-display.js, worked-example.js, term-tooltip.js not yet built
 - depth-selector.js not currently present and should be built when Apply section begins
-- js/data/managerial-terms.js not yet built
+- js/data/managerial-terms.js built -- 337 terms from all 24 chapters, powers the Glossary page
