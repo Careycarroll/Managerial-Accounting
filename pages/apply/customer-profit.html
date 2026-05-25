@@ -1,0 +1,194 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <meta name="description" content="Which customers are profitable? -- Apply Scenario" />
+  <title>Customer Profitability &middot; Apply</title>
+  <link rel="stylesheet" href="/css/base.css" />
+  <link rel="stylesheet" href="/css/components.css" />
+  <link rel="stylesheet" href="/css/learn.css" />
+  <link rel="stylesheet" href="/css/settings-panel.css" />
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet" />
+  <script>
+    (function(){
+      var r = document.documentElement;
+      var w = localStorage.getItem('pref-width');
+      var f = localStorage.getItem('pref-font');
+      var t = localStorage.getItem('pref-theme');
+      if (w) r.style.setProperty('--max-width-tool', w + 'px');
+      if (f) r.style.setProperty('--font-scale', f);
+      if (t === 'dark') r.setAttribute('data-theme', 'dark');
+    })();
+  </script>
+</head>
+<body>
+  <header class="site-header" role="banner">
+    <div class="site-header__inner">
+      <a href="/" class="site-header__logo">
+        <span>&#128202;</span>
+        <span>Managerial Accounting</span>
+      </a>
+      <nav class="site-header__nav" role="navigation" aria-label="Main navigation">
+        <a href="/pages/learn/" class="site-header__nav-link">Learn</a>
+        <a href="/pages/apply/" class="site-header__nav-link site-header__nav-link--active">Apply</a>
+        <a href="/pages/glossary.html" class="site-header__nav-link">Glossary</a>
+      </nav>
+    </div>
+  </header>
+
+  <main>
+    <section class="page__hero">
+      <div class="container">
+        <div class="chapter-nav">
+          <div style="display:flex;gap:var(--space-4);align-items:center;">
+            <a href="/pages/apply/" class="chapter-nav__back">&larr; All Scenarios</a>
+          </div>
+          <div class="chapter-nav__position">
+            <span style="display:flex;gap:var(--space-2);">
+              <span style="font-size:0.65rem;font-weight:600;padding:2px 8px;border-radius:9999px;background:var(--color-concept);color:#fff;">Concept</span>
+              <span style="font-size:0.65rem;font-weight:600;padding:2px 8px;border-radius:9999px;background:var(--color-analysis);color:#fff;">Analysis</span>
+              <span style="font-size:0.65rem;font-weight:600;padding:2px 8px;border-radius:9999px;background:var(--color-gray-600);color:#fff;opacity:0.5;">Simulation</span>
+            </span>
+          </div>
+        </div>
+        <div class="chapter-hero__meta" style="margin-top:var(--space-4);">
+          <span class="chapter-badge chapter-badge--control">Ch. 15</span>
+          <span class="chapter-badge chapter-badge--control" style="margin-left:var(--space-2);">Ch. 16</span>
+          <span class="chapter-badge chapter-badge--control" style="margin-left:var(--space-2);">Ch. 5</span>
+        </div>
+        <h1 class="page__hero-title">Which customers are profitable?</h1>
+        <p class="page__hero-subtitle">High revenue does not mean high profit. Allocate service costs to each customer and find out who is really making you money.</p>
+        <div style="display:flex;gap:var(--space-2);margin-top:var(--space-5);">
+          <button class="depth-btn depth-btn--active" data-depth="concept">Concept</button>
+          <button class="depth-btn" data-depth="analysis">Analysis</button>
+          <button class="depth-btn depth-btn--disabled" data-depth="simulation" disabled>Simulation</button>
+        </div>
+      </div>
+    </section>
+
+    <div id="depth-concept" class="depth-panel depth-panel--active">
+      <section class="learn-section">
+        <div class="container container--tool" style="padding-bottom:0;">
+          <div id="scenario-card" class="card" style="background:var(--color-info-bg);border-color:var(--color-info);margin-bottom:var(--space-4);">
+            <div style="display:flex;justify-content:space-between;align-items:center;">
+              <div style="font-weight:700;color:var(--color-primary-text);">&#128101; Business Scenario</div>
+              <button class="btn btn--secondary btn--sm" id="scenario-toggle">Hide scenario</button>
+            </div>
+            <div id="scenario-body" style="margin-top:var(--space-3);">
+              <p style="font-size:var(--font-size-sm);line-height:1.7;margin:0 0 var(--space-3);">You have 4 key customers. On a gross margin basis they all look profitable. But your sales team spends very different amounts of time on each, and ordering and delivery patterns vary widely. When you allocate service costs, the picture changes dramatically.</p>
+              <button class="btn btn--primary btn--sm" id="scenario-use-btn">Load example customers &rarr;</button>
+            </div>
+          </div>
+        </div>
+        <div class="container container--tool">
+          <div class="tool-header">
+            <div class="tool-header__label">Concept</div>
+            <h2 class="tool-header__title">Customer Profitability Report</h2>
+            <p class="tool-header__desc">Enter revenue, product cost, and service costs for each customer. Service costs include ordering, delivery, and support -- costs that vary by customer behavior, not just by volume.</p>
+          </div>
+          <div class="card">
+            <p class="ch9-section-label">Activity Cost Rates</p>
+            <div class="ohrate-grid">
+              <div class="form-group">
+                <label class="form-label" for="c-order-rate">Cost per Customer Order ($)</label>
+                <input class="form-input" type="number" id="c-order-rate" value="120" min="0" step="10" />
+              </div>
+              <div class="form-group">
+                <label class="form-label" for="c-delivery-rate">Cost per Delivery ($)</label>
+                <input class="form-input" type="number" id="c-delivery-rate" value="280" min="0" step="10" />
+              </div>
+              <div class="form-group">
+                <label class="form-label" for="c-support-rate">Cost per Support Hour ($)</label>
+                <input class="form-input" type="number" id="c-support-rate" value="75" min="0" step="5" />
+              </div>
+            </div>
+            <p class="ch9-section-label" style="margin-top:var(--space-4);">Customer Data</p>
+            <div style="overflow-x:auto;">
+              <table class="ch12-result-table" style="min-width:700px;width:100%;">
+                <thead>
+                  <tr>
+                    <th>Customer</th>
+                    <th>Revenue ($)</th>
+                    <th>Product Cost ($)</th>
+                    <th>Orders</th>
+                    <th>Deliveries</th>
+                    <th>Support Hrs</th>
+                    <th>Returns ($)</th>
+                  </tr>
+                </thead>
+                <tbody id="c-customer-rows"></tbody>
+              </table>
+            </div>
+            <div style="display:flex;gap:var(--space-3);margin-top:var(--space-4);flex-wrap:wrap;">
+              <button class="btn btn--primary" id="c-calculate">Analyze Profitability &rarr;</button>
+              <button class="btn btn--secondary btn--sm" id="c-rand-clear">&#127922; Clear Spread</button>
+              <button class="btn btn--secondary btn--sm" id="c-rand-hidden">&#127922; Hidden Loss</button>
+            </div>
+            <div id="c-output"></div>
+            <div id="c-show-work"></div>
+          </div>
+        </div>
+      </section>
+    </div>
+
+    <div id="depth-analysis" class="depth-panel">
+      <section class="learn-section">
+        <div class="container container--tool">
+          <div class="tool-header">
+            <div class="tool-header__label">Analysis</div>
+            <h2 class="tool-header__title">Full Customer Profitability Analysis</h2>
+            <p class="tool-header__desc">Rank customers by operating income, build a cumulative profit curve, and get action recommendations for each customer tier. Use ABC cost pools to allocate overhead more precisely.</p>
+          </div>
+          <div class="card">
+            <p class="ch9-section-label">ABC Cost Pools</p>
+            <div class="ohrate-grid">
+              <div class="form-group">
+                <label class="form-label" for="a-order-rate">Cost per Order ($)</label>
+                <input class="form-input" type="number" id="a-order-rate" value="120" min="0" step="10" />
+              </div>
+              <div class="form-group">
+                <label class="form-label" for="a-delivery-rate">Cost per Delivery ($)</label>
+                <input class="form-input" type="number" id="a-delivery-rate" value="280" min="0" step="10" />
+              </div>
+              <div class="form-group">
+                <label class="form-label" for="a-support-rate">Cost per Support Hour ($)</label>
+                <input class="form-input" type="number" id="a-support-rate" value="75" min="0" step="5" />
+              </div>
+              <div class="form-group">
+                <label class="form-label" for="a-returns-rate">Returns Processing Rate (% of return value)</label>
+                <input class="form-input" type="number" id="a-returns-rate" value="15" min="0" max="100" step="1" />
+              </div>
+            </div>
+            <p class="ch9-section-label" style="margin-top:var(--space-4);">Customer Data (up to 5)</p>
+            <div style="overflow-x:auto;">
+              <table class="ch12-result-table" style="min-width:700px;width:100%;">
+                <thead>
+                  <tr>
+                    <th>Customer</th>
+                    <th>Revenue ($)</th>
+                    <th>Product Cost ($)</th>
+                    <th>Orders</th>
+                    <th>Deliveries</th>
+                    <th>Support Hrs</th>
+                    <th>Returns ($)</th>
+                  </tr>
+                </thead>
+                <tbody id="a-customer-rows"></tbody>
+              </table>
+            </div>
+            <button class="btn btn--primary" id="a-calculate" style="margin-top:var(--space-4);">Run Full Analysis &rarr;</button>
+            <div id="a-output"></div>
+            <div id="a-show-work"></div>
+          </div>
+        </div>
+      </section>
+    </div>
+
+  </main>
+
+  <script type="module" src="/js/apply/customer-profit.js"></script>
+</body>
+</html>

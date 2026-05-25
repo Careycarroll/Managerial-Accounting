@@ -68,8 +68,8 @@ const SCENARIOS = [
     chapters: [15, 16, 5],
     chapterLabels: ['Ch. 15 Customer Profit', 'Ch. 16 Allocation', 'Ch. 5 ABC'],
     href: '/pages/apply/customer-profit.html',
-    status: 'coming-soon',
-    depths: { concept: false, analysis: false, simulation: false }
+    status: 'available',
+    depths: { concept: true, analysis: true, simulation: false }
   },
   {
     id: 'inventory',
