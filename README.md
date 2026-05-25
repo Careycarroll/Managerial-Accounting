@@ -132,13 +132,13 @@ Chart library: chart-core (full interaction layer), cvp-chart.
 Phase 2 -- Learn Section Chapters 5-12 -- Complete
 Ch. 5 (ABC), Ch. 6 (Master Budget), Ch. 7 (Flexible Budgets and Direct-Cost Variances), Ch. 8 (Overhead Variances), Ch. 9 (Inventory Costing and Capacity Analysis), Ch. 10 (Cost Behavior with scatter chart), Ch. 11 (Data Analytics and Prediction with ROC chart), Ch. 12 (Relevant Costs and Decision Making).
 
-Phase 3 -- Learn Section Chapters 13-24 -- In Progress
+Phase 3 -- Learn Section Chapters 13-24 -- Complete
 Ch. 13 (Strategy), Ch. 14 (Pricing), Ch. 15 (Customer Profitability), Ch. 16 (Support Dept Allocation), Ch. 17 (Joint Products), Ch. 18 (Process Costing), Ch. 19 (Spoilage), Ch. 20 (Quality and Time) -- all complete.
 Settings panel with dark mode, font scaling, and content width added to all pages.
 Next: Ch. 21 (Inventory Management, JIT, and Simplified Costing).
 
-Phase 4 -- Apply Section Level 1 (Concept)
-Build all 12 Apply scenario pages at Concept depth.
+Phase 4 -- Apply Section -- In Progress
+Apply index page and 2 of 12 scenarios built (breakeven, product cost). Each scenario has Concept and Analysis depth.
 
 Phase 5 -- Shared Chart Library Expansion
 variance-chart, control-chart, and any additional chart components needed for later chapters.
