@@ -1,0 +1,246 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <meta name="description" content="What does it cost to make this? -- Apply Scenario" />
+  <title>Product Cost &middot; Apply</title>
+  <link rel="stylesheet" href="/css/base.css" />
+  <link rel="stylesheet" href="/css/components.css" />
+  <link rel="stylesheet" href="/css/learn.css" />
+  <link rel="stylesheet" href="/css/settings-panel.css" />
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet" />
+  <script>
+    (function(){
+      var r = document.documentElement;
+      var w = localStorage.getItem('pref-width');
+      var f = localStorage.getItem('pref-font');
+      var t = localStorage.getItem('pref-theme');
+      if (w) r.style.setProperty('--max-width-tool', w + 'px');
+      if (f) r.style.setProperty('--font-scale', f);
+      if (t === 'dark') r.setAttribute('data-theme', 'dark');
+    })();
+  </script>
+</head>
+<body>
+  <header class="site-header" role="banner">
+    <div class="site-header__inner">
+      <a href="/" class="site-header__logo">
+        <span>&#128202;</span>
+        <span>Managerial Accounting</span>
+      </a>
+      <nav class="site-header__nav" role="navigation" aria-label="Main navigation">
+        <a href="/pages/learn/" class="site-header__nav-link">Learn</a>
+        <a href="/pages/apply/" class="site-header__nav-link site-header__nav-link--active">Apply</a>
+        <a href="/pages/glossary.html" class="site-header__nav-link">Glossary</a>
+      </nav>
+    </div>
+  </header>
+
+  <main>
+    <section class="page__hero">
+      <div class="container">
+        <div class="chapter-nav">
+          <div style="display:flex;gap:var(--space-4);align-items:center;">
+            <a href="/pages/apply/" class="chapter-nav__back">&larr; All Scenarios</a>
+          </div>
+          <div class="chapter-nav__position">
+            <span style="display:flex;gap:var(--space-2);">
+              <span style="font-size:0.65rem;font-weight:600;padding:2px 8px;border-radius:9999px;background:var(--color-concept);color:#fff;">Concept</span>
+              <span style="font-size:0.65rem;font-weight:600;padding:2px 8px;border-radius:9999px;background:var(--color-gray-600);color:#fff;opacity:0.5;">Analysis</span>
+              <span style="font-size:0.65rem;font-weight:600;padding:2px 8px;border-radius:9999px;background:var(--color-gray-600);color:#fff;opacity:0.5;">Simulation</span>
+            </span>
+          </div>
+        </div>
+        <div class="chapter-hero__meta" style="margin-top:var(--space-4);">
+          <span class="chapter-badge chapter-badge--control">Ch. 2</span>
+          <span class="chapter-badge chapter-badge--control" style="margin-left:var(--space-2);">Ch. 4</span>
+          <span class="chapter-badge chapter-badge--control" style="margin-left:var(--space-2);">Ch. 5</span>
+          <span class="chapter-badge chapter-badge--control" style="margin-left:var(--space-2);">Ch. 18</span>
+        </div>
+        <h1 class="page__hero-title">What does it cost to make this?</h1>
+        <p class="page__hero-subtitle">Trace direct materials, direct labor, and overhead to a product. Compare simple overhead allocation to activity-based costing and see which products are over or under-costed.</p>
+        <div style="display:flex;gap:var(--space-2);margin-top:var(--space-5);">
+          <button class="depth-btn depth-btn--active" data-depth="concept">Concept</button>
+          <button class="depth-btn" data-depth="analysis">Analysis</button>
+          <button class="depth-btn depth-btn--disabled" data-depth="simulation" disabled>Simulation</button>
+        </div>
+      </div>
+    </section>
+
+    <div id="depth-concept" class="depth-panel depth-panel--active">
+      <section class="learn-section">
+        <div class="container container--tool" style="padding-bottom:0;">
+          <div id="scenario-card" class="card" style="background:var(--color-info-bg);border-color:var(--color-info);margin-bottom:var(--space-4);">
+            <div style="display:flex;justify-content:space-between;align-items:center;">
+              <div style="font-weight:700;color:var(--color-primary-text);">&#127968; Business Scenario</div>
+              <button class="btn btn--secondary btn--sm" id="scenario-toggle">Hide scenario</button>
+            </div>
+            <div id="scenario-body" style="margin-top:var(--space-3);">
+              <p style="font-size:var(--font-size-sm);line-height:1.7;margin:0 0 var(--space-3);">You run a custom furniture shop. A customer wants <strong>50 chairs</strong>. Each chair requires <strong>8 board-feet of oak at $6/bf</strong>, <strong>3 hours of labor at $25/hr</strong>, and your shop applies overhead at <strong>$18 per direct labor hour</strong>. You need to know the total job cost before you can quote a price.</p>
+              <button class="btn btn--primary btn--sm" id="scenario-use-btn">Use these numbers &rarr;</button>
+            </div>
+          </div>
+        </div>
+        <div class="container container--tool">
+          <div class="tool-header">
+            <div class="tool-header__label">Concept</div>
+            <h2 class="tool-header__title">Job Cost Builder</h2>
+            <p class="tool-header__desc">Enter direct materials, direct labor, and overhead for a job or batch. See the total cost, cost per unit, and how each component contributes to the total.</p>
+          </div>
+          <div class="card">
+            <div class="ohrate-grid">
+              <div class="form-group">
+                <label class="form-label" for="c-units">Units in Job / Batch</label>
+                <input class="form-input" type="number" id="c-units" value="50" min="1" step="1" />
+              </div>
+              <div class="form-group">
+                <label class="form-label" for="c-selling-price">Selling Price per Unit ($)</label>
+                <input class="form-input" type="number" id="c-selling-price" value="200" min="0" step="5" />
+              </div>
+            </div>
+            <p class="ch9-section-label" style="margin-top:var(--space-4);">Direct Materials</p>
+            <div class="ohrate-grid">
+              <div class="form-group">
+                <label class="form-label" for="c-dm-qty">Quantity per Unit</label>
+                <input class="form-input" type="number" id="c-dm-qty" value="8" min="0" step="0.5" />
+              </div>
+              <div class="form-group">
+                <label class="form-label" for="c-dm-rate">Cost per Unit of Material ($)</label>
+                <input class="form-input" type="number" id="c-dm-rate" value="6" min="0" step="0.25" />
+              </div>
+            </div>
+            <p class="ch9-section-label" style="margin-top:var(--space-2);">Direct Labor</p>
+            <div class="ohrate-grid">
+              <div class="form-group">
+                <label class="form-label" for="c-dl-hrs">Hours per Unit</label>
+                <input class="form-input" type="number" id="c-dl-hrs" value="3" min="0" step="0.25" />
+              </div>
+              <div class="form-group">
+                <label class="form-label" for="c-dl-rate">Labor Rate per Hour ($)</label>
+                <input class="form-input" type="number" id="c-dl-rate" value="25" min="0" step="1" />
+              </div>
+            </div>
+            <p class="ch9-section-label" style="margin-top:var(--space-2);">Manufacturing Overhead</p>
+            <div class="ohrate-grid">
+              <div class="form-group">
+                <label class="form-label" for="c-oh-rate">Overhead Rate per Direct Labor Hour ($)</label>
+                <input class="form-input" type="number" id="c-oh-rate" value="18" min="0" step="1" />
+              </div>
+            </div>
+            <button class="btn btn--primary" id="c-calculate" style="margin-top:var(--space-4);">Calculate Job Cost &rarr;</button>
+            <div id="c-output"></div>
+          </div>
+        </div>
+      </section>
+    </div>
+
+    <div id="depth-analysis" class="depth-panel">
+      <section class="learn-section">
+        <div class="container container--tool">
+          <div class="tool-header">
+            <div class="tool-header__label">Analysis</div>
+            <h2 class="tool-header__title">Simple Overhead vs Activity-Based Costing</h2>
+            <p class="tool-header__desc">Simple overhead allocation spreads all overhead using one rate. ABC uses multiple cost pools, each with its own driver. The two methods often produce very different product costs -- especially when products differ in complexity, volume, or resource consumption.</p>
+          </div>
+          <div class="card">
+            <div class="ohrate-grid">
+              <div class="form-group">
+                <label class="form-label" for="a-total-oh">Total Overhead Costs ($)</label>
+                <input class="form-input" type="number" id="a-total-oh" value="500000" min="0" step="10000" />
+              </div>
+              <div class="form-group">
+                <label class="form-label" for="a-total-dlh">Total Direct Labor Hours</label>
+                <input class="form-input" type="number" id="a-total-dlh" value="25000" min="1" step="500" />
+              </div>
+            </div>
+            <p class="ch9-section-label" style="margin-top:var(--space-4);">Two Products</p>
+            <div class="ohrate-grid">
+              <div class="form-group">
+                <label class="form-label" for="a-p1-name">Product 1 Name</label>
+                <input class="form-input" type="text" id="a-p1-name" value="Standard Chair" />
+              </div>
+              <div class="form-group">
+                <label class="form-label" for="a-p1-units">Units Produced</label>
+                <input class="form-input" type="number" id="a-p1-units" value="2000" min="1" step="100" />
+              </div>
+              <div class="form-group">
+                <label class="form-label" for="a-p1-dlh">DL Hours per Unit</label>
+                <input class="form-input" type="number" id="a-p1-dlh" value="2" min="0" step="0.25" />
+              </div>
+              <div class="form-group">
+                <label class="form-label" for="a-p1-dm">Direct Materials per Unit ($)</label>
+                <input class="form-input" type="number" id="a-p1-dm" value="40" min="0" step="1" />
+              </div>
+              <div class="form-group">
+                <label class="form-label" for="a-p1-dl-rate">Labor Rate per Hour ($)</label>
+                <input class="form-input" type="number" id="a-p1-dl-rate" value="25" min="0" step="1" />
+              </div>
+              <div class="form-group">
+                <label class="form-label" for="a-p1-setups">Setups per Batch</label>
+                <input class="form-input" type="number" id="a-p1-setups" value="10" min="0" step="1" />
+              </div>
+              <div class="form-group">
+                <label class="form-label" for="a-p1-inspections">Inspections per Unit</label>
+                <input class="form-input" type="number" id="a-p1-inspections" value="1" min="0" step="0.5" />
+              </div>
+            </div>
+            <div class="ohrate-grid" style="margin-top:var(--space-3);">
+              <div class="form-group">
+                <label class="form-label" for="a-p2-name">Product 2 Name</label>
+                <input class="form-input" type="text" id="a-p2-name" value="Custom Chair" />
+              </div>
+              <div class="form-group">
+                <label class="form-label" for="a-p2-units">Units Produced</label>
+                <input class="form-input" type="number" id="a-p2-units" value="200" min="1" step="50" />
+              </div>
+              <div class="form-group">
+                <label class="form-label" for="a-p2-dlh">DL Hours per Unit</label>
+                <input class="form-input" type="number" id="a-p2-dlh" value="8" min="0" step="0.25" />
+              </div>
+              <div class="form-group">
+                <label class="form-label" for="a-p2-dm">Direct Materials per Unit ($)</label>
+                <input class="form-input" type="number" id="a-p2-dm" value="120" min="0" step="1" />
+              </div>
+              <div class="form-group">
+                <label class="form-label" for="a-p2-dl-rate">Labor Rate per Hour ($)</label>
+                <input class="form-input" type="number" id="a-p2-dl-rate" value="25" min="0" step="1" />
+              </div>
+              <div class="form-group">
+                <label class="form-label" for="a-p2-setups">Setups per Batch</label>
+                <input class="form-input" type="number" id="a-p2-setups" value="40" min="0" step="1" />
+              </div>
+              <div class="form-group">
+                <label class="form-label" for="a-p2-inspections">Inspections per Unit</label>
+                <input class="form-input" type="number" id="a-p2-inspections" value="3" min="0" step="0.5" />
+              </div>
+            </div>
+            <p class="ch9-section-label" style="margin-top:var(--space-4);">ABC Cost Pools</p>
+            <div class="ohrate-grid">
+              <div class="form-group">
+                <label class="form-label" for="a-pool-setup-cost">Setup Cost Pool ($)</label>
+                <input class="form-input" type="number" id="a-pool-setup-cost" value="200000" min="0" step="10000" />
+              </div>
+              <div class="form-group">
+                <label class="form-label" for="a-pool-inspection-cost">Inspection Cost Pool ($)</label>
+                <input class="form-input" type="number" id="a-pool-inspection-cost" value="150000" min="0" step="10000" />
+              </div>
+              <div class="form-group">
+                <label class="form-label" for="a-pool-other-cost">Other Overhead Pool ($)</label>
+                <input class="form-input" type="number" id="a-pool-other-cost" value="150000" min="0" step="10000" />
+              </div>
+            </div>
+            <button class="btn btn--primary" id="a-calculate" style="margin-top:var(--space-4);">Compare Costing Methods &rarr;</button>
+            <div id="a-output"></div>
+          </div>
+        </div>
+      </section>
+    </div>
+
+  </main>
+
+  <script type="module" src="/js/apply/product-cost.js"></script>
+</body>
+</html>

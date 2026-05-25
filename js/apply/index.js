@@ -18,8 +18,8 @@ const SCENARIOS = [
     chapters: [2, 4, 5, 18],
     chapterLabels: ['Ch. 2 Cost Terms', 'Ch. 4 Job Costing', 'Ch. 5 ABC', 'Ch. 18 Process'],
     href: '/pages/apply/product-cost.html',
-    status: 'coming-soon',
-    depths: { concept: false, analysis: false, simulation: false }
+    status: 'available',
+    depths: { concept: true, analysis: true, simulation: false }
   },
   {
     id: 'annual-plan',
