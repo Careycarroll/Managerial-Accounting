@@ -160,6 +160,9 @@ export class ScenarioEngine {
   }
 
   _nextStageIndex(stage) {
+    if (stage.nextStage === null || stage.nextStage === undefined) {
+      return -1; // signals completion
+    }
     if (typeof stage.nextStage === "function") {
       const nextId = stage.nextStage(this.state);
       return this.scenario.stages.findIndex((s) => s.id === nextId);
