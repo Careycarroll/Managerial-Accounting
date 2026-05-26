@@ -10,7 +10,7 @@ const SCENARIOS = [
     chapterLabels: ["Ch. 3 CVP", "Ch. 9 Inventory", "Ch. 12 Relevant Costs"],
     href: "/pages/apply/breakeven.html",
     status: "available",
-    depths: { concept: true, analysis: false, simulation: false },
+    depths: { concept: true, analysis: true, simulation: true },
   },
   {
     id: "product-cost",

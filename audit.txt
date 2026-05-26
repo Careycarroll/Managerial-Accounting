@@ -1,33 +1,36 @@
-    id: "investment",
-    objective: "profit",
-    title: "Is this investment worth it?",
-    desc: "Evaluate a capital project using NPV, IRR, payback, and AARR with full tax effects.",
-    chapters: [22, 12, 24],
-    chapterLabels: [
-      "Ch. 22 Capital Budgeting",
-      "Ch. 12 Relevant Costs",
-      "Ch. 24 Performance",
-    ],
-    href: "/pages/apply/investment.html",
-    status: "coming-soon",
-    depths: { concept: false, analysis: false, simulation: false },
-  },
-  {
-    id: "performance",
-    objective: "profit",
-    title: "How are we measuring performance?",
-    desc: "Evaluate divisions using ROI, residual income, and EVA. Design a compensation system that aligns incentives.",
-    chapters: [24, 23, 13],
-    chapterLabels: [
---
-    desc: "Build a cost-of-quality report, identify the vital few defects, and evaluate quality improvement investments.",
-    chapters: [20, 19, 12],
-    chapterLabels: [
-      "Ch. 20 Quality",
-      "Ch. 19 Spoilage",
-      "Ch. 12 Relevant Costs",
-    ],
-    href: "/pages/apply/quality.html",
-    status: "coming-soon",
-    depths: { concept: false, analysis: false, simulation: false },
-  },
+
+[1mSimulation Scenario Test Runner[0m
+[2mScenario: js/engine/scenarios/breakeven-sim.js[0m
+[2m────────────────────────────────────────────────────────────[0m
+
+[1m[36mTest 1 — Structure Validation[0m
+  [32m✓[0m All required fields present and valid
+
+[1m[36mTest 2 — Simulation Path Walkthrough[0m
+  [32m✓[0m All paths walked successfully — no consequence errors
+
+[1m[36mTest 3 — Randomizer Stress Test (100 runs)[0m
+  [32m✓[0m All 100 randomized metric sets are valid
+
+[1m[36mTest 4 — Score Distribution Check (50 runs)[0m
+  [32m✓[0m set-price — all scores reachable  [2m(optimal:216  acceptable:125  suboptimal:24  poor:285)[0m
+  [32m✓[0m set-volume — all scores reachable  [2m(optimal:100  acceptable:400  suboptimal:50  poor:100)[0m
+  [32m✓[0m cost-reduction — all scores reachable  [2m(optimal:50  acceptable:100  suboptimal:250  poor:150)[0m
+  [32m✓[0m overhead-allocation — all scores reachable  [2m(optimal:98  acceptable:102  suboptimal:189  poor:111)[0m
+  [32m✓[0m demand-shock — all scores reachable  [2m(optimal:300  acceptable:700  suboptimal:150  poor:400)[0m
+  [32m✓[0m year-end — all scores reachable  [2m(optimal:200  acceptable:500  suboptimal:250  poor:350)[0m
+
+[1m[36mTest 5 — Selection Breakdown Label Check[0m
+  [32m✓[0m All selection breakdown items have valid labels
+
+[1m[36mTest 6 — Stage Graph Connectivity[0m
+  [32m✓[0m All stage transitions resolve to valid stage ids
+[2m────────────────────────────────────────────────────────────[0m
+
+[1mSummary[0m
+  [32mPassed:[0m   11
+  [33mWarnings:[0m 0
+  [31mErrors:[0m   0
+
+[32m[1mAll tests passed.[0m
+

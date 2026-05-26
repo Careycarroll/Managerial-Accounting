@@ -407,6 +407,10 @@ export const breakevenSim = {
     const optimalPrice = Math.round(variableCost + requiredCM);
     const midPrice     = Math.round(optimalPrice * 0.9); // 90% of optimal = threshold
 
+    // Operation type determines correct overhead allocation method
+    // 0 = automated factory, 1 = labor-intensive, 2 = simple single-product, 3 = mixed
+    const operationType = randInt(0, 3);
+
     return {
       variableCost,
       fixedCosts,
@@ -414,6 +418,7 @@ export const breakevenSim = {
       marketDemand,
       optimalPrice,
       midPrice,
+      operationType,
       // These get populated as decisions are made
       price: 0,
       contributionMargin: 0,
@@ -1052,98 +1057,188 @@ export const breakevenSim = {
       highlightMetrics: ["price", "productionVolume", "operatingIncome"],
 
       context: (state) => {
-        const { price, productionVolume, operatingIncome } = state.metrics;
+        const { price, productionVolume, operatingIncome, operationType, fixedCosts } = state.metrics;
+        const typeDescriptions = [
+          "<strong>Highly automated facility.</strong> Direct labor is less than 10% of production cost. " +
+          "Overhead is driven by machine time, setups, and equipment maintenance. " +
+          "You produce multiple product lines with very different machine hour requirements.",
+          "<strong>Labor-intensive operation.</strong> Workers perform most production steps by hand. " +
+          "Direct labor hours closely track how overhead is consumed across products. " +
+          "Machine usage is minimal and roughly equal across product lines.",
+          "<strong>Simple single-product operation.</strong> You manufacture one standardized product in high volume. " +
+          "All overhead goes to this one product regardless of allocation method. " +
+          "Simplicity and ease of explanation matter more than precision.",
+          "<strong>Mixed multi-product operation.</strong> You produce several products with very different complexity levels. " +
+          "Some require extensive setups and quality inspections; others are simple runs. " +
+          "A single allocation base is unlikely to capture this variation accurately.",
+        ];
         return (
           "<p>Production is underway. At <strong>" +
           productionVolume.toLocaleString() +
           " units</strong> and a price of <strong>$" +
           price +
-          "</strong>, " +
-          "your projected operating income is <strong>" +
+          "</strong>, your projected operating income is <strong>" +
           (operatingIncome >= 0
             ? "$" + Math.round(operatingIncome).toLocaleString()
-            : "($" +
-              Math.abs(Math.round(operatingIncome)).toLocaleString() +
-              ")") +
+            : "($" + Math.abs(Math.round(operatingIncome)).toLocaleString() + ")") +
           "</strong>.</p>" +
-          "<p>Your CFO asks how you want to allocate manufacturing overhead to products. " +
-          "This affects reported product costs, inventory valuation, and pricing decisions. " +
+          "<p><strong>Your operation:</strong> " + typeDescriptions[operationType] + "</p>" +
+          "<p>Manufacturing overhead is approximately <strong>$" +
+          Math.round(fixedCosts * 0.4).toLocaleString() +
+          "</strong> of your fixed costs. Your CFO asks how you want to allocate it to products. " +
+          "The right method depends on what actually drives overhead consumption in your operation. " +
           "Which method do you choose?</p>"
         );
       },
 
-      generateOptions: () => [
-        {
-          label: "Allocate by direct labor hours",
-          sublabel:
-            "Traditional method — simple but may distort costs in automated environments",
-          score: "acceptable",
-          consequence: () => ({
-            score: "acceptable",
-            narrative:
-              "Traditional allocation is familiar and simple but can mislead pricing decisions in automated operations.",
-            detail:
-              "Direct labor hour allocation works well when labor drives overhead. In more automated operations, it can over-cost labor-intensive products and under-cost machine-intensive ones, leading to pricing decisions based on distorted product costs.",
-            metricUpdates: { overheadMethod: "direct-labor" },
-          }),
-        },
-        {
-          label: "Allocate using ABC — activity-based cost drivers",
-          sublabel:
-            "More accurate — traces overhead to what actually drives costs",
-          score: "optimal",
-          consequence: () => ({
-            score: "optimal",
-            narrative:
-              "ABC reveals the true cost of each product and supports better pricing and mix decisions.",
-            detail:
-              "Activity-based costing traces overhead to products based on what actually drives costs — setups, inspections, machine hours. This gives you accurate product margins and prevents cross-subsidization between high-volume and low-volume products.",
-            metricUpdates: { overheadMethod: "abc" },
-          }),
-        },
-        {
-          label: "Allocate by units produced — simple volume-based rate",
-          sublabel:
-            "Easy to compute but ignores differences in resource consumption",
-          score: "suboptimal",
-          consequence: () => ({
-            score: "suboptimal",
-            narrative:
-              "Unit-based allocation is simple but treats all products as equally overhead-intensive, which is rarely true.",
-            detail:
-              "Allocating overhead equally per unit produced ignores the fact that different products consume different amounts of overhead resources. This leads to systematic mispricing and poor product mix decisions.",
-            metricUpdates: { overheadMethod: "units" },
-          }),
-        },
-        {
-          label: "Treat all overhead as a period cost — do not allocate",
-          sublabel:
-            "Simplest approach but distorts inventory valuation and product margins",
-          score: "poor",
-          consequence: () => ({
-            score: "poor",
-            narrative:
-              "Expensing all overhead as a period cost violates matching principles and distorts product profitability.",
-            detail:
-              "Treating overhead as a period cost means your inventory is understated and your product margins appear higher than they really are. This leads to underpricing, poor product mix decisions, and misleading financial statements.",
-            metricUpdates: { overheadMethod: "period" },
-          }),
-        },
-      ],
+      generateOptions: (state) => {
+        const t = state.metrics.operationType;
+        // Scoring shifts based on operation type:
+        // 0 = automated factory       → ABC optimal, labor hours poor
+        // 1 = labor-intensive         → labor hours optimal, ABC acceptable (overkill)
+        // 2 = simple single-product   → units produced acceptable, ABC overkill
+        // 3 = mixed multi-product     → ABC optimal, labor hours suboptimal
+        const scores = {
+          'direct-labor': t === 1 ? 'optimal'    : t === 2 ? 'acceptable' : t === 0 ? 'poor'       : 'suboptimal',
+          'abc':          t === 1 ? 'acceptable' : t === 2 ? 'suboptimal' : t === 0 ? 'optimal'    : 'optimal',
+          'units':        t === 1 ? 'suboptimal' : t === 2 ? 'acceptable' : t === 0 ? 'suboptimal' : 'suboptimal',
+          'period':       'poor',
+          'none':         'poor',
+        };
 
-      showWork: () => [
-        {
-          label: "Why overhead allocation matters",
-          result:
-            "Overhead allocation determines the reported cost per unit, which drives pricing, inventory valuation, and product mix decisions.",
-        },
-        {
-          label: "ABC vs Traditional — key difference",
-          formula: "ABC: Cost Pool / Cost Driver Activity",
-          result:
-            "ABC traces costs to products based on actual resource consumption rather than a single volume-based rate.",
-        },
-      ],
+        const narratives = {
+          'direct-labor': {
+            optimal:    'In a labor-intensive operation, direct labor hours accurately reflect how overhead is consumed — this is the right choice here.',
+            acceptable: 'Direct labor hours work reasonably well in a mixed operation but may miss some cost driver variation.',
+            suboptimal: 'In a mixed multi-product operation, labor hours miss important cost driver differences between products.',
+            poor:       'In a highly automated factory, labor hours are a tiny fraction of activity. This method will severely distort product costs.',
+          },
+          'abc': {
+            optimal:    'ABC accurately traces overhead to the activities that drive it — ideal for your automated or multi-product operation.',
+            acceptable: 'ABC is accurate but may be more complex than needed for a labor-intensive operation where labor hours already capture most variation.',
+            suboptimal: 'ABC is powerful but overkill for a simple single-product operation — the added complexity does not improve decisions here.',
+          },
+          'units': {
+            acceptable: 'For a simple single-product operation, allocating by units produced is straightforward and accurate enough.',
+            suboptimal: 'Allocating equally per unit ignores how different products consume overhead differently — leads to mispricing.',
+          },
+        };
+
+        const getNarrative = (method, score) => {
+          return (narratives[method] && narratives[method][score])
+            ? narratives[method][score]
+            : 'This method does not match your operation type and will distort product costs.';
+        };
+
+        return [
+          {
+            label: 'Allocate by direct labor hours',
+            sublabel: t === 1
+              ? 'Your operation is labor-intensive — labor hours drive most overhead'
+              : t === 0
+                ? 'Your factory is highly automated — labor hours are minimal'
+                : 'Traditional method — accuracy depends on whether labor drives overhead',
+            consequence: () => {
+              const score = scores['direct-labor'];
+              return {
+                score,
+                narrative: getNarrative('direct-labor', score),
+                detail: score === 'optimal'
+                  ? 'Labor hours closely track overhead consumption in your operation. This method produces accurate product costs at low complexity.'
+                  : score === 'poor'
+                    ? 'Your automated factory runs with minimal direct labor. Allocating by labor hours will produce wildly distorted product costs — high-volume automated products will appear cheap while any labor-touched products will appear expensive.'
+                    : 'Labor hours capture some but not all overhead variation in your operation. Product costs will be approximate.',
+                metricUpdates: { overheadMethod: 'direct-labor' },
+              };
+            },
+          },
+          {
+            label: 'Allocate using ABC — activity-based cost drivers',
+            sublabel: t === 0 || t === 3
+              ? 'Multiple cost drivers — setups, machine hours, inspections'
+              : t === 1
+                ? 'Accurate but complex for a labor-driven operation'
+                : 'Powerful but may be overkill for a simple operation',
+            consequence: () => {
+              const score = scores['abc'];
+              return {
+                score,
+                narrative: getNarrative('abc', score),
+                detail: score === 'optimal'
+                  ? 'ABC traces overhead to the specific activities that drive it — machine setups, quality inspections, material handling. In your operation this produces the most accurate product costs.'
+                  : score === 'acceptable'
+                    ? 'ABC is accurate but adds implementation complexity. In your labor-intensive operation, direct labor hours already capture most overhead variation at lower cost.'
+                    : 'ABC adds significant complexity for a single-product operation where all overhead goes to one product anyway. Simpler methods work just as well here.',
+                metricUpdates: { overheadMethod: 'abc' },
+              };
+            },
+          },
+          {
+            label: 'Allocate by units produced — simple volume-based rate',
+            sublabel: t === 2
+              ? 'Single product operation — all overhead goes to one product'
+              : 'Treats all units as equally overhead-intensive',
+            consequence: () => {
+              const score = scores['units'];
+              return {
+                score,
+                narrative: getNarrative('units', score),
+                detail: score === 'acceptable'
+                  ? 'With a single product, all overhead is allocated to that product regardless of method. Units produced is simple, accurate enough, and easy to explain.'
+                  : 'Allocating equally per unit assumes every unit consumes the same overhead. In your operation this is not true — different products or batches consume very different amounts of overhead resources.',
+                metricUpdates: { overheadMethod: 'units' },
+              };
+            },
+          },
+          {
+            label: 'Allocate by machine hours',
+            sublabel: t === 0
+              ? 'Your automated factory runs on machine time — this tracks actual consumption'
+              : 'Machine hours may not reflect overhead consumption in your operation',
+            consequence: () => {
+              const score = t === 0 ? 'optimal' : t === 3 ? 'acceptable' : 'suboptimal';
+              return {
+                score,
+                narrative: t === 0
+                  ? 'In an automated factory, machine hours directly drive overhead — energy, maintenance, depreciation. This is an accurate and defensible allocation base.'
+                  : t === 3
+                    ? 'Machine hours capture overhead reasonably well in a mixed operation, though ABC would be more precise.'
+                    : 'Machine hours do not reflect how overhead is consumed in your operation — labor or activity-based drivers would be more accurate.',
+                detail: 'Machine hour rates are calculated as: Total Overhead / Total Machine Hours. Each product is charged based on machine hours consumed.',
+                metricUpdates: { overheadMethod: 'machine-hours' },
+              };
+            },
+          },
+          {
+            label: 'Treat all overhead as a period cost — expense immediately',
+            sublabel: 'No allocation — overhead hits income statement when incurred',
+            consequence: () => ({
+              score: 'poor',
+              narrative: 'Expensing all overhead as a period cost violates matching principles and distorts product profitability.',
+              detail: 'Without overhead allocation, inventory is understated and product margins appear higher than they really are. This leads to underpricing, poor product mix decisions, and financial statements that do not reflect true product economics.',
+              metricUpdates: { overheadMethod: 'period' },
+            }),
+          },
+        ];
+      },
+
+      showWork: (answer, answerType, state) => {
+        const t = state.metrics.operationType;
+        const typeLabel = t === 0 ? 'Automated Factory'
+                        : t === 1 ? 'Labor-Intensive Operation'
+                        : t === 2 ? 'Simple Single-Product'
+                        : 'Mixed Multi-Product';
+        const optimalMethod = t === 0 ? 'ABC or Machine Hours'
+                            : t === 1 ? 'Direct Labor Hours'
+                            : t === 2 ? 'Units Produced or Labor Hours'
+                            : 'ABC';
+        return [
+          { label: 'Operation Type',      result: typeLabel },
+          { label: 'Overhead Driver',     result: t === 0 ? 'Machine time and setups' : t === 1 ? 'Direct labor hours' : t === 2 ? 'Production volume' : 'Multiple activity drivers' },
+          { label: 'Optimal Method',      result: optimalMethod, highlight: true },
+          { label: 'Why It Matters',      result: 'The allocation method determines reported product cost, which drives pricing, inventory valuation, and product mix decisions.' },
+        ];
+      },
 
       nextStage: "demand-shock",
     },
