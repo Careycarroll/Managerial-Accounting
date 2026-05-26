@@ -80,10 +80,30 @@ export function checkScoreDistribution(scenario, runs = 50) {
             if (correct.length > 0) {
               try {
                 const result = stage.evaluateSelection(correct, state);
-                if (
-                  result.score &&
-                  counter.scores[result.score] !== undefined
-                ) {
+                if (result.score && counter.scores[result.score] !== undefined) {
+                  counter.scores[result.score]++;
+                }
+              } catch {}
+            }
+
+            // Test pairs of correct options (triggers correctCount === 2)
+            if (correct.length >= 2) {
+              for (let i = 0; i < correct.length - 1; i++) {
+                try {
+                  const result = stage.evaluateSelection([correct[i], correct[i + 1]], state);
+                  if (result.score && counter.scores[result.score] !== undefined) {
+                    counter.scores[result.score]++;
+                  }
+                } catch {}
+              }
+            }
+
+            // Test one correct + one incorrect
+            if (correct.length > 0 && options.filter(o => !o.correct).length > 0) {
+              try {
+                const incorrect = options.filter(o => !o.correct);
+                const result = stage.evaluateSelection([correct[0], incorrect[0]], state);
+                if (result.score && counter.scores[result.score] !== undefined) {
                   counter.scores[result.score]++;
                 }
               } catch {}

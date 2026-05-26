@@ -307,6 +307,13 @@ function buildTestSets(options) {
   const correct = options.filter((o) => o.correct === true);
   if (correct.length > 1) sets.push(correct);
 
+  // Pairs of correct options (triggers correctCount === 2)
+  if (correct.length >= 2) {
+    for (let i = 0; i < correct.length - 1; i++) {
+      sets.push([correct[i], correct[i + 1]]);
+    }
+  }
+
   // All incorrect options together
   const incorrect = options.filter((o) => o.correct === false);
   if (incorrect.length > 1) sets.push(incorrect);
@@ -317,6 +324,11 @@ function buildTestSets(options) {
   // One correct + one incorrect
   if (correct.length > 0 && incorrect.length > 0) {
     sets.push([correct[0], incorrect[0]]);
+  }
+
+  // Two correct + one incorrect
+  if (correct.length >= 2 && incorrect.length > 0) {
+    sets.push([correct[0], correct[1], incorrect[0]]);
   }
 
   return sets;

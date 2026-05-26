@@ -98,8 +98,16 @@ function generatePriceOptions(metrics) {
 // ── Volume option generator ───────────────────────────────────────────────────
 
 function generateVolumeOptions(metrics) {
-  const { fixedCosts, contributionMargin, targetProfit, marketDemand, bep } =
+  const { fixedCosts, targetProfit, marketDemand, price, variableCost } =
     metrics;
+
+  // Derive CM and BEP from current price if not yet set
+  const contributionMargin = metrics.contributionMargin > 0
+    ? metrics.contributionMargin
+    : (price > 0 ? price - variableCost : 1);
+  const bep = metrics.bep > 0
+    ? metrics.bep
+    : Math.ceil(fixedCosts / contributionMargin);
 
   // Optimal volume: enough to hit target profit
   const optimalVolume = Math.ceil(

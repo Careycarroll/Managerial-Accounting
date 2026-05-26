@@ -132,14 +132,18 @@ export function validateScenario(scenario) {
                 if (c.score) scores.add(c.score);
               } catch {}
             });
-            if (!scores.has("optimal"))
-              warnings.push(
-                `${p}: no "optimal" option found in generateOptions`,
-              );
-            if (!scores.has("poor") && options.length >= 5)
-              warnings.push(
-                `${p}: no "poor" option found — consider adding one for 5+ options`,
-              );
+            // Only warn about missing optimal/poor on Stage 0
+            // Later stages depend on prior metric updates which the validator cannot simulate
+            if (i === 0) {
+              if (!scores.has("optimal"))
+                warnings.push(
+                  `${p}: no "optimal" option found in generateOptions`,
+                );
+              if (!scores.has("poor") && options.length >= 5)
+                warnings.push(
+                  `${p}: no "poor" option found — consider adding one for 5+ options`,
+                );
+            }
           }
         } catch (err) {
           errors.push(`${p}: generateOptions() threw: ${err.message}`);
