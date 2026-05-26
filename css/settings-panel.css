@@ -211,7 +211,7 @@
 
 /* ── Dark Theme ────────────────────────────────────────────────────────────── */
 [data-theme="dark"] {
-  --color-primary-text:      #90cdf4;
+  --color-primary-text: #90cdf4;
   --color-surface: #1e2530;
   --color-gray-50: #252d3a;
   --color-gray-100: #2d3748;
@@ -226,6 +226,21 @@
   --color-body-bg: #161c26;
   --color-card-bg: #1e2530;
   --color-border: #3d4f66;
+
+  --color-success-bg: #1a3a2a;
+  --color-success: #4fd1c5;
+  --color-success-light: #1a3a2a;
+  --color-danger-bg: #3a1a1a;
+  --color-danger: #fc8181;
+  --color-danger-light: #3a1a1a;
+  --color-warning-bg: #3a2a00;
+  --color-warning: #f6ad55;
+  --color-warning-light: #3a2a00;
+  --color-info-bg: #1a2a3a;
+  --color-info: #90cdf4;
+  --color-info-light: #1a2a3a;
+  --color-poor: #ff9999;
+  --color-poor-bg: #4a1a1a;
 }
 
 [data-theme="dark"] body {
@@ -363,14 +378,6 @@
 }
 
 /* ── Font Scale ────────────────────────────────────────────────────────────── */
-:root {
-  --font-scale: 1;
-}
-
-body {
-  font-size: calc(var(--font-size-base, 1rem) * var(--font-scale));
-}
-
 [data-theme="dark"] .sw-step__formula,
 [data-theme="dark"] .sw-step__values,
 [data-theme="dark"] .sw-step__row-value {
@@ -404,21 +411,6 @@ body {
   background: #3a1a1a;
   border-color: #fc8181;
   color: #fc8181;
-}
-
-[data-theme="dark"] {
-  --color-success-bg: #1a3a2a;
-  --color-success:    #4fd1c5;
-  --color-success-light: #1a3a2a;
-  --color-danger-bg:  #3a1a1a;
-  --color-danger:     #fc8181;
-  --color-danger-light: #3a1a1a;
-  --color-warning-bg: #3a2a00;
-  --color-warning:    #f6ad55;
-  --color-warning-light: #3a2a00;
-  --color-info-bg:    #1a2a3a;
-  --color-info:       #90cdf4;
-  --color-info-light: #1a2a3a;
 }
 
 [data-theme="dark"] .ch12-verdict--positive {
@@ -524,19 +516,20 @@ body {
   color: #90cdf4;
 }
 
+/* ── Depth Buttons ─────────────────────────────────────────────────────────── */
 .depth-btn {
   padding: var(--space-2) var(--space-5);
   border-radius: var(--radius-full);
-  border: 2px solid rgba(255,255,255,0.4);
+  border: 2px solid rgba(255, 255, 255, 0.4);
   background: transparent;
-  color: rgba(255,255,255,0.7);
+  color: rgba(255, 255, 255, 0.7);
   font-size: var(--font-size-sm);
   font-weight: 600;
   cursor: pointer;
   transition: all var(--transition-fast);
 }
 .depth-btn:hover {
-  border-color: rgba(255,255,255,0.9);
+  border-color: rgba(255, 255, 255, 0.9);
   color: #ffffff;
 }
 .depth-btn--active {

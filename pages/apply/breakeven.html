@@ -1,200 +1,541 @@
-<!DOCTYPE html>
+<!doctype html>
 <html lang="en">
-<head>
-  <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <meta name="description" content="Will we break even? Make a profit? -- Apply Scenario" />
-  <title>Break Even &middot; Apply</title>
-  <link rel="stylesheet" href="/css/base.css" />
-  <link rel="stylesheet" href="/css/components.css" />
-  <link rel="stylesheet" href="/css/learn.css" />
-  <link rel="stylesheet" href="/css/settings-panel.css" />
-  <link rel="preconnect" href="https://fonts.googleapis.com" />
-  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
-  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet" />
-  <script>
-    (function(){
-      var r = document.documentElement;
-      var w = localStorage.getItem('pref-width');
-      var f = localStorage.getItem('pref-font');
-      var t = localStorage.getItem('pref-theme');
-      if (w) r.style.setProperty('--max-width-tool', w + 'px');
-      if (f) r.style.setProperty('--font-scale', f);
-      if (t === 'dark') r.setAttribute('data-theme', 'dark');
-    })();
-  </script>
-</head>
-<body>
-  <header class="site-header" role="banner">
-    <div class="site-header__inner">
-      <a href="/" class="site-header__logo">
-        <span>&#128202;</span>
-        <span>Managerial Accounting</span>
-      </a>
-      <nav class="site-header__nav" role="navigation" aria-label="Main navigation">
-        <a href="/pages/learn/" class="site-header__nav-link">Learn</a>
-        <a href="/pages/apply/" class="site-header__nav-link site-header__nav-link--active">Apply</a>
-        <a href="/pages/glossary.html" class="site-header__nav-link">Glossary</a>
-      </nav>
-    </div>
-  </header>
-
-  <main>
-    <section class="page__hero">
-      <div class="container">
-        <div class="chapter-nav">
-          <div style="display:flex;gap:var(--space-4);align-items:center;">
-            <a href="/pages/apply/" class="chapter-nav__back">&larr; All Scenarios</a>
-          </div>
-          <div class="chapter-nav__position">
-            <span style="display:flex;gap:var(--space-2);">
-              <span style="font-size:0.65rem;font-weight:600;padding:2px 8px;border-radius:9999px;background:var(--color-concept);color:#fff;">Concept</span>
-              <span style="font-size:0.65rem;font-weight:600;padding:2px 8px;border-radius:9999px;background:var(--color-gray-600);color:#fff;opacity:0.5;">Analysis</span>
-              <span style="font-size:0.65rem;font-weight:600;padding:2px 8px;border-radius:9999px;background:var(--color-gray-600);color:#fff;opacity:0.5;">Simulation</span>
-            </span>
-          </div>
-        </div>
-        <div class="chapter-hero__meta" style="margin-top:var(--space-4);">
-          <span class="chapter-badge chapter-badge--control">CVP</span>
-          <span class="chapter-badge chapter-badge--control" style="margin-left:var(--space-2);">Ch. 3</span>
-          <span class="chapter-badge chapter-badge--control" style="margin-left:var(--space-2);">Ch. 9</span>
-          <span class="chapter-badge chapter-badge--control" style="margin-left:var(--space-2);">Ch. 12</span>
-        </div>
-        <h1 class="page__hero-title">Will we break even? Make a profit?</h1>
-        <p class="page__hero-subtitle">Enter your price, costs, and volume to find your breakeven point, target profit, and margin of safety.</p>
-
-        <div style="display:flex;gap:var(--space-2);margin-top:var(--space-5);">
-          <button class="depth-btn depth-btn--active" data-depth="concept" id="btn-concept">Concept</button>
-          <button class="depth-btn" data-depth="analysis" id="btn-analysis">Analysis</button>
-          <button class="depth-btn depth-btn--disabled" data-depth="simulation" id="btn-simulation" disabled>Simulation</button>
-        </div>
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <meta
+      name="description"
+      content="Will we break even? Make a profit? -- Apply Scenario"
+    />
+    <title>Break Even &middot; Apply</title>
+    <link rel="stylesheet" href="/css/base.css" />
+    <link rel="stylesheet" href="/css/components.css" />
+    <link rel="stylesheet" href="/css/learn.css" />
+    <link rel="stylesheet" href="/css/settings-panel.css" />
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link
+      href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=JetBrains+Mono:wght@400;500&display=swap"
+      rel="stylesheet"
+    />
+    <script>
+      (function () {
+        var r = document.documentElement;
+        var w = localStorage.getItem("pref-width");
+        var f = localStorage.getItem("pref-font");
+        var t = localStorage.getItem("pref-theme");
+        if (w) r.style.setProperty("--max-width-tool", w + "px");
+        if (f) r.style.setProperty("--font-scale", f);
+        if (t === "dark") r.setAttribute("data-theme", "dark");
+      })();
+    </script>
+  </head>
+  <body>
+    <header class="site-header" role="banner">
+      <div class="site-header__inner">
+        <a href="/" class="site-header__logo">
+          <span>&#128202;</span>
+          <span>Managerial Accounting</span>
+        </a>
+        <nav
+          class="site-header__nav"
+          role="navigation"
+          aria-label="Main navigation"
+        >
+          <a href="/pages/learn/" class="site-header__nav-link">Learn</a>
+          <a
+            href="/pages/apply/"
+            class="site-header__nav-link site-header__nav-link--active"
+            >Apply</a
+          >
+          <a href="/pages/glossary.html" class="site-header__nav-link"
+            >Glossary</a
+          >
+        </nav>
       </div>
-    </section>
+    </header>
 
-    <div id="depth-concept" class="depth-panel depth-panel--active">
-      <section class="learn-section">
-        <div class="container container--tool" style="padding-bottom:0;">
-          <div id="scenario-card" class="card" style="background:var(--color-info-bg);border-color:var(--color-info);margin-bottom:var(--space-4);">
-            <div style="display:flex;justify-content:space-between;align-items:center;">
-              <div style="font-weight:700;color:var(--color-primary-text);">&#127970; Business Scenario</div>
-              <button class="btn btn--secondary btn--sm" id="scenario-toggle">Hide scenario</button>
+    <main>
+      <section class="page__hero">
+        <div class="container">
+          <div class="chapter-nav">
+            <div
+              style="display: flex; gap: var(--space-4); align-items: center"
+            >
+              <a href="/pages/apply/" class="chapter-nav__back"
+                >&larr; All Scenarios</a
+              >
             </div>
-            <div id="scenario-body" style="margin-top:var(--space-3);">
-              <p style="font-size:var(--font-size-sm);line-height:1.7;margin:0 0 var(--space-3);">You are the CFO of a mid-size manufacturer considering a new product line. Your team estimates a selling price of <strong>$50</strong>, variable costs of <strong>$30 per unit</strong>, and annual fixed costs of <strong>$100,000</strong>. Your sales team believes you can sell <strong>8,000 units</strong> in year one. Your target operating profit is <strong>$40,000</strong>. Should you move forward?</p>
-              <button class="btn btn--primary btn--sm" id="scenario-use-btn">Use these numbers &rarr;</button>
+            <div class="chapter-nav__position">
+              <span style="display: flex; gap: var(--space-2)">
+                <span
+                  style="
+                    font-size: 0.65rem;
+                    font-weight: 600;
+                    padding: 2px 8px;
+                    border-radius: 9999px;
+                    background: var(--color-concept);
+                    color: #fff;
+                  "
+                  >Concept</span
+                >
+                <span
+                  style="
+                    font-size: 0.65rem;
+                    font-weight: 600;
+                    padding: 2px 8px;
+                    border-radius: 9999px;
+                    background: var(--color-analysis);
+                    color: #fff;
+                  "
+                  >Analysis</span
+                >
+                <span
+                  style="
+                    font-size: 0.65rem;
+                    font-weight: 600;
+                    padding: 2px 8px;
+                    border-radius: 9999px;
+                    background: var(--color-simulation);
+                    color: #fff;
+                  "
+                  >Simulation</span
+                >
+              </span>
             </div>
           </div>
-        </div>
-        <div class="container container--tool">
-          <div class="tool-header">
-            <div class="tool-header__label">Concept</div>
-            <h2 class="tool-header__title">Breakeven and Target Profit</h2>
-            <p class="tool-header__desc">Enter three numbers. Get your breakeven point, the revenue needed to hit a target profit, and how much cushion you have if sales fall short.</p>
+          <div class="chapter-hero__meta" style="margin-top: var(--space-4)">
+            <span class="chapter-badge chapter-badge--control">CVP</span>
+            <span
+              class="chapter-badge chapter-badge--control"
+              style="margin-left: var(--space-2)"
+              >Ch. 3</span
+            >
+            <span
+              class="chapter-badge chapter-badge--control"
+              style="margin-left: var(--space-2)"
+              >Ch. 9</span
+            >
+            <span
+              class="chapter-badge chapter-badge--control"
+              style="margin-left: var(--space-2)"
+              >Ch. 12</span
+            >
           </div>
-          <div class="card">
-            <div class="ohrate-grid">
-              <div class="form-group">
-                <label class="form-label" for="c-price">Selling Price per Unit ($)</label>
-                <input class="form-input" type="number" id="c-price" value="50" min="0" step="1" />
-              </div>
-              <div class="form-group">
-                <label class="form-label" for="c-vc">Variable Cost per Unit ($)</label>
-                <input class="form-input" type="number" id="c-vc" value="30" min="0" step="1" />
-              </div>
-              <div class="form-group">
-                <label class="form-label" for="c-fc">Total Fixed Costs ($)</label>
-                <input class="form-input" type="number" id="c-fc" value="100000" min="0" step="1000" />
-              </div>
-              <div class="form-group">
-                <label class="form-label" for="c-target">Target Operating Profit ($)</label>
-                <input class="form-input" type="number" id="c-target" value="40000" min="0" step="1000" />
-              </div>
-              <div class="form-group">
-                <label class="form-label" for="c-actual">Expected Sales (units)</label>
-                <input class="form-input" type="number" id="c-actual" value="8000" min="0" step="100" />
-              </div>
-            </div>
-            <div style="display:flex;gap:var(--space-3);margin-top:var(--space-4);flex-wrap:wrap;"><button class="btn btn--primary" id="c-calculate">Calculate &rarr;</button><button class="btn btn--secondary btn--sm" id="c-rand-profitable">&#127922; Profitable</button><button class="btn btn--secondary btn--sm" id="c-rand-unprofitable">&#127922; Unprofitable</button></div>
-            <div id="c-output"></div>
-            <div id="c-chart-container" style="display:none;margin-top:var(--space-5);">
-              <canvas id="c-cvp-canvas" style="width:100%;height:360px;display:block;"></canvas>
-            </div>
-          </div>
-        </div>
-      </section>
-    </div>
+          <h1 class="page__hero-title">Will we break even? Make a profit?</h1>
+          <p class="page__hero-subtitle">
+            Enter your price, costs, and volume to find your breakeven point,
+            target profit, and margin of safety.
+          </p>
 
-    <div id="depth-analysis" class="depth-panel">
-      <section class="learn-section">
-        <div class="container container--tool" style="padding-bottom:0;">
-          <div id="scenario-card" class="card" style="background:var(--color-info-bg);border-color:var(--color-info);margin-bottom:var(--space-4);">
-            <div style="display:flex;justify-content:space-between;align-items:center;">
-              <div style="font-weight:700;color:var(--color-primary-text);">&#127970; Business Scenario</div>
-              <button class="btn btn--secondary btn--sm" id="scenario-toggle">Hide scenario</button>
-            </div>
-            <div id="scenario-body" style="margin-top:var(--space-3);">
-              <p style="font-size:var(--font-size-sm);line-height:1.7;margin:0 0 var(--space-3);">You are the CFO of a mid-size manufacturer considering a new product line. Your team estimates a selling price of <strong>$50</strong>, variable costs of <strong>$30 per unit</strong>, and annual fixed costs of <strong>$100,000</strong>. Your sales team believes you can sell <strong>8,000 units</strong> in year one. Your target operating profit is <strong>$40,000</strong>. Should you move forward?</p>
-              <button class="btn btn--primary btn--sm" id="scenario-use-btn">Use these numbers &rarr;</button>
-            </div>
-          </div>
-        </div>
-        <div class="container container--tool">
-          <div class="tool-header">
-            <div class="tool-header__label">Analysis</div>
-            <h2 class="tool-header__title">Full CVP Model</h2>
-            <p class="tool-header__desc">Build a complete cost-volume-profit model with multiple products, sensitivity analysis, and a full income statement at any volume level.</p>
-          </div>
-          <div class="card">
-            <div class="ohrate-grid">
-              <div class="form-group">
-                <label class="form-label" for="a-price">Selling Price per Unit ($)</label>
-                <input class="form-input" type="number" id="a-price" value="50" min="0" step="1" />
-              </div>
-              <div class="form-group">
-                <label class="form-label" for="a-vc">Variable Cost per Unit ($)</label>
-                <input class="form-input" type="number" id="a-vc" value="30" min="0" step="1" />
-              </div>
-              <div class="form-group">
-                <label class="form-label" for="a-fc">Total Fixed Costs ($)</label>
-                <input class="form-input" type="number" id="a-fc" value="100000" min="0" step="1000" />
-              </div>
-              <div class="form-group">
-                <label class="form-label" for="a-target">Target Operating Profit ($)</label>
-                <input class="form-input" type="number" id="a-target" value="40000" min="0" step="1000" />
-              </div>
-              <div class="form-group">
-                <label class="form-label" for="a-actual">Expected Sales (units)</label>
-                <input class="form-input" type="number" id="a-actual" value="8000" min="0" step="100" />
-              </div>
-              <div class="form-group">
-                <label class="form-label" for="a-tax">Tax Rate (%)</label>
-                <input class="form-input" type="number" id="a-tax" value="25" min="0" max="50" step="1" />
-              </div>
-            </div>
-            <p class="ch9-section-label" style="margin-top:var(--space-4);">Sensitivity Range</p>
-            <div class="ohrate-grid">
-              <div class="form-group">
-                <label class="form-label" for="a-sens-low">Price Low ($)</label>
-                <input class="form-input" type="number" id="a-sens-low" value="40" min="0" step="1" />
-              </div>
-              <div class="form-group">
-                <label class="form-label" for="a-sens-high">Price High ($)</label>
-                <input class="form-input" type="number" id="a-sens-high" value="60" min="0" step="1" />
-              </div>
-              <div class="form-group">
-                <label class="form-label" for="a-sens-step">Price Step ($)</label>
-                <input class="form-input" type="number" id="a-sens-step" value="5" min="1" step="1" />
-              </div>
-            </div>
-            <button class="btn btn--primary" id="a-calculate" style="margin-top:var(--space-4);">Run Full Analysis &rarr;</button>
-            <div id="a-output"></div>
+          <div
+            style="
+              display: flex;
+              gap: var(--space-2);
+              margin-top: var(--space-5);
+            "
+          >
+            <button
+              class="depth-btn depth-btn--active"
+              data-depth="concept"
+              id="btn-concept"
+            >
+              Concept
+            </button>
+            <button class="depth-btn" data-depth="analysis" id="btn-analysis">
+              Analysis
+            </button>
+            <button
+              class="depth-btn"
+              data-depth="simulation"
+              id="btn-simulation"
+            >
+              Simulation
+            </button>
           </div>
         </div>
       </section>
-    </div>
 
-  </main>
+      <div id="depth-concept" class="depth-panel depth-panel--active">
+        <section class="learn-section">
+          <div class="container container--tool" style="padding-bottom: 0">
+            <div
+              id="scenario-card"
+              class="card"
+              style="
+                background: var(--color-info-bg);
+                border-color: var(--color-info);
+                margin-bottom: var(--space-4);
+              "
+            >
+              <div
+                style="
+                  display: flex;
+                  justify-content: space-between;
+                  align-items: center;
+                "
+              >
+                <div style="font-weight: 700; color: var(--color-primary-text)">
+                  &#127970; Business Scenario
+                </div>
+                <button class="btn btn--secondary btn--sm" id="scenario-toggle">
+                  Hide scenario
+                </button>
+              </div>
+              <div id="scenario-body" style="margin-top: var(--space-3)">
+                <p
+                  style="
+                    font-size: var(--font-size-sm);
+                    line-height: 1.7;
+                    margin: 0 0 var(--space-3);
+                  "
+                >
+                  You are the CFO of a mid-size manufacturer considering a new
+                  product line. Your team estimates a selling price of
+                  <strong>$50</strong>, variable costs of
+                  <strong>$30 per unit</strong>, and annual fixed costs of
+                  <strong>$100,000</strong>. Your sales team believes you can
+                  sell <strong>8,000 units</strong> in year one. Your target
+                  operating profit is <strong>$40,000</strong>. Should you move
+                  forward?
+                </p>
+                <button class="btn btn--primary btn--sm" id="scenario-use-btn">
+                  Use these numbers &rarr;
+                </button>
+              </div>
+            </div>
+          </div>
+          <div class="container container--tool">
+            <div class="tool-header">
+              <div class="tool-header__label">Concept</div>
+              <h2 class="tool-header__title">Breakeven and Target Profit</h2>
+              <p class="tool-header__desc">
+                Enter three numbers. Get your breakeven point, the revenue
+                needed to hit a target profit, and how much cushion you have if
+                sales fall short.
+              </p>
+            </div>
+            <div class="card">
+              <div class="ohrate-grid">
+                <div class="form-group">
+                  <label class="form-label" for="c-price"
+                    >Selling Price per Unit ($)</label
+                  >
+                  <input
+                    class="form-input"
+                    type="number"
+                    id="c-price"
+                    value="50"
+                    min="0"
+                    step="1"
+                  />
+                </div>
+                <div class="form-group">
+                  <label class="form-label" for="c-vc"
+                    >Variable Cost per Unit ($)</label
+                  >
+                  <input
+                    class="form-input"
+                    type="number"
+                    id="c-vc"
+                    value="30"
+                    min="0"
+                    step="1"
+                  />
+                </div>
+                <div class="form-group">
+                  <label class="form-label" for="c-fc"
+                    >Total Fixed Costs ($)</label
+                  >
+                  <input
+                    class="form-input"
+                    type="number"
+                    id="c-fc"
+                    value="100000"
+                    min="0"
+                    step="1000"
+                  />
+                </div>
+                <div class="form-group">
+                  <label class="form-label" for="c-target"
+                    >Target Operating Profit ($)</label
+                  >
+                  <input
+                    class="form-input"
+                    type="number"
+                    id="c-target"
+                    value="40000"
+                    min="0"
+                    step="1000"
+                  />
+                </div>
+                <div class="form-group">
+                  <label class="form-label" for="c-actual"
+                    >Expected Sales (units)</label
+                  >
+                  <input
+                    class="form-input"
+                    type="number"
+                    id="c-actual"
+                    value="8000"
+                    min="0"
+                    step="100"
+                  />
+                </div>
+              </div>
+              <div
+                style="
+                  display: flex;
+                  gap: var(--space-3);
+                  margin-top: var(--space-4);
+                  flex-wrap: wrap;
+                "
+              >
+                <button class="btn btn--primary" id="c-calculate">
+                  Calculate &rarr;</button
+                ><button
+                  class="btn btn--secondary btn--sm"
+                  id="c-rand-profitable"
+                >
+                  &#127922; Profitable</button
+                ><button
+                  class="btn btn--secondary btn--sm"
+                  id="c-rand-unprofitable"
+                >
+                  &#127922; Unprofitable
+                </button>
+              </div>
+              <div id="c-output"></div>
+              <div
+                id="c-chart-container"
+                style="display: none; margin-top: var(--space-5)"
+              >
+                <canvas
+                  id="c-cvp-canvas"
+                  style="width: 100%; height: 360px; display: block"
+                ></canvas>
+              </div>
+            </div>
+          </div>
+        </section>
+      </div>
 
-  <script type="module" src="/js/apply/breakeven.js"></script>
-</body>
+      <div id="depth-analysis" class="depth-panel">
+        <section class="learn-section">
+          <div class="container container--tool" style="padding-bottom: 0">
+            <div
+              id="scenario-card"
+              class="card"
+              style="
+                background: var(--color-info-bg);
+                border-color: var(--color-info);
+                margin-bottom: var(--space-4);
+              "
+            >
+              <div
+                style="
+                  display: flex;
+                  justify-content: space-between;
+                  align-items: center;
+                "
+              >
+                <div style="font-weight: 700; color: var(--color-primary-text)">
+                  &#127970; Business Scenario
+                </div>
+                <button class="btn btn--secondary btn--sm" id="scenario-toggle">
+                  Hide scenario
+                </button>
+              </div>
+              <div id="scenario-body" style="margin-top: var(--space-3)">
+                <p
+                  style="
+                    font-size: var(--font-size-sm);
+                    line-height: 1.7;
+                    margin: 0 0 var(--space-3);
+                  "
+                >
+                  You are the CFO of a mid-size manufacturer considering a new
+                  product line. Your team estimates a selling price of
+                  <strong>$50</strong>, variable costs of
+                  <strong>$30 per unit</strong>, and annual fixed costs of
+                  <strong>$100,000</strong>. Your sales team believes you can
+                  sell <strong>8,000 units</strong> in year one. Your target
+                  operating profit is <strong>$40,000</strong>. Should you move
+                  forward?
+                </p>
+                <button class="btn btn--primary btn--sm" id="scenario-use-btn">
+                  Use these numbers &rarr;
+                </button>
+              </div>
+            </div>
+          </div>
+          <div class="container container--tool">
+            <div class="tool-header">
+              <div class="tool-header__label">Analysis</div>
+              <h2 class="tool-header__title">Full CVP Model</h2>
+              <p class="tool-header__desc">
+                Build a complete cost-volume-profit model with multiple
+                products, sensitivity analysis, and a full income statement at
+                any volume level.
+              </p>
+            </div>
+            <div class="card">
+              <div class="ohrate-grid">
+                <div class="form-group">
+                  <label class="form-label" for="a-price"
+                    >Selling Price per Unit ($)</label
+                  >
+                  <input
+                    class="form-input"
+                    type="number"
+                    id="a-price"
+                    value="50"
+                    min="0"
+                    step="1"
+                  />
+                </div>
+                <div class="form-group">
+                  <label class="form-label" for="a-vc"
+                    >Variable Cost per Unit ($)</label
+                  >
+                  <input
+                    class="form-input"
+                    type="number"
+                    id="a-vc"
+                    value="30"
+                    min="0"
+                    step="1"
+                  />
+                </div>
+                <div class="form-group">
+                  <label class="form-label" for="a-fc"
+                    >Total Fixed Costs ($)</label
+                  >
+                  <input
+                    class="form-input"
+                    type="number"
+                    id="a-fc"
+                    value="100000"
+                    min="0"
+                    step="1000"
+                  />
+                </div>
+                <div class="form-group">
+                  <label class="form-label" for="a-target"
+                    >Target Operating Profit ($)</label
+                  >
+                  <input
+                    class="form-input"
+                    type="number"
+                    id="a-target"
+                    value="40000"
+                    min="0"
+                    step="1000"
+                  />
+                </div>
+                <div class="form-group">
+                  <label class="form-label" for="a-actual"
+                    >Expected Sales (units)</label
+                  >
+                  <input
+                    class="form-input"
+                    type="number"
+                    id="a-actual"
+                    value="8000"
+                    min="0"
+                    step="100"
+                  />
+                </div>
+                <div class="form-group">
+                  <label class="form-label" for="a-tax">Tax Rate (%)</label>
+                  <input
+                    class="form-input"
+                    type="number"
+                    id="a-tax"
+                    value="25"
+                    min="0"
+                    max="50"
+                    step="1"
+                  />
+                </div>
+              </div>
+              <p class="ch9-section-label" style="margin-top: var(--space-4)">
+                Sensitivity Range
+              </p>
+              <div class="ohrate-grid">
+                <div class="form-group">
+                  <label class="form-label" for="a-sens-low"
+                    >Price Low ($)</label
+                  >
+                  <input
+                    class="form-input"
+                    type="number"
+                    id="a-sens-low"
+                    value="40"
+                    min="0"
+                    step="1"
+                  />
+                </div>
+                <div class="form-group">
+                  <label class="form-label" for="a-sens-high"
+                    >Price High ($)</label
+                  >
+                  <input
+                    class="form-input"
+                    type="number"
+                    id="a-sens-high"
+                    value="60"
+                    min="0"
+                    step="1"
+                  />
+                </div>
+                <div class="form-group">
+                  <label class="form-label" for="a-sens-step"
+                    >Price Step ($)</label
+                  >
+                  <input
+                    class="form-input"
+                    type="number"
+                    id="a-sens-step"
+                    value="5"
+                    min="1"
+                    step="1"
+                  />
+                </div>
+              </div>
+              <button
+                class="btn btn--primary"
+                id="a-calculate"
+                style="margin-top: var(--space-4)"
+              >
+                Run Full Analysis &rarr;
+              </button>
+              <div id="a-output"></div>
+            </div>
+          </div>
+        </section>
+      </div>
+
+      <div id="depth-simulation" class="depth-panel">
+        <section class="learn-section">
+          <div class="container container--tool">
+            <div class="tool-header">
+              <div class="tool-header__label">Simulation</div>
+              <h2 class="tool-header__title">
+                Will we break even? Make a profit?
+              </h2>
+              <p class="tool-header__desc">
+                Make a series of real business decisions -- pricing, production
+                volume, cost management, and demand response. Each choice has
+                consequences that affect your bottom line.
+              </p>
+            </div>
+            <div id="depth-simulation-wrapper"><div id="depth-simulation-container"></div></div>
+          </div>
+        </section>
+      </div>
+    </main>
+
+    <script type="module" src="/js/apply/breakeven.js"></script>
+  </body>
 </html>
