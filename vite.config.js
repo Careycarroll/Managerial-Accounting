@@ -1,64 +1,102 @@
-import { defineConfig } from 'vite';
-import { VitePWA } from 'vite-plugin-pwa';
-import { resolve } from 'path';
-import { readdirSync } from 'fs';
+import { defineConfig } from "vite";
+import { VitePWA } from "vite-plugin-pwa";
+import { resolve } from "path";
+import { readdirSync } from "fs";
 
 function getPages() {
-  const pages = { main: resolve(__dirname, 'index.html') };
+  const pages = { main: resolve(__dirname, "index.html") };
+
+  // Top-level pages/*.html
   try {
-    readdirSync(resolve(__dirname, 'pages')).filter(f => f.endsWith('.html')).forEach(f => {
-        pages[`page-${f.replace('.html', '')}`] = resolve(__dirname, 'pages', f);
-      });
-    } catch {}
-    try {
-      readdirSync(resolve(__dirname, 'pages/learn'))
-      .filter(f => f.endsWith('.html'))
-      .forEach(f => {
-        pages[`learn-${f.replace('.html', '')}`] = resolve(__dirname, 'pages/learn', f);
+    readdirSync(resolve(__dirname, "pages"))
+      .filter((f) => f.endsWith(".html"))
+      .forEach((f) => {
+        pages[`page-${f.replace(".html", "")}`] = resolve(
+          __dirname,
+          "pages",
+          f,
+        );
       });
   } catch {}
+
+  // pages/learn/*.html
   try {
-    readdirSync(resolve(__dirname, 'pages/apply'))
-      .filter(f => f.endsWith('.html'))
-      .forEach(f => {
-        pages[`apply-${f.replace('.html', '')}`] = resolve(__dirname, 'pages/apply', f);
+    readdirSync(resolve(__dirname, "pages/learn"))
+      .filter((f) => f.endsWith(".html"))
+      .forEach((f) => {
+        pages[`learn-${f.replace(".html", "")}`] = resolve(
+          __dirname,
+          "pages/learn",
+          f,
+        );
       });
   } catch {}
+
+  // pages/apply/*.html
+  try {
+    readdirSync(resolve(__dirname, "pages/apply"))
+      .filter((f) => f.endsWith(".html"))
+      .forEach((f) => {
+        pages[`apply-${f.replace(".html", "")}`] = resolve(
+          __dirname,
+          "pages/apply",
+          f,
+        );
+      });
+  } catch {}
+
+  // pages/practice/*.html
+  try {
+    readdirSync(resolve(__dirname, "pages/practice"))
+      .filter((f) => f.endsWith(".html"))
+      .forEach((f) => {
+        pages[`practice-${f.replace(".html", "")}`] = resolve(
+          __dirname,
+          "pages/practice",
+          f,
+        );
+      });
+  } catch {}
+
   return pages;
 }
 
-export default defineConfig({
-  base: process.env.NODE_ENV === 'production' ? '/Managerial-Accounting/' : '/',
+export default defineConfig(({ command }) => ({
+  // base path:
+  // - 'vite build' -> '/Managerial-Accounting/' for GitHub Pages
+  // - 'vite' (dev) -> '/' for localhost
+  base: command === "build" ? "/Managerial-Accounting/" : "/",
   build: {
     rollupOptions: { input: getPages() },
-    outDir: 'dist',
+    outDir: "dist",
   },
   plugins: [
     VitePWA({
-      registerType: 'autoUpdate',
-      includeAssets: ['icons/*.png', 'icons/*.svg'],
+      registerType: "autoUpdate",
+      includeAssets: ["icons/*.png", "icons/*.svg"],
       manifest: {
-        name: 'Managerial Accounting Interactive',
-        short_name: 'Mgmt Accounting',
-        description: 'Interactive learning tools for Horngren\'s Cost Accounting',
-        theme_color: '#1a365d',
-        background_color: '#ffffff',
-        display: 'standalone',
-        scope: '/Managerial-Accounting/',
-        start_url: '/Managerial-Accounting/',
+        name: "Managerial Accounting Interactive",
+        short_name: "Mgmt Accounting",
+        description:
+          "Interactive learning tools for Horngren's Cost Accounting",
+        theme_color: "#1a365d",
+        background_color: "#ffffff",
+        display: "standalone",
+        scope: "/Managerial-Accounting/",
+        start_url: "/Managerial-Accounting/",
         icons: [
-          { src: 'icons/icon-192.png', sizes: '192x192', type: 'image/png' },
-          { src: 'icons/icon-512.png', sizes: '512x512', type: 'image/png' },
+          { src: "icons/icon-192.png", sizes: "192x192", type: "image/png" },
+          { src: "icons/icon-512.png", sizes: "512x512", type: "image/png" },
         ],
       },
       workbox: {
-        globPatterns: ['**/*.{js,css,html,ico,png,svg,woff2}'],
+        globPatterns: ["**/*.{js,css,html,ico,png,svg,woff2}"],
         runtimeCaching: [
           {
             urlPattern: /^https:\/\/fonts\.googleapis\.com\/.*/i,
-            handler: 'CacheFirst',
+            handler: "CacheFirst",
             options: {
-              cacheName: 'google-fonts-cache',
+              cacheName: "google-fonts-cache",
               expiration: { maxEntries: 10, maxAgeSeconds: 60 * 60 * 24 * 365 },
             },
           },
@@ -66,4 +104,4 @@ export default defineConfig({
       },
     }),
   ],
-});
+}));
