@@ -5,6 +5,8 @@
 import { getProgress, resetProgress } from '/js/core/progress-tracker.js';
 import { initHeader } from '/js/components/header.js';
 
+const BASE = import.meta.env.BASE_URL;
+
 const CHAPTERS = [
   // Foundations
   {
@@ -12,14 +14,14 @@ const CHAPTERS = [
     title: 'The Manager and Management Accounting',
     desc: 'Value chain, five-step decision process, financial vs. management accounting, IMA ethics.',
     tools: ['Accounting comparison', 'Value chain builder', 'Five-step process', 'Ethics scenarios'],
-    href: '/pages/learn/ch01.html',
+    href: `${BASE}pages/learn/ch01.html`,
   },
   {
     id: 'ch02', num: 2, group: 'foundations',
     title: 'An Introduction to Cost Terms and Purposes',
     desc: 'Cost objects, direct/indirect costs, variable/fixed costs, relevant range, manufacturing cost flow.',
     tools: ['Cost classifier', 'Relevant range visualizer', 'Manufacturing flow', 'Unit cost trap'],
-    href: '/pages/learn/ch02.html',
+    href: `${BASE}pages/learn/ch02.html`,
   },
 
   // Costing Systems
@@ -28,35 +30,35 @@ const CHAPTERS = [
     title: 'Job Costing',
     desc: 'Normal vs. actual costing, 7-step approach, source documents, under/overallocated overhead.',
     tools: ['Job cost record builder', 'Overhead rate calculator', 'Disposal methods comparison'],
-    href: '/pages/learn/ch04.html',
+    href: `${BASE}pages/learn/ch04.html`,
   },
   {
     id: 'ch05', num: 5, group: 'costing',
     title: 'Activity-Based Costing and ABM',
     desc: 'Cost hierarchy, 7-step ABC, TDABC, cross-subsidization, activity-based management.',
     tools: ['ABC system builder', 'Cost hierarchy classifier', 'Simple vs. ABC comparison'],
-    href: '/pages/learn/ch05.html',
+    href: `${BASE}pages/learn/ch05.html`,
   },
   {
     id: 'ch17', num: 17, group: 'costing',
     title: 'Cost Allocation: Joint Products and Byproducts',
     desc: 'Joint costs, splitoff point, four allocation methods, sell-or-process-further decisions.',
     tools: ['Process flow visualizer', 'Joint cost allocator', 'Sell-or-process calculator'],
-    href: '/pages/learn/ch17.html',
+    href: `${BASE}pages/learn/ch17.html`,
   },
   {
     id: 'ch18', num: 18, group: 'costing',
     title: 'Process Costing',
     desc: 'Equivalent units, 5-step process costing, weighted-average and FIFO methods.',
     tools: ['Process costing engine', 'Equivalent units visualizer', 'Method comparison panel'],
-    href: '/pages/learn/ch18.html',
+    href: `${BASE}pages/learn/ch18.html`,
   },
   {
     id: 'ch19', num: 19, group: 'costing',
     title: 'Spoilage, Rework, and Scrap',
     desc: 'Normal vs. abnormal spoilage, inspection points, job costing quality costs.',
     tools: ['Spoilage classifier', 'Inspection point visualizer', 'Journal entry generator'],
-    href: '/pages/learn/ch19.html',
+    href: `${BASE}pages/learn/ch19.html`,
   },
 
   // Planning
@@ -65,21 +67,21 @@ const CHAPTERS = [
     title: 'Cost–Volume–Profit Analysis',
     desc: 'Breakeven, target income, margin of safety, operating leverage, sales mix.',
     tools: ['CVP dashboard', 'PV graph', 'Sensitivity analysis', 'Sales mix CVP'],
-    href: '/pages/learn/ch03.html',
+    href: `${BASE}pages/learn/ch03.html`,
   },
   {
     id: 'ch06', num: 6, group: 'planning',
     title: 'Master Budget and Responsibility Accounting',
     desc: '9-step operating budget, cash budget, responsibility centers, Kaizen budgeting.',
     tools: ['Master budget builder', 'Cash budget', 'Responsibility center classifier'],
-    href: '/pages/learn/ch06.html',
+    href: `${BASE}pages/learn/ch06.html`,
   },
   {
     id: 'ch10', num: 10, group: 'planning',
     title: 'Determining How Costs Behave',
     desc: 'Cost functions, high-low method, regression analysis, learning curves.',
     tools: ['Cost estimation suite', 'Scatter plot visualizer', 'Learning curve calculator'],
-    href: '/pages/learn/ch10.html',
+    href: `${BASE}pages/learn/ch10.html`,
   },
 
   // Control
@@ -88,35 +90,35 @@ const CHAPTERS = [
     title: 'Flexible Budgets and Direct-Cost Variances',
     desc: 'Static vs. flexible budgets, price and efficiency variances, Level 1–4 hierarchy.',
     tools: ['Variance analysis engine', 'Flexible budget builder', 'Journal entry generator'],
-    href: '/pages/learn/ch07.html',
+    href: `${BASE}pages/learn/ch07.html`,
   },
   {
     id: 'ch08', num: 8, group: 'control',
     title: 'Flexible Budgets and Overhead Variances',
     desc: 'Variable and fixed overhead variances, 4-variance analysis, production-volume variance.',
     tools: ['Overhead variance engine', 'Variance diagram', 'ABC overhead extension'],
-    href: '/pages/learn/ch08.html',
+    href: `${BASE}pages/learn/ch08.html`,
   },
   {
     id: 'ch09', num: 9, group: 'control',
     title: 'Inventory Costing and Capacity Analysis',
     desc: 'Variable vs. absorption vs. throughput costing, 4 capacity concepts, downward demand spiral.',
     tools: ['Costing method comparator', 'Capacity concepts calculator', 'Producing-for-inventory simulator'],
-    href: '/pages/learn/ch09.html',
+    href: `${BASE}pages/learn/ch09.html`,
   },
   {
     id: 'ch20', num: 20, group: 'control',
     title: 'Balanced Scorecard: Quality and Time',
     desc: 'COQ framework, control charts, Pareto diagrams, MCE, average waiting time.',
     tools: ['COQ report builder', 'Control chart visualizer', 'Pareto diagram', 'MCE calculator'],
-    href: '/pages/learn/ch20.html',
+    href: `${BASE}pages/learn/ch20.html`,
   },
   {
     id: 'ch21', num: 21, group: 'control',
     title: 'Inventory Management, JIT, and Simplified Costing',
     desc: 'EOQ model, safety stock, JIT purchasing, backflush costing, lean accounting.',
     tools: ['EOQ calculator', 'Safety stock optimizer', 'Backflush costing engine'],
-    href: '/pages/learn/ch21.html',
+    href: `${BASE}pages/learn/ch21.html`,
   },
 
   // Decisions
@@ -125,35 +127,35 @@ const CHAPTERS = [
     title: 'Data Analytic Thinking and Prediction',
     desc: 'Decision trees, Gini impurity, ROC curves, confusion matrix, payoff matrix.',
     tools: ['Decision tree builder', 'Gini calculator', 'ROC curve visualizer', 'Confusion matrix'],
-    href: '/pages/learn/ch11.html',
+    href: `${BASE}pages/learn/ch11.html`,
   },
   {
     id: 'ch12', num: 12, group: 'decisions',
     title: 'Decision Making and Relevant Information',
     desc: 'Relevant costs, make-or-buy, opportunity costs, TOC, product mix, equipment replacement.',
     tools: ['Relevant cost identifier', 'Make-or-buy calculator', 'TOC bottleneck manager', 'LP visualizer'],
-    href: '/pages/learn/ch12.html',
+    href: `${BASE}pages/learn/ch12.html`,
   },
   {
     id: 'ch14', num: 14, group: 'decisions',
     title: 'Pricing Decisions and Cost Management',
     desc: 'Target costing, value engineering, cost-plus pricing, life-cycle budgeting.',
     tools: ['Target costing calculator', 'Value engineering simulator', 'Cost-plus pricing comparison'],
-    href: '/pages/learn/ch14.html',
+    href: `${BASE}pages/learn/ch14.html`,
   },
   {
     id: 'ch15', num: 15, group: 'decisions',
     title: 'Cost Allocation and Customer Profitability',
     desc: 'Customer-cost hierarchy, whale curve, sales-mix variance, market-share variance.',
     tools: ['Customer profitability analyzer', 'Whale curve', 'Sales variance calculator'],
-    href: '/pages/learn/ch15.html',
+    href: `${BASE}pages/learn/ch15.html`,
   },
   {
     id: 'ch16', num: 16, group: 'decisions',
     title: 'Allocation of Support-Department Costs',
     desc: 'Direct, step-down, and reciprocal allocation methods, Shapley value, revenue allocation.',
     tools: ['Multi-department allocation engine', 'Common cost allocator', 'Revenue allocation tool'],
-    href: '/pages/learn/ch16.html',
+    href: `${BASE}pages/learn/ch16.html`,
   },
 
   // Strategy
@@ -162,28 +164,28 @@ const CHAPTERS = [
     title: 'Strategy, Balanced Scorecard, and Strategic Profitability',
     desc: 'Strategy maps, balanced scorecard, growth/price-recovery/productivity decomposition.',
     tools: ['Strategy map builder', 'Balanced scorecard', 'Strategic profitability analyzer'],
-    href: '/pages/learn/ch13.html',
+    href: `${BASE}pages/learn/ch13.html`,
   },
   {
     id: 'ch22', num: 22, group: 'strategy',
     title: 'Capital Budgeting and Cost Analysis',
     desc: 'NPV, IRR, payback, AARR, relevant cash flows, income tax effects, inflation.',
     tools: ['Capital budgeting dashboard', 'Relevant cash flow builder', 'Sensitivity analysis'],
-    href: '/pages/learn/ch22.html',
+    href: `${BASE}pages/learn/ch22.html`,
   },
   {
     id: 'ch23', num: 23, group: 'strategy',
     title: 'Management Control Systems and Transfer Pricing',
     desc: 'Transfer pricing methods, general guideline, dual pricing, multinational tax minimization.',
     tools: ['Transfer pricing calculator', 'Goal congruence test', 'Multinational tax tool'],
-    href: '/pages/learn/ch23.html',
+    href: `${BASE}pages/learn/ch23.html`,
   },
   {
     id: 'ch24', num: 24, group: 'strategy',
     title: 'Performance Measurement and Compensation',
     desc: 'ROI, residual income, EVA, WACC, compensation design, four levers of control.',
     tools: ['Performance dashboard', 'DuPont decomposition', 'WACC calculator', 'Compensation simulator'],
-    href: '/pages/learn/ch24.html',
+    href: `${BASE}pages/learn/ch24.html`,
   },
 ];
 

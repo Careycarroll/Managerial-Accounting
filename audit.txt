@@ -1,4 +1,16 @@
-===== Step 1: Remove disposable dry-run script =====
-  removed fix-paths-dryrun.sh
+===== git status before commit =====
+ M audit.txt
+ M js/apply/index.js
+ M js/engine/scenario-engine.js
+ M js/engine/scenarios/breakeven-sim.js
+ M js/learn/index.js
 
-===== Step 2: Stage all changes =====
+===== diff stat =====
+ audit.txt                            | 10 +++++---
+ js/apply/index.js                    | 26 ++++++++++---------
+ js/engine/scenario-engine.js         |  2 +-
+ js/engine/scenarios/breakeven-sim.js | 12 ++++-----
+ js/learn/index.js                    | 50 +++++++++++++++++++-----------------
+ 5 files changed, 54 insertions(+), 46 deletions(-)
+
+===== stage and commit =====

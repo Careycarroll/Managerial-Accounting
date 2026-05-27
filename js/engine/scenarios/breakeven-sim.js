@@ -383,9 +383,9 @@ export const breakevenSim = {
   title: "Will we break even? Make a profit?",
 
   reviewChapters: [
-    { label: "Ch. 3 — CVP Analysis", href: "/pages/learn/ch03.html" },
-    { label: "Ch. 9 — Inventory Costing", href: "/pages/learn/ch09.html" },
-    { label: "Ch. 12 — Relevant Costs", href: "/pages/learn/ch12.html" },
+    { label: "Ch. 3 — CVP Analysis", href: import.meta.env.BASE_URL + "pages/learn/ch03.html" },
+    { label: "Ch. 9 — Inventory Costing", href: import.meta.env.BASE_URL + "pages/learn/ch09.html" },
+    { label: "Ch. 12 — Relevant Costs", href: import.meta.env.BASE_URL + "pages/learn/ch12.html" },
   ],
 
   // ── Randomizer ─────────────────────────────────────────────────────────────
@@ -2752,8 +2752,8 @@ export const breakevenSim = {
   ],
 
   reviewChapters: [
-    { label: "Ch. 3 — CVP Analysis", href: "/pages/learn/ch03.html" },
-    { label: "Ch. 9 — Inventory Costing", href: "/pages/learn/ch09.html" },
-    { label: "Ch. 12 — Relevant Costs", href: "/pages/learn/ch12.html" },
+    { label: "Ch. 3 — CVP Analysis", href: import.meta.env.BASE_URL + "pages/learn/ch03.html" },
+    { label: "Ch. 9 — Inventory Costing", href: import.meta.env.BASE_URL + "pages/learn/ch09.html" },
+    { label: "Ch. 12 — Relevant Costs", href: import.meta.env.BASE_URL + "pages/learn/ch12.html" },
   ],
 };

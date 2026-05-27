@@ -825,7 +825,7 @@ export class ScenarioEngine {
       // Actions
       '<div style="margin-top:var(--space-6);display:flex;gap:var(--space-3);">' +
       '<button id="sim-reset-btn" style="padding:var(--space-3) var(--space-6);border-radius:var(--radius-md);background:var(--color-gray-100);color:var(--color-primary-text);font-weight:700;font-size:var(--font-size-sm);border:1px solid var(--color-gray-200);cursor:pointer;">&#8635; Try Again</button>' +
-      '<a href="/pages/apply/" style="padding:var(--space-3) var(--space-6);border-radius:var(--radius-md);background:var(--color-card-bg);color:var(--color-primary-text);font-weight:700;font-size:var(--font-size-sm);border:1px solid var(--color-gray-200);text-decoration:none;display:inline-flex;align-items:center;">All Scenarios &rarr;</a>' +
+      '<a href="' + import.meta.env.BASE_URL + 'pages/apply/" style="padding:var(--space-3) var(--space-6);border-radius:var(--radius-md);background:var(--color-card-bg);color:var(--color-primary-text);font-weight:700;font-size:var(--font-size-sm);border:1px solid var(--color-gray-200);text-decoration:none;display:inline-flex;align-items:center;">All Scenarios &rarr;</a>' +
       "</div>" +
       "</div>";
 
