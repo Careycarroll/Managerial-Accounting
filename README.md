@@ -10,11 +10,12 @@ Source: Horngren, Datar & Rajan -- Cost Accounting: A Managerial Emphasis, 17th 
 
 ## Goal
 
-Build a comprehensive interactive learning companion that covers every concept in the textbook -- chapter by chapter -- with three layers of engagement:
+Build a comprehensive interactive learning companion that covers every concept in the textbook -- chapter by chapter -- with four layers of engagement:
 
 1. Learn -- Chapter-by-chapter interactive tools, show-work panels, and practice problems tied directly to the textbook
-2. Apply -- Real-world business decision scenarios that pull from multiple chapters
-3. Depth Levels -- Every Apply scenario has three modes: Concept (quick), Analysis (full), Simulation (sequential decisions)
+2. Practice -- Randomized multi-step calculation problems organized by chapter and cross-chapter topic
+3. Apply -- Real-world business decision scenarios that pull from multiple chapters
+4. Depth Levels -- Every Apply scenario has three modes: Concept (quick), Analysis (full), Simulation (sequential decisions)
 
 ---
 
@@ -51,10 +52,10 @@ Build a comprehensive interactive learning companion that covers every concept i
 | 18  | Process Costing                                       | Complete    | Physical units flow tracker, equivalent units calculator, weighted-average engine, FIFO engine, method comparator                                                        |
 | 19  | Spoilage, Rework, and Scrap                           | Complete    | Spoilage classifier, inspection point analyzer, process costing with spoilage (weighted-average), process costing with spoilage (FIFO), rework and scrap accounting      |
 | 20  | Balanced Scorecard: Quality and Time                  | Complete    | COQ report builder (two-period), quality cost trade-off analyzer, nonfinancial quality measures analyzer, MCE calculator, Pareto diagram (canvas)                        |
-| 21  | Inventory Management, JIT, and Simplified Costing     | Complete    | EOQ calculator, safety stock and reorder point, JIT vs traditional analyzer, backflush costing engine                                                                                                 |
-| 22  | Capital Budgeting and Cost Analysis                   | Complete    | Relevant cash flow identifier, NPV and IRR calculator, payback and AARR, capital budgeting dashboard with tax effects, sensitivity analyzer                                                                                            |
-| 23  | Management Control Systems and Transfer Pricing       | Complete    | Decentralization analyzer, transfer price method comparator, general transfer pricing rule calculator, multinational tax strategy tool                                                                                                |
-| 24  | Performance Measurement and Compensation              | Complete    | ROI vs RI comparator, EVA calculator, DuPont decomposition, performance dashboard, compensation linkage analyzer, multinational performance comparator                                                                                                             |
+| 21  | Inventory Management, JIT, and Simplified Costing     | Complete    | EOQ calculator, safety stock and reorder point, JIT vs traditional analyzer, backflush costing engine                                                                   |
+| 22  | Capital Budgeting and Cost Analysis                   | Complete    | Relevant cash flow identifier, NPV and IRR calculator, payback and AARR, capital budgeting dashboard with tax effects, sensitivity analyzer                              |
+| 23  | Management Control Systems and Transfer Pricing       | Complete    | Decentralization analyzer, transfer price method comparator, general transfer pricing rule calculator, multinational tax strategy tool                                   |
+| 24  | Performance Measurement and Compensation              | Complete    | ROI vs RI comparator, EVA calculator, DuPont decomposition, performance dashboard, compensation linkage analyzer, multinational performance comparator                   |
 
 ---
 
@@ -66,40 +67,138 @@ Build a comprehensive interactive learning companion that covers every concept i
 | Journal Entry   | js/components/journal-entry.js   | Built               | Ch. 4, Ch. 6, journal-entry style tools     |
 | Show Work       | js/components/show-work.js       | Built               | Calculator tools across Learn chapters      |
 | Settings Panel  | js/components/settings-panel.js  | Built               | All chapter pages -- width, font, dark mode |
-| Depth Selector  | js/components/depth-selector.js  | Not built / pending | Planned for Apply section                   |
-| Formula Display | js/components/formula-display.js | Not built           | Planned                                     |
-| Term Tooltip    | js/components/term-tooltip.js    | Not built           | Planned                                     |
+| Header          | js/components/header.js          | Built               | All pages                                   |
 
 ## Chart Library
 
 | Chart            | File                        | Status    | Used In              |
 | ---------------- | --------------------------- | --------- | -------------------- |
 | Base Chart       | js/charts/chart-core.js     | Built     | All chart components |
-| CVP Chart        | js/charts/cvp-chart.js      | Built     | Ch. 3                |
+| CVP Chart        | js/charts/cvp-chart.js      | Built     | Ch. 3, Apply breakeven |
 | Scatter Plot     | js/charts/scatter-chart.js  | Built     | Ch. 10               |
 | ROC Chart        | js/charts/roc-chart.js      | Built     | Ch. 11               |
 | Pareto Diagram   | js/charts/pareto-chart.js   | Built     | Ch. 20               |
-| Variance Diagram | js/charts/variance-chart.js | Not built | Planned              |
-| Control Chart    | js/charts/control-chart.js  | Not built | Planned              |
 
 ---
 
 ## Apply Section -- Scenario Status
 
-| Scenario                           | Chapters      | Status      |
-| ---------------------------------- | ------------- | ----------- |
-| What does it cost to make this?    | 2, 4, 5, 18   | Concept + Analysis |
-| Will we break even? Make a profit? | 3, 9, 12      | Concept + Analysis |
-| What is our plan for the year?     | 6, 10         | Concept + Analysis |
-| Did we hit our plan?               | 7, 8          | Concept + Analysis |
-| Should we make it or buy it?       | 12, 5, 10, 23 | Concept + Analysis |
-| What should we charge?             | 14, 12, 3     | Concept + Analysis |
-| Which customers are profitable?    | 15, 16, 5     | Concept + Analysis |
-| Are we managing inventory well?    | 21, 9, 12     | Concept + Analysis |
-| Is this investment worth it?       | 22, 12, 24    | Not started        |
-| How are we measuring performance?  | 24, 23, 13    | Not started        |
-| What do our costs tell us?         | 10, 11        | Not started        |
-| Are we producing quality?          | 20, 19, 12    | Not started        |
+| Scenario                           | Chapters      | Status                          |
+| ---------------------------------- | ------------- | ------------------------------- |
+| Will we break even? Make a profit? | 3, 9, 12      | Concept + Analysis + Simulation |
+| What does it cost to make this?    | 2, 4, 5, 18   | Concept + Analysis              |
+| What is our plan for the year?     | 6, 10         | Concept + Analysis              |
+| Did we hit our plan?               | 7, 8          | Concept + Analysis              |
+| Should we make it or buy it?       | 12, 5, 10, 23 | Concept + Analysis              |
+| What should we charge?             | 14, 12, 3     | Concept + Analysis              |
+| Which customers are profitable?    | 15, 16, 5     | Concept + Analysis              |
+| Are we managing inventory well?    | 21, 9, 12     | Concept + Analysis              |
+| Is this investment worth it?       | 22, 12, 24    | Concept + Analysis              |
+| How are we measuring performance?  | 24, 23, 13    | Concept + Analysis              |
+| What do our costs tell us?         | 10, 11        | Concept + Analysis              |
+| Are we producing quality?          | 20, 19, 12    | Concept + Analysis              |
+
+---
+
+## Simulation Engine
+
+The simulation engine (js/engine/scenario-engine.js) is a domain-agnostic state machine that powers the Simulation depth level for Apply scenarios. All accounting logic lives in scenario definition files under js/engine/scenarios/.
+
+### Engine Features
+- Three answer types per stage: single-choice (bell curve options), multiple-choice (select all that apply), numeric input (free entry, tolerance-based grading)
+- Answer type randomly selected per stage per round -- same stage may present differently each playthrough
+- Four scoring levels: optimal, acceptable, suboptimal, poor (deep red -- business-damaging decisions)
+- Show work panel rendered after every decision using shared renderShowWork() component
+- Selection breakdown for multiple-choice -- shows per-option correct/incorrect with reason
+- Weight-based debrief rating -- poor decisions penalize more than suboptimal
+- Visited stage progress tracking -- progress bar reflects actual path taken not total stage count
+- randomizeMetrics() called on every init/reset -- fresh numbers every round
+- Bell curve option generator -- optimal answer shifts position each round, irregular spacing prevents pattern recognition
+- Branching -- nextStage as string (linear) or function (conditional based on prior decisions)
+
+### Simulation Status
+
+| Scenario                           | Status    | Stages | Notes                                    |
+| ---------------------------------- | --------- | ------ | ---------------------------------------- |
+| Will we break even? Make a profit? | Complete  | 5      | All three answer types, dynamic scoring  |
+| Should we make it or buy it?       | Planned   | --     | --                                       |
+| What should we charge?             | Planned   | --     | --                                       |
+| Is this investment worth it?       | Planned   | --     | --                                       |
+| How are we measuring performance?  | Planned   | --     | --                                       |
+| Are we producing quality?          | Planned   | --     | --                                       |
+
+### Test Suite
+Automated tests in tests/ validate every scenario definition before browser testing:
+
+    node tests/test-runner.js js/engine/scenarios/breakeven-sim.js
+
+Tests:
+1. Structure Validation -- required fields, answer types, option shapes
+2. Simulation Path Walkthrough -- walks every possible decision path, validates consequence shapes and breakdown labels
+3. Randomizer Stress Test -- runs randomizeMetrics() 100 times, checks sanity and achievability
+4. Score Distribution Check -- verifies all four score levels are reachable across 50 runs
+5. Selection Breakdown Label Check -- confirms no undefined labels in any breakdown
+6. Stage Graph Connectivity -- validates all nextStage references resolve to real stage ids
+
+---
+
+## Practice Section -- Planned
+
+A third first-class section alongside Learn and Apply. Accessible from the main nav and landing page.
+
+### Concept
+Students receive a randomized set of financial data and must calculate answers step by step -- no options to pick from, no tools doing the math. Pure calculation practice that mirrors exam conditions.
+
+### Two Tiers
+
+**Chapter Problems** -- tied to a specific chapter, 3-5 problem types each, randomized numbers every attempt.
+**Cross-Chapter Problems** -- harder multi-step problems pulling from 2-4 chapters simultaneously.
+
+### Problem Format
+Each problem has:
+- Given information panel (randomized each attempt)
+- 3-6 sequential steps, each submitted independently
+- Tolerance-based grading (±1 unit, ±$1 for rounding)
+- Show work revealed after each step submission
+- Deviation display when wrong -- shows correct calculation vs what the answer implies
+- Optional formula hint (toggleable, flagged in summary if used)
+- Final score summary with step-by-step review
+
+### Planned Chapter Coverage
+
+| Chapter | Topic                        | Problem Types |
+| ------- | ---------------------------- | ------------- |
+| Ch. 3   | CVP Analysis                 | 3             |
+| Ch. 7   | Direct Cost Variances        | 3             |
+| Ch. 8   | Overhead Variances           | 3             |
+| Ch. 12  | Relevant Costs               | 3             |
+| Ch. 22  | Capital Budgeting            | 3             |
+
+### Planned Cross-Chapter Problems
+
+| Problem                    | Chapters       |
+| -------------------------- | -------------- |
+| Profitability Analysis     | Ch. 3 + 12 + 15 |
+| Full Variance Analysis     | Ch. 7 + 8      |
+| Make or Buy Decision       | Ch. 12 + 5 + 10 |
+| Capital Investment         | Ch. 22 + 12 + 24 |
+
+### File Structure (planned)
+
+    pages/practice/index.html         Practice index
+    pages/practice/ch03.html          CVP problems
+    pages/practice/ch07.html          Direct variance problems
+    pages/practice/ch08.html          Overhead variance problems
+    pages/practice/ch12.html          Relevant cost problems
+    pages/practice/ch22.html          Capital budgeting problems
+    pages/practice/cross-chapter.html Cross-chapter problems
+    js/practice/practice-engine.js    Step state machine, grading, deviation display
+    js/practice/ch03-problems.js      CVP problem definitions
+    js/practice/ch07-problems.js      Direct variance problem definitions
+    js/practice/ch08-problems.js      Overhead variance problem definitions
+    js/practice/ch12-problems.js      Relevant cost problem definitions
+    js/practice/ch22-problems.js      Capital budgeting problem definitions
+    js/practice/cross-chapter-problems.js Cross-chapter problem definitions
 
 ---
 
@@ -125,32 +224,14 @@ Build a comprehensive interactive learning companion that covers every concept i
 ## Development Roadmap
 
 Phase 1 -- Learn Section Chapters 1-4 -- Complete
-Ch. 1 (Manager), Ch. 2 (Cost Terms), Ch. 3 (CVP with canvas), Ch. 4 (Job Costing).
-Shared components: randomizer, journal-entry, show-work.
-Chart library: chart-core (full interaction layer), cvp-chart.
-
 Phase 2 -- Learn Section Chapters 5-12 -- Complete
-Ch. 5 (ABC), Ch. 6 (Master Budget), Ch. 7 (Flexible Budgets and Direct-Cost Variances), Ch. 8 (Overhead Variances), Ch. 9 (Inventory Costing and Capacity Analysis), Ch. 10 (Cost Behavior with scatter chart), Ch. 11 (Data Analytics and Prediction with ROC chart), Ch. 12 (Relevant Costs and Decision Making).
-
 Phase 3 -- Learn Section Chapters 13-24 -- Complete
-All 24 chapters complete. Ch. 13-24 includes Strategy, Pricing, Customer Profitability, Support Dept Allocation, Joint Products, Process Costing, Spoilage, Quality and Time, Inventory Management, Capital Budgeting, Transfer Pricing, and Performance Measurement.
-Settings panel with dark mode, font scaling, and content width added to all pages.
-Glossary page with 337 searchable terms added.
-
-Phase 4 -- Apply Section -- In Progress
-Apply index page and 8 of 12 scenarios built at Concept + Analysis depth.
-Scenarios complete: breakeven, product cost, annual plan, variance analysis, make or buy, pricing, customer profitability, inventory management.
-Each scenario has outcome-directed randomizers (e.g. Profitable/Unprofitable, Buy Wins/Make Wins).
-Revenue vs Profit objective badges on all scenario cards.
-
-Phase 5 -- Shared Chart Library Expansion
-variance-chart, control-chart, and any additional chart components needed for later chapters.
-
-Phase 6 -- Apply Section Level 2 (Analysis)
-Upgrade all 12 Apply scenarios to Analysis depth.
-
-Phase 7 -- Apply Section Level 3 (Simulation)
-Build Level 3 simulations for the 6 highest-value scenarios.
+Phase 4A -- Apply Section Concept + Analysis (all 12 scenarios) -- Complete
+Phase 4B -- Apply Index with objective badges -- Complete
+Phase 4C -- Simulation Engine -- Complete
+Phase 4D -- Breakeven Simulation (first simulation) -- Complete
+Phase 5 -- Remaining 5 Simulations -- In Progress
+Phase 6 -- Practice Section -- Planned
 
 ---
 
@@ -164,21 +245,7 @@ Build Level 3 simulations for the 6 highest-value scenarios.
 ## CSS Authoring Rule
 
 Never write CSS inside Python triple-quoted strings passed through a shell heredoc.
-The terminal collapses newlines between closing braces and the next selector, producing broken
-output like `}.next-rule {` that renders correctly in browsers but is unreadable and hard to debug.
-
-Always write CSS as a Python list of strings and join with newline:
-
-    lines = [
-        ".my-class {",
-        "  color: red;",
-        "}",
-        ".next-class {",
-        "  color: blue;",
-        "}",
-    ]
-    with open(path, 'a') as f:
-        f.write('\n'.join(lines) + '\n')
+Always write CSS as a Python list of strings and join with newline.
 
 ## Dark Mode Rule
 
@@ -188,14 +255,15 @@ Never use hardcoded hex color values in JS-generated HTML. Always use CSS custom
     RIGHT:  background: 'var(--color-success-bg)'
 
 Token reference for JS output:
-
 - var(--color-success-bg) dark green background in dark mode
 - var(--color-danger-bg) dark red background in dark mode
 - var(--color-warning-bg) dark amber background in dark mode
 - var(--color-info-bg) dark navy background in dark mode
+- var(--color-poor-bg) deep dark red background in dark mode
 - var(--color-success) teal text in dark mode
 - var(--color-danger) red text in dark mode
 - var(--color-warning) amber text in dark mode
+- var(--color-poor) bright red text in dark mode
 - var(--color-primary-text) light blue text in dark mode, navy in light mode
 - var(--color-accent) gold, same in both modes
 
@@ -203,10 +271,8 @@ Token reference for JS output:
 
 ## Known Issues / Polish Backlog
 
-- View toggle buttons on Learn index need styling refinement
-- Apply section 8 of 12 scenarios complete at Concept + Analysis depth
-- CSS integrity audit previously found collapsed `}.selector` patterns in css/learn.css; browsers tolerate this, but it should be cleaned up in a polish pass
+- CSS integrity audit previously found collapsed }.selector patterns in css/learn.css; browsers tolerate this, but it should be cleaned up in a polish pass
 - show-work not yet added to Ch. 1 (no numeric tools -- low priority)
 - formula-display.js, worked-example.js, term-tooltip.js not yet built
-- depth-selector.js not currently present and should be built when Apply section begins
-- js/data/managerial-terms.js built -- 337 terms from all 24 chapters, powers the Glossary page
+- 5 remaining simulations to build (make-or-buy, pricing, investment, performance, quality)
+- Practice section not yet built -- files created, engine and problem definitions pending
