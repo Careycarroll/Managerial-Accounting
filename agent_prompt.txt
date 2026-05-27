@@ -1,97 +1,213 @@
-# Managerial Accounting Interactive -- Agent Prompt
+# Managerial Accounting Interactive — Agent Prompt
 
-You are a code agent for the Managerial Accounting Interactive project. This is a Vite-based multi-page web application that teaches Horngren's Cost Accounting (17th Edition) through interactive tools.
-
----
-
-## Project Context
-
-Goal: Build a comprehensive interactive learning companion covering all 24 chapters of Horngren's Cost Accounting. Students learn concepts chapter by chapter (Learn section), practice calculations (Practice section), then apply them to real business decisions (Apply section).
-
-Live site: https://careycarroll.github.io/Managerial-Accounting/
-Repo: ~/Github Projects/Managerial-Accounting/
-Stack: Vite 7, vanilla JS (ES modules), CSS custom properties, KaTeX, vite-plugin-pwa
+You are a code agent working on the Managerial Accounting Interactive project. This prompt is your operational truth. Read every section before making changes.
 
 ---
 
-## Architecture
+## 1. Project Summary
 
-### Three Sections
-- Learn -- 24 chapter pages (pages/learn/ch01.html through ch24.html). Each page: hero, learning objectives, 3-5 interactive tools, show-work panels, key terms panel, chapter complete marker.
-- Practice -- Randomized multi-step calculation problems. pages/practice/. Students receive data and must calculate answers step by step with no options to anchor from.
-- Apply -- 12 scenario pages (pages/apply/*.html). Each scenario has three depth levels: Concept / Analysis / Simulation.
+A Vite-based multi-page web app that teaches Horngren's Cost Accounting (17th Edition) through interactive tools. Three sections:
 
-### File Structure
+- **Learn** — 24 chapter pages with interactive calculators, show-work panels, key terms
+- **Practice** — Randomized multi-step calculation problems (in design phase)
+- **Apply** — 12 business decision scenarios with three depth levels (Concept / Analysis / Simulation)
 
-    pages/learn/          One HTML per chapter; all 24 built
-    pages/apply/          12 scenario pages; all built at Concept + Analysis; breakeven has Simulation
-    pages/practice/       Practice section; files created, not yet built
-    js/core/              main.js, progress-tracker.js
-    js/components/        randomizer.js, journal-entry.js, show-work.js, settings-panel.js, header.js
-    js/charts/            chart-core.js, cvp-chart.js, scatter-chart.js, roc-chart.js, pareto-chart.js
-    js/engine/            scenario-engine.js (built), scenarios/breakeven-sim.js (built)
-    js/learn/             ch01.js through ch24.js, index.js, glossary.js
-    js/apply/             index.js + 12 scenario JS files; all built
-    js/practice/          practice-engine.js + problem definition files; created, not yet built
-    js/data/              managerial-terms.js (337 terms, built)
-    css/base.css          Full custom property system including --color-poor and --color-poor-bg
-    css/components.css    Shared UI components built
-    css/learn.css         Learn section layout and chapter tool styles
-    css/settings-panel.css Settings panel, dark mode overrides, poor token dark overrides
-    tests/                test-runner.js, validate-scenario.js, walk-paths.js, stress-randomizer.js, check-scores.js
-
-### Key Patterns
-- Vite multi-page -- vite.config.js auto-discovers all HTML files in pages/
-- Base path -- process.env.NODE_ENV === 'production' ? '/Managerial-Accounting/' : '/'
-- Progress tracking -- js/core/progress-tracker.js uses localStorage
-- Randomizer -- js/components/randomizer.js. Call initRandomizer(buttonId, fields, onRandomize?)
-- Show Work -- js/components/show-work.js. Call renderShowWork(containerEl, steps, options)
-- Journal Entry -- js/components/journal-entry.js. Call renderJournalEntry(containerEl, entries, options)
-- Settings Panel -- js/components/settings-panel.js. Call initSettingsPanel() in DOMContentLoaded
-- Canvas charts -- chart-core.js base; cvp-chart.js, scatter-chart.js, roc-chart.js, pareto-chart.js built
-- Full-bleed layout -- .full-bleed class in components.css
-- Cross-page data sharing -- sessionStorage for Ch. 7 to Ch. 8
-- Always pipe discovery commands to audit.txt: command > ~/Github\ Projects/Managerial-Accounting/audit.txt
-
-### CSS Design System
-All custom properties in css/base.css:
-- Colors: --color-primary, --color-primary-text, --color-accent
-- Semantic: --color-success/warning/danger/info (+ -bg variants) all defined in light mode in base.css
-- Poor: --color-poor (#7b1a1a light), --color-poor-bg (#fff0f0 light) -- dark overrides in settings-panel.css
-- Depth: --color-concept (blue), --color-analysis (green), --color-simulation (purple)
-- Spacing: --space-1 through --space-16
-- Typography: --font-sans, --font-mono, --font-size-xs through --font-size-4xl
-- --font-scale (default 1, adjusted by settings panel)
-- Max widths: --max-width-tool, --max-width-content, --max-width-narrow
+**Repo:** `~/Github Projects/Managerial-Accounting/`
+**Live:** https://careycarroll.github.io/Managerial-Accounting/ (auto-deployed via GitHub Actions on push to `main`)
+**Stack:** Vite 7, vanilla JS (ES modules), CSS custom properties, KaTeX, vite-plugin-pwa
+**No frameworks. No build steps in source. All JS uses native ES modules.**
 
 ---
 
-## Dark Mode Rules
+## 2. Critical Rules — Read Before Any Edit
 
-Dark mode toggled via data-theme="dark" on html element. All overrides in css/settings-panel.css.
+### 2.1 Internal Link Rule (Highest-Leverage Failure Mode)
 
-### Critical Rule: No Hardcoded Hex in JS Output
-Always use CSS custom property tokens. Never hardcode hex values in JS-generated HTML.
+The site deploys under the subpath `/Managerial-Accounting/`. Bare absolute paths break navigation.
 
-### Dark Mode Token Reference
+**HTML files — use `%BASE_URL%`:**
 
-    --color-success-bg     dark green bg
-    --color-danger-bg      dark red bg
-    --color-warning-bg     dark amber bg
-    --color-info-bg        dark navy bg
-    --color-poor-bg        deep dark red bg
-    --color-success        teal text
-    --color-danger         red text
-    --color-warning        amber text
-    --color-poor           bright red text
-    --color-info           light blue text
-    --color-primary-text   light blue in dark, navy in light
-    --color-accent         gold, same in both modes
-    --color-gray-50 through --color-gray-900  all overridden in dark
-    --color-border         dark border
-    --color-card-bg        dark card background
+    <!-- CORRECT -->
+    <a href="%BASE_URL%pages/learn/ch01.html">Ch. 1</a>
 
-### Inline Script in Every HTML Head
+    <!-- WRONG — 404s in production -->
+    <a href="/pages/learn/ch01.html">Ch. 1</a>
+
+**JS files that render `<a href>` — use `import.meta.env.BASE_URL`:**
+
+    // CORRECT — top-of-file constant
+    const BASE = import.meta.env.BASE_URL;
+    container.innerHTML = `<a href="${BASE}pages/learn/ch01.html">Ch. 1</a>`;
+
+    // CORRECT — inline concatenation (when top-level const is awkward)
+    const html = '<a href="' + import.meta.env.BASE_URL + 'pages/learn/ch01.html">Ch. 1</a>';
+
+    // WRONG
+    container.innerHTML = `<a href="/pages/learn/ch01.html">Ch. 1</a>`;
+
+**Exception — these are auto-rewritten by Vite, leave alone:**
+
+    <link rel="stylesheet" href="/css/base.css">      <!-- Vite handles -->
+    <script type="module" src="/js/core/main.js">     <!-- Vite handles -->
+
+**Substring matching in JS — leave hardcoded:**
+
+    // In header.js — these are matchers against window.location.pathname, not links
+    const isLearn = path.includes("/pages/learn");    // CORRECT — never change
+
+**Audit command before commit (must return empty for JS links):**
+
+    grep -rn '"/pages/' --include="*.js" js/ | grep -v 'path.includes'
+
+### 2.2 Dark Mode Rule
+
+Never hardcode hex colors in JS-rendered HTML. Always use CSS custom property tokens.
+
+    // WRONG
+    container.innerHTML = `<div style="background:#f0fdf4;color:#166534;">...</div>`;
+
+    // CORRECT
+    container.innerHTML = `<div style="background:var(--color-success-bg);color:var(--color-success);">...</div>`;
+
+Token reference for JS output:
+
+| Token | Light Mode | Dark Mode (auto via `data-theme="dark"`) |
+| --- | --- | --- |
+| `--color-success-bg` | light green | dark green |
+| `--color-danger-bg` | light red | dark red |
+| `--color-warning-bg` | light amber | dark amber |
+| `--color-info-bg` | light navy | dark navy |
+| `--color-poor-bg` | very light red | deep dark red |
+| `--color-success` | green text | teal text |
+| `--color-danger` | red text | red text |
+| `--color-warning` | amber text | amber text |
+| `--color-info` | blue text | light blue text |
+| `--color-poor` | dark red text | bright red text |
+| `--color-primary-text` | navy | light blue |
+| `--color-accent` | gold | gold |
+
+All custom properties defined in `css/base.css`. Dark overrides in `css/settings-panel.css`.
+
+### 2.3 CSS Authoring Rule
+
+Never write CSS inside Python triple-quoted strings passed through a shell heredoc. CSS in heredocs corrupts during shell expansion.
+
+Always write CSS as a Python list of strings joined with newline:
+
+    css_lines = [
+        ".my-class {",
+        "  color: var(--color-primary-text);",
+        "  background: var(--color-card-bg);",
+        "}",
+    ]
+    with open("css/file.css", "w") as f:
+        f.write("\n".join(css_lines))
+
+### 2.4 Discovery Rule
+
+Always pipe discovery output to `audit.txt`. Never let it dump to terminal.
+
+    command > ~/Github\ Projects/Managerial-Accounting/audit.txt 2>&1
+
+For multi-step discovery, group with braces:
+
+    {
+      echo "===== Step 1: ====="
+      command1
+      echo ""
+      echo "===== Step 2: ====="
+      command2
+    } > ~/Github\ Projects/Managerial-Accounting/audit.txt 2>&1
+
+### 2.5 Pre-Commit Build Verification
+
+Before committing any structural change (HTML structure, link patterns, new pages, vite.config changes), run a local build to catch base-path and resolution issues:
+
+    rm -rf dist
+    npm run build > ~/Github\ Projects/Managerial-Accounting/audit.txt 2>&1
+    grep -rn 'href="/[^M]' dist/ --include="*.html" >> ~/Github\ Projects/Managerial-Accounting/audit.txt
+
+Then inspect `audit.txt`. The grep should return empty — any hits indicate bare-root paths that will 404 in production.
+
+---
+
+## 3. Deployment
+
+### 3.1 How It Works
+
+`.github/workflows/deploy.yml` triggers on push to `main`. Two jobs:
+
+1. **build** — checkout, `npm ci`, `vite build`, copy `dist/index.html` → `dist/404.html`, upload `dist/` as Pages artifact
+2. **deploy** — publish artifact to `github-pages` environment
+
+End-to-end deploy time: 60–120 seconds.
+
+### 3.2 Deploy a Change
+
+    git add -A
+    git commit -m "feat: Section — Description"
+    git push origin main
+
+Watch the run at: https://github.com/Careycarroll/Managerial-Accounting/actions
+
+After deploy succeeds, **hard-refresh** the live site (Cmd+Shift+R) or test in an incognito window. The PWA service worker caches aggressively.
+
+### 3.3 Failure Modes
+
+| Symptom | Cause | Fix |
+| --- | --- | --- |
+| Deploy job fails "Resource not accessible by integration" | Pages source not set to "GitHub Actions" | Repo Settings → Pages → Source → GitHub Actions |
+| Build job fails on `npm ci` | package-lock drift | Run `npm install` locally, commit lock file |
+| Site loads but assets 404 | Wrong base path in `vite.config.js` | Confirm `command === 'build'` pattern (see §4.2) |
+| Site loads but internal nav links 404 | Hardcoded `/pages/...` in HTML or JS | Apply rule §2.1 |
+| Site shows old content after deploy | PWA service worker cache | Hard-refresh or incognito window |
+
+### 3.4 Do Not Use
+
+- `npm run deploy` — deprecated; the `gh-pages` package approach is obsolete
+- Manual `gh-pages` branch pushes — Pages source is set to "GitHub Actions", not branch
+
+---
+
+## 4. Architecture
+
+### 4.1 File Structure
+
+    .github/workflows/deploy.yml    GitHub Actions deploy workflow
+    vite.config.js                  Multi-page input discovery, base path, PWA config
+    index.html                      Landing page
+    pages/learn/                    24 chapter HTML files (ch01.html — ch24.html) + index.html
+    pages/apply/                    12 scenario HTML files + index.html
+    pages/practice/                 7 HTML files (skeleton only — Phase 6)
+    pages/glossary.html             Glossary page
+    js/core/                        main.js, progress-tracker.js
+    js/components/                  randomizer, journal-entry, show-work, settings-panel, header
+    js/charts/                      chart-core, cvp-chart, scatter-chart, roc-chart, pareto-chart
+    js/engine/                      scenario-engine.js + scenarios/breakeven-sim.js
+    js/learn/                       ch01.js — ch24.js, index.js, glossary.js
+    js/apply/                       12 scenario JS files + index.js
+    js/practice/                    practice-engine.js + per-chapter problem definitions (Phase 6 — skeleton)
+    js/data/                        managerial-terms.js (337 terms)
+    css/base.css                    Custom property design system
+    css/components.css              Shared UI components
+    css/learn.css                   Learn section + chapter tool styles
+    css/settings-panel.css          Settings panel + dark mode overrides
+    tests/                          test-runner, validate-scenario, walk-paths, stress-randomizer, check-scores
+
+### 4.2 vite.config.js — Key Patterns
+
+Base path uses `command` argument (NOT `process.env.NODE_ENV` — unreliable):
+
+    export default defineConfig(({ command }) => ({
+      base: command === 'build' ? '/Managerial-Accounting/' : '/',
+      // ...
+    }));
+
+Multi-page input discovery walks `pages/`, `pages/learn/`, `pages/apply/`, `pages/practice/` for `.html` files.
+
+### 4.3 Page Boilerplate
+
+Every HTML page must include this inline script in `<head>` BEFORE any stylesheet links — it prevents flash-of-unstyled-content on theme/width preferences:
 
     <script>
       (function(){
@@ -105,130 +221,159 @@ Always use CSS custom property tokens. Never hardcode hex values in JS-generated
       })();
     </script>
 
+### 4.4 Shared Component APIs
+
+**Randomizer** (`js/components/randomizer.js`):
+
+    initRandomizer(buttonId, fields, onRandomize?)
+    // fields: [{ id, min, max, step?, decimals? }]
+    // Fires native input events so listeners pick up changes
+
+**Show Work** (`js/components/show-work.js`):
+
+    renderShowWork(containerEl, steps, options)
+    // steps: [{ label, formula?, values?, result, highlight? }]
+    // options: { title, defaultOpen }
+
+**Journal Entry** (`js/components/journal-entry.js`):
+
+    renderJournalEntry(containerEl, entries, options)
+    // entries: [{ debit: [{ account, amount }], credit: [{ account, amount }], memo? }]
+
+**Settings Panel** (`js/components/settings-panel.js`):
+
+    initSettingsPanel()  // Call inside DOMContentLoaded on every page
+
+**Header** (`js/components/header.js`):
+
+    initHeader()  // Renders site header, wires nav active state, calls initSettingsPanel()
+
+### 4.5 Cross-Page Data Sharing
+
+`sessionStorage` for hand-off (e.g., Ch. 7 variance results → Ch. 8 overhead tools).
+`localStorage` for persistent preferences and progress.
+`progress-tracker.js` exposes `getProgress()`, `setChapterComplete(chXX)`, `resetChapter(chXX)`, `resetAllProgress()`, `getCompletedChapterCount()`.
+
 ---
 
-## What's Built
+## 5. Apply Section — Built
 
-### Learn -- All 24 Chapters Complete
-pages/learn/ch01.html through ch24.html -- all built
-js/learn/ch01.js through ch24.js -- all built
+All 12 scenarios are complete at Concept + Analysis depth. One scenario (breakeven) has Simulation built.
 
-### Apply -- All 12 Scenarios Complete at Concept + Analysis
+### 5.1 Apply Page Pattern
 
-    pages/apply/index.html          Apply index with objective badges
-    pages/apply/breakeven.html      Concept + Analysis + Simulation
-    pages/apply/product-cost.html   Concept + Analysis
-    pages/apply/annual-plan.html    Concept + Analysis
-    pages/apply/variance.html       Concept + Analysis
-    pages/apply/make-or-buy.html    Concept + Analysis
-    pages/apply/pricing.html        Concept + Analysis
-    pages/apply/customer-profit.html Concept + Analysis
-    pages/apply/inventory.html      Concept + Analysis
-    pages/apply/investment.html     Concept + Analysis
-    pages/apply/performance.html    Concept + Analysis
-    pages/apply/cost-behavior.html  Concept + Analysis
-    pages/apply/quality.html        Concept + Analysis
+Each Apply HTML page contains:
 
-### Simulation Engine
-    js/engine/scenario-engine.js    Domain-agnostic state machine
-    js/engine/scenarios/breakeven-sim.js  First simulation -- 5 stages, all three answer types
+- Hero section with title, chapter badges, depth toggle buttons
+- Three `<div class="depth-panel">` elements — only `.depth-panel--active` is visible
+- For scenarios with Simulation: `depth-simulation-wrapper > depth-simulation-container`
 
-Engine features:
-- Three answer types: single-choice (bell curve), multiple-choice (select all), numeric (free entry)
+### 5.2 Simulation Engine
+
+`js/engine/scenario-engine.js` is a domain-agnostic state machine. All accounting logic lives in `js/engine/scenarios/*.js`.
+
+**Engine features:**
+
+- Three answer types per stage: `single-choice` (bell curve), `multiple-choice` (select all), `numeric` (free entry, tolerance-graded)
 - Answer type randomly selected per stage per round
-- Four scoring levels: optimal, acceptable, suboptimal, poor
-- Show work panel after every decision via renderShowWork()
-- Selection breakdown for multiple-choice with per-option correct/incorrect
+- Four score levels: optimal (1.0), acceptable (0.6), suboptimal (0.2), poor (0.0)
+- `renderShowWork()` called after every decision
+- Selection breakdown for multiple-choice with per-option correct/incorrect reasons
 - Weight-based debrief rating
-- randomizeMetrics() called on every init/reset
-- Bell curve option generator -- optimal shifts position, irregular spacing
-- Branching via nextStage string or function
-- operationType in breakeven sim -- overhead allocation correct answer shifts each round
+- `randomizeMetrics()` called on every init/reset
+- Bell-curve option generator — optimal answer shifts position each round, irregular spacing
+- Branching via `nextStage` string OR function
 
-### Test Suite
-    tests/test-runner.js          Runs all tests, colored output, exit codes
-    tests/validate-scenario.js    Structure validation
-    tests/walk-paths.js           Walks every decision path
-    tests/stress-randomizer.js    100-run randomizer stress test
-    tests/check-scores.js         Score distribution across 50 runs
+### 5.3 Scenario Definition Schema
 
-Run: node tests/test-runner.js js/engine/scenarios/breakeven-sim.js
-
-### Practice Section -- Files Created, Not Yet Built
-    pages/practice/index.html
-    pages/practice/ch03.html through ch22.html
-    pages/practice/cross-chapter.html
-    js/practice/practice-engine.js
-    js/practice/ch03-problems.js through ch22-problems.js
-    js/practice/cross-chapter-problems.js
-
----
-
-## Simulation Engine Reference
-
-### ScenarioEngine API
-    engine.init(scenarioDefinition, containerEl)  -- load and render first stage
-    engine.reset()                                -- re-randomize and restart
-
-### Scenario Definition Format
-
-    export const mySim = {
+    export const myScenario = {
       id: 'my-sim',
       title: 'Scenario Title',
-      randomizeMetrics() { return { ...metrics }; },
+      randomizeMetrics() { return { /* metrics object */ }; },
       metricDisplay: [{ key, label, format, poorIf? }],
-      stages: [ ...stage definitions ],
-      reviewChapters: [{ label, href }],
-    }
+      stages: [ /* see §5.4 */ ],
+      reviewChapters: [{ label, href: import.meta.env.BASE_URL + 'pages/learn/chXX.html' }],
+    };
 
-### Stage Definition Format
+### 5.4 Stage Definition Schema
 
     {
       id: 'stage-id',
-      title: 'Stage N -- Title',
+      title: 'Stage N — Title',
       answerTypes: ['single-choice', 'multiple-choice', 'numeric'],
       context: (state) => '<p>HTML string</p>',
       highlightMetrics: ['key1', 'key2'],
 
-      // Single choice
-      generateOptions: (state) => [{ label, sublabel, consequence: (state) => ({ score, narrative, detail, metricUpdates }) }],
+      // For single-choice
+      generateOptions: (state) => [
+        { label, sublabel, consequence: (state) => ({ score, narrative, detail, metricUpdates }) }
+      ],
 
-      // Multiple choice
-      generateMultiOptions: (state) => [{ id, label, sublabel, correct }],
+      // For multiple-choice
+      generateMultiOptions: (state) => [{ id, label, sublabel, correct, poor? }],
       evaluateSelection: (selected, state, allOptions) => ({ score, narrative, detail, metricUpdates, selectionBreakdown }),
 
-      // Numeric
+      // For numeric
       numericConfig: (state) => ({ label, unit, min, step, hint, evaluate: (value, state) => ({ score, narrative, detail, metricUpdates }) }),
 
-      // Show work (all types)
+      // Show-work (works for all answer types)
       showWork: (answer, answerType, state) => [{ label, formula, values, result, highlight? }],
 
       nextStage: 'stage-id' | (state) => 'stage-id' | null,
     }
 
-### Score Levels
-    optimal    -- weight 1.0 -- green  -- correct answer
-    acceptable -- weight 0.6 -- amber  -- reasonable but not ideal
-    suboptimal -- weight 0.2 -- red    -- mistake, math does not support
-    poor       -- weight 0.0 -- deep red -- harmful, could cause business failure
+### 5.5 evaluateSelection Signature — Always Use Third Arg
 
-### evaluateSelection Signature
-Always use (selected, state, allOptions) -- third arg is full options array for breakdown construction.
-Always extract ids at top: const ids = selected.map(o => o.id);
-Always build breakdown from allOptions: allOptions.map(o => ({ label: o.label, selected: ids.includes(o.id), correct: o.correct, reason: ... }))
+    evaluateSelection: (selected, state, allOptions) => {
+      const ids = selected.map(o => o.id);   // always extract first
+      const breakdown = allOptions.map(o => ({
+        label: o.label,
+        selected: ids.includes(o.id),
+        correct: o.correct,
+        reason: /* per-option string */,
+      }));
+      return { score, narrative, detail, metricUpdates, selectionBreakdown: breakdown };
+    }
+
+The third arg gives access to all options — required for accurate breakdown labels. Without it, labels render as `undefined`.
+
+### 5.6 Wiring a Simulation Into Its Apply Page
+
+    import { ScenarioEngine } from '/js/engine/scenario-engine.js';
+    import { mySim } from '/js/engine/scenarios/my-sim.js';
+
+    let simEngine = null;
+
+    // Inside initDepthToggle(), when depth === 'simulation' and simEngine === null:
+    simEngine = new ScenarioEngine();
+    simEngine.init(mySim, document.getElementById('depth-simulation-container'));
+
+### 5.7 Test Suite
+
+    node tests/test-runner.js js/engine/scenarios/breakeven-sim.js
+
+Tests run:
+
+1. **Structure validation** — required fields, answer types, option shapes
+2. **Path walkthrough** — walks every possible decision path, validates consequence shapes
+3. **Randomizer stress** — runs `randomizeMetrics()` 100 times, checks sanity and achievability
+4. **Score distribution** — verifies all four score levels reachable across 50 runs
+5. **Selection breakdown labels** — confirms no `undefined` labels
+6. **Stage graph connectivity** — validates `nextStage` references resolve to real ids
+
+Run before any simulation commit.
 
 ---
 
-## Practice Section Design (Planned)
+## 6. Practice Section — Design Phase (Phase 6)
 
-### Concept
-Students receive randomized financial data and calculate answers step by step. No options, no tools. Pure calculation practice.
+Files exist as skeleton, engine and problem definitions not yet built.
 
-### Practice Engine API (planned)
-    engine.init(problemDefinition, containerEl)
-    engine.reset()  -- re-randomize and restart from Step 1
+### 6.1 Concept
 
-### Problem Definition Format (planned)
+Students receive randomized financial data and calculate answers step by step. No options, no helper tools — pure calculation practice mirroring exam conditions.
+
+### 6.2 Planned Problem Definition Schema
 
     export const myProblem = {
       id: 'problem-id',
@@ -237,7 +382,7 @@ Students receive randomized financial data and calculate answers step by step. N
       chapters: [3],
       estimatedMinutes: 5,
 
-      randomize: () => ({ ...data }),
+      randomize: () => ({ /* given data */ }),
 
       given: (data) => [{ label, value }],
 
@@ -247,97 +392,138 @@ Students receive randomized financial data and calculate answers step by step. N
           question: 'What is the contribution margin per unit?',
           unit: '$ per unit',
           tolerance: 1,
+          toleranceType: 'absolute' | 'percent',
           hint: 'CM = Selling Price - Variable Cost',
-          solve: (data, correctPrior) => answer,
-          showWork: (data, correctPrior) => [{ label, formula, values, result, highlight? }],
+          solve: (data, prior) => answer,  // prior keyed by step id
+          showWork: (data, prior) => [{ label, formula, values, result, highlight? }],
         }
-      ]
-    }
+      ],
+    };
 
-### Grading
-- Tolerance-based: Math.abs(student - correct) <= tolerance
-- Correct values carry forward to subsequent steps regardless of student answer
-- Hint usage flagged per step -- shown in summary, does not reduce numeric score
-- Score: 4/4 Expert, 3/4 Proficient, 2/4 Developing, 1/4 or less Review chapter
+### 6.3 Planned Engine API
 
-### Navigation
-- Practice is a first-class nav link: Learn | Practice | Apply | Glossary
-- Landing page has three tiles: Learn, Practice, Apply
-- Practice index has two sections: Chapter Problems and Cross-Chapter Problems
+    engine.init(problemDefinition, containerEl)
+    engine.reset()  // re-randomize and restart
 
----
+### 6.4 Planned Grading
 
-## Apply Section Design
+- Tolerance-based comparison: `Math.abs(student - correct) <= tolerance` (absolute) or relative for percent
+- Correct values from earlier steps carry forward to later steps regardless of student answer
+- Hint usage tracked per step — does not reduce score, shown in summary
+- Final scoring: 4/4 Expert, 3/4 Proficient, 2/4 Developing, ≤1/4 Review
 
-Each Apply page has:
-- Hero with scenario title, chapter badges, depth toggle buttons
-- Three div.depth-panel panels -- only active panel visible
-- Simulation panel has depth-simulation-wrapper > depth-simulation-container
+### 6.5 Planned Chapter Coverage
 
-Depth levels:
-- Concept -- 2-3 inputs, single answer, plain-language explanation
-- Analysis -- 8-15 inputs, structured comparison table, sensitivity output
-- Simulation -- ScenarioEngine driven, sequential decisions, consequence rendering, debrief
+| Chapter | Topic | Problem Types |
+| --- | --- | --- |
+| Ch. 3 | CVP Analysis | 3 |
+| Ch. 7 | Direct Cost Variances | 3 |
+| Ch. 8 | Overhead Variances | 3 |
+| Ch. 12 | Relevant Costs | 3 |
+| Ch. 22 | Capital Budgeting | 3 |
 
-Simulation wiring pattern:
-    import { ScenarioEngine } from '/js/engine/scenario-engine.js';
-    import { mySim } from '/js/engine/scenarios/my-sim.js';
-    // In initDepthToggle(), when depth === 'simulation' and simEngine === null:
-    simEngine = new ScenarioEngine();
-    simEngine.init(mySim, document.getElementById('depth-simulation-container'));
+Plus 4 cross-chapter problems combining 2–4 chapters each.
+
+### 6.6 Design Decisions — Pending User Confirmation
+
+See conversation context. Until confirmed, do not start engine implementation.
 
 ---
 
-## Development Rules
+## 7. Development Commands
 
-Discovery first. Always pipe to audit.txt:
-    command > ~/Github\ Projects/Managerial-Accounting/audit.txt
+    npm run dev                      # Vite dev server on :5173
+    npm run build                    # Production build to dist/
+    npm run preview                  # Serve dist/ locally to test prod build
 
-Use EOF pattern for multi-line Python:
-    python3 << 'EOF'
-    ...
-    EOF
+    # Kill any lingering dev servers
+    lsof -ti :5173,:5174,:5175,:5176 | xargs kill -9 2>/dev/null; pkill -9 -f vite 2>/dev/null
 
-No hardcoded hex in JS output. CSS tokens only.
-
-CSS writing rule: Python list of strings joined with newline. Never heredocs for CSS.
-
-Kill dev server:
-    lsof -ti :5173,:5174,:5175,:5176 | xargs kill -9 2>/dev/null; pkill -9 -f vite 2>/dev/null; echo done
-
-Syntax check before browser testing:
+    # Sanity-check a single JS file syntax (ignores import resolution)
     node --input-type=module < js/path/to/file.js 2>&1 | head -20
 
-Run simulation tests before committing:
-    node tests/test-runner.js js/engine/scenarios/breakeven-sim.js 2>&1 > ~/Github\ Projects/Managerial-Accounting/audit.txt
+    # Run simulation tests
+    node tests/test-runner.js js/engine/scenarios/breakeven-sim.js > ~/Github\ Projects/Managerial-Accounting/audit.txt 2>&1
 
-Commit pattern:
-    feat: Section -- Description
-    - file: what changed
-
----
-
-## Completed Phases
-
-Phase 1 -- Learn Chapters 1-4 (April 2026)
-Phase 2 -- Learn Chapters 5-12 (May 2026)
-Phase 3 -- Learn Chapters 13-24 (May 2026)
-Phase 4A -- Apply Concept + Analysis all 12 scenarios (May 2026)
-Phase 4B -- Apply index objective badges (May 2026)
-Phase 4C -- Simulation engine + test suite (May 2026)
-Phase 4D -- Breakeven simulation -- 5 stages, all answer types, dynamic scoring (May 2026)
-
-## In Progress
-
-Phase 5 -- Remaining 5 simulations (make-or-buy, pricing, investment, performance, quality)
-Phase 6 -- Practice section
+    # Deploy (just push — Actions handles the rest)
+    git push origin main
 
 ---
 
-## Known Issues / Polish Backlog
+## 8. Commit Conventions
 
-- CSS learn.css has collapsed }.selector patterns from early development -- tolerated by browsers, clean up in polish pass
-- show-work not added to Ch. 1 (no numeric tools -- low priority)
-- formula-display.js, worked-example.js, term-tooltip.js not yet built
+Format:
+
+    type: Section — Description
+
+    - file/path/changed.js: what changed
+    - another/file.html: what changed
+
+Types: `feat`, `fix`, `refactor`, `docs`, `ci`, `chore`, `test`
+
+Examples:
+
+    feat: Learn Ch. 14 — Pricing decisions calculator with cost-plus + target costing
+    fix: Apply breakeven — review chapter hrefs now use import.meta.env.BASE_URL
+    ci: Enable GitHub Pages deployment via Actions
+    refactor: simulation engine — extract bell-curve option generator
+
+---
+
+## 9. Completed Phases
+
+- **Phase 1** — Learn Chapters 1-4 (Apr 2026)
+- **Phase 2** — Learn Chapters 5-12 (May 2026)
+- **Phase 3** — Learn Chapters 13-24 (May 2026)
+- **Phase 4A** — Apply Concept + Analysis, all 12 scenarios (May 2026)
+- **Phase 4B** — Apply index with objective badges (May 2026)
+- **Phase 4C** — Simulation engine + test suite (May 2026)
+- **Phase 4D** — Breakeven simulation, 5 stages, all answer types (May 2026)
+- **Phase 4E** — GitHub Pages deployment via Actions (May 2026)
+
+## 10. In Progress
+
+- **Phase 5** — Remaining 5 simulations (make-or-buy, pricing, investment, performance, quality)
+- **Phase 6** — Practice section (design phase — decisions pending)
+
+---
+
+## 11. Known Issues / Polish Backlog
+
+- `css/learn.css` has collapsed `}.selector` patterns from early development — browsers tolerate, clean up in polish pass
+- show-work not added to Ch. 1 (no numeric tools — low priority)
+- `formula-display.js`, `worked-example.js`, `term-tooltip.js` referenced in planning but not yet built
 - 5 remaining simulations to build
-- Practice section files created but engine and problem definitions not yet built
+- Practice section files created but engine and problem definitions pending
+- `js/engine/scenarios/breakeven-sim.js` contains duplicate stage definitions (overhead-allocation, demand-shock, year-end appear twice) — engine ignores duplicates after first match by id, but bundle includes ~30KB of dead code. Clean up in polish pass.
+
+---
+
+## 12. Quick Reference — When You Add Something New
+
+**Adding a new Learn chapter HTML page:**
+1. Use `%BASE_URL%pages/...` for any internal `<a href>`
+2. Include the boilerplate inline script in `<head>` (see §4.3)
+3. Run `npm run build` and inspect `dist/pages/learn/chXX.html` — confirm no bare `/pages/...` paths
+4. Add corresponding JS file to `js/learn/`
+5. Vite auto-discovers — no `vite.config.js` change needed
+
+**Adding a new component that renders links in JS:**
+1. Declare `const BASE = import.meta.env.BASE_URL;` at top of file
+2. Use template literals: `\`<a href="${BASE}pages/...">\``
+3. Audit with: `grep -n '"/pages/' js/your/file.js` — should be empty
+
+**Adding a new simulation:**
+1. Create `js/engine/scenarios/<name>-sim.js` following schema in §5.3–5.4
+2. All `reviewChapters` hrefs MUST use `import.meta.env.BASE_URL + 'pages/learn/chXX.html'`
+3. Run `node tests/test-runner.js js/engine/scenarios/<name>-sim.js` — must pass all 6 tests
+4. Wire into the Apply page per §5.6
+5. Update README simulation status table
+
+**Adding a new Practice problem (when Phase 6 starts):**
+1. Define problem object per §6.2 schema
+2. Test `randomize()` produces sensible numbers across 50+ runs
+3. Verify `solve()` is deterministic given the same `data`
+4. Confirm `showWork` formulas match the steps a student would write
+
+

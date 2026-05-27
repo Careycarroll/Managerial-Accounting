@@ -2,7 +2,7 @@
 
 An interactive learning tool for Horngren's Cost Accounting (17th Edition). Built with Vite, vanilla JavaScript, and CSS custom properties. No frameworks. Deployed as a Progressive Web App on GitHub Pages.
 
-Live: https://careycarroll.github.io/Managerial-Accounting/
+Live: https://careycarroll.github.io/Managerial-Accounting/ (auto-deployed via GitHub Actions on every push to `main`)
 
 Source: Horngren, Datar & Rajan -- Cost Accounting: A Managerial Emphasis, 17th Edition
 
@@ -26,58 +26,123 @@ Build a comprehensive interactive learning companion that covers every concept i
     npm install
     npm run dev
 
+To preview a production-mode build locally (catches base-path issues before deploy):
+
+    npm run build
+    npm run preview
+
+---
+
+## Deployment
+
+Deployment is fully automated via GitHub Actions. Every push to `main` triggers a build and deploy to GitHub Pages -- typical end-to-end time is 60-120 seconds.
+
+Workflow file: `.github/workflows/deploy.yml`
+
+The pipeline runs two jobs:
+
+1. **build** -- checks out the repo, installs dependencies with `npm ci`, runs `vite build`, copies `dist/index.html` to `dist/404.html` as a fallback, uploads the `dist/` directory as a Pages artifact
+2. **deploy** -- publishes the artifact to the `github-pages` environment
+
+Monitor deploys at: https://github.com/Careycarroll/Managerial-Accounting/actions
+
+GitHub Pages source is set to **"GitHub Actions"** (not "Deploy from a branch"). Do not change this -- the workflow expects to be the deployment source.
+
+### What this means in practice
+
+- No `npm run deploy` step is needed. The old `gh-pages` package approach is deprecated for this project.
+- Local previews use `npm run dev` (Vite dev server) or `npm run preview` (built dist served locally).
+- After a successful push, hard-refresh the live site (Cmd+Shift+R) or use an incognito window -- the PWA service worker caches aggressively and may serve a stale version otherwise.
+
+---
+
+## Base URL Pattern (Critical for Future Development)
+
+The deployed site lives under the subpath `/Managerial-Accounting/`. Vite handles asset rewriting automatically for `<link>` and `<script>` tags, but internal navigation links require explicit base-path handling.
+
+### Rule 1 -- HTML files use `%BASE_URL%`
+
+Vite expands `%BASE_URL%` to `/` in dev and `/Managerial-Accounting/` in production at build time.
+
+    <!-- correct -->
+    <a href="%BASE_URL%pages/learn/ch01.html">Ch. 1</a>
+
+    <!-- wrong -- 404s in production -->
+    <a href="/pages/learn/ch01.html">Ch. 1</a>
+
+### Rule 2 -- JS-rendered links use `import.meta.env.BASE_URL`
+
+For JS that emits HTML (template literals, innerHTML assignments, generated nav components), read the base URL at runtime.
+
+    const BASE = import.meta.env.BASE_URL;
+    container.innerHTML = `<a href="${BASE}pages/learn/ch01.html">Ch. 1</a>`;
+
+For inline string concatenation where a top-level constant is awkward:
+
+    const html = '<a href="' + import.meta.env.BASE_URL + 'pages/apply/">All Scenarios</a>';
+
+### Exception
+
+`<link rel="stylesheet" href="/css/...">` and `<script src="/js/...">` in HTML do NOT need `%BASE_URL%`. Vite already rewrites these as assets during build. Only `<a href>` navigation links need explicit base handling.
+
+### When you add new pages or links
+
+1. New HTML files: use `%BASE_URL%pages/...` for any `<a href>` to other internal pages
+2. New JS components rendering links: declare `const BASE = import.meta.env.BASE_URL;` at the top of the file
+3. Always run `npm run build` and inspect `dist/` output before pushing -- look for any remaining bare `/pages/...` paths
+
 ---
 
 ## Learn Section -- Chapter Status
 
-| #   | Chapter                                               | Status      | Tools                                                                                                                                                                    |
-| --- | ----------------------------------------------------- | ----------- | ------------------------------------------------------------------------------------------------------------------------------------------------------------------------ |
-| 1   | The Manager and Management Accounting                 | Complete    | Accounting comparison, value chain builder, five-step process, IMA ethics                                                                                                |
-| 2   | An Introduction to Cost Terms and Purposes            | Complete    | Cost classifier, relevant range visualizer, manufacturing cost flow, unit cost trap                                                                                      |
-| 3   | Cost-Volume-Profit Analysis                           | Complete    | CVP dashboard, CVP graph (canvas, interactive), sensitivity analysis, sales mix CVP                                                                                      |
-| 4   | Job Costing                                           | Complete    | Job cost record builder, normal vs actual costing, overhead disposal, job vs process classifier                                                                          |
-| 5   | Activity-Based Costing and ABM                        | Complete    | Simple vs ABC comparator, cost hierarchy classifier, ABC system builder (8 pools), ABM decisions                                                                         |
-| 6   | Master Budget and Responsibility Accounting           | Complete    | Operating budget builder (9-step), sensitivity analysis, responsibility center classifier, cash budget, Kaizen simulator                                                 |
-| 7   | Flexible Budgets and Direct-Cost Variances            | Complete    | Static vs flexible budget analyzer, direct-cost variance calculator (Level 3 columnar), variance hierarchy diagram                                                       |
-| 8   | Flexible Budgets and Overhead Variances               | Complete    | Overhead rate developer (4-step), 4-variance overhead analyzer (Panels A+B), complete variance hierarchy (Exhibit 8-5)                                                   |
-| 9   | Inventory Costing and Capacity Analysis               | Complete    | Absorption vs variable costing comparator, capacity concepts calculator, denominator-level analysis, income effects                                                      |
-| 10  | Determining How Costs Behave                          | Complete    | Cost estimation suite, scatter plot visualizer, regression/high-low comparison, learning curve calculator                                                                |
-| 11  | Data Analytic Thinking and Prediction                 | Complete    | Data analytics workflow, decision tree/Gini tools, prediction model evaluation, ROC curve visualizer                                                                     |
-| 12  | Decision Making and Relevant Information              | Complete    | Relevant cost identifier, special order analyzer, make-or-buy calculator, product mix/bottleneck manager, add/drop and equipment replacement                             |
-| 13  | Strategy, Balanced Scorecard, Strategic Profitability | Complete    | Strategy identifier, balanced scorecard builder, strategic profitability analyzer, engineered vs discretionary cost classifier                                           |
-| 14  | Pricing Decisions and Cost Management                 | Complete    | Pricing context identifier, cost-plus pricing calculator, target costing/value engineering, life-cycle profitability planner                                             |
-| 15  | Cost Allocation and Customer Profitability            | Complete    | Customer cost hierarchy classifier, customer profitability analyzer, whale curve builder, sales variance calculator                                                      |
-| 16  | Allocation of Support-Department Costs                | Complete    | Support department allocation engine (direct/step-down/reciprocal), common cost allocator, revenue allocation with Shapley value, bundled product profitability analyzer |
-| 17  | Cost Allocation: Joint Products and Byproducts        | Complete    | Joint cost allocator (3 methods), sell-or-process-further calculator, byproduct accounting comparator, process flow visualizer                                           |
-| 18  | Process Costing                                       | Complete    | Physical units flow tracker, equivalent units calculator, weighted-average engine, FIFO engine, method comparator                                                        |
-| 19  | Spoilage, Rework, and Scrap                           | Complete    | Spoilage classifier, inspection point analyzer, process costing with spoilage (weighted-average), process costing with spoilage (FIFO), rework and scrap accounting      |
-| 20  | Balanced Scorecard: Quality and Time                  | Complete    | COQ report builder (two-period), quality cost trade-off analyzer, nonfinancial quality measures analyzer, MCE calculator, Pareto diagram (canvas)                        |
-| 21  | Inventory Management, JIT, and Simplified Costing     | Complete    | EOQ calculator, safety stock and reorder point, JIT vs traditional analyzer, backflush costing engine                                                                   |
-| 22  | Capital Budgeting and Cost Analysis                   | Complete    | Relevant cash flow identifier, NPV and IRR calculator, payback and AARR, capital budgeting dashboard with tax effects, sensitivity analyzer                              |
-| 23  | Management Control Systems and Transfer Pricing       | Complete    | Decentralization analyzer, transfer price method comparator, general transfer pricing rule calculator, multinational tax strategy tool                                   |
-| 24  | Performance Measurement and Compensation              | Complete    | ROI vs RI comparator, EVA calculator, DuPont decomposition, performance dashboard, compensation linkage analyzer, multinational performance comparator                   |
+| #   | Chapter                                               | Status   | Tools                                                                                                                                                                    |
+| --- | ----------------------------------------------------- | -------- | ------------------------------------------------------------------------------------------------------------------------------------------------------------------------ |
+| 1   | The Manager and Management Accounting                 | Complete | Accounting comparison, value chain builder, five-step process, IMA ethics                                                                                                |
+| 2   | An Introduction to Cost Terms and Purposes            | Complete | Cost classifier, relevant range visualizer, manufacturing cost flow, unit cost trap                                                                                      |
+| 3   | Cost-Volume-Profit Analysis                           | Complete | CVP dashboard, CVP graph (canvas, interactive), sensitivity analysis, sales mix CVP                                                                                      |
+| 4   | Job Costing                                           | Complete | Job cost record builder, normal vs actual costing, overhead disposal, job vs process classifier                                                                          |
+| 5   | Activity-Based Costing and ABM                        | Complete | Simple vs ABC comparator, cost hierarchy classifier, ABC system builder (8 pools), ABM decisions                                                                         |
+| 6   | Master Budget and Responsibility Accounting           | Complete | Operating budget builder (9-step), sensitivity analysis, responsibility center classifier, cash budget, Kaizen simulator                                                 |
+| 7   | Flexible Budgets and Direct-Cost Variances            | Complete | Static vs flexible budget analyzer, direct-cost variance calculator (Level 3 columnar), variance hierarchy diagram                                                       |
+| 8   | Flexible Budgets and Overhead Variances               | Complete | Overhead rate developer (4-step), 4-variance overhead analyzer (Panels A+B), complete variance hierarchy (Exhibit 8-5)                                                   |
+| 9   | Inventory Costing and Capacity Analysis               | Complete | Absorption vs variable costing comparator, capacity concepts calculator, denominator-level analysis, income effects                                                      |
+| 10  | Determining How Costs Behave                          | Complete | Cost estimation suite, scatter plot visualizer, regression/high-low comparison, learning curve calculator                                                                |
+| 11  | Data Analytic Thinking and Prediction                 | Complete | Data analytics workflow, decision tree/Gini tools, prediction model evaluation, ROC curve visualizer                                                                     |
+| 12  | Decision Making and Relevant Information              | Complete | Relevant cost identifier, special order analyzer, make-or-buy calculator, product mix/bottleneck manager, add/drop and equipment replacement                             |
+| 13  | Strategy, Balanced Scorecard, Strategic Profitability | Complete | Strategy identifier, balanced scorecard builder, strategic profitability analyzer, engineered vs discretionary cost classifier                                           |
+| 14  | Pricing Decisions and Cost Management                 | Complete | Pricing context identifier, cost-plus pricing calculator, target costing/value engineering, life-cycle profitability planner                                             |
+| 15  | Cost Allocation and Customer Profitability            | Complete | Customer cost hierarchy classifier, customer profitability analyzer, whale curve builder, sales variance calculator                                                      |
+| 16  | Allocation of Support-Department Costs                | Complete | Support department allocation engine (direct/step-down/reciprocal), common cost allocator, revenue allocation with Shapley value, bundled product profitability analyzer |
+| 17  | Cost Allocation: Joint Products and Byproducts        | Complete | Joint cost allocator (3 methods), sell-or-process-further calculator, byproduct accounting comparator, process flow visualizer                                           |
+| 18  | Process Costing                                       | Complete | Physical units flow tracker, equivalent units calculator, weighted-average engine, FIFO engine, method comparator                                                        |
+| 19  | Spoilage, Rework, and Scrap                           | Complete | Spoilage classifier, inspection point analyzer, process costing with spoilage (weighted-average), process costing with spoilage (FIFO), rework and scrap accounting      |
+| 20  | Balanced Scorecard: Quality and Time                  | Complete | COQ report builder (two-period), quality cost trade-off analyzer, nonfinancial quality measures analyzer, MCE calculator, Pareto diagram (canvas)                        |
+| 21  | Inventory Management, JIT, and Simplified Costing     | Complete | EOQ calculator, safety stock and reorder point, JIT vs traditional analyzer, backflush costing engine                                                                    |
+| 22  | Capital Budgeting and Cost Analysis                   | Complete | Relevant cash flow identifier, NPV and IRR calculator, payback and AARR, capital budgeting dashboard with tax effects, sensitivity analyzer                              |
+| 23  | Management Control Systems and Transfer Pricing       | Complete | Decentralization analyzer, transfer price method comparator, general transfer pricing rule calculator, multinational tax strategy tool                                   |
+| 24  | Performance Measurement and Compensation              | Complete | ROI vs RI comparator, EVA calculator, DuPont decomposition, performance dashboard, compensation linkage analyzer, multinational performance comparator                   |
 
 ---
 
 ## Shared Components
 
-| Component       | File                             | Status              | Used In                                     |
-| --------------- | -------------------------------- | ------------------- | ------------------------------------------- |
-| Randomizer      | js/components/randomizer.js      | Built               | Numeric tools across Learn chapters         |
-| Journal Entry   | js/components/journal-entry.js   | Built               | Ch. 4, Ch. 6, journal-entry style tools     |
-| Show Work       | js/components/show-work.js       | Built               | Calculator tools across Learn chapters      |
-| Settings Panel  | js/components/settings-panel.js  | Built               | All chapter pages -- width, font, dark mode |
-| Header          | js/components/header.js          | Built               | All pages                                   |
+| Component      | File                            | Status | Used In                                     |
+| -------------- | ------------------------------- | ------ | ------------------------------------------- |
+| Randomizer     | js/components/randomizer.js     | Built  | Numeric tools across Learn chapters         |
+| Journal Entry  | js/components/journal-entry.js  | Built  | Ch. 4, Ch. 6, journal-entry style tools     |
+| Show Work      | js/components/show-work.js      | Built  | Calculator tools across Learn chapters      |
+| Settings Panel | js/components/settings-panel.js | Built  | All chapter pages -- width, font, dark mode |
+| Header         | js/components/header.js         | Built  | All pages                                   |
 
 ## Chart Library
 
-| Chart            | File                        | Status    | Used In              |
-| ---------------- | --------------------------- | --------- | -------------------- |
-| Base Chart       | js/charts/chart-core.js     | Built     | All chart components |
-| CVP Chart        | js/charts/cvp-chart.js      | Built     | Ch. 3, Apply breakeven |
-| Scatter Plot     | js/charts/scatter-chart.js  | Built     | Ch. 10               |
-| ROC Chart        | js/charts/roc-chart.js      | Built     | Ch. 11               |
-| Pareto Diagram   | js/charts/pareto-chart.js   | Built     | Ch. 20               |
+| Chart          | File                       | Status | Used In                |
+| -------------- | -------------------------- | ------ | ---------------------- |
+| Base Chart     | js/charts/chart-core.js    | Built  | All chart components   |
+| CVP Chart      | js/charts/cvp-chart.js     | Built  | Ch. 3, Apply breakeven |
+| Scatter Plot   | js/charts/scatter-chart.js | Built  | Ch. 10                 |
+| ROC Chart      | js/charts/roc-chart.js     | Built  | Ch. 11                 |
+| Pareto Diagram | js/charts/pareto-chart.js  | Built  | Ch. 20                 |
 
 ---
 
@@ -105,6 +170,7 @@ Build a comprehensive interactive learning companion that covers every concept i
 The simulation engine (js/engine/scenario-engine.js) is a domain-agnostic state machine that powers the Simulation depth level for Apply scenarios. All accounting logic lives in scenario definition files under js/engine/scenarios/.
 
 ### Engine Features
+
 - Three answer types per stage: single-choice (bell curve options), multiple-choice (select all that apply), numeric input (free entry, tolerance-based grading)
 - Answer type randomly selected per stage per round -- same stage may present differently each playthrough
 - Four scoring levels: optimal, acceptable, suboptimal, poor (deep red -- business-damaging decisions)
@@ -118,21 +184,23 @@ The simulation engine (js/engine/scenario-engine.js) is a domain-agnostic state 
 
 ### Simulation Status
 
-| Scenario                           | Status    | Stages | Notes                                    |
-| ---------------------------------- | --------- | ------ | ---------------------------------------- |
-| Will we break even? Make a profit? | Complete  | 5      | All three answer types, dynamic scoring  |
-| Should we make it or buy it?       | Planned   | --     | --                                       |
-| What should we charge?             | Planned   | --     | --                                       |
-| Is this investment worth it?       | Planned   | --     | --                                       |
-| How are we measuring performance?  | Planned   | --     | --                                       |
-| Are we producing quality?          | Planned   | --     | --                                       |
+| Scenario                           | Status   | Stages | Notes                                   |
+| ---------------------------------- | -------- | ------ | --------------------------------------- |
+| Will we break even? Make a profit? | Complete | 5      | All three answer types, dynamic scoring |
+| Should we make it or buy it?       | Planned  | --     | --                                      |
+| What should we charge?             | Planned  | --     | --                                      |
+| Is this investment worth it?       | Planned  | --     | --                                      |
+| How are we measuring performance?  | Planned  | --     | --                                      |
+| Are we producing quality?          | Planned  | --     | --                                      |
 
 ### Test Suite
+
 Automated tests in tests/ validate every scenario definition before browser testing:
 
     node tests/test-runner.js js/engine/scenarios/breakeven-sim.js
 
 Tests:
+
 1. Structure Validation -- required fields, answer types, option shapes
 2. Simulation Path Walkthrough -- walks every possible decision path, validates consequence shapes and breakdown labels
 3. Randomizer Stress Test -- runs randomizeMetrics() 100 times, checks sanity and achievability
@@ -142,11 +210,12 @@ Tests:
 
 ---
 
-## Practice Section -- Planned
+## Practice Section -- In Progress (Design Phase)
 
 A third first-class section alongside Learn and Apply. Accessible from the main nav and landing page.
 
 ### Concept
+
 Students receive a randomized set of financial data and must calculate answers step by step -- no options to pick from, no tools doing the math. Pure calculation practice that mirrors exam conditions.
 
 ### Two Tiers
@@ -155,50 +224,52 @@ Students receive a randomized set of financial data and must calculate answers s
 **Cross-Chapter Problems** -- harder multi-step problems pulling from 2-4 chapters simultaneously.
 
 ### Problem Format
+
 Each problem has:
+
 - Given information panel (randomized each attempt)
 - 3-6 sequential steps, each submitted independently
-- Tolerance-based grading (±1 unit, ±$1 for rounding)
+- Tolerance-based grading (configurable absolute or percent)
 - Show work revealed after each step submission
 - Deviation display when wrong -- shows correct calculation vs what the answer implies
 - Optional formula hint (toggleable, flagged in summary if used)
-- Final score summary with step-by-step review
+- Final score summary with step-by-step review and retake options
 
 ### Planned Chapter Coverage
 
-| Chapter | Topic                        | Problem Types |
-| ------- | ---------------------------- | ------------- |
-| Ch. 3   | CVP Analysis                 | 3             |
-| Ch. 7   | Direct Cost Variances        | 3             |
-| Ch. 8   | Overhead Variances           | 3             |
-| Ch. 12  | Relevant Costs               | 3             |
-| Ch. 22  | Capital Budgeting            | 3             |
+| Chapter | Topic                 | Problem Types |
+| ------- | --------------------- | ------------- |
+| Ch. 3   | CVP Analysis          | 3             |
+| Ch. 7   | Direct Cost Variances | 3             |
+| Ch. 8   | Overhead Variances    | 3             |
+| Ch. 12  | Relevant Costs        | 3             |
+| Ch. 22  | Capital Budgeting     | 3             |
 
 ### Planned Cross-Chapter Problems
 
-| Problem                    | Chapters       |
-| -------------------------- | -------------- |
-| Profitability Analysis     | Ch. 3 + 12 + 15 |
-| Full Variance Analysis     | Ch. 7 + 8      |
-| Make or Buy Decision       | Ch. 12 + 5 + 10 |
-| Capital Investment         | Ch. 22 + 12 + 24 |
+| Problem                | Chapters         |
+| ---------------------- | ---------------- |
+| Profitability Analysis | Ch. 3 + 12 + 15  |
+| Full Variance Analysis | Ch. 7 + 8        |
+| Make or Buy Decision   | Ch. 12 + 5 + 10  |
+| Capital Investment     | Ch. 22 + 12 + 24 |
 
-### File Structure (planned)
+### File Structure
 
-    pages/practice/index.html         Practice index
-    pages/practice/ch03.html          CVP problems
-    pages/practice/ch07.html          Direct variance problems
-    pages/practice/ch08.html          Overhead variance problems
-    pages/practice/ch12.html          Relevant cost problems
-    pages/practice/ch22.html          Capital budgeting problems
-    pages/practice/cross-chapter.html Cross-chapter problems
-    js/practice/practice-engine.js    Step state machine, grading, deviation display
-    js/practice/ch03-problems.js      CVP problem definitions
-    js/practice/ch07-problems.js      Direct variance problem definitions
-    js/practice/ch08-problems.js      Overhead variance problem definitions
-    js/practice/ch12-problems.js      Relevant cost problem definitions
-    js/practice/ch22-problems.js      Capital budgeting problem definitions
-    js/practice/cross-chapter-problems.js Cross-chapter problem definitions
+    pages/practice/index.html         Practice index -- created, empty
+    pages/practice/ch03.html          CVP problems -- created, empty
+    pages/practice/ch07.html          Direct variance problems -- created, empty
+    pages/practice/ch08.html          Overhead variance problems -- created, empty
+    pages/practice/ch12.html          Relevant cost problems -- created, empty
+    pages/practice/ch22.html          Capital budgeting problems -- created, empty
+    pages/practice/cross-chapter.html Cross-chapter problems -- created, empty
+    js/practice/practice-engine.js    Step state machine, grading, deviation display -- pending
+    js/practice/ch03-problems.js      CVP problem definitions -- pending
+    js/practice/ch07-problems.js      Direct variance problem definitions -- pending
+    js/practice/ch08-problems.js      Overhead variance problem definitions -- pending
+    js/practice/ch12-problems.js      Relevant cost problem definitions -- pending
+    js/practice/ch22-problems.js      Capital budgeting problem definitions -- pending
+    js/practice/cross-chapter-problems.js Cross-chapter problem definitions -- pending
 
 ---
 
@@ -217,7 +288,7 @@ Each problem has:
 - Chart interactions -- chart components use canvas interaction patterns where applicable
 - Full-bleed layout -- .full-bleed + .full-bleed\_\_inner for content wider than container--tool
 - JS-owned outputs -- interactive result sections created or populated by JavaScript using getOrCreate patterns
-- GitHub Pages -- base path /Managerial-Accounting/ in production, / in dev
+- GitHub Pages -- deployed via GitHub Actions, base path `/Managerial-Accounting/` in production, `/` in dev; vite.config.js uses `command === 'build'` to determine base path
 
 ---
 
@@ -230,16 +301,21 @@ Phase 4A -- Apply Section Concept + Analysis (all 12 scenarios) -- Complete
 Phase 4B -- Apply Index with objective badges -- Complete
 Phase 4C -- Simulation Engine -- Complete
 Phase 4D -- Breakeven Simulation (first simulation) -- Complete
+Phase 4E -- GitHub Pages deployment via Actions -- Complete
 Phase 5 -- Remaining 5 Simulations -- In Progress
-Phase 6 -- Practice Section -- Planned
+Phase 6 -- Practice Section -- In Progress (design phase)
 
 ---
 
 ## Useful Dev Commands
 
-    npm run dev
-    npm run build
-    npm run deploy
+    npm run dev          # Vite dev server, localhost
+    npm run build        # Production build to dist/
+    npm run preview      # Serve dist/ locally (catches base-path issues)
+    git push origin main # Deploys to GitHub Pages via Actions
+
+Kill stuck dev servers:
+
     lsof -ti :5173,:5174,:5175,:5176 | xargs kill -9 2>/dev/null; pkill -9 -f vite 2>/dev/null; echo done
 
 ## CSS Authoring Rule
@@ -255,6 +331,7 @@ Never use hardcoded hex color values in JS-generated HTML. Always use CSS custom
     RIGHT:  background: 'var(--color-success-bg)'
 
 Token reference for JS output:
+
 - var(--color-success-bg) dark green background in dark mode
 - var(--color-danger-bg) dark red background in dark mode
 - var(--color-warning-bg) dark amber background in dark mode
@@ -264,6 +341,7 @@ Token reference for JS output:
 - var(--color-danger) red text in dark mode
 - var(--color-warning) amber text in dark mode
 - var(--color-poor) bright red text in dark mode
+- var(--color-info) light blue text in dark mode
 - var(--color-primary-text) light blue text in dark mode, navy in light mode
 - var(--color-accent) gold, same in both modes
 
@@ -276,3 +354,4 @@ Token reference for JS output:
 - formula-display.js, worked-example.js, term-tooltip.js not yet built
 - 5 remaining simulations to build (make-or-buy, pricing, investment, performance, quality)
 - Practice section not yet built -- files created, engine and problem definitions pending
+- breakeven-sim.js has duplicate stage definitions (overhead-allocation, demand-shock, year-end appear twice). The engine iterates the stages array and finds the first matching `id` for nextStage references, so the duplicates are dead code. This bloats apply-breakeven bundle by ~30 kB. Clean up in a polish pass.
