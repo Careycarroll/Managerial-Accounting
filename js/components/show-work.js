@@ -12,6 +12,7 @@
  *     values:  string  — substituted values e.g. '$2,000 ÷ $80'
  *     result:  string  — final result       e.g. '25 units'
  *     note:    string? — optional explanatory note shown below the result
+ *     annotation: string? — optional warning/carry-forward note (e.g. "Using Step 1's correct value: $42")
  *     highlight: bool? — true to visually emphasize this step (final answer, key insight)
  *   }
  *
@@ -50,6 +51,7 @@ export function renderShowWork(containerEl, steps, options = {}) {
             <span class="sw-step__row-label">Result</span>
             <span class="sw-step__result">${s.result}</span>
           </div>
+          ${s.annotation ? `<div class="sw-step__annotation">${s.annotation}</div>` : ''}
           ${s.note ? `<div class="sw-step__note">${s.note}</div>` : ''}
         </div>
       </div>

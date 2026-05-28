@@ -1,0 +1,316 @@
+/* css/practice.css
+ * Practice section styles
+ * - Picker tile grid (chapter & cross-chapter pages)
+ * - Problem container (when engine is active)
+ * - Engine-rendered elements (step cards, summary screen)
+ *
+ * Engine inline-styles most of its content using CSS custom property tokens,
+ * so this file primarily targets layout shells the engine does not own.
+ */
+
+/* ============================================================
+ * Picker tile grid
+ * ============================================================ */
+
+.practice-picker {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+  gap: var(--space-4);
+  margin: var(--space-5) 0;
+}
+
+.practice-picker-tile {
+  display: flex;
+  flex-direction: column;
+  padding: var(--space-5);
+  background: var(--color-card-bg);
+  border: 1px solid var(--color-gray-200);
+  border-radius: var(--radius-lg);
+  cursor: pointer;
+  transition: border-color 0.15s, transform 0.15s, box-shadow 0.15s;
+  text-align: left;
+  font-family: inherit;
+  color: inherit;
+}
+
+.practice-picker-tile:hover {
+  border-color: var(--color-accent);
+  transform: translateY(-2px);
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.08);
+}
+
+.practice-picker-tile__label {
+  font-size: var(--font-size-xs);
+  font-weight: 700;
+  text-transform: uppercase;
+  color: var(--color-gray-500);
+  margin-bottom: var(--space-2);
+  letter-spacing: 0.05em;
+}
+
+.practice-picker-tile__title {
+  font-size: var(--font-size-lg);
+  font-weight: 700;
+  color: var(--color-primary-text);
+  margin: 0 0 var(--space-2);
+}
+
+.practice-picker-tile__desc {
+  font-size: var(--font-size-sm);
+  color: var(--color-gray-600);
+  line-height: 1.5;
+  margin: 0 0 var(--space-4);
+  flex: 1;
+}
+
+.practice-picker-tile__meta {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  font-size: var(--font-size-xs);
+  color: var(--color-gray-500);
+}
+
+.practice-picker-tile__meta-time {
+  font-weight: 600;
+}
+
+.practice-picker-tile__cta {
+  font-weight: 700;
+  color: var(--color-accent);
+}
+
+/* ============================================================
+ * Problem container — wrapper around engine output
+ * ============================================================ */
+
+.practice-problem-container {
+  background: var(--color-card-bg);
+  border: 1px solid var(--color-gray-200);
+  border-radius: var(--radius-lg);
+  padding: var(--space-5) var(--space-6);
+  margin: var(--space-5) 0;
+  min-height: 400px;
+}
+
+/* When picker is hidden during active problem */
+.practice-picker--hidden {
+  display: none;
+}
+
+.practice-problem-container--hidden {
+  display: none;
+}
+
+/* ============================================================
+ * Step cards (engine-rendered, but layout container styled here)
+ * ============================================================ */
+
+.practice-step-card {
+  border: 1px solid var(--color-gray-200);
+  border-radius: var(--radius-md);
+  padding: var(--space-4) var(--space-5);
+  background: var(--color-card-bg);
+  transition: border-color 0.2s, opacity 0.2s;
+}
+
+.practice-step-card--locked {
+  opacity: 0.5;
+  background: var(--color-gray-50);
+}
+
+.practice-step-card--active {
+  border-color: var(--color-accent);
+  box-shadow: 0 0 0 3px rgba(212, 165, 89, 0.15);
+}
+
+.practice-step-card--submitted-correct {
+  border-color: var(--color-success);
+  background: var(--color-success-bg);
+}
+
+.practice-step-card--submitted-incorrect {
+  border-color: var(--color-danger);
+  background: var(--color-danger-bg);
+}
+
+/* ============================================================
+ * Summary screen rating + stats
+ * ============================================================ */
+
+.practice-summary {
+  padding: var(--space-6) 0;
+}
+
+.practice-summary__header {
+  text-align: center;
+  padding: var(--space-5);
+  background: var(--color-info-bg);
+  border: 1px solid var(--color-info);
+  border-radius: var(--radius-lg);
+  margin-bottom: var(--space-5);
+}
+
+.practice-summary__count {
+  font-size: var(--font-size-3xl);
+  font-weight: 800;
+  color: var(--color-primary-text);
+  margin-bottom: var(--space-2);
+}
+
+.practice-summary__label {
+  font-size: var(--font-size-sm);
+  color: var(--color-gray-600);
+  text-transform: uppercase;
+  letter-spacing: 0.05em;
+  font-weight: 700;
+}
+
+.practice-summary__steps-list {
+  margin-bottom: var(--space-5);
+}
+
+.practice-summary__step-row {
+  display: flex;
+  align-items: flex-start;
+  gap: var(--space-3);
+  padding: var(--space-3) var(--space-4);
+  margin-bottom: var(--space-2);
+  border-radius: var(--radius-md);
+  border: 1px solid var(--color-gray-200);
+  background: var(--color-card-bg);
+}
+
+.practice-summary__step-row--correct {
+  border-color: var(--color-success);
+  background: var(--color-success-bg);
+}
+
+.practice-summary__step-row--incorrect {
+  border-color: var(--color-danger);
+  background: var(--color-danger-bg);
+}
+
+.practice-summary__step-marker {
+  font-weight: 800;
+  font-size: var(--font-size-lg);
+  flex-shrink: 0;
+  width: 24px;
+  text-align: center;
+}
+
+.practice-summary__step-content {
+  flex: 1;
+}
+
+.practice-summary__step-question {
+  font-size: var(--font-size-sm);
+  font-weight: 600;
+  color: var(--color-primary-text);
+  margin-bottom: var(--space-1);
+}
+
+.practice-summary__step-answer {
+  font-size: var(--font-size-xs);
+  color: var(--color-gray-600);
+}
+
+.practice-summary__step-flag {
+  font-size: var(--font-size-xs);
+  color: var(--color-gray-500);
+  font-style: italic;
+  margin-top: 2px;
+}
+
+.practice-summary__actions {
+  display: flex;
+  gap: var(--space-3);
+  flex-wrap: wrap;
+  margin-top: var(--space-5);
+}
+
+.practice-summary__btn {
+  padding: var(--space-3) var(--space-6);
+  border-radius: var(--radius-md);
+  font-weight: 700;
+  font-size: var(--font-size-sm);
+  border: none;
+  cursor: pointer;
+  text-decoration: none;
+  display: inline-flex;
+  align-items: center;
+  font-family: inherit;
+}
+
+.practice-summary__btn--primary {
+  background: var(--color-accent);
+  color: #fff;
+}
+
+.practice-summary__btn--secondary {
+  background: var(--color-gray-100);
+  color: var(--color-primary-text);
+  border: 1px solid var(--color-gray-200);
+}
+
+.practice-summary__review-section {
+  margin-top: var(--space-5);
+  padding-top: var(--space-5);
+  border-top: 1px solid var(--color-gray-200);
+}
+
+.practice-summary__review-label {
+  font-size: var(--font-size-xs);
+  font-weight: 700;
+  text-transform: uppercase;
+  color: var(--color-gray-500);
+  margin-bottom: var(--space-3);
+  letter-spacing: 0.05em;
+}
+
+.practice-summary__review-links {
+  display: flex;
+  flex-wrap: wrap;
+  gap: var(--space-2);
+}
+
+.practice-summary__review-link {
+  display: inline-flex;
+  align-items: center;
+  font-size: var(--font-size-xs);
+  font-weight: 600;
+  color: var(--color-accent);
+  text-decoration: none;
+  padding: var(--space-2) var(--space-3);
+  border: 1px solid var(--color-accent);
+  border-radius: var(--radius-sm);
+  transition: background 0.15s;
+}
+
+.practice-summary__review-link:hover {
+  background: var(--color-accent);
+  color: #fff;
+}
+
+/* ============================================================
+ * Responsive adjustments
+ * ============================================================ */
+
+@media (max-width: 600px) {
+  .practice-picker {
+    grid-template-columns: 1fr;
+  }
+
+  .practice-problem-container {
+    padding: var(--space-4);
+  }
+
+  .practice-summary__actions {
+    flex-direction: column;
+  }
+
+  .practice-summary__btn {
+    width: 100%;
+    justify-content: center;
+  }
+}

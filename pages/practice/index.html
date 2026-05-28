@@ -1,0 +1,75 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Practice — Managerial Accounting Interactive</title>
+  <meta name="description" content="Randomized multi-step calculation practice problems organized by chapter and cross-chapter topic." />
+  <link rel="stylesheet" href="/css/base.css" />
+  <link rel="stylesheet" href="/css/components.css" />
+  <link rel="stylesheet" href="/css/learn.css" />
+  <link rel="stylesheet" href="/css/practice.css" />
+  <link rel="stylesheet" href="/css/settings-panel.css" />
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet" />
+  <script>
+    (function(){
+      var r = document.documentElement;
+      var w = localStorage.getItem('pref-width');
+      var f = localStorage.getItem('pref-font');
+      var t = localStorage.getItem('pref-theme');
+      if (w) r.style.setProperty('--max-width-tool', w + 'px');
+      if (f) r.style.setProperty('--font-scale', f);
+      if (t === 'dark') r.setAttribute('data-theme', 'dark');
+    })();
+  </script>
+</head>
+<body>
+  <header class="site-header" role="banner"></header>
+
+  <main>
+    <section class="page__hero">
+      <div class="container">
+        <a href="%BASE_URL%" style="color:var(--color-gray-400);font-size:var(--font-size-sm);text-decoration:none;">&larr; Home</a>
+        <p class="page__hero-label">Horngren's Cost Accounting · 17th Edition</p>
+        <h1 class="page__hero-title">Practice</h1>
+        <p class="page__hero-subtitle">
+          Randomized multi-step calculation problems. Pick a chapter to drill specific concepts,
+          or take on a cross-chapter problem that pulls from multiple topics.
+        </p>
+      </div>
+    </section>
+
+    <section class="page__body">
+      <div class="container">
+
+        <!-- Chapter Problems -->
+        <div style="margin-bottom:var(--space-8);">
+          <div style="margin-bottom:var(--space-4);">
+            <h2 style="color:var(--color-primary-text);margin:0 0 var(--space-2);">Chapter Problems</h2>
+            <p style="color:var(--color-gray-600);font-size:var(--font-size-sm);margin:0;">
+              Problems tied to a single chapter. Numbers regenerate every attempt.
+            </p>
+          </div>
+          <div id="practice-chapter-grid" class="practice-picker"></div>
+        </div>
+
+        <!-- Cross-Chapter Problems -->
+        <div>
+          <div style="margin-bottom:var(--space-4);">
+            <h2 style="color:var(--color-primary-text);margin:0 0 var(--space-2);">Cross-Chapter Problems</h2>
+            <p style="color:var(--color-gray-600);font-size:var(--font-size-sm);margin:0;">
+              Harder problems that pull from two or more chapters simultaneously.
+            </p>
+          </div>
+          <div id="practice-cross-grid" class="practice-picker"></div>
+        </div>
+
+      </div>
+    </section>
+  </main>
+
+  <script type="module" src="/js/practice/index.js"></script>
+</body>
+</html>

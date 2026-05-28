@@ -310,3 +310,15 @@
   max-width: min(1200px, 92vw);
   margin: 0 auto;
 }
+
+/* Carry-forward annotation in show-work panels (added 2026-05-28) */
+.sw-step__annotation {
+  margin-top: var(--space-2);
+  padding: var(--space-2) var(--space-3);
+  background: var(--color-warning-bg);
+  border-left: 3px solid var(--color-warning);
+  border-radius: var(--radius-sm);
+  font-size: var(--font-size-xs);
+  color: var(--color-warning);
+  font-style: italic;
+}

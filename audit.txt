@@ -1,16 +1,30 @@
-===== git status before commit =====
+===== git status =====
  M audit.txt
- M js/apply/index.js
- M js/engine/scenario-engine.js
- M js/engine/scenarios/breakeven-sim.js
- M js/learn/index.js
+ M css/components.css
+ M js/components/show-work.js
+ M js/practice/ch03-problems.js
+ M js/practice/practice-engine.js
+ M pages/practice/ch03.html
+ M pages/practice/index.html
+?? css/practice.css
+?? js/practice/SPEC.md
+?? js/practice/ch03.js
+?? js/practice/index.js
 
 ===== diff stat =====
- audit.txt                            | 10 +++++---
- js/apply/index.js                    | 26 ++++++++++---------
- js/engine/scenario-engine.js         |  2 +-
- js/engine/scenarios/breakeven-sim.js | 12 ++++-----
- js/learn/index.js                    | 50 +++++++++++++++++++-----------------
- 5 files changed, 54 insertions(+), 46 deletions(-)
+ audit.txt                      |  24 +-
+ css/components.css             |  12 +
+ js/components/show-work.js     |   2 +
+ js/practice/ch03-problems.js   | 735 +++++++++++++++++++++++++++++++++++++++++
+ js/practice/practice-engine.js | 521 +++++++++++++++++++++++++++++
+ pages/practice/ch03.html       | 115 +++++++
+ pages/practice/index.html      |  75 +++++
+ 7 files changed, 1471 insertions(+), 13 deletions(-)
 
-===== stage and commit =====
+===== untracked files =====
+css/practice.css
+js/practice/SPEC.md
+js/practice/ch03.js
+js/practice/index.js
+
+===== Stage and commit =====

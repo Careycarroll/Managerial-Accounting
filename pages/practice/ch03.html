@@ -1,0 +1,115 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>
+      Ch. 3 Practice — CVP Analysis | Managerial Accounting Interactive
+    </title>
+    <meta
+      name="description"
+      content="Randomized multi-step practice problems for Chapter 3 CVP Analysis. Drill breakeven, target profit, margin of safety, and price sensitivity."
+    />
+    <link rel="stylesheet" href="/css/base.css" />
+    <link rel="stylesheet" href="/css/components.css" />
+    <link rel="stylesheet" href="/css/learn.css" />
+    <link rel="stylesheet" href="/css/practice.css" />
+    <link rel="stylesheet" href="/css/settings-panel.css" />
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link
+      href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=JetBrains+Mono:wght@400;500&display=swap"
+      rel="stylesheet"
+    />
+    <script>
+      (function () {
+        var r = document.documentElement;
+        var w = localStorage.getItem("pref-width");
+        var f = localStorage.getItem("pref-font");
+        var t = localStorage.getItem("pref-theme");
+        if (w) r.style.setProperty("--max-width-tool", w + "px");
+        if (f) r.style.setProperty("--font-scale", f);
+        if (t === "dark") r.setAttribute("data-theme", "dark");
+      })();
+    </script>
+  </head>
+  <body>
+    <header class="site-header" role="banner">
+      <div class="site-header__inner">
+        <a href="%BASE_URL%" class="site-header__logo">
+          <span>&#128202;</span>
+          <span>Managerial Accounting</span>
+        </a>
+        <nav
+          class="site-header__nav"
+          role="navigation"
+          aria-label="Main navigation"
+        >
+          <a href="%BASE_URL%pages/learn/" class="site-header__nav-link"
+            >Learn</a
+          >
+          <a
+            href="%BASE_URL%pages/practice/"
+            class="site-header__nav-link site-header__nav-link--active"
+            >Practice</a
+          >
+          <a href="%BASE_URL%pages/apply/" class="site-header__nav-link"
+            >Apply</a
+          >
+          <a href="%BASE_URL%pages/glossary.html" class="site-header__nav-link"
+            >Glossary</a
+          >
+        </nav>
+      </div>
+    </header>
+
+    <main>
+      <section class="page__hero">
+        <div class="container">
+          <div class="chapter-nav">
+            <a href="%BASE_URL%pages/practice/" class="chapter-nav__back"
+              >&larr; All Practice</a
+            >
+            <div class="chapter-nav__position">
+              <span>Practice · Ch. 3</span>
+            </div>
+          </div>
+          <p class="page__hero-label">Practice · Chapter 3</p>
+          <h1 class="page__hero-title">CVP Analysis</h1>
+          <p class="page__hero-subtitle">
+            Randomized multi-step calculation drills. Pick a problem type below
+            — numbers regenerate every attempt.
+          </p>
+        </div>
+      </section>
+
+      <section class="page__body">
+        <div class="container container--tool">
+          <!-- Picker view: shown initially, hidden when a problem is active -->
+          <div id="practice-picker-view">
+            <p
+              style="
+                font-size: var(--font-size-sm);
+                color: var(--color-gray-600);
+                margin-bottom: var(--space-2);
+              "
+            >
+              Choose a problem type. Each problem has 4 calculation steps with
+              randomized numbers. Show-work is available on demand after each
+              submission.
+            </p>
+            <div id="practice-picker" class="practice-picker"></div>
+          </div>
+
+          <!-- Problem view: hidden initially, shown when engine is active -->
+          <div
+            id="practice-problem-view"
+            class="practice-problem-container practice-problem-container--hidden"
+          ></div>
+        </div>
+      </section>
+    </main>
+
+    <script type="module" src="/js/practice/ch03.js"></script>
+  </body>
+</html>
