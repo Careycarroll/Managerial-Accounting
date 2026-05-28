@@ -1,12 +1,8 @@
 ===== git status =====
  M audit.txt
- M js/practice/practice-engine.js
- M pages/practice/index.html
 
 ===== diff stat =====
- audit.txt                      |  24 --
- js/practice/practice-engine.js | 620 +++++++++++++++++++++--------------------
- pages/practice/index.html      |   2 +-
- 3 files changed, 317 insertions(+), 329 deletions(-)
+ audit.txt | 8 --------
+ 1 file changed, 8 deletions(-)
 
 ===== stage and commit =====
