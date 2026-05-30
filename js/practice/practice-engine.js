@@ -1,12 +1,14 @@
 // js/practice/practice-engine.js
-// Practice Engine v2 — randomized multi-step calculation problems.
+// Practice Engine v3 — Pass 2 spec compliant.
 // See SPEC.md (co-located) for the authoritative contract.
 //
-// v2 changes from v1:
-//  - Show-work renders persistently on submitted steps (not just active)
-//  - Show Solution button available on any submitted step, past or current
-//  - Final step submission renders step + "See Summary" button (no auto-advance)
-//  - Summary screen includes collapsible <details> per-step show-work
+// v3 changes from v2:
+//  - Optional scenario(data) card renders above given panel
+//  - Step type discriminator: 'numeric' (default) or 'choice'
+//  - Choice steps: radio-button options, exact-id grading via step.correctId()
+//  - studentAnswers / correctValues store strings for choice, numbers for numeric
+//  - Summary, show-work, and submission flow handle both step types
+//  - Pass 1 problems (Ch. 3) validate and behave identically — no migration needed
 
 import { renderShowWork } from '/js/components/show-work.js';
 
@@ -46,7 +48,7 @@ function mulberry32(seed) {
 }
 
 // ============================================================================
-// Section 2 — Tolerance system
+// Section 2 — Tolerance system (numeric steps only)
 // ============================================================================
 
 const TOLERANCE_TIER_DEFAULTS = {
@@ -79,10 +81,18 @@ function evaluateAnswer(studentValue, correctValue, tol) {
 }
 
 // ============================================================================
-// Section 3 — Formatters
+// Section 3 — Step-type helpers
 // ============================================================================
 
-function formatStudentAnswer(value, resultType) {
+function getStepType(step) {
+  return step.type === 'choice' ? 'choice' : 'numeric';
+}
+
+// ============================================================================
+// Section 4 — Formatters
+// ============================================================================
+
+function formatNumericAnswer(value, resultType) {
   if (value === null || value === undefined) return '—';
   switch (resultType) {
     case 'money-small':
@@ -101,7 +111,7 @@ function formatStudentAnswer(value, resultType) {
 }
 
 // ============================================================================
-// Section 4 — PracticeEngine class
+// Section 5 — PracticeEngine class
 // ============================================================================
 
 export class PracticeEngine {
@@ -151,6 +161,34 @@ export class PracticeEngine {
   }
 
   // --------------------------------------------------------------------------
+  // Helpers for choice steps
+  // --------------------------------------------------------------------------
+
+  _getOptionsForStep(step) {
+    // step.options can be array OR function(data, prior)
+    if (typeof step.options === 'function') {
+      return step.options(this.state.data, this.state.correctValues);
+    }
+    return step.options || [];
+  }
+
+  _getOptionLabel(step, optionId) {
+    const opts = this._getOptionsForStep(step);
+    const found = opts.find(o => o.id === optionId);
+    return found ? found.label : String(optionId);
+  }
+
+  // Pretty answer for any step type (numeric OR choice), used in submitted-row
+  // display and summary rows.
+  _formatAnswer(value, step) {
+    if (value === null || value === undefined) return '—';
+    if (getStepType(step) === 'choice') {
+      return this._getOptionLabel(step, value);
+    }
+    return formatNumericAnswer(value, step.resultType);
+  }
+
+  // --------------------------------------------------------------------------
   // Rendering
   // --------------------------------------------------------------------------
 
@@ -161,6 +199,11 @@ export class PracticeEngine {
     }
     this.container.innerHTML = '';
     this.container.appendChild(this._buildProblemHeader());
+
+    // Optional scenario card (Pass 2)
+    const scenarioCard = this._buildScenarioCard();
+    if (scenarioCard) this.container.appendChild(scenarioCard);
+
     this.container.appendChild(this._buildGivenPanel());
     const stepList = document.createElement('div');
     stepList.className = 'practice-step-list';
@@ -170,7 +213,6 @@ export class PracticeEngine {
     });
     this.container.appendChild(stepList);
 
-    // If all steps submitted, render See Summary button at end
     if (this.state.finalSubmitted) {
       this.container.appendChild(this._buildSeeSummaryButton());
     }
@@ -190,6 +232,30 @@ export class PracticeEngine {
       this.container.dispatchEvent(new CustomEvent('practice:back-to-picker', { bubbles: true }));
     });
     return wrap;
+  }
+
+  _buildScenarioCard() {
+    if (typeof this.problem.scenario !== 'function') return null;
+    const html = this.problem.scenario(this.state.data);
+    if (!html) return null;
+    const card = document.createElement('div');
+    card.className = 'practice-scenario';
+    card.style.cssText = `
+      background: var(--color-card-bg);
+      border: 1px solid var(--color-gray-200);
+      border-left: 4px solid var(--color-accent);
+      border-radius: var(--radius-md);
+      padding: var(--space-4) var(--space-5);
+      margin-bottom: var(--space-4);
+      color: var(--color-primary-text);
+      font-size: var(--font-size-base);
+      line-height: 1.6;
+    `;
+    card.innerHTML = `
+      <div style="font-size:var(--font-size-xs);font-weight:700;text-transform:uppercase;color:var(--color-gray-500);margin-bottom:var(--space-2);letter-spacing:0.05em;">Scenario</div>
+      <div class="practice-scenario__body">${html}</div>
+    `;
+    return card;
   }
 
   _buildGivenPanel() {
@@ -214,6 +280,7 @@ export class PracticeEngine {
     const isSubmitted = this.state.stepResults[step.id] !== undefined;
     const isActive    = idx === this.state.activeStepIndex && !isSubmitted;
     const isLocked    = idx > this.state.activeStepIndex && !isSubmitted;
+    const stepType    = getStepType(step);
 
     const card = document.createElement('div');
     let cardClass = 'practice-step-card';
@@ -249,38 +316,12 @@ export class PracticeEngine {
     // --- Body (input or submitted result) ---
     let bodyHtml = '';
     if (isSubmitted) {
-      const result = this.state.stepResults[step.id];
-      const studentVal = this.state.studentAnswers[step.id];
-      const correctVal = this.state.correctValues[step.id];
-      bodyHtml = `
-        <div style="display:flex;align-items:center;gap:var(--space-3);padding:var(--space-3);background:var(--color-card-bg);border:1px solid var(--color-gray-200);border-radius:var(--radius-md);margin-bottom:var(--space-3);">
-          <span style="font-size:var(--font-size-xs);color:var(--color-gray-500);">Your answer:</span>
-          <span style="font-weight:700;color:var(--color-primary-text);">${formatStudentAnswer(studentVal, step.resultType)}</span>
-          ${result.correct
-            ? `<span style="margin-left:auto;font-size:var(--font-size-xs);color:var(--color-success);">within tolerance</span>`
-            : `<span style="margin-left:auto;font-size:var(--font-size-xs);color:var(--color-danger);">Incorrect</span>`}
-        </div>
-      `;
+      bodyHtml = this._buildSubmittedBody(step);
     } else if (isActive) {
-      bodyHtml = `
-        <div style="display:flex;gap:var(--space-3);align-items:center;margin-bottom:var(--space-3);">
-          <input
-            type="number"
-            id="practice-input-${step.id}"
-            step="any"
-            placeholder="Your answer"
-            style="flex:1;padding:var(--space-3) var(--space-4);border-radius:var(--radius-md);border:2px solid var(--color-gray-200);background:var(--color-card-bg);color:var(--color-primary-text);font-size:var(--font-size-base);transition:border-color 0.15s;"
-          />
-          <span style="font-size:var(--font-size-sm);color:var(--color-gray-500);min-width:90px;">${step.unit || ''}</span>
-          <button
-            id="practice-submit-${step.id}"
-            disabled
-            style="padding:var(--space-3) var(--space-5);border-radius:var(--radius-md);background:var(--color-accent);color:#fff;font-weight:700;font-size:var(--font-size-sm);border:none;cursor:pointer;opacity:0.4;transition:opacity 0.15s;"
-          >Submit &rarr;</button>
-        </div>
-      `;
+      bodyHtml = stepType === 'choice'
+        ? this._buildChoiceInputBody(step)
+        : this._buildNumericInputBody(step);
     } else {
-      // Locked future step — show question text dim, no input
       bodyHtml = `
         <div style="font-size:var(--font-size-xs);color:var(--color-gray-400);font-style:italic;">
           Submit step ${this.state.activeStepIndex + 1} to unlock.
@@ -322,24 +363,10 @@ export class PracticeEngine {
 
     card.innerHTML = headerHtml + questionHtml + bodyHtml + workHtml;
 
-    // --- Wire up active step input ---
+    // --- Wire up active step inputs ---
     if (isActive) {
-      const input  = card.querySelector(`#practice-input-${step.id}`);
-      const submit = card.querySelector(`#practice-submit-${step.id}`);
-      input.addEventListener('input', () => {
-        const ok = input.value !== '' && !isNaN(parseFloat(input.value));
-        submit.disabled = !ok;
-        submit.style.opacity = ok ? '1' : '0.4';
-      });
-      input.addEventListener('focus', () => { input.style.borderColor = 'var(--color-accent)'; });
-      input.addEventListener('blur',  () => { input.style.borderColor = 'var(--color-gray-200)'; });
-      submit.addEventListener('click', () => {
-        const val = parseFloat(input.value);
-        if (!isNaN(val)) this._handleSubmit(step, val);
-      });
-      input.addEventListener('keydown', (e) => {
-        if (e.key === 'Enter' && !submit.disabled) submit.click();
-      });
+      if (stepType === 'choice') this._wireChoiceInputs(card, step);
+      else this._wireNumericInputs(card, step);
     }
 
     // --- Wire up Show Solution button ---
@@ -359,6 +386,127 @@ export class PracticeEngine {
     return card;
   }
 
+  // --------------------------------------------------------------------------
+  // Numeric input body + wiring
+  // --------------------------------------------------------------------------
+
+  _buildNumericInputBody(step) {
+    return `
+      <div style="display:flex;gap:var(--space-3);align-items:center;margin-bottom:var(--space-3);">
+        <input
+          type="number"
+          id="practice-input-${step.id}"
+          step="any"
+          placeholder="Your answer"
+          style="flex:1;padding:var(--space-3) var(--space-4);border-radius:var(--radius-md);border:2px solid var(--color-gray-200);background:var(--color-card-bg);color:var(--color-primary-text);font-size:var(--font-size-base);transition:border-color 0.15s;"
+        />
+        <span style="font-size:var(--font-size-sm);color:var(--color-gray-500);min-width:90px;">${step.unit || ''}</span>
+        <button
+          id="practice-submit-${step.id}"
+          disabled
+          style="padding:var(--space-3) var(--space-5);border-radius:var(--radius-md);background:var(--color-accent);color:#fff;font-weight:700;font-size:var(--font-size-sm);border:none;cursor:pointer;opacity:0.4;transition:opacity 0.15s;"
+        >Submit &rarr;</button>
+      </div>
+    `;
+  }
+
+  _wireNumericInputs(card, step) {
+    const input  = card.querySelector(`#practice-input-${step.id}`);
+    const submit = card.querySelector(`#practice-submit-${step.id}`);
+    if (!input || !submit) return;
+    input.addEventListener('input', () => {
+      const ok = input.value !== '' && !isNaN(parseFloat(input.value));
+      submit.disabled = !ok;
+      submit.style.opacity = ok ? '1' : '0.4';
+    });
+    input.addEventListener('focus', () => { input.style.borderColor = 'var(--color-accent)'; });
+    input.addEventListener('blur',  () => { input.style.borderColor = 'var(--color-gray-200)'; });
+    submit.addEventListener('click', () => {
+      const val = parseFloat(input.value);
+      if (!isNaN(val)) this._handleNumericSubmit(step, val);
+    });
+    input.addEventListener('keydown', (e) => {
+      if (e.key === 'Enter' && !submit.disabled) submit.click();
+    });
+  }
+
+  // --------------------------------------------------------------------------
+  // Choice input body + wiring
+  // --------------------------------------------------------------------------
+
+  _buildChoiceInputBody(step) {
+    const options = this._getOptionsForStep(step);
+    const optsHtml = options.map((opt, i) => `
+      <label
+        class="practice-choice-option"
+        data-option-id="${opt.id}"
+        style="display:flex;align-items:flex-start;gap:var(--space-3);padding:var(--space-3) var(--space-4);border:2px solid var(--color-gray-200);border-radius:var(--radius-md);background:var(--color-card-bg);cursor:pointer;margin-bottom:var(--space-2);transition:border-color 0.15s, background 0.15s;"
+      >
+        <input
+          type="radio"
+          name="practice-choice-${step.id}"
+          value="${opt.id}"
+          style="margin-top:3px;flex-shrink:0;cursor:pointer;"
+        />
+        <span style="font-size:var(--font-size-sm);color:var(--color-primary-text);line-height:1.5;">${opt.label}</span>
+      </label>
+    `).join('');
+    return `
+      <div class="practice-choice-list" style="margin-bottom:var(--space-3);">
+        ${optsHtml}
+      </div>
+      <div style="display:flex;justify-content:flex-end;">
+        <button
+          id="practice-submit-${step.id}"
+          disabled
+          style="padding:var(--space-3) var(--space-5);border-radius:var(--radius-md);background:var(--color-accent);color:#fff;font-weight:700;font-size:var(--font-size-sm);border:none;cursor:pointer;opacity:0.4;transition:opacity 0.15s;"
+        >Submit &rarr;</button>
+      </div>
+    `;
+  }
+
+  _wireChoiceInputs(card, step) {
+    const radios = card.querySelectorAll(`input[name="practice-choice-${step.id}"]`);
+    const submit = card.querySelector(`#practice-submit-${step.id}`);
+    const labels = card.querySelectorAll('.practice-choice-option');
+    if (!submit) return;
+
+    radios.forEach((radio) => {
+      radio.addEventListener('change', () => {
+        submit.disabled = false;
+        submit.style.opacity = '1';
+        labels.forEach((lbl) => {
+          const isSelected = lbl.dataset.optionId === radio.value && radio.checked;
+          lbl.style.borderColor = isSelected ? 'var(--color-accent)' : 'var(--color-gray-200)';
+          lbl.style.background = isSelected ? 'var(--color-warning-bg)' : 'var(--color-card-bg)';
+        });
+      });
+    });
+
+    submit.addEventListener('click', () => {
+      const selected = card.querySelector(`input[name="practice-choice-${step.id}"]:checked`);
+      if (selected) this._handleChoiceSubmit(step, selected.value);
+    });
+  }
+
+  // --------------------------------------------------------------------------
+  // Submitted body (works for both numeric and choice)
+  // --------------------------------------------------------------------------
+
+  _buildSubmittedBody(step) {
+    const result = this.state.stepResults[step.id];
+    const studentVal = this.state.studentAnswers[step.id];
+    return `
+      <div style="display:flex;align-items:center;gap:var(--space-3);padding:var(--space-3);background:var(--color-card-bg);border:1px solid var(--color-gray-200);border-radius:var(--radius-md);margin-bottom:var(--space-3);">
+        <span style="font-size:var(--font-size-xs);color:var(--color-gray-500);">Your answer:</span>
+        <span style="font-weight:700;color:var(--color-primary-text);">${this._formatAnswer(studentVal, step)}</span>
+        ${result.correct
+          ? `<span style="margin-left:auto;font-size:var(--font-size-xs);color:var(--color-success);">${getStepType(step) === 'choice' ? 'correct selection' : 'within tolerance'}</span>`
+          : `<span style="margin-left:auto;font-size:var(--font-size-xs);color:var(--color-danger);">Incorrect</span>`}
+      </div>
+    `;
+  }
+
   _buildSeeSummaryButton() {
     const wrap = document.createElement('div');
     wrap.style.cssText = 'display:flex;justify-content:center;margin-top:var(--space-5);';
@@ -373,38 +521,52 @@ export class PracticeEngine {
   }
 
   // --------------------------------------------------------------------------
-  // Submission
+  // Submission — numeric
   // --------------------------------------------------------------------------
 
-  _handleSubmit(step, studentValue) {
-    // 1. Compute correct value via step.solve()
+  _handleNumericSubmit(step, studentValue) {
     const correctValue = step.solve(this.state.data, this.state.correctValues);
-
-    // 2. Tolerance check
     const tol = resolveTolerance(step, correctValue);
     const { correct, deviation } = evaluateAnswer(studentValue, correctValue, tol);
 
-    // 3. Store in state
     this.state.studentAnswers[step.id] = studentValue;
     this.state.correctValues[step.id]  = correctValue;
     this.state.stepResults[step.id]    = { correct, deviation };
 
-    // 4. Determine if final step
+    this._afterSubmit(step);
+  }
+
+  // --------------------------------------------------------------------------
+  // Submission — choice
+  // --------------------------------------------------------------------------
+
+  _handleChoiceSubmit(step, studentChoiceId) {
+    const correctId = step.correctId(this.state.data, this.state.correctValues);
+    const correct = studentChoiceId === correctId;
+
+    this.state.studentAnswers[step.id] = studentChoiceId;
+    this.state.correctValues[step.id]  = correctId;
+    this.state.stepResults[step.id]    = { correct, deviation: 0 };
+
+    this._afterSubmit(step);
+  }
+
+  // --------------------------------------------------------------------------
+  // Common post-submit logic
+  // --------------------------------------------------------------------------
+
+  _afterSubmit(step) {
     const stepIdx = this.problem.steps.findIndex(s => s.id === step.id);
     const isFinalStep = stepIdx === this.problem.steps.length - 1;
 
     if (isFinalStep) {
       this.state.finalSubmitted = true;
-      // Do NOT auto-complete -- render step + See Summary button
     } else {
-      // Advance active step
       this.state.activeStepIndex = stepIdx + 1;
     }
 
     this._render();
 
-    // Scroll into view: for non-final steps, scroll to newly active step;
-    // for final step, scroll to See Summary button.
     setTimeout(() => {
       if (isFinalStep) {
         const btn = this.container.querySelector('#practice-see-summary-btn');
@@ -433,9 +595,9 @@ export class PracticeEngine {
     const data = this.state.data;
     const prior = this.state.correctValues;
     const studentAnswers = this.state.studentAnswers;
-    const correctValue = this.state.correctValues[step.id];
+    const correctRef = this.state.correctValues[step.id]; // number OR string (id)
 
-    const workSteps = step.showWork(data, prior, studentAnswers, correctValue);
+    const workSteps = step.showWork(data, prior, studentAnswers, correctRef);
     renderShowWork(mountEl, workSteps, {
       title: 'Solution',
       defaultOpen: true,
@@ -473,8 +635,8 @@ export class PracticeEngine {
               <div class="practice-summary__step-content">
                 <div class="practice-summary__step-question">Step ${idx + 1}: ${step.question}</div>
                 <div class="practice-summary__step-answer">
-                  Your answer: <strong>${formatStudentAnswer(studentVal, step.resultType)}</strong>
-                  ${!correct ? ` · Correct: <strong>${formatStudentAnswer(correctVal, step.resultType)}</strong>` : ''}
+                  Your answer: <strong>${this._formatAnswer(studentVal, step)}</strong>
+                  ${!correct ? ` · Correct: <strong>${this._formatAnswer(correctVal, step)}</strong>` : ''}
                 </div>
                 ${viewed ? `<div class="practice-summary__step-flag">Solution viewed during problem</div>` : ''}
               </div>
@@ -514,15 +676,11 @@ export class PracticeEngine {
 
     this.container.appendChild(summary);
 
-    // Mount show-work into each <details> panel
     this.problem.steps.forEach((step) => {
       const mount = this.container.querySelector(`.practice-summary__solution-mount[data-step-id="${step.id}"]`);
-      if (mount) {
-        this._mountShowWork(mount, step);
-      }
+      if (mount) this._mountShowWork(mount, step);
     });
 
-    // Wire summary actions
     this.container.querySelector('#practice-try-again-btn').addEventListener('click', () => {
       this.reset();
     });

@@ -1,0 +1,62 @@
+[
+  { "label": "Manufacturing",  "categories": ["manufacturing"] },
+  { "label": "Industries",     "categories": ["manufacturing", "process"] },
+  { "label": "Works",          "categories": ["manufacturing", "process"] },
+  { "label": "Fabrication",    "categories": ["manufacturing"] },
+  { "label": "Machine Works",  "categories": ["manufacturing"] },
+  { "label": "Components",     "categories": ["manufacturing"] },
+  { "label": "Products",       "categories": ["manufacturing", "retail"] },
+
+  { "label": "Chemicals",      "categories": ["process"] },
+  { "label": "Refining",       "categories": ["process"] },
+  { "label": "Processing",     "categories": ["process"] },
+  { "label": "Materials",      "categories": ["process", "manufacturing"] },
+  { "label": "Mills",          "categories": ["process"] },
+
+  { "label": "Consulting",     "categories": ["service"] },
+  { "label": "Advisors",       "categories": ["service"] },
+  { "label": "Associates",     "categories": ["service"] },
+  { "label": "Partners",       "categories": ["service"] },
+  { "label": "Services",       "categories": ["service"] },
+  { "label": "Solutions",      "categories": ["service", "technology"] },
+
+  { "label": "Outfitters",     "categories": ["retail"] },
+  { "label": "Retail",         "categories": ["retail"] },
+  { "label": "Merchants",      "categories": ["retail"] },
+  { "label": "Trading Co",     "categories": ["retail", "distribution"] },
+  { "label": "Supply",         "categories": ["retail", "distribution"] },
+
+  { "label": "Logistics",      "categories": ["distribution"] },
+  { "label": "Freight",        "categories": ["distribution"] },
+  { "label": "Distribution",   "categories": ["distribution"] },
+  { "label": "Shipping",       "categories": ["distribution"] },
+  { "label": "Warehousing",    "categories": ["distribution"] },
+  { "label": "Transit",        "categories": ["distribution"] },
+
+  { "label": "Systems",        "categories": ["technology"] },
+  { "label": "Software",       "categories": ["technology"] },
+  { "label": "Technologies",   "categories": ["technology"] },
+  { "label": "Digital",        "categories": ["technology"] },
+  { "label": "Data",           "categories": ["technology"] },
+
+  { "label": "Imaging",        "categories": ["healthcare"] },
+  { "label": "Clinics",        "categories": ["healthcare"] },
+  { "label": "Medical",        "categories": ["healthcare"] },
+  { "label": "Health",         "categories": ["healthcare"] },
+  { "label": "Diagnostics",    "categories": ["healthcare"] },
+
+  { "label": "Hotels",         "categories": ["hospitality"] },
+  { "label": "Hospitality",    "categories": ["hospitality"] },
+  { "label": "Resorts",        "categories": ["hospitality"] },
+  { "label": "Inns",           "categories": ["hospitality"] },
+
+  { "label": "Construction",   "categories": ["construction"] },
+  { "label": "Builders",       "categories": ["construction"] },
+  { "label": "Contracting",    "categories": ["construction"] },
+  { "label": "Engineering",    "categories": ["construction", "technology"] },
+
+  { "label": "Holdings",       "categories": ["any"] },
+  { "label": "Group",          "categories": ["any"] },
+  { "label": "Enterprises",    "categories": ["any"] },
+  { "label": "Ventures",       "categories": ["any"] }
+]

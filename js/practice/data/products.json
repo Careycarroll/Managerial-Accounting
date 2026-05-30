@@ -1,0 +1,56 @@
+[
+  { "singular": "industrial fixture",  "plural": "industrial fixtures",  "categories": ["manufacturing"] },
+  { "singular": "precision component", "plural": "precision components", "categories": ["manufacturing"] },
+  { "singular": "machined part",       "plural": "machined parts",       "categories": ["manufacturing"] },
+  { "singular": "assembly unit",       "plural": "assembly units",       "categories": ["manufacturing"] },
+  { "singular": "fastener",            "plural": "fasteners",            "categories": ["manufacturing"] },
+  { "singular": "valve assembly",      "plural": "valve assemblies",     "categories": ["manufacturing"] },
+  { "singular": "control module",      "plural": "control modules",      "categories": ["manufacturing", "technology"] },
+  { "singular": "sensor unit",         "plural": "sensor units",         "categories": ["manufacturing", "technology"] },
+  { "singular": "circuit board",       "plural": "circuit boards",       "categories": ["manufacturing", "technology"] },
+  { "singular": "housing",             "plural": "housings",             "categories": ["manufacturing"] },
+  { "singular": "gear assembly",       "plural": "gear assemblies",      "categories": ["manufacturing"] },
+  { "singular": "casting",             "plural": "castings",             "categories": ["manufacturing", "process"] },
+  { "singular": "stamped part",        "plural": "stamped parts",        "categories": ["manufacturing"] },
+  { "singular": "small appliance",     "plural": "small appliances",     "categories": ["manufacturing", "retail"] },
+  { "singular": "lighting fixture",    "plural": "lighting fixtures",    "categories": ["manufacturing", "retail"] },
+  { "singular": "power tool",          "plural": "power tools",          "categories": ["manufacturing", "retail"] },
+
+  { "singular": "polymer compound",    "plural": "polymer compounds",    "categories": ["process"] },
+  { "singular": "specialty chemical",  "plural": "specialty chemicals",  "categories": ["process"] },
+  { "singular": "refined material",    "plural": "refined materials",    "categories": ["process"] },
+  { "singular": "coating",             "plural": "coatings",             "categories": ["process"] },
+  { "singular": "industrial fluid",    "plural": "industrial fluids",    "categories": ["process"] },
+
+  { "singular": "consulting engagement","plural": "consulting engagements","categories": ["service"] },
+  { "singular": "advisory project",    "plural": "advisory projects",    "categories": ["service"] },
+  { "singular": "inspection",          "plural": "inspections",          "categories": ["service"] },
+  { "singular": "audit",               "plural": "audits",               "categories": ["service"] },
+  { "singular": "billable hour",       "plural": "billable hours",       "categories": ["service"] },
+  { "singular": "service contract",    "plural": "service contracts",    "categories": ["service"] },
+  { "singular": "training session",    "plural": "training sessions",    "categories": ["service"] },
+
+  { "singular": "merchandise unit",    "plural": "merchandise units",    "categories": ["retail"] },
+  { "singular": "private-label SKU",   "plural": "private-label SKUs",   "categories": ["retail"] },
+  { "singular": "seasonal item",       "plural": "seasonal items",       "categories": ["retail"] },
+
+  { "singular": "shipment",            "plural": "shipments",            "categories": ["distribution"] },
+  { "singular": "pallet",              "plural": "pallets",              "categories": ["distribution"] },
+  { "singular": "freight load",        "plural": "freight loads",        "categories": ["distribution"] },
+  { "singular": "delivery route",      "plural": "delivery routes",      "categories": ["distribution"] },
+
+  { "singular": "software license",    "plural": "software licenses",    "categories": ["technology"] },
+  { "singular": "platform subscription","plural": "platform subscriptions","categories": ["technology"] },
+  { "singular": "API tier",            "plural": "API tiers",            "categories": ["technology"] },
+
+  { "singular": "imaging scan",        "plural": "imaging scans",        "categories": ["healthcare"] },
+  { "singular": "diagnostic test",     "plural": "diagnostic tests",     "categories": ["healthcare"] },
+  { "singular": "patient visit",       "plural": "patient visits",       "categories": ["healthcare"] },
+
+  { "singular": "room-night",          "plural": "room-nights",          "categories": ["hospitality"] },
+  { "singular": "event booking",       "plural": "event bookings",       "categories": ["hospitality"] },
+
+  { "singular": "framing job",         "plural": "framing jobs",         "categories": ["construction"] },
+  { "singular": "build phase",         "plural": "build phases",         "categories": ["construction"] },
+  { "singular": "site contract",       "plural": "site contracts",       "categories": ["construction"] }
+]

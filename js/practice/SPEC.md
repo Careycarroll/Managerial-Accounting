@@ -2,9 +2,20 @@
 
 **Location:** `js/practice/SPEC.md`
 **Module:** `js/practice/practice-engine.js`
-**Status:** Pass 1 design — locked May 2026
+**Status:** Pass 2 — locked May 2026
 
 This document is the authoritative contract for the Practice section's engine and problem definition format. Any problem author (human or agent) writing a `.problems.js` file must conform to this spec. Any engine modification must preserve the behaviors documented here.
+
+**Pass 2 changes from Pass 1:**
+
+- Added optional `scenario(data)` field for narrative wrappers (§2.5)
+- Added `choice` step type alongside `numeric` (§3.8–§3.13)
+- Documented scenario pool helpers `randomCompany()` / `randomProduct()` (§6.6)
+- Corrected §4.4 (Option A is now stated cleanly, no meta-commentary)
+- Corrected §7.6 (summary requires "See Summary" click, not auto-trigger)
+- Corrected §8.2 (event list now matches engine reality)
+- New worked example in §11 demonstrating scenario + choice
+- Pass 1 problem files validate against Pass 2 unchanged
 
 ---
 
@@ -18,19 +29,23 @@ This document is the authoritative contract for the Practice section's engine an
               ↓
     randomize() → data           ← runs once per init/reset
               ↓
-    Render problem header + given panel + step list (all steps visible, only Step 1 active)
+    Render problem header + scenario (if present) + given panel + step list
               ↓
-    Student submits Step N answer
+    Student submits Step N answer (numeric or choice)
               ↓
-    engine calls step.solve(data, prior) → correctValue
+    engine calls step.solve(data, prior)   — numeric
+       OR    step.correctId(data, prior)   — choice
               ↓
-    engine compares student answer vs correctValue using tolerance
+    engine compares student answer vs correct value
+       (tolerance for numeric, exact ID match for choice)
               ↓
-    correctValue is stored in state.correctValues[stepId] regardless of student answer
+    correct value stored in state.correctValues[stepId] regardless of student answer
               ↓
-    next step unlocked; prior[stepId] = correctValue available to its solve()
+    next step unlocked; prior[stepId] = correct value available to its solve/correctId
               ↓
-    after final step: render summary
+    after final step submission: "See Summary" button appears
+              ↓
+    student clicks → render summary
 
 ### 1.2 Engine state shape
 
@@ -39,14 +54,15 @@ This document is the authoritative contract for the Practice section's engine an
       container: <DOM element>,
       data: { ...result of randomize() },
       activeStepIndex: <integer>,
-      studentAnswers: { [stepId]: <number> },
-      correctValues: { [stepId]: <number> },
-      stepResults: { [stepId]: { correct: boolean, deviation: number } },
+      studentAnswers: { [stepId]: <number | string> },  // string for choice steps (the option id)
+      correctValues:  { [stepId]: <number | string> },  // string for choice steps
+      stepResults:    { [stepId]: { correct: boolean, deviation?: number } },
       solutionViewed: { [stepId]: boolean },
+      finalSubmitted: false,
       complete: false
     }
 
-The engine never mutates `problem`. It clones `data` from `randomize()` and treats it as read-only after that.
+The engine never mutates `problem`. It treats `data` from `randomize()` as read-only after that.
 
 ---
 
@@ -62,10 +78,11 @@ A problem is exported from a chapter problems file as a named export. Multiple p
       estimatedMinutes: 5,
 
       reviewChapters: [
-        { label: 'Ch. 3 — CVP Analysis', href: 'pages/learn/ch03.html' }
+        { label: 'Ch. 3 — CVP Analysis', href: `${BASE}pages/learn/ch03.html` }
       ],
 
       randomize: () => { /* see §2.1 */ },
+      scenario:  (data) => `...`,        // OPTIONAL — Pass 2 addition, see §2.5
       given:     (data) => [ /* see §2.2 */ ],
       steps:     [ /* see §3 */ ],
     };
@@ -77,14 +94,12 @@ Pure function. Returns a plain object of randomized inputs the problem needs. Ca
 Must use the engine's helpers (§6) so values are deterministic when a seed is provided.
 
     randomize: () => {
+      const company = randomCompany({ category: 'manufacturing' });
+      const product = randomProduct({ category: 'manufacturing' });
       const price       = randomInRange(40, 80, 1);
       const variableCost = randomInRange(15, Math.floor(price * 0.7), 1);
       const fixedCosts  = roundToNearest(randomInRange(60000, 180000), 5000);
-      const expectedUnits = roundToNearest(
-        randomInRange(Math.ceil(fixedCosts / (price - variableCost) * 1.3), 20000),
-        100
-      );
-      return { price, variableCost, fixedCosts, expectedUnits };
+      return { company, product, price, variableCost, fixedCosts };
     }
 
 Constraints the engine assumes (author's responsibility to enforce):
@@ -96,31 +111,52 @@ Constraints the engine assumes (author's responsibility to enforce):
 
 ### 2.2 `given(data)` — required
 
-Returns an array of `{ label, value }` rows for display in the "Given Information" panel at the top of the problem.
+Returns an array of `{ label, value }` rows for display in the "Given Information" panel.
 
     given: (data) => [
       { label: 'Selling price per unit',  value: `$${data.price}` },
       { label: 'Variable cost per unit',  value: `$${data.variableCost}` },
       { label: 'Fixed costs',             value: `$${data.fixedCosts.toLocaleString()}` },
-      { label: 'Expected unit sales',     value: `${data.expectedUnits.toLocaleString()} units` },
     ]
 
-Values must be pre-formatted strings (the engine does not format them). Use the formatter helpers (§6).
+Values must be pre-formatted strings. The engine does not format them.
 
 ### 2.3 `reviewChapters` — required
 
 Array of `{ label, href }` objects. Rendered in the summary screen. `href` must use the `import.meta.env.BASE_URL` pattern — see Anti-Pattern §13.1.
 
     reviewChapters: [
-      { label: 'Ch. 3 — CVP Analysis', href: `${import.meta.env.BASE_URL}pages/learn/ch03.html` }
+      { label: 'Ch. 3 — CVP Analysis', href: `${BASE}pages/learn/ch03.html` }
     ]
 
-In practice, problem files declare a `const BASE = import.meta.env.BASE_URL;` at the top of the file and use `` `${BASE}pages/learn/ch03.html` `` in each problem's `reviewChapters` array.
+In practice, problem files declare a `const BASE = import.meta.env.BASE_URL;` at the top of the file.
 
-### 2.4 Optional fields
+### 2.4 Optional metadata fields
 
 - `description` (string) — shown on the picker tile under the title
-- `chapter` (number) — used by the test suite and the picker page for filtering
+- `chapter` (number) — used by the test suite and picker page for filtering
+
+### 2.5 `scenario(data)` — optional (Pass 2)
+
+Function returning an HTML string. When present, the engine renders it as a narrative card above the `given` panel. Used to wrap calculations in business context — the exam-style framing that teaches extraction-from-prose alongside the math.
+
+    scenario: (data) => `
+      <p>${data.company.name} produces a single ${data.product.singular}
+      that sells for $${data.price}. The company has been approached by a
+      new customer requesting a special order of ${data.specialUnits.toLocaleString()}
+      units at $${data.specialPrice} per unit. ${data.company.base}'s current
+      capacity is sufficient to fulfill the order without affecting existing sales.</p>
+    `
+
+Rules:
+
+- Returns a string of HTML (paragraphs, optional `<strong>`/`<em>`). No JS execution embedded.
+- The engine wraps the returned string in a styled card with class `practice-scenario`.
+- All randomized values used in the prose must also appear in `given()` so students who skim still have a reference table.
+- Use `data.company.name` for the full rendered name ("Bayport Manufacturing, LLC") and `data.company.base` for possessives in show-work ("Bayport's CM").
+- Never call `randomCompany()` or `randomProduct()` inside `scenario()` — call them in `randomize()` and store the result on `data`. The scenario must read the same name every render.
+
+When `scenario` is omitted (Pass 1 problems), the engine renders only the given panel. No visual difference from Pass 1 behavior.
 
 ---
 
@@ -128,26 +164,30 @@ In practice, problem files declare a `const BASE = import.meta.env.BASE_URL;` at
 
 A step is an entry in the `steps` array. Steps execute sequentially. The student cannot proceed to step N+1 until step N is submitted.
 
-    {
-      id: 'cm-per-unit',
-      question: 'What is the contribution margin per unit?',
-      resultType: 'money-small',
-      tolerance: { value: 1, type: 'absolute' },
-      unit: '$ per unit',
+Pass 2 introduces a `type` discriminator. Two types are supported:
 
-      solve:    (data, prior) => /* number */,
-      showWork: (data, prior, studentAnswers, correctValue) => [ /* see §3.5 */ ]
-    }
+- `'numeric'` (default) — student enters a number, graded by tolerance
+- `'choice'` — student picks an option, graded by exact ID match
+
+If `type` is omitted, the engine treats the step as `'numeric'`. **This guarantees Pass 1 problems validate unchanged.**
 
 ### 3.1 `id` — required, string
 
-Unique within the problem. Used as the key in `state.correctValues`, `state.studentAnswers`, etc. Stable across reset(). Kebab-case is conventional (`cm-per-unit`, `bep-units`).
+Unique within the problem. Used as the key in `state.correctValues`, `state.studentAnswers`, etc. Stable across reset(). Kebab-case is conventional.
 
 ### 3.2 `question` — required, string
 
-The question text rendered to the student. Plain text, no HTML. Keep concise — the given panel above carries the context.
+The question text rendered to the student. Plain text, no HTML. Keep concise — the scenario and given panel above carry the context.
 
-### 3.3 `resultType` — required, enum
+### 3.3 `type` — optional, enum
+
+`'numeric'` | `'choice'`. Defaults to `'numeric'`.
+
+---
+
+## 3.A — Numeric Step Fields (type: 'numeric')
+
+### 3.4 `resultType` — required for numeric, enum
 
 Determines the default tolerance tier (see §4). Valid values:
 
@@ -160,37 +200,35 @@ Determines the default tolerance tier (see §4). Valid values:
 | `percent`      | percentage (return whole-number form: 25, not 0.25) | ±0.5 percentage points                 |
 | `years`        | time periods                                        | ±0.1 years                             |
 
-### 3.4 `tolerance` — optional, override object
+### 3.5 `tolerance` — optional, override object
 
 When present, overrides the resultType default.
 
     tolerance: { value: 2, type: 'absolute' }   // ±2 absolute
     tolerance: { value: 1.5, type: 'percent' }  // ±1.5% relative
 
-Authors should only override when the step's natural tolerance differs from the tier default. For most steps, omit `tolerance` and rely on `resultType`.
-
-### 3.5 `unit` — required, string
+### 3.6 `unit` — required for numeric, string
 
 Display unit shown next to the input ("$ per unit", "units", "%"). Cosmetic only — does not affect grading.
 
-### 3.6 `solve(data, prior)` — required, function
+### 3.7 `solve(data, prior)` — required for numeric, function
 
-Returns the correct numeric value for this step. Called once per submission.
+Returns the correct numeric value for this step.
 
 - `data` is the result of `randomize()`
-- `prior` is `{ [earlierStepId]: correctValue }` — only contains steps that have been completed
-- Return type: `number` (the engine handles formatting for display)
+- `prior` is `{ [earlierStepId]: correctValue }` — only contains completed steps
+- Return type: `number`
 
   solve: (data, prior) => data.price - data.variableCost
 
   // later step using prior:
   solve: (data, prior) => Math.ceil(data.fixedCosts / prior['cm-per-unit'])
 
-Must be deterministic — given the same `data` and `prior`, must return the same number. The test suite calls `solve()` 100 times with the same inputs and verifies stability.
+Must be deterministic — given the same `data` and `prior`, must return the same number.
 
-### 3.7 `showWork(data, prior, studentAnswers, correctValue)` — required, function
+### 3.7.1 `showWork(data, prior, studentAnswers, correctValue)` — required for numeric
 
-Returns an array of show-work step objects passed to the shared `renderShowWork()` component (see `js/components/show-work.js`).
+Returns an array of show-work step objects passed to the shared `renderShowWork()` component.
 
     showWork: (data, prior, studentAnswers, correctValue) => [
       {
@@ -198,34 +236,91 @@ Returns an array of show-work step objects passed to the shared `renderShowWork(
         formula: 'Selling Price - Variable Cost',
         values:  `$${data.price} - $${data.variableCost}`,
         result:  `$${correctValue} per unit`,
-        highlight: true
+        highlight: true,
+        annotation: prior['some-earlier-step'] !== studentAnswers['some-earlier-step']
+          ? `Using Step N's correct value...`
+          : null
       }
     ]
 
-Each entry is `{ label, formula?, values?, result, highlight? }`. The component renders these as collapsible step cards.
+---
 
-When a `prior` value is used and the student's earlier answer was wrong, the author should reference it with the carry-forward annotation:
+## 3.B — Choice Step Fields (type: 'choice')
 
-    {
-      label: 'Breakeven Units',
-      formula: 'Fixed Costs / CM per Unit',
-      values: `$${data.fixedCosts.toLocaleString()} / $${prior['cm-per-unit']}`,
-      result: `${correctValue.toLocaleString()} units`,
-      highlight: true,
-      annotation: prior['cm-per-unit'] !== studentAnswers['cm-per-unit']
-        ? `Using Step 1's correct value: $${prior['cm-per-unit']} (your answer: $${studentAnswers['cm-per-unit']})`
-        : null
+A choice step presents 2–5 radio-button options. The correct option is computed from `data` and `prior` at submission time, so the right answer rotates with the randomized numbers — it is not a static "answer C" trivia question.
+
+**When to use choice steps:**
+
+- Interpretation pairing — "should the company accept the special order?" after computing CM
+- Direction calls — "is the variance favorable or unfavorable?" after computing variance
+- Decision recommendations — "given constrained capacity, what should the firm do?"
+
+**When NOT to use choice steps:**
+
+- Conceptual recognition that doesn't change round-to-round — "which cost system is this?" The answer never changes, students memorize it, pedagogy collapses. Use Apply scenarios for that pattern.
+- Anything that could just as easily be numeric — choice should test judgment, not arithmetic.
+
+### 3.8 `type` — required, must be `'choice'`
+
+### 3.9 `question` — same as §3.2
+
+### 3.10 `options` — required, array
+
+Static list of 2–5 option objects. Order is preserved in rendering.
+
+    options: [
+      { id: 'accept', label: 'Accept the special order' },
+      { id: 'reject', label: 'Reject the special order' },
+    ]
+
+Each option:
+
+- `id` — string, unique within the step's options. Used for grading and stored in `correctValues`/`studentAnswers`. Kebab-case conventional.
+- `label` — string, displayed to the student.
+- `sublabel` — optional string, smaller secondary text under the label.
+
+Options are static in Pass 2. Dynamic option generation (e.g., bell-curve numeric options like the simulation engine) is deferred to a later pass.
+
+### 3.11 `correctId(data, prior)` — required, function
+
+Returns the `id` of the correct option as a string. Called at submission time.
+
+    correctId: (data, prior) => {
+      const cm = prior['cm-special'];
+      return cm > 0 ? 'accept' : 'reject';
     }
 
-The engine passes `state.studentAnswers` into `showWork()` as a fifth argument when the author needs to compare. Most steps don't need it — only steps that depend on earlier prior values for which the student may have given a wrong answer.
+Must be deterministic. Must return a string matching one of the `options[].id` values — the test suite verifies this.
+
+### 3.12 `showWork(data, prior, studentAnswers, correctId)` — required for choice
+
+Same signature shape as the numeric showWork, but the fourth argument is the correct option's `id` (string) instead of a numeric value.
+
+    showWork: (data, prior, studentAnswers, correctId) => [
+      {
+        label: 'Decision Rule',
+        formula: 'With unused capacity, accept any order with positive CM',
+        values: `CM = $${prior['cm-special'].toLocaleString()} (positive)`,
+        result: correctId === 'accept'
+          ? 'Accept the order'
+          : 'Reject the order',
+        highlight: true,
+      }
+    ]
+
+The author can read `studentAnswers[step.id]` to compare the student's choice against `correctId` and add annotations.
+
+### 3.13 No `unit`, `resultType`, `tolerance`, or `solve` on choice steps
+
+These fields are numeric-only. The validator will warn if they appear on a choice step.
 
 ---
 
-## 4. Tolerance System
+## 4. Tolerance System (numeric only)
 
 ### 4.1 Default tiers by `resultType`
 
-See §3.3 table.
+See §3.4 table.
 
 ### 4.2 Evaluation algorithm
 
@@ -240,29 +335,23 @@ See §3.3 table.
       }
     }
 
-### 4.3 Override worked examples
+### 4.3 Override examples
 
-    // Step where student calculates BEP units — engine default for 'units' resultType is ±1
-    // but author wants stricter
-    { resultType: 'units', tolerance: { value: 0, type: 'absolute' } }
+    { resultType: 'units', tolerance: { value: 0, type: 'absolute' } }     // exact match required
+    { resultType: 'percent', tolerance: { value: 0.1, type: 'absolute' } } // ±0.1pp
+    { resultType: 'money-large', tolerance: { value: 0.25, type: 'percent' } } // tighter than tier default
 
-    // Step calculating a small ratio displayed as decimal — needs tighter tolerance
-    { resultType: 'percent', tolerance: { value: 0.1, type: 'absolute' } }
+### 4.4 Wrong-answer display rule (Option A — locked)
 
-    // Step expecting a multi-million-dollar NPV
-    { resultType: 'money-large', tolerance: { value: 0.25, type: 'percent' } }
+On a wrong submission, the engine displays only "Incorrect" with the student's submitted value echoed back. The engine does **not** display:
 
-### 4.4 What the engine displays on wrong answers
+- The correct value
+- The deviation amount
+- Any hint about direction (high/low)
 
-After a wrong submission, the engine shows: "Your answer: $40 — correct answer: $42 (off by $2)." It does NOT reveal the correct answer until the student clicks "Show Solution" (Decision 2). The numerical correct value is visible in the show-work panel only.
+The student must click "Show Solution" to see the correct value via the show-work panel. This matches exam conditions and the "must submit, no hints" pattern.
 
-Wait — let me reconsider. There's a tension here. If the engine says "off by $2," that implies the student can infer the correct value. We have two clean options:
-
-**Option A:** Engine says only "Incorrect" on wrong answers and does not reveal deviation. Student must click "Show Solution" to see the correct value via show-work. **Stricter, more exam-like.**
-
-**Option B:** Engine says "Incorrect — your answer: $40" but does not show the correct value or deviation. Student must click "Show Solution" to see correct value. **Slight middle ground.**
-
-**This spec adopts Option A.** Matches the "must submit, no hints, on-demand show-work" pattern locked in Decisions 2 and 4.
+For choice steps, the same rule applies: a wrong choice shows "Incorrect" with the student's selected option echoed. The correct option is revealed only via Show Solution.
 
 ---
 
@@ -294,42 +383,77 @@ Wait — let me reconsider. There's a tension here. If the engine says "off by $
 
 ## 6. Helper Utilities
 
-Exported from `practice-engine.js`. Problem authors import these for use in `randomize()`.
-
-    import { randomInRange, roundTo, roundToNearest, ensureGreaterThan, randomChoice } from './practice-engine.js';
+Exported from `practice-engine.js` (numeric helpers) and `scenario-pools.js` (narrative helpers).
 
 ### 6.1 `randomInRange(min, max, step?)`
 
 Returns an integer between `min` and `max` inclusive, snapped to `step` (default 1).
 
-    randomInRange(40, 80)        → 53
-    randomInRange(40, 80, 5)     → 55 or 60 or ... (multiples of 5)
-
 ### 6.2 `roundTo(value, decimals)`
 
 Returns `value` rounded to `decimals` decimal places.
-
-    roundTo(3.14159, 2)  → 3.14
-    roundTo(1234.567, 0) → 1235
 
 ### 6.3 `roundToNearest(value, nearest)`
 
 Returns `value` rounded to the nearest multiple of `nearest`.
 
-    roundToNearest(12345, 100)   → 12300
-    roundToNearest(12345, 1000)  → 12000
+### 6.4 `ensureGreaterThan(value, floor, minDelta?)`
 
-### 6.4 `ensureGreaterThan(value, floor)`
-
-Returns `value` if greater than `floor`, else returns `floor + 1`. Use to enforce constraints during randomization.
-
-    const variableCost = ensureGreaterThan(randomInRange(10, 30), 5);
+Returns `value` if greater than `floor + minDelta`, else returns `floor + minDelta`. Use to enforce constraints during randomization.
 
 ### 6.5 `randomChoice(array)`
 
 Returns a random element from the array.
 
-    const productMix = randomChoice([[60, 40], [70, 30], [50, 50]]);
+### 6.6 Scenario pool helpers (Pass 2)
+
+Imported from `./scenario-pools.js`:
+
+    import { randomCompany, randomProduct } from './scenario-pools.js';
+
+**`randomCompany(opts?)`** — returns a company record.
+
+    randomCompany({ category: 'manufacturing' })
+    // → {
+    //     name:     'Bayport Manufacturing, LLC',  // full display string
+    //     base:     'Bayport',                     // for possessives
+    //     industry: 'Manufacturing',
+    //     suffix:   'LLC',
+    //     category: 'manufacturing',
+    //   }
+
+Options:
+
+- `category` — one of `'manufacturing'`, `'process'`, `'service'`, `'retail'`, `'distribution'`, `'technology'`, `'healthcare'`, `'hospitality'`, `'construction'`, `'any'`. Default `'any'`.
+- `includeSuffix` — boolean, default `true`. When `false`, no legal-form suffix is appended.
+
+**`randomProduct(opts?)`** — returns a product record.
+
+    randomProduct({ category: 'manufacturing' })
+    // → { singular: 'precision component', plural: 'precision components', category: 'manufacturing' }
+
+Options:
+
+- `category` — same enum as above. Default `'manufacturing'`.
+
+### 6.7 Pool helper usage rules
+
+- **Call only inside `randomize()`.** Never inside `scenario()`, `given()`, `solve()`, `correctId()`, or `showWork()`. Those functions must read from `data` so the name stays stable across renders.
+- **Store the entire returned object on `data`.** Reading `data.company.name` vs. `data.company.base` is how prose vs. show-work consistency is maintained.
+- **All randomness routes through `Math.random()`** so the engine's seed override makes pool picks deterministic for tests.
+
+### 6.8 Pool size reference
+
+| Pool                             | Entries      | Combined with industries × suffixes |
+| -------------------------------- | ------------ | ----------------------------------- |
+| `names.json`                     | 325          | —                                   |
+| `industries.json`                | 50           | —                                   |
+| `suffixes.json`                  | 10 (3 empty) | —                                   |
+| `products.json`                  | 46           | —                                   |
+| Manufacturing-category companies | —            | ~26,000                             |
+| Any-category companies           | —            | 162,500                             |
+
+The `combinationCount(category)` diagnostic in `scenario-pools.js` exposes these for the test suite.
 
 ---
 
@@ -345,47 +469,74 @@ Returns a random element from the array.
 
 1. Store `problem` and `container` on engine instance
 2. Build `state.data` from `problem.randomize()`
-3. Build `state.studentAnswers`, `correctValues`, `stepResults`, `solutionViewed` as empty objects
-4. Set `state.activeStepIndex = 0`
-5. Render: problem header (title + given panel) + step list
+3. Build empty `studentAnswers`, `correctValues`, `stepResults`, `solutionViewed`
+4. Set `state.activeStepIndex = 0`, `finalSubmitted = false`, `complete = false`
+5. Render: problem header + scenario (if present) + given panel + step list
 
 ### 7.3 Render contract
 
-The container's HTML is set in three phases:
+The container's HTML is set in phases:
 
-    [HEADER]      Problem title + given panel
-    [STEPS]       Every step as a card. Step at activeStepIndex is "active" (input enabled, submit shown). Steps before are "submitted" (answer visible, "Show Solution" button if not yet viewed, show-work expanded if viewed). Steps after are "locked" (input disabled, no submit button).
-    [SUMMARY]     Only shown when state.complete === true. Replaces the steps section.
+    [HEADER]      Title + back-to-picker button + estimated time/step count
+    [SCENARIO]    Optional — rendered only if problem.scenario is defined
+    [GIVEN]       Given panel
+    [STEPS]       Every step as a card:
+                    - active step: input/options enabled, submit button shown
+                    - submitted steps: answer visible, Show Solution button if not yet viewed
+                    - locked steps: input disabled, dimmed
+    [SEE SUMMARY] Button appearing after final step is submitted
+    [SUMMARY]     Replaces step list when state.complete === true
 
 ### 7.4 Submission flow
 
-1. Student types in active step's input, clicks Submit
-2. Engine reads input value, parses as number
-3. Engine calls `step.solve(data, prior)` — `prior` built from `correctValues` only for completed steps
-4. Engine evaluates answer against `correctValue` using tolerance
-5. Engine stores `studentAnswers[stepId] = value`, `correctValues[stepId] = correctValue`, `stepResults[stepId] = { correct, deviation }`
-6. If correct: green check + submit transitions to "Show Solution" button. The next step is unlocked: its input becomes enabled and the engine focuses it.
-7. If incorrect: red X + "Incorrect" message + submit transitions to "Show Solution" button. The next step is unlocked the same way — student is not blocked by wrong answers.
-8. If this was the final step, after submission render the summary.
+**Numeric step:**
+
+1. Student types value, clicks Submit
+2. Engine parses input as float
+3. Engine calls `step.solve(data, prior)` → `correctValue`
+4. Engine evaluates against tolerance
+5. Stores `studentAnswers[stepId] = value`, `correctValues[stepId] = correctValue`, `stepResults[stepId] = { correct, deviation }`
+
+**Choice step:**
+
+1. Student selects radio, clicks Submit
+2. Engine reads selected option's `id`
+3. Engine calls `step.correctId(data, prior)` → `correctId` (string)
+4. Engine evaluates: `correct = (selectedId === correctId)`
+5. Stores `studentAnswers[stepId] = selectedId`, `correctValues[stepId] = correctId`, `stepResults[stepId] = { correct }`
+
+**Both step types, after grading:**
+
+6. If this was NOT the final step: advance `activeStepIndex`, focus the next step's input.
+7. If this WAS the final step: set `finalSubmitted = true`, render "See Summary" button below the step list. Do not auto-advance to summary.
 
 ### 7.5 Show Solution flow
 
-1. Student clicks "Show Solution" on a submitted step
+1. Student clicks "Show Solution" on any submitted step (past or current)
 2. Engine sets `state.solutionViewed[stepId] = true`
-3. Engine re-renders that step's card to include the show-work panel (calling `step.showWork(data, prior, studentAnswers, correctValue)` and passing the result to `renderShowWork()`)
-4. The button is replaced with "Solution shown" muted text
+3. Engine re-renders that step's card with show-work panel expanded
+4. Button replaced with "Solution shown" muted text
 
-### 7.6 Summary
+Show-work persists across re-renders. Once revealed, it stays revealed until `reset()`.
 
-Rendered when `state.activeStepIndex === steps.length`:
+### 7.6 Summary trigger
 
-    [SUMMARY HEADER]      "You answered X of Y correctly"
-    [PER-STEP ROWS]       One row per step:
-                          ✓ or ✗ icon | step title | student answer / correct answer (if wrong) | "Solution viewed" if applicable
-    [REVIEW LINKS]        From problem.reviewChapters
-    [ACTION BUTTONS]      "Try Again" (calls engine.reset()) | "Try Different Problem" (page handles; engine listens for click)
+The summary is rendered only when `state.complete === true`. The state transitions to `complete = true` only when the student clicks the "See Summary" button that appears after the final step is submitted.
 
-The "Try Different Problem" button's click is handled by the engine emitting a `practice:exit` event on the container. The chapter page listens for this event and toggles the picker back into view.
+The engine does NOT auto-advance to the summary when `activeStepIndex === steps.length`. The student must opt in. This gives them time to inspect the final step's show-work before moving on.
+
+### 7.7 Summary content
+
+When rendered:
+
+    [HEADER]      "X of Y correct" + "Problem Complete"
+    [STEPS LIST]  One row per step:
+                  ✓/✗ icon | step question | student answer | correct answer if wrong | "Solution viewed" flag if applicable
+    [ACTIONS]     "Try Again" (calls engine.reset()) | "Try Different Problem" (dispatches practice:back-to-picker)
+    [REVIEW]      Links from problem.reviewChapters
+    [SOLUTIONS]   Collapsible <details> per step — clicking expands the full show-work for that step
+
+The summary's solutions section uses the same `step.showWork(...)` function that the in-flow Show Solution button uses. No duplicated rendering logic.
 
 ---
 
@@ -393,15 +544,16 @@ The "Try Different Problem" button's click is handled by the engine emitting a `
 
 The engine writes to `container.innerHTML` directly (no virtual DOM). Inline styles use CSS custom property tokens — never hardcoded hex.
 
-### 8.1 Required CSS classes (defined in `css/practice.css`, written separately)
+### 8.1 CSS classes (defined in `css/practice.css`)
 
-- `.practice-problem` — outer wrapper
-- `.practice-step` — each step card
-- `.practice-step--locked` — step input disabled, dim appearance
-- `.practice-step--active` — current step, full prominence
-- `.practice-step--submitted` — completed step, answer visible
-- `.practice-step--correct` — submitted + correct (border-left green)
-- `.practice-step--incorrect` — submitted + wrong (border-left red)
+- `.practice-scenario` — narrative card above the given panel (Pass 2 addition)
+- `.practice-problem-container` — outer wrapper
+- `.practice-step-card` — each step card
+- `.practice-step-card--locked` — step disabled, dim appearance
+- `.practice-step-card--active` — current step
+- `.practice-step-card--submitted-correct` — submitted + correct (border green)
+- `.practice-step-card--submitted-incorrect` — submitted + wrong (border red)
+- `.practice-choice-options` — radio button group container (Pass 2 addition)
 - `.practice-summary` — replaces step list on completion
 - `.practice-picker` — tile container (on the chapter page, not engine)
 - `.practice-picker-tile` — individual tile
@@ -410,10 +562,15 @@ The engine writes to `container.innerHTML` directly (no virtual DOM). Inline sty
 
 The engine dispatches CustomEvents on the container:
 
-    practice:step-submitted   { stepId, correct, deviation }
-    practice:complete         { correctCount, totalSteps }
-    practice:exit             — "Try Different Problem" was clicked
-    practice:reset            — fired after engine.reset() completes
+    practice:back-to-picker  — student clicked "Back to problems" or "Try Different Problem"
+
+That is the only event currently emitted. The following events were specified in Pass 1 but not implemented; they remain deferred:
+
+    practice:step-submitted  — { stepId, correct, deviation }    [deferred]
+    practice:complete        — { correctCount, totalSteps }      [deferred]
+    practice:reset           — fired after engine.reset() completes [deferred]
+
+These will be added when the first consumer (page-level analytics, progress tracking) requires them. Until then, the engine emits only `practice:back-to-picker` and the chapter page wires that single handler.
 
 ---
 
@@ -423,13 +580,17 @@ A problem definition is valid when:
 
 1. `id`, `title`, `chapter`, `difficulty`, `estimatedMinutes`, `reviewChapters`, `randomize`, `given`, `steps` all present
 2. `steps.length >= 1`
-3. Every step has `id`, `question`, `resultType`, `unit`, `solve`, `showWork`
-4. All step IDs are unique within the problem
-5. `randomize()` returns an object (not null/undefined)
-6. `given(data)` returns an array of `{ label, value }` objects
-7. `solve(data, prior)` returns a finite number
-8. `showWork(...)` returns an array
-9. `reviewChapters` is a non-empty array
+3. Every step has `id`, `question`
+4. Numeric steps (`type` omitted or `'numeric'`): `resultType`, `unit`, `solve`, `showWork` present
+5. Choice steps (`type === 'choice'`): `options`, `correctId`, `showWork` present; `options.length >= 2`; every option has unique `id` and `label`
+6. All step IDs are unique within the problem
+7. `randomize()` returns an object (not null/undefined)
+8. `given(data)` returns an array of `{ label, value }` objects
+9. Numeric `solve(data, prior)` returns a finite number
+10. Choice `correctId(data, prior)` returns a string matching one of the step's `options[].id`
+11. `showWork(...)` returns an array (for both step types)
+12. `reviewChapters` is a non-empty array
+13. If `scenario` is present, it must be a function that returns a string
 
 The test suite (§12) verifies all of these.
 
@@ -439,123 +600,161 @@ The test suite (§12) verifies all of these.
 
 ### 10.1 Rule
 
-Every step receives `prior` from the engine, which is built exclusively from `state.correctValues`. The student's actual answer for an earlier step is NEVER passed to a later step's `solve()`.
+Every step receives `prior` from the engine, built exclusively from `state.correctValues`. The student's actual answer is NEVER passed to a later step's `solve()` or `correctId()`.
 
-This means:
+This applies to both step types:
 
-- A student who gets Step 1 wrong cannot have their Step 2 wrong-by-cascade
-- Step 2's `solve()` always operates on the correct Step 1 value
-- Step 2 is graded purely on whether the student correctly applied the Step 2 formula
+- **Numeric:** Step N's `solve()` always operates on the correct prior numeric values.
+- **Choice:** Step N's `correctId()` always operates on the correct prior values (numeric or choice IDs from earlier steps).
+
+A student who chose "reject" wrongly in step 3 will still have Step 4 evaluated against the _correct_ prior step 3 choice. Step 4 is graded purely on whether the student applied step 4's logic correctly.
 
 ### 10.2 Annotation pattern
 
-When a later step's show-work uses a `prior` value AND the student got that earlier step wrong, the show-work entry should display an annotation. The author handles this in `showWork()` using the `studentAnswers` argument (fifth parameter passed by the engine — see §3.7).
+When a later step's `showWork` references a prior value AND the student got that earlier step wrong, the show-work entry should display an annotation acknowledging the divergence. The author handles this via the `studentAnswers` argument:
 
-This is a per-step author responsibility, not an engine-side automatic feature. The engine only provides the data; the author decides which steps need annotations.
+    // Numeric step referencing a prior numeric value
+    annotation: prior['cm-per-unit'] !== studentAnswers['cm-per-unit']
+      ? `Using Step 1's correct value: $${prior['cm-per-unit']} (your answer: $${studentAnswers['cm-per-unit']})`
+      : null
+
+    // Choice step referencing a prior choice
+    annotation: prior['capacity-decision'] !== studentAnswers['capacity-decision']
+      ? `Using the correct prior decision (${prior['capacity-decision']})`
+      : null
+
+This is a per-step author responsibility, not engine-side automation. The engine provides the data; the author decides which steps need annotations.
 
 ---
 
-## 11. Worked Example — Breakeven Basics
+## 11. Worked Example — Generic Special Order
 
-Full problem definition, as it should appear in `ch03-problems.js`:
+Full Pass 2 problem definition demonstrating scenario + choice steps. This is the template for case-flavored Practice problems.
+
+    import {
+      randomInRange, roundToNearest, ensureGreaterThan,
+    } from './practice-engine.js';
+    import { randomCompany, randomProduct } from './scenario-pools.js';
 
     const BASE = import.meta.env.BASE_URL;
 
-    export const breakevenBasics = {
-      id: 'ch03-breakeven-basics',
-      title: 'Breakeven Basics',
-      description: 'Calculate contribution margin, CM ratio, breakeven units, and breakeven revenue.',
-      chapter: 3,
+    export const specialOrderUnconstrained = {
+      id: 'ch12-special-order-unconstrained',
+      title: 'Special Order — Unconstrained Capacity',
+      description: 'Decide whether to accept a special order when capacity is available.',
+      chapter: 12,
       difficulty: 'foundation',
-      estimatedMinutes: 5,
+      estimatedMinutes: 7,
 
       reviewChapters: [
-        { label: 'Ch. 3 — CVP Analysis', href: `${BASE}pages/learn/ch03.html` }
+        { label: 'Ch. 12 — Relevant Information', href: `${BASE}pages/learn/ch12.html` }
       ],
 
       randomize: () => {
-        const price = randomInRange(40, 80, 1);
-        const variableCost = randomInRange(15, Math.floor(price * 0.7), 1);
-        const fixedCosts = roundToNearest(randomInRange(60000, 180000), 5000);
-        return { price, variableCost, fixedCosts };
+        const company = randomCompany({ category: 'manufacturing' });
+        const product = randomProduct({ category: 'manufacturing' });
+        const regularPrice  = randomInRange(80, 140, 5);
+        const variableCost  = randomInRange(30, Math.floor(regularPrice * 0.55), 1);
+        const specialPrice  = randomInRange(
+          Math.floor(variableCost * 1.15),                  // floor: must beat VC
+          Math.floor(regularPrice * 0.85),                  // ceiling: below regular
+          1
+        );
+        const specialUnits  = roundToNearest(randomInRange(500, 2000), 100);
+        const fixedCosts    = roundToNearest(randomInRange(40000, 90000), 5000);
+        return {
+          company, product,
+          regularPrice, variableCost, specialPrice, specialUnits, fixedCosts,
+        };
       },
 
+      scenario: (data) => `
+        <p>${data.company.name} produces a single ${data.product.singular}
+        that sells to its regular customers for $${data.regularPrice}. Variable
+        production cost is $${data.variableCost} per unit and fixed costs total
+        $${data.fixedCosts.toLocaleString()} per month.</p>
+        <p>A new customer has approached ${data.company.base} requesting a special
+        order of ${data.specialUnits.toLocaleString()} ${data.product.plural}
+        at $${data.specialPrice} each. ${data.company.base} currently has
+        unused production capacity and the special order will not affect sales
+        to regular customers.</p>
+      `,
+
       given: (data) => [
-        { label: 'Selling price per unit', value: `$${data.price}` },
+        { label: 'Regular selling price',  value: `$${data.regularPrice}` },
         { label: 'Variable cost per unit', value: `$${data.variableCost}` },
-        { label: 'Total fixed costs',      value: `$${data.fixedCosts.toLocaleString()}` }
+        { label: 'Fixed costs (monthly)',  value: `$${data.fixedCosts.toLocaleString()}` },
+        { label: 'Special order price',    value: `$${data.specialPrice}` },
+        { label: 'Special order quantity', value: `${data.specialUnits.toLocaleString()} units` },
       ],
 
       steps: [
         {
-          id: 'cm-per-unit',
-          question: 'What is the contribution margin per unit?',
+          id: 'cm-special-per-unit',
+          question: 'What is the contribution margin per unit on the special order?',
           resultType: 'money-small',
           unit: '$ per unit',
-          solve: (data) => data.price - data.variableCost,
-          showWork: (data, prior, studentAnswers, correctValue) => [
+          solve: (data) => data.specialPrice - data.variableCost,
+          showWork: (data, prior, _, correctValue) => [
             {
-              label: 'Contribution Margin per Unit',
-              formula: 'Selling Price - Variable Cost',
-              values: `$${data.price} - $${data.variableCost}`,
-              result: `$${correctValue}`,
-              highlight: true
+              label: 'CM per Unit (Special Order)',
+              formula: 'Special Price − Variable Cost',
+              values: `$${data.specialPrice} − $${data.variableCost}`,
+              result: `$${correctValue} per unit`,
+              highlight: true,
             }
-          ]
+          ],
         },
         {
-          id: 'cm-ratio',
-          question: 'What is the contribution margin ratio?',
-          resultType: 'percent',
-          unit: '%',
-          solve: (data, prior) => roundTo(
-            ((data.price - data.variableCost) / data.price) * 100,
-            1
-          ),
-          showWork: (data, prior, studentAnswers, correctValue) => [
-            {
-              label: 'CM Ratio',
-              formula: '(CM per Unit / Selling Price) × 100',
-              values: `($${prior['cm-per-unit']} / $${data.price}) × 100`,
-              result: `${correctValue}%`,
-              highlight: true
-            }
-          ]
-        },
-        {
-          id: 'bep-units',
-          question: 'What is the breakeven point in units?',
-          resultType: 'units',
-          unit: 'units',
-          solve: (data, prior) => Math.ceil(data.fixedCosts / prior['cm-per-unit']),
-          showWork: (data, prior, studentAnswers, correctValue) => [
-            {
-              label: 'Breakeven Units',
-              formula: 'Fixed Costs / CM per Unit',
-              values: `$${data.fixedCosts.toLocaleString()} / $${prior['cm-per-unit']}`,
-              result: `${correctValue.toLocaleString()} units`,
-              highlight: true
-            }
-          ]
-        },
-        {
-          id: 'bep-revenue',
-          question: 'What is the breakeven point in revenue dollars?',
+          id: 'cm-special-total',
+          question: 'What is the total contribution margin from the special order?',
           resultType: 'money-large',
           unit: '$',
-          solve: (data, prior) => prior['bep-units'] * data.price,
-          showWork: (data, prior, studentAnswers, correctValue) => [
+          solve: (data, prior) => prior['cm-special-per-unit'] * data.specialUnits,
+          showWork: (data, prior, _, correctValue) => [
             {
-              label: 'Breakeven Revenue',
-              formula: 'Breakeven Units × Selling Price',
-              values: `${prior['bep-units'].toLocaleString()} × $${data.price}`,
+              label: 'Total CM',
+              formula: 'CM per Unit × Special Units',
+              values: `$${prior['cm-special-per-unit']} × ${data.specialUnits.toLocaleString()}`,
               result: `$${correctValue.toLocaleString()}`,
-              highlight: true
+              highlight: true,
             }
-          ]
-        }
-      ]
+          ],
+        },
+        {
+          id: 'accept-decision',
+          type: 'choice',
+          question: 'Given unused capacity and no impact on regular sales, should ' +
+                    'the company accept the special order?',
+          options: [
+            { id: 'accept', label: 'Accept the special order' },
+            { id: 'reject', label: 'Reject the special order' },
+          ],
+          correctId: (data, prior) => prior['cm-special-total'] > 0 ? 'accept' : 'reject',
+          showWork: (data, prior, studentAnswers, correctId) => [
+            {
+              label: 'Decision Rule',
+              formula: 'With unused capacity, accept any order with positive CM',
+              values: `Total CM = $${prior['cm-special-total'].toLocaleString()}`,
+              result: correctId === 'accept'
+                ? `Accept — order adds $${prior['cm-special-total'].toLocaleString()} to operating income`
+                : 'Reject — order does not contribute positive CM',
+              highlight: true,
+              annotation: studentAnswers['accept-decision'] !== correctId
+                ? `Your selection (${studentAnswers['accept-decision']}) does not match the decision rule.`
+                : null,
+            }
+          ],
+        },
+      ],
     };
+
+This problem demonstrates:
+
+- Narrative scenario consuming randomized company + product + numbers
+- Two numeric steps that carry forward correctly
+- A choice step whose correct answer is computed from the prior numeric CM
+- Annotation on the choice step for wrong-answer feedback
 
 ---
 
@@ -563,14 +762,17 @@ Full problem definition, as it should appear in `ch03-problems.js`:
 
 `tests/validate-problem.js` runs the following checks against every problem definition imported from `js/practice/*-problems.js`:
 
-1. **Schema validation** — every required field present and correct type
-2. **Random stress test** — 100 calls to `randomize()`; verify each result is sane (no zeros where positives expected, ratios within reasonable bounds)
-3. **Solve determinism** — given fixed `data` and `prior`, `solve()` returns the same number on 10 calls
-4. **Tolerance reasonability** — at least one valid student answer near the correct value passes; clearly-wrong answers fail
-5. **Show-work shape** — `showWork()` returns an array of `{ label, ... }` objects with required fields per `renderShowWork()` contract
-6. **Carry-forward coherence** — Step N's `solve()` works when given the `prior` object containing Step 1..N-1's correctValues
+1. **Schema validation** — every required field present and correct type, including the new Pass 2 fields (`type`, `options`, `correctId` for choice steps; `scenario` if present)
+2. **Random stress test** — 100 calls to `randomize()`; verify sane results, no zeros where positives expected, ratios within reasonable bounds. For problems using `randomCompany`/`randomProduct`, verify the returned `data.company` and `data.product` shapes.
+3. **Solve / correctId determinism** — given fixed `data` and `prior`, `solve()` and `correctId()` return the same value on 10 calls
+4. **Tolerance reasonability** (numeric) — a student answer near the correct value passes; clearly-wrong answers fail
+5. **Choice correctness** — `correctId()` returns a string matching one of the step's `options[].id` across 100 random data instances
+6. **Show-work shape** — `showWork()` returns an array of objects with required fields, for both step types
+7. **Carry-forward coherence** — Step N's `solve`/`correctId` works when given the `prior` object containing earlier correctValues
+8. **Scenario validity** — if `scenario` present, returns a non-empty string when called with random data
+9. **Pool size guard** — `scenario-pools.js`' `combinationCount()` returns expected minimums (names ≥ 300, industries ≥ 25, suffixes ≥ 8, products ≥ 30)
 
-Run with: `node tests/validate-problem.js js/practice/ch03-problems.js`
+Run with: `node tests/validate-problem.js js/practice/ch12-problems.js`
 
 ---
 
@@ -579,31 +781,29 @@ Run with: `node tests/validate-problem.js js/practice/ch03-problems.js`
 ### 13.1 Hardcoded paths in `reviewChapters`
 
     // WRONG — 404s on GitHub Pages under /Managerial-Accounting/ subpath
-    reviewChapters: [
-      { label: 'Ch. 3', href: '/pages/learn/ch03.html' }
-    ]
+    reviewChapters: [{ label: 'Ch. 3', href: '/pages/learn/ch03.html' }]
 
-    // CORRECT — use BASE constant from top of file
+    // CORRECT
     const BASE = import.meta.env.BASE_URL;
-    reviewChapters: [
-      { label: 'Ch. 3', href: `${BASE}pages/learn/ch03.html` }
-    ]
+    reviewChapters: [{ label: 'Ch. 3', href: `${BASE}pages/learn/ch03.html` }]
 
 ### 13.2 Hardcoded hex colors in show-work entries
 
-The `renderShowWork()` component handles styling via CSS classes. Authors should NEVER specify color in `showWork()` return values. Use the `highlight: true` field to mark important rows; the component handles the visual treatment via CSS tokens.
+`renderShowWork()` handles styling via CSS classes. Authors should NEVER specify color in `showWork()` return values. Use `highlight: true` to mark important rows; the component handles the visual treatment via CSS tokens.
 
-### 13.3 Non-deterministic `solve()`
+### 13.3 Non-deterministic `solve()` or `correctId()`
 
-    // WRONG — uses Math.random inside solve, defeats grading
+    // WRONG — uses Math.random inside solve/correctId, defeats grading
     solve: (data) => data.price * (Math.random() > 0.5 ? 0.9 : 1.0)
+    correctId: (data) => Math.random() > 0.5 ? 'accept' : 'reject'
 
-    // CORRECT — all randomness lives in randomize(); solve is pure
+    // CORRECT — all randomness lives in randomize(); solve/correctId are pure
     solve: (data) => data.price * 0.9
+    correctId: (data, prior) => prior['cm'] > 0 ? 'accept' : 'reject'
 
-### 13.4 Mutating `data` or `prior` inside `solve()`
+### 13.4 Mutating `data` or `prior`
 
-    // WRONG — mutates state passed by engine
+    // WRONG
     solve: (data, prior) => {
       data.price *= 1.1;     // never mutate
       return data.price;
@@ -612,29 +812,71 @@ The `renderShowWork()` component handles styling via CSS classes. Authors should
     // CORRECT — treat data and prior as immutable
     solve: (data, prior) => data.price * 1.1
 
-### 13.5 Cascading wrong answers in `solve()`
+### 13.5 Cascading wrong answers
 
 The engine guarantees `prior` contains correct values. Authors do not need to defend against student errors here. Step 2's `solve(data, prior)` always sees the right Step 1 value.
 
 ### 13.6 Forgetting `tolerance` for non-default cases
 
-If a step's natural tolerance is unusual (e.g., a step that returns 0.5 percentage points must use `{ value: 0.05, type: 'absolute' }` — not the default `±0.5pp`), specify it explicitly. The default tier is a starting point, not a guarantee.
+If a step's natural tolerance is unusual, specify it explicitly. The default tier is a starting point, not a guarantee.
 
-### 13.7 Missing `unit` field
+### 13.7 Missing `unit` field on numeric steps
 
-The `unit` field is required even when it seems redundant. The engine renders it next to the input. Leaving it empty makes the input field unlabeled.
+The `unit` field is required for numeric steps even when seemingly redundant. The engine renders it next to the input.
+
+### 13.8 Calling pool helpers outside `randomize()` (Pass 2)
+
+    // WRONG — name changes every render
+    scenario: (data) => `${randomCompany().name} produces...`
+
+    // CORRECT — name fixed at randomize time, read from data
+    randomize: () => ({ company: randomCompany({ category: 'manufacturing' }), ... }),
+    scenario: (data) => `${data.company.name} produces...`
+
+### 13.9 Static-trivia choice steps (Pass 2)
+
+    // WRONG — "correct answer" is the same every round, students memorize
+    {
+      type: 'choice',
+      question: 'What allocation method does this system use?',
+      options: [
+        { id: 'dl-dollars', label: 'Direct labor dollars' },
+        { id: 'machine-hours', label: 'Machine hours' },
+      ],
+      correctId: () => 'dl-dollars',  // never changes!
+    }
+
+    // CORRECT — the right choice follows from the randomized data
+    {
+      type: 'choice',
+      question: 'Given the contribution margin you calculated, should the order be accepted?',
+      options: [
+        { id: 'accept', label: 'Accept' },
+        { id: 'reject', label: 'Reject' },
+      ],
+      correctId: (data, prior) => prior['cm'] > 0 ? 'accept' : 'reject',
+    }
+
+Static recognition questions belong in Apply scenarios, not Practice. Practice choice steps must test judgment that depends on randomized numbers.
+
+### 13.10 Choice options that aren't mutually exclusive (Pass 2)
+
+Options must be discrete, mutually exclusive answers. "Accept" / "Reject" is fine. "Accept" / "Accept if X" / "Accept if Y" creates partial-credit ambiguity that the engine cannot grade. Restructure as multiple choice steps if multiple aspects of the decision need to be tested.
 
 ---
 
 ## 14. Open Items for Future Passes
 
-These are deliberately deferred from Pass 1:
+Deliberately deferred:
 
-- **Difficulty badges on picker tiles** (Pass 4)
-- **Time tracking and per-problem analytics** (deferred indefinitely)
-- **Hint system** (excluded per Decision 4)
-- **KaTeX in step question text** (add when first problem needs it; show-work panel already supports it)
-- **Per-problem completion persistence in localStorage** (not in Pass 1 scope; add when student progress tracking warrants it)
+- **Same-data multi-system comparison** (VMD-style one-pool/two-pool/three-pool) — architectural change to support parallel sub-problems sharing one `randomize()`. Pass 3 candidate.
+- **Dynamic option generation for choice steps** — bell-curve numeric options like the simulation engine. Useful for "estimate the variance" questions. Pass 3.
+- **Difficulty badges on picker tiles** — Pass 4.
+- **Time tracking and per-problem analytics** — deferred indefinitely.
+- **Hint system** — excluded per Pass 1 Decision 4.
+- **KaTeX in step question text** — add when first problem needs it; show-work panel already supports it.
+- **Per-problem completion persistence in localStorage** — add when student progress tracking warrants it.
+- **Event emissions** (`practice:step-submitted`, `practice:complete`, `practice:reset`) — add when first consumer needs them. See §8.2.
 
 ---
 

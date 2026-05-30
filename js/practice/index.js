@@ -1,12 +1,12 @@
 // js/practice/index.js
 // Renders the Practice landing page:
-//  - Chapter problems grid (Ch. 3 active; others coming soon)
+//  - Chapter problems grid (Ch. 3 and Ch. 12 active; others coming soon)
 //  - Cross-chapter problems grid (all coming soon for Pass 1)
 //
 // Each tile links to a chapter practice page if available, or renders as a
 // disabled "coming soon" tile if not yet built.
 
-import { initHeader } from '/js/components/header.js';
+import { initHeader } from "/js/components/header.js";
 
 const BASE = import.meta.env.BASE_URL;
 
@@ -17,37 +17,40 @@ const BASE = import.meta.env.BASE_URL;
 const CHAPTER_PROBLEMS = [
   {
     chapter: 3,
-    title: 'CVP Analysis',
-    desc: 'Breakeven, target profit, margin of safety, and price sensitivity.',
+    title: "CVP Analysis",
+    desc: "Breakeven, target profit, margin of safety, and price sensitivity.",
     problemCount: 5,
+    estimatedMinutes: 5,
     available: true,
     href: `${BASE}pages/practice/ch03.html`,
   },
   {
     chapter: 7,
-    title: 'Direct-Cost Variances',
-    desc: 'Price and efficiency variances for direct materials and labor.',
+    title: "Direct-Cost Variances",
+    desc: "Price and efficiency variances for direct materials and labor.",
     problemCount: null,
     available: false,
   },
   {
     chapter: 8,
-    title: 'Overhead Variances',
-    desc: 'Variable and fixed overhead spending, efficiency, and volume variances.',
+    title: "Overhead Variances",
+    desc: "Variable and fixed overhead spending, efficiency, and volume variances.",
     problemCount: null,
     available: false,
   },
   {
     chapter: 12,
-    title: 'Relevant Costs',
-    desc: 'Special orders, make-or-buy, drop/keep, equipment replacement.',
-    problemCount: null,
-    available: false,
+    title: "Relevant Costs",
+    desc: "Special orders, make-or-buy, drop/keep, equipment replacement, and constrained product mix.",
+    problemCount: 5,
+    estimatedMinutes: 7,
+    available: true,
+    href: `${BASE}pages/practice/ch12.html`,
   },
   {
     chapter: 22,
-    title: 'Capital Budgeting',
-    desc: 'NPV, IRR, payback, and AARR calculations with tax effects.',
+    title: "Capital Budgeting",
+    desc: "NPV, IRR, payback, and AARR calculations with tax effects.",
     problemCount: null,
     available: false,
   },
@@ -59,27 +62,27 @@ const CHAPTER_PROBLEMS = [
 
 const CROSS_CHAPTER_PROBLEMS = [
   {
-    title: 'Profitability Analysis',
+    title: "Profitability Analysis",
     chapters: [3, 12, 15],
-    desc: 'Combine CVP, relevant costs, and customer profitability.',
+    desc: "Combine CVP, relevant costs, and customer profitability.",
     available: false,
   },
   {
-    title: 'Full Variance Analysis',
+    title: "Full Variance Analysis",
     chapters: [7, 8],
-    desc: 'Direct cost and overhead variances together.',
+    desc: "Direct cost and overhead variances together.",
     available: false,
   },
   {
-    title: 'Make or Buy Decision',
+    title: "Make or Buy Decision",
     chapters: [12, 5, 10],
-    desc: 'Relevant costs combined with ABC and cost behavior.',
+    desc: "Relevant costs combined with ABC and cost behavior.",
     available: false,
   },
   {
-    title: 'Capital Investment',
+    title: "Capital Investment",
     chapters: [22, 12, 24],
-    desc: 'NPV with relevant costs and performance measurement.',
+    desc: "NPV with relevant costs and performance measurement.",
     available: false,
   },
 ];
@@ -89,10 +92,13 @@ const CROSS_CHAPTER_PROBLEMS = [
 // ============================================================================
 
 function renderChapterTile(p) {
-  const minutes = p.problemCount ? `~${p.problemCount * 5} min` : '';
+  const minutesPerProblem = p.estimatedMinutes ?? 5;
+  const totalMinutes = p.problemCount
+    ? `~${p.problemCount * minutesPerProblem} min`
+    : "";
   const meta = p.available
-    ? `${p.problemCount} problems · ${minutes}`
-    : 'Coming soon';
+    ? `${p.problemCount} problems · ${totalMinutes}`
+    : "Coming soon";
   const cta = p.available
     ? `<span class="practice-picker-tile__cta">Start &rarr;</span>`
     : `<span class="practice-picker-tile__cta" style="color:var(--color-gray-400);">Coming soon</span>`;
@@ -114,7 +120,7 @@ function renderChapterTile(p) {
 }
 
 function renderCrossTile(p) {
-  const chapterLabel = `Ch. ${p.chapters.join(' + Ch. ')}`;
+  const chapterLabel = `Ch. ${p.chapters.join(" + Ch. ")}`;
   const cta = p.available
     ? `<span class="practice-picker-tile__cta">Start &rarr;</span>`
     : `<span class="practice-picker-tile__cta" style="color:var(--color-gray-400);">Coming soon</span>`;
@@ -138,15 +144,15 @@ function renderCrossTile(p) {
 function renderGrid(targetId, items, renderer) {
   const el = document.getElementById(targetId);
   if (!el) return;
-  el.innerHTML = items.map(renderer).join('');
+  el.innerHTML = items.map(renderer).join("");
 }
 
 // ============================================================================
 // Bootstrap
 // ============================================================================
 
-document.addEventListener('DOMContentLoaded', () => {
+document.addEventListener("DOMContentLoaded", () => {
   initHeader();
-  renderGrid('practice-chapter-grid', CHAPTER_PROBLEMS, renderChapterTile);
-  renderGrid('practice-cross-grid', CROSS_CHAPTER_PROBLEMS, renderCrossTile);
+  renderGrid("practice-chapter-grid", CHAPTER_PROBLEMS, renderChapterTile);
+  renderGrid("practice-cross-grid", CROSS_CHAPTER_PROBLEMS, renderCrossTile);
 });
