@@ -31,6 +31,11 @@ To preview a production-mode build locally (catches base-path issues before depl
     npm run build
     npm run preview
 
+To validate Practice problem definitions before commit:
+
+    npm run validate -- js/practice/ch03-problems.js   # single file
+    npm run validate:all                                 # all chapters
+
 ---
 
 ## Deployment
@@ -210,66 +215,107 @@ Tests:
 
 ---
 
-## Practice Section -- In Progress (Design Phase)
+## Practice Section -- Phase 6A Complete
 
-A third first-class section alongside Learn and Apply. Accessible from the main nav and landing page.
+A third first-class section alongside Learn and Apply. Accessible from the main nav and the landing page. 25 randomized multi-step calculation problems across five chapters, with a domain-agnostic engine, scenario pool system, and automated validator.
 
 ### Concept
 
-Students receive a randomized set of financial data and must calculate answers step by step -- no options to pick from, no tools doing the math. Pure calculation practice that mirrors exam conditions.
+Students receive randomized financial data and calculate answers step by step. Numeric steps grade by tolerance; choice steps grade by exact ID match against a function of the data. Same problem regenerates fresh numbers every attempt. No options for numeric steps, no helper tools -- mirrors exam conditions.
 
-### Two Tiers
+### Engine
 
-**Chapter Problems** -- tied to a specific chapter, 3-5 problem types each, randomized numbers every attempt.
-**Cross-Chapter Problems** -- harder multi-step problems pulling from 2-4 chapters simultaneously.
+`js/practice/practice-engine.js` (v3) is the state machine. SPEC.md at `js/practice/SPEC.md` is the authoritative contract.
 
-### Problem Format
+**Pass 2 features (locked May 2026):**
 
-Each problem has:
+- Optional `scenario(data)` field -- prose card above the given panel, weaves randomized data into business narrative
+- `choice` step type -- radio-button options, graded by `correctId(data, prior)` (a function of randomized data, never trivia)
+- Carry-forward of correct values only -- student errors never cascade
+- "See Summary" button gate on final step -- no auto-advance after submission
+- Persistent show-work on all submitted steps, plus collapsible solutions in the summary
 
-- Given information panel (randomized each attempt)
-- 3-6 sequential steps, each submitted independently
-- Tolerance-based grading (configurable absolute or percent)
-- Show work revealed after each step submission
-- Deviation display when wrong -- shows correct calculation vs what the answer implies
-- Optional formula hint (toggleable, flagged in summary if used)
-- Final score summary with step-by-step review and retake options
+### Scenario Pool System
 
-### Planned Chapter Coverage
+`js/practice/scenario-pools.js` exposes `randomCompany()` and `randomProduct()`. Backed by four JSON files in `js/practice/data/`:
 
-| Chapter | Topic                 | Problem Types |
-| ------- | --------------------- | ------------- |
-| Ch. 3   | CVP Analysis          | 3             |
-| Ch. 7   | Direct Cost Variances | 3             |
-| Ch. 8   | Overhead Variances    | 3             |
-| Ch. 12  | Relevant Costs        | 3             |
-| Ch. 22  | Capital Budgeting     | 3             |
+| File             | Entries | Purpose                                              |
+| ---------------- | ------- | ---------------------------------------------------- |
+| names.json       | 325     | Base company names (Bayport, Argent, Halberd, etc.)  |
+| industries.json  | 50      | Industry descriptors with category tags              |
+| suffixes.json    | 10      | Legal-form suffixes (Inc, LLC, Corp, three blanks)   |
+| products.json    | 46      | Singular/plural product nouns with category tags     |
+
+Categories: `manufacturing`, `process`, `service`, `retail`, `distribution`, `technology`, `healthcare`, `hospitality`, `construction`, `any`. Helpers filter by category, so a manufacturing problem never randomizes "Bayport Consulting." Combined uniqueness is ~26,000 names for manufacturing alone, ~162,500 for `any`.
+
+### Practice Problems Status
+
+| Chapter | Topic                 | Problems | Validator |
+| ------- | --------------------- | -------- | --------- |
+| Ch. 3   | CVP Analysis          | 5        | 0 fail    |
+| Ch. 7   | Direct Cost Variances | 5        | 0 fail    |
+| Ch. 8   | Overhead Variances    | 5        | 0 fail    |
+| Ch. 12  | Relevant Costs        | 5        | 0 fail    |
+| Ch. 22  | Capital Budgeting     | 5        | 0 fail    |
+
+**25 problems total. 1,760 validator checks passing. 0 failures, 0 warnings.**
+
+### Validator
+
+`tests/validate-problem.js` runs 10 checks per problem: schema, step schema (per type), randomize stress test (100 runs), scenario rendering, given shape, solve/correctId determinism, full walkthrough including show-work, choice option coverage (50 runs), and reviewChapters path format. Pedagogically-fixed single-answer choice steps (e.g. "book value IS the sunk cost") opt in via `intentionalSingleAnswer: true`.
+
+Run with:
+
+    npm run validate -- js/practice/ch07-problems.js
+    npm run validate:all      # all chapters
+
+Validator infrastructure (in `tests/`):
+
+- `_practice-hook.mjs` -- Node loader hook rewriting Vite-style `/js/...` imports and `import.meta.env.BASE_URL` for plain-Node compatibility
+- `_practice-register.mjs` -- hook registrar (separate file required by Node's hooks API)
+- `validate-problem.js` -- the actual validator
 
 ### Planned Cross-Chapter Problems
 
-| Problem                | Chapters         |
-| ---------------------- | ---------------- |
-| Profitability Analysis | Ch. 3 + 12 + 15  |
-| Full Variance Analysis | Ch. 7 + 8        |
-| Make or Buy Decision   | Ch. 12 + 5 + 10  |
-| Capital Investment     | Ch. 22 + 12 + 24 |
+| Problem                | Chapters         | Status                                   |
+| ---------------------- | ---------------- | ---------------------------------------- |
+| Profitability Analysis | Ch. 3 + 12 + 15  | Pending (Ch. 15 Practice not yet built)  |
+| Full Variance Analysis | Ch. 7 + 8        | Pending -- both source chapters live     |
+| Make or Buy Decision   | Ch. 12 + 5 + 10  | Pending (Ch. 5 / Ch. 10 not yet built)   |
+| Capital Investment     | Ch. 22 + 12 + 24 | Pending (Ch. 24 Practice not yet built)  |
 
 ### File Structure
 
-    pages/practice/index.html         Practice index -- created, empty
-    pages/practice/ch03.html          CVP problems -- created, empty
-    pages/practice/ch07.html          Direct variance problems -- created, empty
-    pages/practice/ch08.html          Overhead variance problems -- created, empty
-    pages/practice/ch12.html          Relevant cost problems -- created, empty
-    pages/practice/ch22.html          Capital budgeting problems -- created, empty
-    pages/practice/cross-chapter.html Cross-chapter problems -- created, empty
-    js/practice/practice-engine.js    Step state machine, grading, deviation display -- pending
-    js/practice/ch03-problems.js      CVP problem definitions -- pending
-    js/practice/ch07-problems.js      Direct variance problem definitions -- pending
-    js/practice/ch08-problems.js      Overhead variance problem definitions -- pending
-    js/practice/ch12-problems.js      Relevant cost problem definitions -- pending
-    js/practice/ch22-problems.js      Capital budgeting problem definitions -- pending
-    js/practice/cross-chapter-problems.js Cross-chapter problem definitions -- pending
+    pages/practice/index.html         Landing page (chapter + cross-chapter grids)
+    pages/practice/ch03.html          CVP picker page
+    pages/practice/ch07.html          Direct variance picker page
+    pages/practice/ch08.html          Overhead variance picker page
+    pages/practice/ch12.html          Relevant cost picker page
+    pages/practice/ch22.html          Capital budgeting picker page
+    pages/practice/cross-chapter.html Cross-chapter picker -- empty stub for Phase 6B
+
+    js/practice/SPEC.md               Authoritative engine + problem schema contract (Pass 2)
+    js/practice/practice-engine.js    Engine v3 -- scenario + choice + tolerance grading
+    js/practice/scenario-pools.js     randomCompany() / randomProduct() helpers
+    js/practice/index.js              Landing page picker
+    js/practice/ch03.js               Picker wiring (Ch. 3 -- 22 each)
+    js/practice/ch03-problems.js      5 CVP problem definitions
+    js/practice/ch07-problems.js      5 direct-cost variance problem definitions
+    js/practice/ch08-problems.js      5 overhead variance problem definitions
+    js/practice/ch12-problems.js      5 relevant cost problem definitions
+    js/practice/ch22-problems.js      5 capital budgeting problem definitions
+    js/practice/cross-chapter-problems.js  Empty stub -- Phase 6B
+
+    js/practice/data/names.json       325 base company names
+    js/practice/data/industries.json  50 industry descriptors
+    js/practice/data/suffixes.json    10 legal-form suffixes
+    js/practice/data/products.json    46 product nouns
+
+    css/practice.css                  Picker tiles, step cards, scenario card, summary screen
+
+    tests/_practice-hook.mjs          Node loader hook
+    tests/_practice-register.mjs      Hook registrar
+    tests/validate-problem.js         10-check problem validator
 
 ---
 
@@ -303,7 +349,8 @@ Phase 4C -- Simulation Engine -- Complete
 Phase 4D -- Breakeven Simulation (first simulation) -- Complete
 Phase 4E -- GitHub Pages deployment via Actions -- Complete
 Phase 5 -- Remaining 5 Simulations -- In Progress
-Phase 6 -- Practice Section -- In Progress (design phase)
+Phase 6A -- Practice Section chapter problems (Ch. 3 / 7 / 8 / 12 / 22) -- Complete
+Phase 6B -- Practice Section cross-chapter problems -- In Progress (some blocked on additional chapters)
 
 ---
 
@@ -312,6 +359,8 @@ Phase 6 -- Practice Section -- In Progress (design phase)
     npm run dev          # Vite dev server, localhost
     npm run build        # Production build to dist/
     npm run preview      # Serve dist/ locally (catches base-path issues)
+    npm run validate     # Run Practice problem validator on a single file
+    npm run validate:all # Run validator across all Practice chapters
     git push origin main # Deploys to GitHub Pages via Actions
 
 Kill stuck dev servers:
@@ -353,5 +402,5 @@ Token reference for JS output:
 - show-work not yet added to Ch. 1 (no numeric tools -- low priority)
 - formula-display.js, worked-example.js, term-tooltip.js not yet built
 - 5 remaining simulations to build (make-or-buy, pricing, investment, performance, quality)
-- Practice section not yet built -- files created, engine and problem definitions pending
+- Practice cross-chapter problems pending; Full Variance Analysis (Ch. 7 + 8) is unblocked, others wait on additional chapter Practice files
 - breakeven-sim.js has duplicate stage definitions (overhead-allocation, demand-shock, year-end appear twice). The engine iterates the stages array and finds the first matching `id` for nextStage references, so the duplicates are dead code. This bloats apply-breakeven bundle by ~30 kB. Clean up in a polish pass.
