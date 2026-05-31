@@ -29,9 +29,11 @@ const CHAPTER_PROBLEMS = [
   {
     chapter: 8,
     title: 'Overhead Variances',
-    desc: 'Variable and fixed overhead spending, efficiency, and volume variances.',
-    problemCount: null,
-    available: false,
+    desc: 'Variable and fixed overhead spending, efficiency, and production-volume variances with favorable/unfavorable interpretation.',
+    problemCount: 5,
+    estimatedMinutes: 7,
+    available: true,
+    href: `${BASE}pages/practice/ch08.html`,
   },
   {
     chapter: 12,
