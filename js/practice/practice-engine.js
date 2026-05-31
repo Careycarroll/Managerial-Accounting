@@ -155,6 +155,7 @@ export class PracticeEngine {
       correctValues: {},
       stepResults: {},
       solutionViewed: {},
+      shuffledOptions: {},
       finalSubmitted: false,
       complete: false,
     };
@@ -165,11 +166,30 @@ export class PracticeEngine {
   // --------------------------------------------------------------------------
 
   _getOptionsForStep(step) {
-    // step.options can be array OR function(data, prior)
-    if (typeof step.options === 'function') {
-      return step.options(this.state.data, this.state.correctValues);
+    // Pass 2: shuffle option order at first lookup, cache per step id.
+    // Order stays stable across re-renders (post-submit, show-solution, summary).
+    // Correct-answer grading is by id match, so shuffle doesn't affect correctness.
+    if (this.state.shuffledOptions[step.id]) {
+      return this.state.shuffledOptions[step.id];
     }
-    return step.options || [];
+    let raw;
+    if (typeof step.options === 'function') {
+      raw = step.options(this.state.data, this.state.correctValues);
+    } else {
+      raw = step.options || [];
+    }
+    const shuffled = this._fisherYates(raw);
+    this.state.shuffledOptions[step.id] = shuffled;
+    return shuffled;
+  }
+
+  _fisherYates(arr) {
+    const a = arr.slice();
+    for (let i = a.length - 1; i > 0; i--) {
+      const j = Math.floor(Math.random() * (i + 1));
+      [a[i], a[j]] = [a[j], a[i]];
+    }
+    return a;
   }
 
   _getOptionLabel(step, optionId) {
