@@ -1,13 +1,13 @@
 
 > managerial-accounting@0.0.0 validate
-> node --import ./tests/_practice-register.mjs tests/validate-problem.js js/practice/ch08-problems.js
+> node --import ./tests/_practice-register.mjs tests/validate-problem.js js/practice/ch12-problems.js
 
-[1mValidating ch08-problems.js[0m
-[2m/Users/careycarroll/Github Projects/Managerial-Accounting/js/practice/ch08-problems.js[0m
+[1mValidating ch12-problems.js[0m
+[2m/Users/careycarroll/Github Projects/Managerial-Accounting/js/practice/ch12-problems.js[0m
 [2mFound 5 problems.[0m
 
 
-[1m━━━ Fixed Overhead Variances (ch08-foh-variances) ━━━[0m
+[1m━━━ Drop or Keep a Segment (ch12-drop-or-keep) ━━━[0m
 
 [1m[36m1. Schema validation[0m
   [32m✓[0m id present
@@ -31,34 +31,28 @@
   [32m✓[0m scenario (when present) is function
 
 [1m[36m2. Step schema validation[0m
-  [32m✓[0m step[0] "foh-spending-amount": id present
-  [32m✓[0m step[0] "foh-spending-amount": question present
-  [32m✓[0m step[0] "foh-spending-amount": showWork is function
-  [32m✓[0m step[0] "foh-spending-amount": unit present (numeric)
-  [32m✓[0m step[0] "foh-spending-amount": numeric step has solve()
-  [32m✓[0m step[0] "foh-spending-amount": resultType is valid (money-medium)
-  [32m✓[0m step[1] "foh-spending-direction": id present
-  [32m✓[0m step[1] "foh-spending-direction": question present
-  [32m✓[0m step[1] "foh-spending-direction": showWork is function
-  [32m✓[0m step[1] "foh-spending-direction": choice step has correctId()
-  [32m✓[0m step[1] "foh-spending-direction": choice step has options (array or function)
-  [32m✓[0m step[2] "foh-applied": id present
-  [32m✓[0m step[2] "foh-applied": question present
-  [32m✓[0m step[2] "foh-applied": showWork is function
-  [32m✓[0m step[2] "foh-applied": unit present (numeric)
-  [32m✓[0m step[2] "foh-applied": numeric step has solve()
-  [32m✓[0m step[2] "foh-applied": resultType is valid (money-medium)
-  [32m✓[0m step[3] "foh-volume-amount": id present
-  [32m✓[0m step[3] "foh-volume-amount": question present
-  [32m✓[0m step[3] "foh-volume-amount": showWork is function
-  [32m✓[0m step[3] "foh-volume-amount": unit present (numeric)
-  [32m✓[0m step[3] "foh-volume-amount": numeric step has solve()
-  [32m✓[0m step[3] "foh-volume-amount": resultType is valid (money-medium)
-  [32m✓[0m step[4] "foh-volume-direction": id present
-  [32m✓[0m step[4] "foh-volume-direction": question present
-  [32m✓[0m step[4] "foh-volume-direction": showWork is function
-  [32m✓[0m step[4] "foh-volume-direction": choice step has correctId()
-  [32m✓[0m step[4] "foh-volume-direction": choice step has options (array or function)
+  [32m✓[0m step[0] "cm-segment": id present
+  [32m✓[0m step[0] "cm-segment": question present
+  [32m✓[0m step[0] "cm-segment": showWork is function
+  [32m✓[0m step[0] "cm-segment": unit present (numeric)
+  [32m✓[0m step[0] "cm-segment": numeric step has solve()
+  [32m✓[0m step[0] "cm-segment": resultType is valid (money-large)
+  [32m✓[0m step[1] "effect-on-income": id present
+  [32m✓[0m step[1] "effect-on-income": question present
+  [32m✓[0m step[1] "effect-on-income": showWork is function
+  [32m✓[0m step[1] "effect-on-income": unit present (numeric)
+  [32m✓[0m step[1] "effect-on-income": numeric step has solve()
+  [32m✓[0m step[1] "effect-on-income": resultType is valid (money-large)
+  [32m✓[0m step[2] "drop-decision": id present
+  [32m✓[0m step[2] "drop-decision": question present
+  [32m✓[0m step[2] "drop-decision": showWork is function
+  [32m✓[0m step[2] "drop-decision": choice step has correctId()
+  [32m✓[0m step[2] "drop-decision": choice step has options (array or function)
+  [32m✓[0m step[3] "corporate-overhead-effect": id present
+  [32m✓[0m step[3] "corporate-overhead-effect": question present
+  [32m✓[0m step[3] "corporate-overhead-effect": showWork is function
+  [32m✓[0m step[3] "corporate-overhead-effect": choice step has correctId()
+  [32m✓[0m step[3] "corporate-overhead-effect": choice step has options (array or function)
 
 [1m[36m3. randomize() stress test (100 runs)[0m
   [32m✓[0m 100 randomize() calls produced valid data
@@ -69,41 +63,231 @@
 [1m[36m5. given(data) shape[0m
   [32m✓[0m given() returns array
   [32m✓[0m given() returns non-empty array
-  [32m✓[0m 5 given() rows have {label: string, value: string}
+  [32m✓[0m 6 given() rows have {label: string, value: string}
 
 [1m[36m6. Solve/correctId determinism[0m
-  [32m✓[0m step "foh-spending-amount": solve() deterministic across 10 calls
-  [32m✓[0m step "foh-spending-amount": solve() returns finite number (5100)
-  [32m✓[0m step "foh-spending-direction": correctId() deterministic across 10 calls
-  [32m✓[0m step "foh-spending-direction": correctId() returns non-empty string ("unfavorable")
-  [32m✓[0m step "foh-applied": solve() deterministic across 10 calls
-  [32m✓[0m step "foh-applied": solve() returns finite number (178500)
-  [32m✓[0m step "foh-volume-amount": solve() deterministic across 10 calls
-  [32m✓[0m step "foh-volume-amount": solve() returns finite number (8500)
-  [32m✓[0m step "foh-volume-direction": correctId() deterministic across 10 calls
-  [32m✓[0m step "foh-volume-direction": correctId() returns non-empty string ("favorable")
+  [32m✓[0m step "cm-segment": solve() deterministic across 10 calls
+  [32m✓[0m step "cm-segment": solve() returns finite number (68000)
+  [32m✓[0m step "effect-on-income": solve() deterministic across 10 calls
+  [32m✓[0m step "effect-on-income": solve() returns finite number (-31000)
+  [32m✓[0m step "drop-decision": correctId() deterministic across 10 calls
+  [32m✓[0m step "drop-decision": correctId() returns non-empty string ("keep")
+  [32m✓[0m step "corporate-overhead-effect": correctId() deterministic across 10 calls
+  [32m✓[0m step "corporate-overhead-effect": correctId() returns non-empty string ("unchanged")
 
 [1m[36m7. Full walkthrough — every step + showWork[0m
-  [32m✓[0m step "foh-spending-amount": showWork() returns array (1 entries)
-  [32m✓[0m step "foh-spending-amount": all show-work entries have .label
-  [32m✓[0m step "foh-spending-direction": showWork() returns array (1 entries)
-  [32m✓[0m step "foh-spending-direction": all show-work entries have .label
-  [32m✓[0m step "foh-applied": showWork() returns array (1 entries)
-  [32m✓[0m step "foh-applied": all show-work entries have .label
-  [32m✓[0m step "foh-volume-amount": showWork() returns array (1 entries)
-  [32m✓[0m step "foh-volume-amount": all show-work entries have .label
-  [32m✓[0m step "foh-volume-direction": showWork() returns array (1 entries)
-  [32m✓[0m step "foh-volume-direction": all show-work entries have .label
+  [32m✓[0m step "cm-segment": showWork() returns array (1 entries)
+  [32m✓[0m step "cm-segment": all show-work entries have .label
+  [32m✓[0m step "effect-on-income": showWork() returns array (3 entries)
+  [32m✓[0m step "effect-on-income": all show-work entries have .label
+  [32m✓[0m step "drop-decision": showWork() returns array (1 entries)
+  [32m✓[0m step "drop-decision": all show-work entries have .label
+  [32m✓[0m step "corporate-overhead-effect": showWork() returns array (1 entries)
+  [32m✓[0m step "corporate-overhead-effect": all show-work entries have .label
 
 [1m[36m8. Choice step distribution (50 runs)[0m
-  [32m✓[0m step "foh-spending-direction": unfavorable: 27, favorable: 23
-  [32m✓[0m step "foh-volume-direction": favorable: 27, unfavorable: 23
+  [32m✓[0m step "drop-decision": keep: 37, drop: 13
+  [32m✓[0m step "corporate-overhead-effect": unchanged: 50
+  [32m✓[0m step "corporate-overhead-effect": intentional single-answer step (verified by author)
 
 [1m[36m9. reviewChapters paths[0m
-  [32m✓[0m reviewChapter has label "Ch. 8 — Flexible Budgets and Overhead Variances"
-  [32m✓[0m reviewChapter href starts with '/' ("/pages/learn/ch08.html")
+  [32m✓[0m reviewChapter has label "Ch. 12 — Decision Making and Relevant Information"
+  [32m✓[0m reviewChapter href starts with '/' ("/pages/learn/ch12.html")
 
-[1m━━━ Four-Variance Overhead Analysis (ch08-four-variance) ━━━[0m
+[1m━━━ Equipment Replacement & Sunk Costs (ch12-equipment-replacement) ━━━[0m
+
+[1m[36m1. Schema validation[0m
+  [32m✓[0m id present
+  [32m✓[0m title present
+  [32m✓[0m chapter present
+  [32m✓[0m difficulty present
+  [32m✓[0m estimatedMinutes present
+  [32m✓[0m reviewChapters present
+  [32m✓[0m randomize present
+  [32m✓[0m given present
+  [32m✓[0m steps present
+  [32m✓[0m id is non-empty string
+  [32m✓[0m title is string
+  [32m✓[0m chapter is number
+  [32m✓[0m difficulty is valid (intermediate)
+  [32m✓[0m estimatedMinutes is positive number
+  [32m✓[0m reviewChapters is non-empty array
+  [32m✓[0m randomize is function
+  [32m✓[0m given is function
+  [32m✓[0m steps is non-empty array
+  [32m✓[0m scenario (when present) is function
+
+[1m[36m2. Step schema validation[0m
+  [32m✓[0m step[0] "sunk-cost-id": id present
+  [32m✓[0m step[0] "sunk-cost-id": question present
+  [32m✓[0m step[0] "sunk-cost-id": showWork is function
+  [32m✓[0m step[0] "sunk-cost-id": choice step has correctId()
+  [32m✓[0m step[0] "sunk-cost-id": choice step has options (array or function)
+  [32m✓[0m step[1] "total-savings": id present
+  [32m✓[0m step[1] "total-savings": question present
+  [32m✓[0m step[1] "total-savings": showWork is function
+  [32m✓[0m step[1] "total-savings": unit present (numeric)
+  [32m✓[0m step[1] "total-savings": numeric step has solve()
+  [32m✓[0m step[1] "total-savings": resultType is valid (money-large)
+  [32m✓[0m step[2] "net-investment": id present
+  [32m✓[0m step[2] "net-investment": question present
+  [32m✓[0m step[2] "net-investment": showWork is function
+  [32m✓[0m step[2] "net-investment": unit present (numeric)
+  [32m✓[0m step[2] "net-investment": numeric step has solve()
+  [32m✓[0m step[2] "net-investment": resultType is valid (money-large)
+  [32m✓[0m step[3] "net-advantage": id present
+  [32m✓[0m step[3] "net-advantage": question present
+  [32m✓[0m step[3] "net-advantage": showWork is function
+  [32m✓[0m step[3] "net-advantage": unit present (numeric)
+  [32m✓[0m step[3] "net-advantage": numeric step has solve()
+  [32m✓[0m step[3] "net-advantage": resultType is valid (money-large)
+  [32m✓[0m step[4] "replace-decision": id present
+  [32m✓[0m step[4] "replace-decision": question present
+  [32m✓[0m step[4] "replace-decision": showWork is function
+  [32m✓[0m step[4] "replace-decision": choice step has correctId()
+  [32m✓[0m step[4] "replace-decision": choice step has options (array or function)
+
+[1m[36m3. randomize() stress test (100 runs)[0m
+  [32m✓[0m 100 randomize() calls produced valid data
+
+[1m[36m4. scenario(data) renders[0m
+  [32m✓[0m scenario returns non-empty HTML string
+
+[1m[36m5. given(data) shape[0m
+  [32m✓[0m given() returns array
+  [32m✓[0m given() returns non-empty array
+  [32m✓[0m 7 given() rows have {label: string, value: string}
+
+[1m[36m6. Solve/correctId determinism[0m
+  [32m✓[0m step "sunk-cost-id": correctId() deterministic across 10 calls
+  [32m✓[0m step "sunk-cost-id": correctId() returns non-empty string ("book-value")
+  [32m✓[0m step "total-savings": solve() deterministic across 10 calls
+  [32m✓[0m step "total-savings": solve() returns finite number (85000)
+  [32m✓[0m step "net-investment": solve() deterministic across 10 calls
+  [32m✓[0m step "net-investment": solve() returns finite number (-1000)
+  [32m✓[0m step "net-advantage": solve() deterministic across 10 calls
+  [32m✓[0m step "net-advantage": solve() returns finite number (86000)
+  [32m✓[0m step "replace-decision": correctId() deterministic across 10 calls
+  [32m✓[0m step "replace-decision": correctId() returns non-empty string ("replace")
+
+[1m[36m7. Full walkthrough — every step + showWork[0m
+  [32m✓[0m step "sunk-cost-id": showWork() returns array (1 entries)
+  [32m✓[0m step "sunk-cost-id": all show-work entries have .label
+  [32m✓[0m step "total-savings": showWork() returns array (2 entries)
+  [32m✓[0m step "total-savings": all show-work entries have .label
+  [32m✓[0m step "net-investment": showWork() returns array (4 entries)
+  [32m✓[0m step "net-investment": all show-work entries have .label
+  [32m✓[0m step "net-advantage": showWork() returns array (1 entries)
+  [32m✓[0m step "net-advantage": all show-work entries have .label
+  [32m✓[0m step "replace-decision": showWork() returns array (1 entries)
+  [32m✓[0m step "replace-decision": all show-work entries have .label
+
+[1m[36m8. Choice step distribution (50 runs)[0m
+  [32m✓[0m step "sunk-cost-id": book-value: 50
+  [32m✓[0m step "sunk-cost-id": intentional single-answer step (verified by author)
+  [32m✓[0m step "replace-decision": keep: 12, replace: 38
+
+[1m[36m9. reviewChapters paths[0m
+  [32m✓[0m reviewChapter has label "Ch. 12 — Decision Making and Relevant Information"
+  [32m✓[0m reviewChapter href starts with '/' ("/pages/learn/ch12.html")
+
+[1m━━━ Make-or-Buy Decision (ch12-make-or-buy) ━━━[0m
+
+[1m[36m1. Schema validation[0m
+  [32m✓[0m id present
+  [32m✓[0m title present
+  [32m✓[0m chapter present
+  [32m✓[0m difficulty present
+  [32m✓[0m estimatedMinutes present
+  [32m✓[0m reviewChapters present
+  [32m✓[0m randomize present
+  [32m✓[0m given present
+  [32m✓[0m steps present
+  [32m✓[0m id is non-empty string
+  [32m✓[0m title is string
+  [32m✓[0m chapter is number
+  [32m✓[0m difficulty is valid (intermediate)
+  [32m✓[0m estimatedMinutes is positive number
+  [32m✓[0m reviewChapters is non-empty array
+  [32m✓[0m randomize is function
+  [32m✓[0m given is function
+  [32m✓[0m steps is non-empty array
+  [32m✓[0m scenario (when present) is function
+
+[1m[36m2. Step schema validation[0m
+  [32m✓[0m step[0] "total-make-cost": id present
+  [32m✓[0m step[0] "total-make-cost": question present
+  [32m✓[0m step[0] "total-make-cost": showWork is function
+  [32m✓[0m step[0] "total-make-cost": unit present (numeric)
+  [32m✓[0m step[0] "total-make-cost": numeric step has solve()
+  [32m✓[0m step[0] "total-make-cost": resultType is valid (money-large)
+  [32m✓[0m step[1] "total-buy-cost": id present
+  [32m✓[0m step[1] "total-buy-cost": question present
+  [32m✓[0m step[1] "total-buy-cost": showWork is function
+  [32m✓[0m step[1] "total-buy-cost": unit present (numeric)
+  [32m✓[0m step[1] "total-buy-cost": numeric step has solve()
+  [32m✓[0m step[1] "total-buy-cost": resultType is valid (money-large)
+  [32m✓[0m step[2] "cost-difference": id present
+  [32m✓[0m step[2] "cost-difference": question present
+  [32m✓[0m step[2] "cost-difference": showWork is function
+  [32m✓[0m step[2] "cost-difference": unit present (numeric)
+  [32m✓[0m step[2] "cost-difference": numeric step has solve()
+  [32m✓[0m step[2] "cost-difference": resultType is valid (money-large)
+  [32m✓[0m step[3] "make-or-buy-decision": id present
+  [32m✓[0m step[3] "make-or-buy-decision": question present
+  [32m✓[0m step[3] "make-or-buy-decision": showWork is function
+  [32m✓[0m step[3] "make-or-buy-decision": choice step has correctId()
+  [32m✓[0m step[3] "make-or-buy-decision": choice step has options (array or function)
+  [32m✓[0m step[4] "max-acceptable-buy-price": id present
+  [32m✓[0m step[4] "max-acceptable-buy-price": question present
+  [32m✓[0m step[4] "max-acceptable-buy-price": showWork is function
+  [32m✓[0m step[4] "max-acceptable-buy-price": unit present (numeric)
+  [32m✓[0m step[4] "max-acceptable-buy-price": numeric step has solve()
+  [32m✓[0m step[4] "max-acceptable-buy-price": resultType is valid (money-small)
+
+[1m[36m3. randomize() stress test (100 runs)[0m
+  [32m✓[0m 100 randomize() calls produced valid data
+
+[1m[36m4. scenario(data) renders[0m
+  [32m✓[0m scenario returns non-empty HTML string
+
+[1m[36m5. given(data) shape[0m
+  [32m✓[0m given() returns array
+  [32m✓[0m given() returns non-empty array
+  [32m✓[0m 6 given() rows have {label: string, value: string}
+
+[1m[36m6. Solve/correctId determinism[0m
+  [32m✓[0m step "total-make-cost": solve() deterministic across 10 calls
+  [32m✓[0m step "total-make-cost": solve() returns finite number (908000)
+  [32m✓[0m step "total-buy-cost": solve() deterministic across 10 calls
+  [32m✓[0m step "total-buy-cost": solve() returns finite number (922240)
+  [32m✓[0m step "cost-difference": solve() deterministic across 10 calls
+  [32m✓[0m step "cost-difference": solve() returns finite number (-14240)
+  [32m✓[0m step "make-or-buy-decision": correctId() deterministic across 10 calls
+  [32m✓[0m step "make-or-buy-decision": correctId() returns non-empty string ("make")
+  [32m✓[0m step "max-acceptable-buy-price": solve() deterministic across 10 calls
+  [32m✓[0m step "max-acceptable-buy-price": solve() returns finite number (41.27)
+
+[1m[36m7. Full walkthrough — every step + showWork[0m
+  [32m✓[0m step "total-make-cost": showWork() returns array (3 entries)
+  [32m✓[0m step "total-make-cost": all show-work entries have .label
+  [32m✓[0m step "total-buy-cost": showWork() returns array (1 entries)
+  [32m✓[0m step "total-buy-cost": all show-work entries have .label
+  [32m✓[0m step "cost-difference": showWork() returns array (1 entries)
+  [32m✓[0m step "cost-difference": all show-work entries have .label
+  [32m✓[0m step "make-or-buy-decision": showWork() returns array (1 entries)
+  [32m✓[0m step "make-or-buy-decision": all show-work entries have .label
+  [32m✓[0m step "max-acceptable-buy-price": showWork() returns array (2 entries)
+  [32m✓[0m step "max-acceptable-buy-price": all show-work entries have .label
+
+[1m[36m8. Choice step distribution (50 runs)[0m
+  [32m✓[0m step "make-or-buy-decision": make: 33, buy: 17
+
+[1m[36m9. reviewChapters paths[0m
+  [32m✓[0m reviewChapter has label "Ch. 12 — Decision Making and Relevant Information"
+  [32m✓[0m reviewChapter href starts with '/' ("/pages/learn/ch12.html")
+
+[1m━━━ Product Mix Under a Constraint (ch12-product-mix-constraint) ━━━[0m
 
 [1m[36m1. Schema validation[0m
   [32m✓[0m id present
@@ -127,35 +311,35 @@
   [32m✓[0m scenario (when present) is function
 
 [1m[36m2. Step schema validation[0m
-  [32m✓[0m step[0] "voh-spending": id present
-  [32m✓[0m step[0] "voh-spending": question present
-  [32m✓[0m step[0] "voh-spending": showWork is function
-  [32m✓[0m step[0] "voh-spending": unit present (numeric)
-  [32m✓[0m step[0] "voh-spending": numeric step has solve()
-  [32m✓[0m step[0] "voh-spending": resultType is valid (money-medium)
-  [32m✓[0m step[1] "voh-efficiency": id present
-  [32m✓[0m step[1] "voh-efficiency": question present
-  [32m✓[0m step[1] "voh-efficiency": showWork is function
-  [32m✓[0m step[1] "voh-efficiency": unit present (numeric)
-  [32m✓[0m step[1] "voh-efficiency": numeric step has solve()
-  [32m✓[0m step[1] "voh-efficiency": resultType is valid (money-medium)
-  [32m✓[0m step[2] "foh-spending": id present
-  [32m✓[0m step[2] "foh-spending": question present
-  [32m✓[0m step[2] "foh-spending": showWork is function
-  [32m✓[0m step[2] "foh-spending": unit present (numeric)
-  [32m✓[0m step[2] "foh-spending": numeric step has solve()
-  [32m✓[0m step[2] "foh-spending": resultType is valid (money-medium)
-  [32m✓[0m step[3] "foh-volume": id present
-  [32m✓[0m step[3] "foh-volume": question present
-  [32m✓[0m step[3] "foh-volume": showWork is function
-  [32m✓[0m step[3] "foh-volume": unit present (numeric)
-  [32m✓[0m step[3] "foh-volume": numeric step has solve()
-  [32m✓[0m step[3] "foh-volume": resultType is valid (money-medium)
-  [32m✓[0m step[4] "largest-controllable": id present
-  [32m✓[0m step[4] "largest-controllable": question present
-  [32m✓[0m step[4] "largest-controllable": showWork is function
-  [32m✓[0m step[4] "largest-controllable": choice step has correctId()
-  [32m✓[0m step[4] "largest-controllable": choice step has options (array or function)
+  [32m✓[0m step[0] "cm-per-mh-a": id present
+  [32m✓[0m step[0] "cm-per-mh-a": question present
+  [32m✓[0m step[0] "cm-per-mh-a": showWork is function
+  [32m✓[0m step[0] "cm-per-mh-a": unit present (numeric)
+  [32m✓[0m step[0] "cm-per-mh-a": numeric step has solve()
+  [32m✓[0m step[0] "cm-per-mh-a": resultType is valid (money-small)
+  [32m✓[0m step[1] "cm-per-mh-b": id present
+  [32m✓[0m step[1] "cm-per-mh-b": question present
+  [32m✓[0m step[1] "cm-per-mh-b": showWork is function
+  [32m✓[0m step[1] "cm-per-mh-b": unit present (numeric)
+  [32m✓[0m step[1] "cm-per-mh-b": numeric step has solve()
+  [32m✓[0m step[1] "cm-per-mh-b": resultType is valid (money-small)
+  [32m✓[0m step[2] "priority": id present
+  [32m✓[0m step[2] "priority": question present
+  [32m✓[0m step[2] "priority": showWork is function
+  [32m✓[0m step[2] "priority": choice step has correctId()
+  [32m✓[0m step[2] "priority": choice step has options (array or function)
+  [32m✓[0m step[3] "optimal-units": id present
+  [32m✓[0m step[3] "optimal-units": question present
+  [32m✓[0m step[3] "optimal-units": showWork is function
+  [32m✓[0m step[3] "optimal-units": unit present (numeric)
+  [32m✓[0m step[3] "optimal-units": numeric step has solve()
+  [32m✓[0m step[3] "optimal-units": resultType is valid (units)
+  [32m✓[0m step[4] "total-cm": id present
+  [32m✓[0m step[4] "total-cm": question present
+  [32m✓[0m step[4] "total-cm": showWork is function
+  [32m✓[0m step[4] "total-cm": unit present (numeric)
+  [32m✓[0m step[4] "total-cm": numeric step has solve()
+  [32m✓[0m step[4] "total-cm": resultType is valid (money-large)
 
 [1m[36m3. randomize() stress test (100 runs)[0m
   [32m✓[0m 100 randomize() calls produced valid data
@@ -166,41 +350,40 @@
 [1m[36m5. given(data) shape[0m
   [32m✓[0m given() returns array
   [32m✓[0m given() returns non-empty array
-  [32m✓[0m 5 given() rows have {label: string, value: string}
+  [32m✓[0m 7 given() rows have {label: string, value: string}
 
 [1m[36m6. Solve/correctId determinism[0m
-  [32m✓[0m step "voh-spending": solve() deterministic across 10 calls
-  [32m✓[0m step "voh-spending": solve() returns finite number (6800)
-  [32m✓[0m step "voh-efficiency": solve() deterministic across 10 calls
-  [32m✓[0m step "voh-efficiency": solve() returns finite number (3000)
-  [32m✓[0m step "foh-spending": solve() deterministic across 10 calls
-  [32m✓[0m step "foh-spending": solve() returns finite number (3000)
-  [32m✓[0m step "foh-volume": solve() deterministic across 10 calls
-  [32m✓[0m step "foh-volume": solve() returns finite number (7090)
-  [32m✓[0m step "largest-controllable": correctId() deterministic across 10 calls
-  [32m✓[0m step "largest-controllable": correctId() returns non-empty string ("foh-volume")
+  [32m✓[0m step "cm-per-mh-a": solve() deterministic across 10 calls
+  [32m✓[0m step "cm-per-mh-a": solve() returns finite number (31.5)
+  [32m✓[0m step "cm-per-mh-b": solve() deterministic across 10 calls
+  [32m✓[0m step "cm-per-mh-b": solve() returns finite number (8.43)
+  [32m✓[0m step "priority": correctId() deterministic across 10 calls
+  [32m✓[0m step "priority": correctId() returns non-empty string ("priority-a")
+  [32m✓[0m step "optimal-units": solve() deterministic across 10 calls
+  [32m✓[0m step "optimal-units": solve() returns finite number (2800)
+  [32m✓[0m step "total-cm": solve() deterministic across 10 calls
+  [32m✓[0m step "total-cm": solve() returns finite number (176400)
 
 [1m[36m7. Full walkthrough — every step + showWork[0m
-  [32m✓[0m step "voh-spending": showWork() returns array (1 entries)
-  [32m✓[0m step "voh-spending": all show-work entries have .label
-  [32m✓[0m step "voh-efficiency": showWork() returns array (1 entries)
-  [32m✓[0m step "voh-efficiency": all show-work entries have .label
-  [32m✓[0m step "foh-spending": showWork() returns array (1 entries)
-  [32m✓[0m step "foh-spending": all show-work entries have .label
-  [32m✓[0m step "foh-volume": showWork() returns array (1 entries)
-  [32m✓[0m step "foh-volume": all show-work entries have .label
-  [32m✓[0m step "largest-controllable": showWork() returns array (1 entries)
-  [32m✓[0m step "largest-controllable": all show-work entries have .label
+  [32m✓[0m step "cm-per-mh-a": showWork() returns array (1 entries)
+  [32m✓[0m step "cm-per-mh-a": all show-work entries have .label
+  [32m✓[0m step "cm-per-mh-b": showWork() returns array (1 entries)
+  [32m✓[0m step "cm-per-mh-b": all show-work entries have .label
+  [32m✓[0m step "priority": showWork() returns array (1 entries)
+  [32m✓[0m step "priority": all show-work entries have .label
+  [32m✓[0m step "optimal-units": showWork() returns array (3 entries)
+  [32m✓[0m step "optimal-units": all show-work entries have .label
+  [32m✓[0m step "total-cm": showWork() returns array (1 entries)
+  [32m✓[0m step "total-cm": all show-work entries have .label
 
 [1m[36m8. Choice step distribution (50 runs)[0m
-  [32m✓[0m step "largest-controllable": foh-volume: 50
-  [32m✓[0m step "largest-controllable": intentional single-answer step (verified by author)
+  [32m✓[0m step "priority": priority-a: 27, priority-b: 23
 
 [1m[36m9. reviewChapters paths[0m
-  [32m✓[0m reviewChapter has label "Ch. 8 — Flexible Budgets and Overhead Variances"
-  [32m✓[0m reviewChapter href starts with '/' ("/pages/learn/ch08.html")
+  [32m✓[0m reviewChapter has label "Ch. 12 — Decision Making and Relevant Information"
+  [32m✓[0m reviewChapter href starts with '/' ("/pages/learn/ch12.html")
 
-[1m━━━ Overhead Rate Development (ch08-rate-development) ━━━[0m
+[1m━━━ Special Order — Unconstrained Capacity (ch12-special-order-unconstrained) ━━━[0m
 
 [1m[36m1. Schema validation[0m
   [32m✓[0m id present
@@ -224,119 +407,29 @@
   [32m✓[0m scenario (when present) is function
 
 [1m[36m2. Step schema validation[0m
-  [32m✓[0m step[0] "voh-rate": id present
-  [32m✓[0m step[0] "voh-rate": question present
-  [32m✓[0m step[0] "voh-rate": showWork is function
-  [32m✓[0m step[0] "voh-rate": unit present (numeric)
-  [32m✓[0m step[0] "voh-rate": numeric step has solve()
-  [32m✓[0m step[0] "voh-rate": resultType is valid (money-small)
-  [32m✓[0m step[1] "foh-rate": id present
-  [32m✓[0m step[1] "foh-rate": question present
-  [32m✓[0m step[1] "foh-rate": showWork is function
-  [32m✓[0m step[1] "foh-rate": unit present (numeric)
-  [32m✓[0m step[1] "foh-rate": numeric step has solve()
-  [32m✓[0m step[1] "foh-rate": resultType is valid (money-small)
-  [32m✓[0m step[2] "total-rate": id present
-  [32m✓[0m step[2] "total-rate": question present
-  [32m✓[0m step[2] "total-rate": showWork is function
-  [32m✓[0m step[2] "total-rate": unit present (numeric)
-  [32m✓[0m step[2] "total-rate": numeric step has solve()
-  [32m✓[0m step[2] "total-rate": resultType is valid (money-small)
-  [32m✓[0m step[3] "oh-applied": id present
-  [32m✓[0m step[3] "oh-applied": question present
-  [32m✓[0m step[3] "oh-applied": showWork is function
-  [32m✓[0m step[3] "oh-applied": unit present (numeric)
-  [32m✓[0m step[3] "oh-applied": numeric step has solve()
-  [32m✓[0m step[3] "oh-applied": resultType is valid (money-large)
-
-[1m[36m3. randomize() stress test (100 runs)[0m
-  [32m✓[0m 100 randomize() calls produced valid data
-
-[1m[36m4. scenario(data) renders[0m
-  [32m✓[0m scenario returns non-empty HTML string
-
-[1m[36m5. given(data) shape[0m
-  [32m✓[0m given() returns array
-  [32m✓[0m given() returns non-empty array
-  [32m✓[0m 5 given() rows have {label: string, value: string}
-
-[1m[36m6. Solve/correctId determinism[0m
-  [32m✓[0m step "voh-rate": solve() deterministic across 10 calls
-  [32m✓[0m step "voh-rate": solve() returns finite number (5.52)
-  [32m✓[0m step "foh-rate": solve() deterministic across 10 calls
-  [32m✓[0m step "foh-rate": solve() returns finite number (15.6)
-  [32m✓[0m step "total-rate": solve() deterministic across 10 calls
-  [32m✓[0m step "total-rate": solve() returns finite number (21.12)
-  [32m✓[0m step "oh-applied": solve() deterministic across 10 calls
-  [32m✓[0m step "oh-applied": solve() returns finite number (164736)
-
-[1m[36m7. Full walkthrough — every step + showWork[0m
-  [32m✓[0m step "voh-rate": showWork() returns array (1 entries)
-  [32m✓[0m step "voh-rate": all show-work entries have .label
-  [32m✓[0m step "foh-rate": showWork() returns array (1 entries)
-  [32m✓[0m step "foh-rate": all show-work entries have .label
-  [32m✓[0m step "total-rate": showWork() returns array (1 entries)
-  [32m✓[0m step "total-rate": all show-work entries have .label
-  [32m✓[0m step "oh-applied": showWork() returns array (1 entries)
-  [32m✓[0m step "oh-applied": all show-work entries have .label
-  [2mNo choice steps — coverage check skipped[0m
-
-[1m[36m9. reviewChapters paths[0m
-  [32m✓[0m reviewChapter has label "Ch. 8 — Flexible Budgets and Overhead Variances"
-  [32m✓[0m reviewChapter href starts with '/' ("/pages/learn/ch08.html")
-
-[1m━━━ Variable Overhead Variances (ch08-voh-variances) ━━━[0m
-
-[1m[36m1. Schema validation[0m
-  [32m✓[0m id present
-  [32m✓[0m title present
-  [32m✓[0m chapter present
-  [32m✓[0m difficulty present
-  [32m✓[0m estimatedMinutes present
-  [32m✓[0m reviewChapters present
-  [32m✓[0m randomize present
-  [32m✓[0m given present
-  [32m✓[0m steps present
-  [32m✓[0m id is non-empty string
-  [32m✓[0m title is string
-  [32m✓[0m chapter is number
-  [32m✓[0m difficulty is valid (foundation)
-  [32m✓[0m estimatedMinutes is positive number
-  [32m✓[0m reviewChapters is non-empty array
-  [32m✓[0m randomize is function
-  [32m✓[0m given is function
-  [32m✓[0m steps is non-empty array
-  [32m✓[0m scenario (when present) is function
-
-[1m[36m2. Step schema validation[0m
-  [32m✓[0m step[0] "voh-spending-amount": id present
-  [32m✓[0m step[0] "voh-spending-amount": question present
-  [32m✓[0m step[0] "voh-spending-amount": showWork is function
-  [32m✓[0m step[0] "voh-spending-amount": unit present (numeric)
-  [32m✓[0m step[0] "voh-spending-amount": numeric step has solve()
-  [32m✓[0m step[0] "voh-spending-amount": resultType is valid (money-medium)
-  [32m✓[0m step[1] "voh-spending-direction": id present
-  [32m✓[0m step[1] "voh-spending-direction": question present
-  [32m✓[0m step[1] "voh-spending-direction": showWork is function
-  [32m✓[0m step[1] "voh-spending-direction": choice step has correctId()
-  [32m✓[0m step[1] "voh-spending-direction": choice step has options (array or function)
-  [32m✓[0m step[2] "voh-efficiency-amount": id present
-  [32m✓[0m step[2] "voh-efficiency-amount": question present
-  [32m✓[0m step[2] "voh-efficiency-amount": showWork is function
-  [32m✓[0m step[2] "voh-efficiency-amount": unit present (numeric)
-  [32m✓[0m step[2] "voh-efficiency-amount": numeric step has solve()
-  [32m✓[0m step[2] "voh-efficiency-amount": resultType is valid (money-medium)
-  [32m✓[0m step[3] "voh-efficiency-direction": id present
-  [32m✓[0m step[3] "voh-efficiency-direction": question present
-  [32m✓[0m step[3] "voh-efficiency-direction": showWork is function
-  [32m✓[0m step[3] "voh-efficiency-direction": choice step has correctId()
-  [32m✓[0m step[3] "voh-efficiency-direction": choice step has options (array or function)
-  [32m✓[0m step[4] "total-voh-variance": id present
-  [32m✓[0m step[4] "total-voh-variance": question present
-  [32m✓[0m step[4] "total-voh-variance": showWork is function
-  [32m✓[0m step[4] "total-voh-variance": unit present (numeric)
-  [32m✓[0m step[4] "total-voh-variance": numeric step has solve()
-  [32m✓[0m step[4] "total-voh-variance": resultType is valid (money-medium)
+  [32m✓[0m step[0] "cm-per-unit-special": id present
+  [32m✓[0m step[0] "cm-per-unit-special": question present
+  [32m✓[0m step[0] "cm-per-unit-special": showWork is function
+  [32m✓[0m step[0] "cm-per-unit-special": unit present (numeric)
+  [32m✓[0m step[0] "cm-per-unit-special": numeric step has solve()
+  [32m✓[0m step[0] "cm-per-unit-special": resultType is valid (money-small)
+  [32m✓[0m step[1] "total-cm-special": id present
+  [32m✓[0m step[1] "total-cm-special": question present
+  [32m✓[0m step[1] "total-cm-special": showWork is function
+  [32m✓[0m step[1] "total-cm-special": unit present (numeric)
+  [32m✓[0m step[1] "total-cm-special": numeric step has solve()
+  [32m✓[0m step[1] "total-cm-special": resultType is valid (money-medium)
+  [32m✓[0m step[2] "accept-decision": id present
+  [32m✓[0m step[2] "accept-decision": question present
+  [32m✓[0m step[2] "accept-decision": showWork is function
+  [32m✓[0m step[2] "accept-decision": choice step has correctId()
+  [32m✓[0m step[2] "accept-decision": choice step has options (array or function)
+  [32m✓[0m step[3] "min-acceptable-price": id present
+  [32m✓[0m step[3] "min-acceptable-price": question present
+  [32m✓[0m step[3] "min-acceptable-price": showWork is function
+  [32m✓[0m step[3] "min-acceptable-price": unit present (numeric)
+  [32m✓[0m step[3] "min-acceptable-price": numeric step has solve()
+  [32m✓[0m step[3] "min-acceptable-price": resultType is valid (money-small)
 
 [1m[36m3. randomize() stress test (100 runs)[0m
   [32m✓[0m 100 randomize() calls produced valid data
@@ -350,113 +443,33 @@
   [32m✓[0m 6 given() rows have {label: string, value: string}
 
 [1m[36m6. Solve/correctId determinism[0m
-  [32m✓[0m step "voh-spending-amount": solve() deterministic across 10 calls
-  [32m✓[0m step "voh-spending-amount": solve() returns finite number (23338)
-  [32m✓[0m step "voh-spending-direction": correctId() deterministic across 10 calls
-  [32m✓[0m step "voh-spending-direction": correctId() returns non-empty string ("favorable")
-  [32m✓[0m step "voh-efficiency-amount": solve() deterministic across 10 calls
-  [32m✓[0m step "voh-efficiency-amount": solve() returns finite number (7480)
-  [32m✓[0m step "voh-efficiency-direction": correctId() deterministic across 10 calls
-  [32m✓[0m step "voh-efficiency-direction": correctId() returns non-empty string ("unfavorable")
-  [32m✓[0m step "total-voh-variance": solve() deterministic across 10 calls
-  [32m✓[0m step "total-voh-variance": solve() returns finite number (15858)
+  [32m✓[0m step "cm-per-unit-special": solve() deterministic across 10 calls
+  [32m✓[0m step "cm-per-unit-special": solve() returns finite number (8)
+  [32m✓[0m step "total-cm-special": solve() deterministic across 10 calls
+  [32m✓[0m step "total-cm-special": solve() returns finite number (12000)
+  [32m✓[0m step "accept-decision": correctId() deterministic across 10 calls
+  [32m✓[0m step "accept-decision": correctId() returns non-empty string ("accept")
+  [32m✓[0m step "min-acceptable-price": solve() deterministic across 10 calls
+  [32m✓[0m step "min-acceptable-price": solve() returns finite number (60)
 
 [1m[36m7. Full walkthrough — every step + showWork[0m
-  [32m✓[0m step "voh-spending-amount": showWork() returns array (1 entries)
-  [32m✓[0m step "voh-spending-amount": all show-work entries have .label
-  [32m✓[0m step "voh-spending-direction": showWork() returns array (1 entries)
-  [32m✓[0m step "voh-spending-direction": all show-work entries have .label
-  [32m✓[0m step "voh-efficiency-amount": showWork() returns array (1 entries)
-  [32m✓[0m step "voh-efficiency-amount": all show-work entries have .label
-  [32m✓[0m step "voh-efficiency-direction": showWork() returns array (1 entries)
-  [32m✓[0m step "voh-efficiency-direction": all show-work entries have .label
-  [32m✓[0m step "total-voh-variance": showWork() returns array (3 entries)
-  [32m✓[0m step "total-voh-variance": all show-work entries have .label
+  [32m✓[0m step "cm-per-unit-special": showWork() returns array (1 entries)
+  [32m✓[0m step "cm-per-unit-special": all show-work entries have .label
+  [32m✓[0m step "total-cm-special": showWork() returns array (1 entries)
+  [32m✓[0m step "total-cm-special": all show-work entries have .label
+  [32m✓[0m step "accept-decision": showWork() returns array (1 entries)
+  [32m✓[0m step "accept-decision": all show-work entries have .label
+  [32m✓[0m step "min-acceptable-price": showWork() returns array (1 entries)
+  [32m✓[0m step "min-acceptable-price": all show-work entries have .label
 
 [1m[36m8. Choice step distribution (50 runs)[0m
-  [32m✓[0m step "voh-spending-direction": favorable: 27, unfavorable: 23
-  [32m✓[0m step "voh-efficiency-direction": favorable: 25, unfavorable: 25
+  [32m✓[0m step "accept-decision": accept: 50
+  [32m✓[0m step "accept-decision": intentional single-answer step (verified by author)
 
 [1m[36m9. reviewChapters paths[0m
-  [32m✓[0m reviewChapter has label "Ch. 8 — Flexible Budgets and Overhead Variances"
-  [32m✓[0m reviewChapter href starts with '/' ("/pages/learn/ch08.html")
-
-[1m━━━ Volume Variance — Capacity Investigation (ch08-volume-investigation) ━━━[0m
-
-[1m[36m1. Schema validation[0m
-  [32m✓[0m id present
-  [32m✓[0m title present
-  [32m✓[0m chapter present
-  [32m✓[0m difficulty present
-  [32m✓[0m estimatedMinutes present
-  [32m✓[0m reviewChapters present
-  [32m✓[0m randomize present
-  [32m✓[0m given present
-  [32m✓[0m steps present
-  [32m✓[0m id is non-empty string
-  [32m✓[0m title is string
-  [32m✓[0m chapter is number
-  [32m✓[0m difficulty is valid (intermediate)
-  [32m✓[0m estimatedMinutes is positive number
-  [32m✓[0m reviewChapters is non-empty array
-  [32m✓[0m randomize is function
-  [32m✓[0m given is function
-  [32m✓[0m steps is non-empty array
-  [32m✓[0m scenario (when present) is function
-
-[1m[36m2. Step schema validation[0m
-  [32m✓[0m step[0] "foh-applied": id present
-  [32m✓[0m step[0] "foh-applied": question present
-  [32m✓[0m step[0] "foh-applied": showWork is function
-  [32m✓[0m step[0] "foh-applied": unit present (numeric)
-  [32m✓[0m step[0] "foh-applied": numeric step has solve()
-  [32m✓[0m step[0] "foh-applied": resultType is valid (money-medium)
-  [32m✓[0m step[1] "volume-variance": id present
-  [32m✓[0m step[1] "volume-variance": question present
-  [32m✓[0m step[1] "volume-variance": showWork is function
-  [32m✓[0m step[1] "volume-variance": unit present (numeric)
-  [32m✓[0m step[1] "volume-variance": numeric step has solve()
-  [32m✓[0m step[1] "volume-variance": resultType is valid (money-medium)
-  [32m✓[0m step[2] "likely-cause": id present
-  [32m✓[0m step[2] "likely-cause": question present
-  [32m✓[0m step[2] "likely-cause": showWork is function
-  [32m✓[0m step[2] "likely-cause": choice step has correctId()
-  [32m✓[0m step[2] "likely-cause": choice step has options (array or function)
-
-[1m[36m3. randomize() stress test (100 runs)[0m
-  [32m✓[0m 100 randomize() calls produced valid data
-
-[1m[36m4. scenario(data) renders[0m
-  [32m✓[0m scenario returns non-empty HTML string
-
-[1m[36m5. given(data) shape[0m
-  [32m✓[0m given() returns array
-  [32m✓[0m given() returns non-empty array
-  [32m✓[0m 4 given() rows have {label: string, value: string}
-
-[1m[36m6. Solve/correctId determinism[0m
-  [32m✓[0m step "foh-applied": solve() deterministic across 10 calls
-  [32m✓[0m step "foh-applied": solve() returns finite number (202446)
-  [32m✓[0m step "volume-variance": solve() deterministic across 10 calls
-  [32m✓[0m step "volume-variance": solve() returns finite number (17554)
-  [32m✓[0m step "likely-cause": correctId() deterministic across 10 calls
-  [32m✓[0m step "likely-cause": correctId() returns non-empty string ("planning-error")
-
-[1m[36m7. Full walkthrough — every step + showWork[0m
-  [32m✓[0m step "foh-applied": showWork() returns array (1 entries)
-  [32m✓[0m step "foh-applied": all show-work entries have .label
-  [32m✓[0m step "volume-variance": showWork() returns array (1 entries)
-  [32m✓[0m step "volume-variance": all show-work entries have .label
-  [32m✓[0m step "likely-cause": showWork() returns array (1 entries)
-  [32m✓[0m step "likely-cause": all show-work entries have .label
-
-[1m[36m8. Choice step distribution (50 runs)[0m
-  [32m✓[0m step "likely-cause": planning-error: 17, strong-demand: 8, idle-capacity: 15, demand-shortfall: 10
-
-[1m[36m9. reviewChapters paths[0m
-  [32m✓[0m reviewChapter has label "Ch. 8 — Flexible Budgets and Overhead Variances"
-  [32m✓[0m reviewChapter href starts with '/' ("/pages/learn/ch08.html")
+  [32m✓[0m reviewChapter has label "Ch. 12 — Decision Making and Relevant Information"
+  [32m✓[0m reviewChapter href starts with '/' ("/pages/learn/ch12.html")
 
 [1m━━━ Summary ━━━[0m
-Checks: 350
+Checks: 360
 [32mFailures: 0[0m

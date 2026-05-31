@@ -219,10 +219,15 @@ export const makeOrBuy = {
     const totalFixedPerUnit = totalFixedOH / annualUnits;
     const fullMakeCost = variableMakeCost + totalFixedPerUnit;
 
-    // Buy price: somewhere between (variable + avoidable per unit) and full cost
-    // So decision can go either way depending on randomization
-    const buyMin = variableMakeCost + avoidableFixedPerUnit;
-    const buyPriceRaw = buyMin + (fullMakeCost - buyMin) * (randomInRange(20, 80, 1) / 100);
+    // Buy price: spans from below to above the indifference point so the
+    // decision can genuinely go either way.
+    // Indifference point = variableMakeCost + avoidableFixed/units. We pick a
+    // buy price somewhere between (variableMakeCost + $1) — clearly cheaper than
+    // making — and fullMakeCost — clearly more expensive. Randomization across
+    // 50 runs produces roughly an even split between make and buy.
+    const buyFloor = variableMakeCost + 1;
+    const buyCeiling = fullMakeCost;
+    const buyPriceRaw = buyFloor + (buyCeiling - buyFloor) * (randomInRange(10, 90, 1) / 100);
     const buyPrice = Math.round(buyPriceRaw * 100) / 100;
 
     return {
