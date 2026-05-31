@@ -145,6 +145,7 @@ export const specialOrderUnconstrained = {
     {
       id: 'accept-decision',
       type: 'choice',
+      intentionalSingleAnswer: true,
       question: 'Given unconstrained capacity, should the company accept the special order?',
       options: [
         { id: 'accept', label: 'Accept — the order has positive contribution margin and no displaced production' },
@@ -521,6 +522,7 @@ export const dropOrKeepSegment = {
     },
     {
       id: 'corporate-overhead-effect',
+      intentionalSingleAnswer: true,
       question: 'If the segment is dropped, what happens to the $' + 'allocated corporate overhead total at the company level?',
       type: 'choice',
       options: [
@@ -611,6 +613,7 @@ export const equipmentReplacement = {
     {
       id: 'sunk-cost-id',
       type: 'choice',
+      intentionalSingleAnswer: true,
       question: 'Which of the following is a SUNK cost in this decision?',
       options: [
         { id: 'book-value', label: 'Book value of the old machine ($' + '— historical cost minus accumulated depreciation)' },

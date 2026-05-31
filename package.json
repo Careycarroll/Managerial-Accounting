@@ -7,7 +7,9 @@
     "dev": "vite",
     "build": "vite build",
     "preview": "vite preview",
-    "deploy": "npm run build && npx gh-pages -d dist"
+    "deploy": "npm run build && npx gh-pages -d dist",
+    "validate": "node --import ./tests/_practice-register.mjs tests/validate-problem.js",
+    "validate:all": "for f in js/practice/ch*-problems.js; do [ -s \"$f\" ] && node --import ./tests/_practice-register.mjs tests/validate-problem.js \"$f\" || true; done"
   },
   "devDependencies": {
     "gh-pages": "^6.3.0",
