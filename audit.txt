@@ -1,152 +1,463 @@
-// js/practice/index.js
-// Renders the Practice landing page:
-//  - Chapter problems grid (Ch. 3 active; others coming soon)
-//  - Cross-chapter problems grid (all coming soon for Pass 1)
-//
-// Each tile links to a chapter practice page if available, or renders as a
-// disabled "coming soon" tile if not yet built.
 
-import { initHeader } from '/js/components/header.js';
+> managerial-accounting@0.0.0 validate
+> node --import ./tests/_practice-register.mjs tests/validate-problem.js js/practice/ch22-problems.js
 
-const BASE = import.meta.env.BASE_URL;
+[1mValidating ch22-problems.js[0m
+[2m/Users/careycarroll/Github Projects/Managerial-Accounting/js/practice/ch22-problems.js[0m
+[2mFound 5 problems.[0m
 
-// ============================================================================
-// Chapter problems config
-// ============================================================================
 
-const CHAPTER_PROBLEMS = [
-  {
-    chapter: 3,
-    title: 'CVP Analysis',
-    desc: 'Breakeven, target profit, margin of safety, and price sensitivity.',
-    problemCount: 5,
-    available: true,
-    href: `${BASE}pages/practice/ch03.html`,
-  },
-  {
-    chapter: 7,
-    title: 'Direct-Cost Variances',
-    desc: 'Price and efficiency variances for direct materials and labor.',
-    problemCount: null,
-    available: false,
-  },
-  {
-    chapter: 8,
-    title: 'Overhead Variances',
-    desc: 'Variable and fixed overhead spending, efficiency, and volume variances.',
-    problemCount: null,
-    available: false,
-  },
-  {
-    chapter: 12,
-    title: 'Relevant Costs',
-    desc: 'Special orders, make-or-buy, drop/keep, equipment replacement.',
-    problemCount: null,
-    available: false,
-  },
-  {
-    chapter: 22,
-    title: 'Capital Budgeting',
-    desc: 'NPV, IRR, payback, and AARR calculations with tax effects.',
-    problemCount: null,
-    available: false,
-  },
-];
+[1m━━━ After-Tax NPV with Depreciation (ch22-aftertax-npv) ━━━[0m
 
-// ============================================================================
-// Cross-chapter problems config
-// ============================================================================
+[1m[36m1. Schema validation[0m
+  [32m✓[0m id present
+  [32m✓[0m title present
+  [32m✓[0m chapter present
+  [32m✓[0m difficulty present
+  [32m✓[0m estimatedMinutes present
+  [32m✓[0m reviewChapters present
+  [32m✓[0m randomize present
+  [32m✓[0m given present
+  [32m✓[0m steps present
+  [32m✓[0m id is non-empty string
+  [32m✓[0m title is string
+  [32m✓[0m chapter is number
+  [32m✓[0m difficulty is valid (advanced)
+  [32m✓[0m estimatedMinutes is positive number
+  [32m✓[0m reviewChapters is non-empty array
+  [32m✓[0m randomize is function
+  [32m✓[0m given is function
+  [32m✓[0m steps is non-empty array
+  [32m✓[0m scenario (when present) is function
 
-const CROSS_CHAPTER_PROBLEMS = [
-  {
-    title: 'Profitability Analysis',
-    chapters: [3, 12, 15],
-    desc: 'Combine CVP, relevant costs, and customer profitability.',
-    available: false,
-  },
-  {
-    title: 'Full Variance Analysis',
-    chapters: [7, 8],
-    desc: 'Direct cost and overhead variances together.',
-    available: false,
-  },
-  {
-    title: 'Make or Buy Decision',
-    chapters: [12, 5, 10],
-    desc: 'Relevant costs combined with ABC and cost behavior.',
-    available: false,
-  },
-  {
-    title: 'Capital Investment',
-    chapters: [22, 12, 24],
-    desc: 'NPV with relevant costs and performance measurement.',
-    available: false,
-  },
-];
+[1m[36m2. Step schema validation[0m
+  [32m✓[0m step[0] "depreciation-tax-shield": id present
+  [32m✓[0m step[0] "depreciation-tax-shield": question present
+  [32m✓[0m step[0] "depreciation-tax-shield": showWork is function
+  [32m✓[0m step[0] "depreciation-tax-shield": unit present (numeric)
+  [32m✓[0m step[0] "depreciation-tax-shield": numeric step has solve()
+  [32m✓[0m step[0] "depreciation-tax-shield": resultType is valid (money-medium)
+  [32m✓[0m step[1] "aftertax-operating-cf": id present
+  [32m✓[0m step[1] "aftertax-operating-cf": question present
+  [32m✓[0m step[1] "aftertax-operating-cf": showWork is function
+  [32m✓[0m step[1] "aftertax-operating-cf": unit present (numeric)
+  [32m✓[0m step[1] "aftertax-operating-cf": numeric step has solve()
+  [32m✓[0m step[1] "aftertax-operating-cf": resultType is valid (money-medium)
+  [32m✓[0m step[2] "pv-operating-cf": id present
+  [32m✓[0m step[2] "pv-operating-cf": question present
+  [32m✓[0m step[2] "pv-operating-cf": showWork is function
+  [32m✓[0m step[2] "pv-operating-cf": unit present (numeric)
+  [32m✓[0m step[2] "pv-operating-cf": numeric step has solve()
+  [32m✓[0m step[2] "pv-operating-cf": resultType is valid (money-large)
+  [32m✓[0m step[3] "npv": id present
+  [32m✓[0m step[3] "npv": question present
+  [32m✓[0m step[3] "npv": showWork is function
+  [32m✓[0m step[3] "npv": unit present (numeric)
+  [32m✓[0m step[3] "npv": numeric step has solve()
+  [32m✓[0m step[3] "npv": resultType is valid (money-large)
+  [32m✓[0m step[4] "accept-decision": id present
+  [32m✓[0m step[4] "accept-decision": question present
+  [32m✓[0m step[4] "accept-decision": showWork is function
+  [32m✓[0m step[4] "accept-decision": choice step has correctId()
+  [32m✓[0m step[4] "accept-decision": choice step has options (array or function)
 
-// ============================================================================
-// Rendering
-// ============================================================================
+[1m[36m3. randomize() stress test (100 runs)[0m
+  [32m✓[0m 100 randomize() calls produced valid data
 
-function renderChapterTile(p) {
-  const minutes = p.problemCount ? `~${p.problemCount * 5} min` : '';
-  const meta = p.available
-    ? `${p.problemCount} problems · ${minutes}`
-    : 'Coming soon';
-  const cta = p.available
-    ? `<span class="practice-picker-tile__cta">Start &rarr;</span>`
-    : `<span class="practice-picker-tile__cta" style="color:var(--color-gray-400);">Coming soon</span>`;
+[1m[36m4. scenario(data) renders[0m
+  [32m✓[0m scenario returns non-empty HTML string
 
-  const inner = `
-    <div class="practice-picker-tile__label">Chapter ${p.chapter}</div>
-    <h3 class="practice-picker-tile__title">${p.title}</h3>
-    <p class="practice-picker-tile__desc">${p.desc}</p>
-    <div class="practice-picker-tile__meta">
-      <span class="practice-picker-tile__meta-time">${meta}</span>
-      ${cta}
-    </div>
-  `;
+[1m[36m5. given(data) shape[0m
+  [32m✓[0m given() returns array
+  [32m✓[0m given() returns non-empty array
+  [32m✓[0m 7 given() rows have {label: string, value: string}
 
-  if (p.available) {
-    return `<a href="${p.href}" class="practice-picker-tile" style="text-decoration:none;">${inner}</a>`;
-  }
-  return `<div class="practice-picker-tile" style="cursor:not-allowed;opacity:0.55;">${inner}</div>`;
-}
+[1m[36m6. Solve/correctId determinism[0m
+  [32m✓[0m step "depreciation-tax-shield": solve() deterministic across 10 calls
+  [32m✓[0m step "depreciation-tax-shield": solve() returns finite number (12375)
+  [32m✓[0m step "aftertax-operating-cf": solve() deterministic across 10 calls
+  [32m✓[0m step "aftertax-operating-cf": solve() returns finite number (85125)
+  [32m✓[0m step "pv-operating-cf": solve() deterministic across 10 calls
+  [32m✓[0m step "pv-operating-cf": solve() returns finite number (281945)
+  [32m✓[0m step "npv": solve() deterministic across 10 calls
+  [32m✓[0m step "npv": solve() returns finite number (76791)
+  [32m✓[0m step "accept-decision": correctId() deterministic across 10 calls
+  [32m✓[0m step "accept-decision": correctId() returns non-empty string ("accept")
 
-function renderCrossTile(p) {
-  const chapterLabel = `Ch. ${p.chapters.join(' + Ch. ')}`;
-  const cta = p.available
-    ? `<span class="practice-picker-tile__cta">Start &rarr;</span>`
-    : `<span class="practice-picker-tile__cta" style="color:var(--color-gray-400);">Coming soon</span>`;
+[1m[36m7. Full walkthrough — every step + showWork[0m
+  [32m✓[0m step "depreciation-tax-shield": showWork() returns array (1 entries)
+  [32m✓[0m step "depreciation-tax-shield": all show-work entries have .label
+  [32m✓[0m step "aftertax-operating-cf": showWork() returns array (1 entries)
+  [32m✓[0m step "aftertax-operating-cf": all show-work entries have .label
+  [32m✓[0m step "pv-operating-cf": showWork() returns array (1 entries)
+  [32m✓[0m step "pv-operating-cf": all show-work entries have .label
+  [32m✓[0m step "npv": showWork() returns array (2 entries)
+  [32m✓[0m step "npv": all show-work entries have .label
+  [32m✓[0m step "accept-decision": showWork() returns array (1 entries)
+  [32m✓[0m step "accept-decision": all show-work entries have .label
 
-  const inner = `
-    <div class="practice-picker-tile__label">Cross-Chapter</div>
-    <h3 class="practice-picker-tile__title">${p.title}</h3>
-    <p class="practice-picker-tile__desc">${p.desc}</p>
-    <div class="practice-picker-tile__meta">
-      <span class="practice-picker-tile__meta-time">${chapterLabel}</span>
-      ${cta}
-    </div>
-  `;
+[1m[36m8. Choice step distribution (50 runs)[0m
+  [32m✓[0m step "accept-decision": accept: 44, reject-negative: 6
 
-  if (p.available) {
-    return `<a href="${p.href}" class="practice-picker-tile" style="text-decoration:none;">${inner}</a>`;
-  }
-  return `<div class="practice-picker-tile" style="cursor:not-allowed;opacity:0.55;">${inner}</div>`;
-}
+[1m[36m9. reviewChapters paths[0m
+  [32m✓[0m reviewChapter has label "Ch. 22 — Capital Budgeting and Cost Analysis"
+  [32m✓[0m reviewChapter href starts with '/' ("/pages/learn/ch22.html")
 
-function renderGrid(targetId, items, renderer) {
-  const el = document.getElementById(targetId);
-  if (!el) return;
-  el.innerHTML = items.map(renderer).join('');
-}
+[1m━━━ IRR vs. Required Return (ch22-irr) ━━━[0m
 
-// ============================================================================
-// Bootstrap
-// ============================================================================
+[1m[36m1. Schema validation[0m
+  [32m✓[0m id present
+  [32m✓[0m title present
+  [32m✓[0m chapter present
+  [32m✓[0m difficulty present
+  [32m✓[0m estimatedMinutes present
+  [32m✓[0m reviewChapters present
+  [32m✓[0m randomize present
+  [32m✓[0m given present
+  [32m✓[0m steps present
+  [32m✓[0m id is non-empty string
+  [32m✓[0m title is string
+  [32m✓[0m chapter is number
+  [32m✓[0m difficulty is valid (intermediate)
+  [32m✓[0m estimatedMinutes is positive number
+  [32m✓[0m reviewChapters is non-empty array
+  [32m✓[0m randomize is function
+  [32m✓[0m given is function
+  [32m✓[0m steps is non-empty array
+  [32m✓[0m scenario (when present) is function
 
-document.addEventListener('DOMContentLoaded', () => {
-  initHeader();
-  renderGrid('practice-chapter-grid', CHAPTER_PROBLEMS, renderChapterTile);
-  renderGrid('practice-cross-grid', CROSS_CHAPTER_PROBLEMS, renderCrossTile);
-});
+[1m[36m2. Step schema validation[0m
+  [32m✓[0m step[0] "pv-factor-needed": id present
+  [32m✓[0m step[0] "pv-factor-needed": question present
+  [32m✓[0m step[0] "pv-factor-needed": showWork is function
+  [32m✓[0m step[0] "pv-factor-needed": unit present (numeric)
+  [32m✓[0m step[0] "pv-factor-needed": numeric step has solve()
+  [32m✓[0m step[0] "pv-factor-needed": resultType is valid (money-small)
+  [32m✓[0m step[1] "irr-estimate": id present
+  [32m✓[0m step[1] "irr-estimate": question present
+  [32m✓[0m step[1] "irr-estimate": showWork is function
+  [32m✓[0m step[1] "irr-estimate": unit present (numeric)
+  [32m✓[0m step[1] "irr-estimate": numeric step has solve()
+  [32m✓[0m step[1] "irr-estimate": resultType is valid (percent)
+  [32m✓[0m step[2] "irr-vs-required": id present
+  [32m✓[0m step[2] "irr-vs-required": question present
+  [32m✓[0m step[2] "irr-vs-required": showWork is function
+  [32m✓[0m step[2] "irr-vs-required": choice step has correctId()
+  [32m✓[0m step[2] "irr-vs-required": choice step has options (array or function)
+  [32m✓[0m step[3] "accept-decision": id present
+  [32m✓[0m step[3] "accept-decision": question present
+  [32m✓[0m step[3] "accept-decision": showWork is function
+  [32m✓[0m step[3] "accept-decision": choice step has correctId()
+  [32m✓[0m step[3] "accept-decision": choice step has options (array or function)
+
+[1m[36m3. randomize() stress test (100 runs)[0m
+  [32m✓[0m 100 randomize() calls produced valid data
+
+[1m[36m4. scenario(data) renders[0m
+  [32m✓[0m scenario returns non-empty HTML string
+
+[1m[36m5. given(data) shape[0m
+  [32m✓[0m given() returns array
+  [32m✓[0m given() returns non-empty array
+  [32m✓[0m 4 given() rows have {label: string, value: string}
+
+[1m[36m6. Solve/correctId determinism[0m
+  [32m✓[0m step "pv-factor-needed": solve() deterministic across 10 calls
+  [32m✓[0m step "pv-factor-needed": solve() returns finite number (4.49)
+  [32m✓[0m step "irr-estimate": solve() deterministic across 10 calls
+  [32m✓[0m step "irr-estimate": solve() returns finite number (9)
+  [32m✓[0m step "irr-vs-required": correctId() deterministic across 10 calls
+  [32m✓[0m step "irr-vs-required": correctId() returns non-empty string ("irr-higher")
+  [32m✓[0m step "accept-decision": correctId() deterministic across 10 calls
+  [32m✓[0m step "accept-decision": correctId() returns non-empty string ("accept")
+
+[1m[36m7. Full walkthrough — every step + showWork[0m
+  [32m✓[0m step "pv-factor-needed": showWork() returns array (1 entries)
+  [32m✓[0m step "pv-factor-needed": all show-work entries have .label
+  [32m✓[0m step "irr-estimate": showWork() returns array (1 entries)
+  [32m✓[0m step "irr-estimate": all show-work entries have .label
+  [32m✓[0m step "irr-vs-required": showWork() returns array (1 entries)
+  [32m✓[0m step "irr-vs-required": all show-work entries have .label
+  [32m✓[0m step "accept-decision": showWork() returns array (1 entries)
+  [32m✓[0m step "accept-decision": all show-work entries have .label
+
+[1m[36m8. Choice step distribution (50 runs)[0m
+  [32m✓[0m step "irr-vs-required": irr-higher: 28, irr-lower: 22
+  [32m✓[0m step "accept-decision": accept: 28, reject: 22
+
+[1m[36m9. reviewChapters paths[0m
+  [32m✓[0m reviewChapter has label "Ch. 22 — Capital Budgeting and Cost Analysis"
+  [32m✓[0m reviewChapter href starts with '/' ("/pages/learn/ch22.html")
+
+[1m━━━ NPV — Even Cash Flows (ch22-npv-even) ━━━[0m
+
+[1m[36m1. Schema validation[0m
+  [32m✓[0m id present
+  [32m✓[0m title present
+  [32m✓[0m chapter present
+  [32m✓[0m difficulty present
+  [32m✓[0m estimatedMinutes present
+  [32m✓[0m reviewChapters present
+  [32m✓[0m randomize present
+  [32m✓[0m given present
+  [32m✓[0m steps present
+  [32m✓[0m id is non-empty string
+  [32m✓[0m title is string
+  [32m✓[0m chapter is number
+  [32m✓[0m difficulty is valid (foundation)
+  [32m✓[0m estimatedMinutes is positive number
+  [32m✓[0m reviewChapters is non-empty array
+  [32m✓[0m randomize is function
+  [32m✓[0m given is function
+  [32m✓[0m steps is non-empty array
+  [32m✓[0m scenario (when present) is function
+
+[1m[36m2. Step schema validation[0m
+  [32m✓[0m step[0] "pv-annuity-factor": id present
+  [32m✓[0m step[0] "pv-annuity-factor": question present
+  [32m✓[0m step[0] "pv-annuity-factor": showWork is function
+  [32m✓[0m step[0] "pv-annuity-factor": unit present (numeric)
+  [32m✓[0m step[0] "pv-annuity-factor": numeric step has solve()
+  [32m✓[0m step[0] "pv-annuity-factor": resultType is valid (money-small)
+  [32m✓[0m step[1] "pv-cash-flows": id present
+  [32m✓[0m step[1] "pv-cash-flows": question present
+  [32m✓[0m step[1] "pv-cash-flows": showWork is function
+  [32m✓[0m step[1] "pv-cash-flows": unit present (numeric)
+  [32m✓[0m step[1] "pv-cash-flows": numeric step has solve()
+  [32m✓[0m step[1] "pv-cash-flows": resultType is valid (money-large)
+  [32m✓[0m step[2] "npv": id present
+  [32m✓[0m step[2] "npv": question present
+  [32m✓[0m step[2] "npv": showWork is function
+  [32m✓[0m step[2] "npv": unit present (numeric)
+  [32m✓[0m step[2] "npv": numeric step has solve()
+  [32m✓[0m step[2] "npv": resultType is valid (money-large)
+  [32m✓[0m step[3] "accept-decision": id present
+  [32m✓[0m step[3] "accept-decision": question present
+  [32m✓[0m step[3] "accept-decision": showWork is function
+  [32m✓[0m step[3] "accept-decision": choice step has correctId()
+  [32m✓[0m step[3] "accept-decision": choice step has options (array or function)
+
+[1m[36m3. randomize() stress test (100 runs)[0m
+  [32m✓[0m 100 randomize() calls produced valid data
+
+[1m[36m4. scenario(data) renders[0m
+  [32m✓[0m scenario returns non-empty HTML string
+
+[1m[36m5. given(data) shape[0m
+  [32m✓[0m given() returns array
+  [32m✓[0m given() returns non-empty array
+  [32m✓[0m 4 given() rows have {label: string, value: string}
+
+[1m[36m6. Solve/correctId determinism[0m
+  [32m✓[0m step "pv-annuity-factor": solve() deterministic across 10 calls
+  [32m✓[0m step "pv-annuity-factor": solve() returns finite number (4.111)
+  [32m✓[0m step "pv-cash-flows": solve() deterministic across 10 calls
+  [32m✓[0m step "pv-cash-flows": solve() returns finite number (115108)
+  [32m✓[0m step "npv": solve() deterministic across 10 calls
+  [32m✓[0m step "npv": solve() returns finite number (-4892)
+  [32m✓[0m step "accept-decision": correctId() deterministic across 10 calls
+  [32m✓[0m step "accept-decision": correctId() returns non-empty string ("reject-negative-npv")
+
+[1m[36m7. Full walkthrough — every step + showWork[0m
+  [32m✓[0m step "pv-annuity-factor": showWork() returns array (1 entries)
+  [32m✓[0m step "pv-annuity-factor": all show-work entries have .label
+  [32m✓[0m step "pv-cash-flows": showWork() returns array (1 entries)
+  [32m✓[0m step "pv-cash-flows": all show-work entries have .label
+  [32m✓[0m step "npv": showWork() returns array (1 entries)
+  [32m✓[0m step "npv": all show-work entries have .label
+  [32m✓[0m step "accept-decision": showWork() returns array (1 entries)
+  [32m✓[0m step "accept-decision": all show-work entries have .label
+
+[1m[36m8. Choice step distribution (50 runs)[0m
+  [32m✓[0m step "accept-decision": accept: 31, reject-negative-npv: 18, indifferent: 1
+
+[1m[36m9. reviewChapters paths[0m
+  [32m✓[0m reviewChapter has label "Ch. 22 — Capital Budgeting and Cost Analysis"
+  [32m✓[0m reviewChapter href starts with '/' ("/pages/learn/ch22.html")
+
+[1m━━━ NPV — Uneven Cash Flows (ch22-npv-uneven) ━━━[0m
+
+[1m[36m1. Schema validation[0m
+  [32m✓[0m id present
+  [32m✓[0m title present
+  [32m✓[0m chapter present
+  [32m✓[0m difficulty present
+  [32m✓[0m estimatedMinutes present
+  [32m✓[0m reviewChapters present
+  [32m✓[0m randomize present
+  [32m✓[0m given present
+  [32m✓[0m steps present
+  [32m✓[0m id is non-empty string
+  [32m✓[0m title is string
+  [32m✓[0m chapter is number
+  [32m✓[0m difficulty is valid (intermediate)
+  [32m✓[0m estimatedMinutes is positive number
+  [32m✓[0m reviewChapters is non-empty array
+  [32m✓[0m randomize is function
+  [32m✓[0m given is function
+  [32m✓[0m steps is non-empty array
+  [32m✓[0m scenario (when present) is function
+
+[1m[36m2. Step schema validation[0m
+  [32m✓[0m step[0] "pv-year-1": id present
+  [32m✓[0m step[0] "pv-year-1": question present
+  [32m✓[0m step[0] "pv-year-1": showWork is function
+  [32m✓[0m step[0] "pv-year-1": unit present (numeric)
+  [32m✓[0m step[0] "pv-year-1": numeric step has solve()
+  [32m✓[0m step[0] "pv-year-1": resultType is valid (money-medium)
+  [32m✓[0m step[1] "pv-year-2": id present
+  [32m✓[0m step[1] "pv-year-2": question present
+  [32m✓[0m step[1] "pv-year-2": showWork is function
+  [32m✓[0m step[1] "pv-year-2": unit present (numeric)
+  [32m✓[0m step[1] "pv-year-2": numeric step has solve()
+  [32m✓[0m step[1] "pv-year-2": resultType is valid (money-medium)
+  [32m✓[0m step[2] "pv-year-3": id present
+  [32m✓[0m step[2] "pv-year-3": question present
+  [32m✓[0m step[2] "pv-year-3": showWork is function
+  [32m✓[0m step[2] "pv-year-3": unit present (numeric)
+  [32m✓[0m step[2] "pv-year-3": numeric step has solve()
+  [32m✓[0m step[2] "pv-year-3": resultType is valid (money-medium)
+  [32m✓[0m step[3] "npv": id present
+  [32m✓[0m step[3] "npv": question present
+  [32m✓[0m step[3] "npv": showWork is function
+  [32m✓[0m step[3] "npv": unit present (numeric)
+  [32m✓[0m step[3] "npv": numeric step has solve()
+  [32m✓[0m step[3] "npv": resultType is valid (money-large)
+  [32m✓[0m step[4] "accept-decision": id present
+  [32m✓[0m step[4] "accept-decision": question present
+  [32m✓[0m step[4] "accept-decision": showWork is function
+  [32m✓[0m step[4] "accept-decision": choice step has correctId()
+  [32m✓[0m step[4] "accept-decision": choice step has options (array or function)
+
+[1m[36m3. randomize() stress test (100 runs)[0m
+  [32m✓[0m 100 randomize() calls produced valid data
+
+[1m[36m4. scenario(data) renders[0m
+  [32m✓[0m scenario returns non-empty HTML string
+
+[1m[36m5. given(data) shape[0m
+  [32m✓[0m given() returns array
+  [32m✓[0m given() returns non-empty array
+  [32m✓[0m 6 given() rows have {label: string, value: string}
+
+[1m[36m6. Solve/correctId determinism[0m
+  [32m✓[0m step "pv-year-1": solve() deterministic across 10 calls
+  [32m✓[0m step "pv-year-1": solve() returns finite number (19444)
+  [32m✓[0m step "pv-year-2": solve() deterministic across 10 calls
+  [32m✓[0m step "pv-year-2": solve() returns finite number (56584)
+  [32m✓[0m step "pv-year-3": solve() deterministic across 10 calls
+  [32m✓[0m step "pv-year-3": solve() returns finite number (77002)
+  [32m✓[0m step "npv": solve() deterministic across 10 calls
+  [32m✓[0m step "npv": solve() returns finite number (19046)
+  [32m✓[0m step "accept-decision": correctId() deterministic across 10 calls
+  [32m✓[0m step "accept-decision": correctId() returns non-empty string ("accept")
+
+[1m[36m7. Full walkthrough — every step + showWork[0m
+  [32m✓[0m step "pv-year-1": showWork() returns array (1 entries)
+  [32m✓[0m step "pv-year-1": all show-work entries have .label
+  [32m✓[0m step "pv-year-2": showWork() returns array (1 entries)
+  [32m✓[0m step "pv-year-2": all show-work entries have .label
+  [32m✓[0m step "pv-year-3": showWork() returns array (1 entries)
+  [32m✓[0m step "pv-year-3": all show-work entries have .label
+  [32m✓[0m step "npv": showWork() returns array (3 entries)
+  [32m✓[0m step "npv": all show-work entries have .label
+  [32m✓[0m step "accept-decision": showWork() returns array (1 entries)
+  [32m✓[0m step "accept-decision": all show-work entries have .label
+
+[1m[36m8. Choice step distribution (50 runs)[0m
+  [32m✓[0m step "accept-decision": reject: 29, accept: 21
+
+[1m[36m9. reviewChapters paths[0m
+  [32m✓[0m reviewChapter has label "Ch. 22 — Capital Budgeting and Cost Analysis"
+  [32m✓[0m reviewChapter href starts with '/' ("/pages/learn/ch22.html")
+
+[1m━━━ Payback Period (ch22-payback) ━━━[0m
+
+[1m[36m1. Schema validation[0m
+  [32m✓[0m id present
+  [32m✓[0m title present
+  [32m✓[0m chapter present
+  [32m✓[0m difficulty present
+  [32m✓[0m estimatedMinutes present
+  [32m✓[0m reviewChapters present
+  [32m✓[0m randomize present
+  [32m✓[0m given present
+  [32m✓[0m steps present
+  [32m✓[0m id is non-empty string
+  [32m✓[0m title is string
+  [32m✓[0m chapter is number
+  [32m✓[0m difficulty is valid (foundation)
+  [32m✓[0m estimatedMinutes is positive number
+  [32m✓[0m reviewChapters is non-empty array
+  [32m✓[0m randomize is function
+  [32m✓[0m given is function
+  [32m✓[0m steps is non-empty array
+  [32m✓[0m scenario (when present) is function
+
+[1m[36m2. Step schema validation[0m
+  [32m✓[0m step[0] "payback-a": id present
+  [32m✓[0m step[0] "payback-a": question present
+  [32m✓[0m step[0] "payback-a": showWork is function
+  [32m✓[0m step[0] "payback-a": unit present (numeric)
+  [32m✓[0m step[0] "payback-a": numeric step has solve()
+  [32m✓[0m step[0] "payback-a": resultType is valid (years)
+  [32m✓[0m step[1] "payback-b": id present
+  [32m✓[0m step[1] "payback-b": question present
+  [32m✓[0m step[1] "payback-b": showWork is function
+  [32m✓[0m step[1] "payback-b": unit present (numeric)
+  [32m✓[0m step[1] "payback-b": numeric step has solve()
+  [32m✓[0m step[1] "payback-b": resultType is valid (years)
+  [32m✓[0m step[2] "shorter-payback": id present
+  [32m✓[0m step[2] "shorter-payback": question present
+  [32m✓[0m step[2] "shorter-payback": showWork is function
+  [32m✓[0m step[2] "shorter-payback": choice step has correctId()
+  [32m✓[0m step[2] "shorter-payback": choice step has options (array or function)
+  [32m✓[0m step[3] "payback-limitation": id present
+  [32m✓[0m step[3] "payback-limitation": question present
+  [32m✓[0m step[3] "payback-limitation": showWork is function
+  [32m✓[0m step[3] "payback-limitation": choice step has correctId()
+  [32m✓[0m step[3] "payback-limitation": choice step has options (array or function)
+
+[1m[36m3. randomize() stress test (100 runs)[0m
+  [32m✓[0m 100 randomize() calls produced valid data
+
+[1m[36m4. scenario(data) renders[0m
+  [32m✓[0m scenario returns non-empty HTML string
+
+[1m[36m5. given(data) shape[0m
+  [32m✓[0m given() returns array
+  [32m✓[0m given() returns non-empty array
+  [32m✓[0m 7 given() rows have {label: string, value: string}
+
+[1m[36m6. Solve/correctId determinism[0m
+  [32m✓[0m step "payback-a": solve() deterministic across 10 calls
+  [32m✓[0m step "payback-a": solve() returns finite number (2.98)
+  [32m✓[0m step "payback-b": solve() deterministic across 10 calls
+  [32m✓[0m step "payback-b": solve() returns finite number (2.53)
+  [32m✓[0m step "shorter-payback": correctId() deterministic across 10 calls
+  [32m✓[0m step "shorter-payback": correctId() returns non-empty string ("project-b")
+  [32m✓[0m step "payback-limitation": correctId() deterministic across 10 calls
+  [32m✓[0m step "payback-limitation": correctId() returns non-empty string ("ignores-time-value")
+
+[1m[36m7. Full walkthrough — every step + showWork[0m
+  [32m✓[0m step "payback-a": showWork() returns array (1 entries)
+  [32m✓[0m step "payback-a": all show-work entries have .label
+  [32m✓[0m step "payback-b": showWork() returns array (1 entries)
+  [32m✓[0m step "payback-b": all show-work entries have .label
+  [32m✓[0m step "shorter-payback": showWork() returns array (1 entries)
+  [32m✓[0m step "shorter-payback": all show-work entries have .label
+  [32m✓[0m step "payback-limitation": showWork() returns array (1 entries)
+  [32m✓[0m step "payback-limitation": all show-work entries have .label
+
+[1m[36m8. Choice step distribution (50 runs)[0m
+  [32m✓[0m step "shorter-payback": project-b: 48, project-a: 1, tied: 1
+  [32m✓[0m step "payback-limitation": ignores-time-value: 50
+  [32m✓[0m step "payback-limitation": intentional single-answer step (verified by author)
+
+[1m[36m9. reviewChapters paths[0m
+  [32m✓[0m reviewChapter has label "Ch. 22 — Capital Budgeting and Cost Analysis"
+  [32m✓[0m reviewChapter href starts with '/' ("/pages/learn/ch22.html")
+
+[1m━━━ Summary ━━━[0m
+Checks: 350
+[32mFailures: 0[0m

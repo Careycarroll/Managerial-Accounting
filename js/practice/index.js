@@ -45,9 +45,11 @@ const CHAPTER_PROBLEMS = [
   {
     chapter: 22,
     title: 'Capital Budgeting',
-    desc: 'NPV, IRR, payback, and AARR calculations with tax effects.',
-    problemCount: null,
-    available: false,
+    desc: 'NPV, IRR, payback, and AARR calculations with tax effects and depreciation tax shields.',
+    problemCount: 5,
+    estimatedMinutes: 7,
+    available: true,
+    href: `${BASE}pages/practice/ch22.html`,
   },
 ];
 
