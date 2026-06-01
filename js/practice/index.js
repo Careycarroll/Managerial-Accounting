@@ -18,6 +18,15 @@ const CHAPTER_PROBLEMS = [
     href: `${BASE}pages/practice/ch03.html`,
   },
   {
+    chapter: 5,
+    title: 'Activity-Based Costing',
+    desc: 'Cost driver allocation, ABC vs traditional, cost hierarchy, TDABC, and ABM decisions.',
+    problemCount: 5,
+    estimatedMinutes: 7,
+    available: true,
+    href: `${BASE}pages/practice/ch05.html`,
+  },
+  {
     chapter: 7,
     title: 'Direct-Cost Variances',
     desc: 'Price and efficiency variances for direct materials and labor, with favorable/unfavorable interpretation.',
