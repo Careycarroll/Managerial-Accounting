@@ -9,7 +9,7 @@ You are a code agent working on the Managerial Accounting Interactive project. T
 A Vite-based multi-page web app that teaches Horngren's Cost Accounting (17th Edition) through interactive tools. Three sections:
 
 - **Learn** — 24 chapter pages with interactive calculators, show-work panels, key terms
-- **Practice** — 25 randomized multi-step calculation problems across 5 chapters, engine v3 with scenario + choice step support
+- **Practice** — 30 randomized multi-step calculation problems across 6 chapters, engine v3+ with scenario + choice step support + render-time option shuffling
 - **Apply** — 12 business decision scenarios with three depth levels (Concept / Analysis / Simulation)
 
 **Repo:** `~/Github Projects/Managerial-Accounting/`
@@ -182,7 +182,7 @@ After deploy succeeds, **hard-refresh** the live site (Cmd+Shift+R) or test in a
     index.html                      Landing page
     pages/learn/                    24 chapter HTML files (ch01.html — ch24.html) + index.html
     pages/apply/                    12 scenario HTML files + index.html
-    pages/practice/                 7 HTML files (index + 5 chapter pickers live, cross-chapter stub empty)
+    pages/practice/                 8 HTML files (index + 6 chapter pickers live, cross-chapter stub empty)
     pages/glossary.html             Glossary page
     js/core/                        main.js, progress-tracker.js
     js/components/                  randomizer, journal-entry, show-work, settings-panel, header
@@ -190,7 +190,7 @@ After deploy succeeds, **hard-refresh** the live site (Cmd+Shift+R) or test in a
     js/engine/                      scenario-engine.js + scenarios/breakeven-sim.js
     js/learn/                       ch01.js — ch24.js, index.js, glossary.js
     js/apply/                       12 scenario JS files + index.js
-    js/practice/                    Engine v3, SPEC.md, scenario-pools, 5 chapter problem files, pickers
+    js/practice/                    Engine v3+, SPEC.md, scenario-pools, 6 chapter problem files, pickers
     js/practice/data/               4 JSON pool files (names, industries, suffixes, products)
     js/data/                        managerial-terms.js (337 terms)
     css/base.css                    Custom property design system
@@ -373,14 +373,14 @@ Run before any simulation commit.
 
 ## 6. Practice Section — Phase 6A Complete
 
-25 randomized problems across 5 chapters (Ch. 3, 7, 8, 12, 22). Engine v3 supports scenario narrative wrappers and choice steps for accept/reject and fav/unfav decisions. **`js/practice/SPEC.md` is the authoritative contract** — read it before changing engine code or authoring new problems.
+30 randomized problems across 6 chapters (Ch. 3, 7, 8, 12, 15, 22). Engine v3+ supports scenario narrative wrappers, choice steps for accept/reject and fav/unfav decisions, and render-time option shuffling. **`js/practice/SPEC.md` is the authoritative contract** — read it before changing engine code or authoring new problems.
 
 ### 6.1 Architecture
 
 | File | Purpose |
 | --- | --- |
 | `js/practice/SPEC.md` | Pass 2 contract — authoritative |
-| `js/practice/practice-engine.js` | Engine v3 — state machine, tolerance grading, choice grading |
+| `js/practice/practice-engine.js` | Engine v3+ — state machine, tolerance grading, choice grading, option shuffle |
 | `js/practice/scenario-pools.js` | `randomCompany()` / `randomProduct()` helpers |
 | `js/practice/data/*.json` | 4 pool files (names 325, industries 50, suffixes 10, products 46) |
 | `js/practice/index.js` | Landing page picker (chapter + cross-chapter grids) |
@@ -400,9 +400,10 @@ Run before any simulation commit.
 | Ch. 7 — Direct-Cost Variances | 5 | clean |
 | Ch. 8 — Overhead Variances | 5 | clean |
 | Ch. 12 — Relevant Costs | 5 | clean |
+| Ch. 15 — Customer Profitability | 5 | clean |
 | Ch. 22 — Capital Budgeting | 5 | clean |
 
-1,760 total validator checks passing, 0 failures, 0 warnings as of Phase 6A close.
+2,140 total validator checks passing, 0 failures, 0 warnings as of Phase 6A close.
 
 ### 6.2 SPEC.md is Authoritative
 
@@ -482,7 +483,18 @@ If the spec and the engine disagree, the spec wins — update the engine, not th
 
 Choice steps render radio buttons and grade by exact `correctId(data, prior)` match. The correct answer must be a **function of the randomized data**, never a static "always C" trivia answer.
 
-If a choice step has a fixed correct answer for pedagogical reasons (e.g. "book value IS the sunk cost"), opt into `intentionalSingleAnswer: true` to suppress the validator's coverage warning. This signals the test "yes, this is by design." Three Ch. 12 steps use this flag; Make-or-Buy deliberately doesn't (it should split both directions, and currently does).
+**Engine v3+ shuffles option order at render time** using Fisher-Yates, cached per step id in `state.shuffledOptions[stepId]`. Stable across re-renders (post-submit, show-solution, summary). Grading is by id match, so shuffling doesn't affect correctness — but it does close the position-based pattern-matching exploit ("pick option 1, skip the reasoning"). Authors don't need to do anything to opt in; just be aware that `options[0]` in your source code is not what students see in the UI.
+
+If a choice step has a fixed correct answer for pedagogical reasons (e.g. "book value IS the sunk cost"), opt into `intentionalSingleAnswer: true` to suppress the validator's coverage warning. This signals the test "yes, this is by design." Several Ch. 12 and Ch. 15 steps use this flag; Make-or-Buy deliberately doesn't (it should split both directions, and currently does).
+
+Function-form options are supported when option labels need to reference randomized data (e.g. customer names):
+
+    options: (data) => [
+      { id: 'a', label: `${data.custAName} — reason A` },
+      { id: 'b', label: `${data.custBName} — reason B` },
+    ]
+
+The engine calls the function once on first lookup, shuffles the result, and caches it.
 
 ### 6.5 Scenario Pool Helpers
 
@@ -529,6 +541,7 @@ Validator runs 10 checks per problem (see SPEC.md §12 and `tests/validate-probl
 - Numeric steps require `unit`; choice steps don't
 - Choice steps default to a coverage warning when only 1 of N options is ever correct across 50 runs — opt out per step with `intentionalSingleAnswer: true`
 - Empty stub files in `js/practice/ch*-problems.js` are skipped by `validate:all`, not failed
+- Validator does NOT exercise the engine's render-time shuffle; it tests options by id, so shuffle changes never break validation
 
 ### 6.8 Required npm Scripts
 
@@ -541,7 +554,7 @@ Validator runs 10 checks per problem (see SPEC.md §12 and `tests/validate-probl
 
 ### 6.9 Authoring Checklist — New Chapter Problem File
 
-1. Write `js/practice/chXX-problems.js` following the schema in §6.3 (use Ch. 7 or Ch. 12 as a reference for scenario + choice patterns)
+1. Write `js/practice/chXX-problems.js` following the schema in §6.3 (use Ch. 7, Ch. 12, or Ch. 15 as a reference for scenario + choice patterns)
 2. Use `randomCompany()` / `randomProduct()` for narrative wrappers
 3. For variance-style problems, pair each numeric magnitude with a choice step for direction (fav/unfav)
 4. For decision problems, end with a choice step whose `correctId` reads from `prior`
@@ -562,6 +575,7 @@ Validator runs 10 checks per problem (see SPEC.md §12 and `tests/validate-probl
 - **Static answers in choice steps** — `correctId` must be a function of data, not a constant (unless `intentionalSingleAnswer: true`)
 - **Calling pool helpers in `scenario()` or `showWork()`** — would re-randomize per render; pool helpers belong only in `randomize()`
 - **Missing `unit` field on numeric steps** — required even if cosmetic; the engine renders it next to the input
+- **Arrow-function template-literal interpolation in question/option label strings** — `${data => data.foo}` is a function expression in a template string, not a value reference. Renders as literal text. Use plain strings for questions, or function-form options when you need data references in labels.
 
 ### 6.11 What's Left in Practice
 
@@ -569,8 +583,8 @@ Validator runs 10 checks per problem (see SPEC.md §12 and `tests/validate-probl
 
 | Problem                | Chapters         | Status                              |
 | ---------------------- | ---------------- | ----------------------------------- |
-| Profitability Analysis | Ch. 3 + 12 + 15  | Blocked — Ch. 15 not yet built      |
-| Full Variance Analysis | Ch. 7 + 8        | Unblocked — can be built now        |
+| Profitability Analysis | Ch. 3 + 12 + 15  | **Unblocked** — all three live      |
+| Full Variance Analysis | Ch. 7 + 8        | **Unblocked** — both source live    |
 | Make or Buy Decision   | Ch. 12 + 5 + 10  | Blocked — Ch. 5 / 10 not yet built  |
 | Capital Investment     | Ch. 22 + 12 + 24 | Blocked — Ch. 24 not yet built      |
 
@@ -616,6 +630,7 @@ Examples:
     feat: Learn Ch. 14 — Pricing decisions calculator with cost-plus + target costing
     fix: Apply breakeven — review chapter hrefs now use import.meta.env.BASE_URL
     feat: Practice Ch. 22 — Capital Budgeting (5 problems)
+    feat: Practice engine — shuffle choice option order at render time
     test: Practice problem validator
     ci: Enable GitHub Pages deployment via Actions
     refactor: simulation engine — extract bell-curve option generator
@@ -632,12 +647,12 @@ Examples:
 - **Phase 4C** — Simulation engine + test suite (May 2026)
 - **Phase 4D** — Breakeven simulation, 5 stages, all answer types (May 2026)
 - **Phase 4E** — GitHub Pages deployment via Actions (May 2026)
-- **Phase 6A** — Practice section chapter problems (Ch. 3 / 7 / 8 / 12 / 22) + engine v3 + validator (May 2026)
+- **Phase 6A** — Practice section chapter problems (Ch. 3 / 7 / 8 / 12 / 15 / 22) + engine v3+ + validator + scenario pool + render-time option shuffle (May 2026)
 
 ## 10. In Progress
 
 - **Phase 5** — Remaining 5 simulations (make-or-buy, pricing, investment, performance, quality)
-- **Phase 6B** — Practice cross-chapter problems (Full Variance unblocked; others wait on additional chapter Practice files)
+- **Phase 6B** — Practice cross-chapter problems (Full Variance + Profitability Analysis unblocked; Make-or-Buy + Capital Investment blocked on additional chapter Practice)
 
 ---
 
@@ -647,9 +662,10 @@ Examples:
 - show-work not added to Ch. 1 (no numeric tools — low priority)
 - `formula-display.js`, `worked-example.js`, `term-tooltip.js` referenced in planning but not yet built
 - 5 remaining simulations to build
-- 4 Practice cross-chapter problems pending (1 unblocked, 3 blocked on additional chapter Practice)
+- 4 Practice cross-chapter problems pending (2 unblocked, 2 blocked on additional chapter Practice)
+- Ch. 15 Problem 4 (Sales-Mix vs Sales-Quantity Variance) can land on a zero-total-variance edge case where the F/U direction step reads awkwardly. Tighten randomization ranges in polish pass.
 - `js/engine/scenarios/breakeven-sim.js` contains duplicate stage definitions (overhead-allocation, demand-shock, year-end appear twice) — engine ignores duplicates after first match by id, but bundle includes ~30KB of dead code. Clean up in polish pass.
-- Pass 2 Practice schema is battle-tested across 5 chapters; future authors should mirror the scenario + choice patterns from `ch07-problems.js` (fav/unfav direction) and `ch12-problems.js` (accept/reject decisions) as reference implementations.
+- Pass 2 Practice schema is battle-tested across 6 chapters; future authors should mirror the scenario + choice patterns from `ch07-problems.js` (fav/unfav direction), `ch12-problems.js` (accept/reject decisions), and `ch15-problems.js` (function-form options with `data` reference) as reference implementations.
 
 ---
 
@@ -676,7 +692,7 @@ Examples:
 
 **Adding a new Practice chapter (Phase 6 workflow):**
 1. Read `js/practice/SPEC.md` (Pass 2) before writing anything
-2. Author `js/practice/chXX-problems.js` per §6.3 — use `ch07-problems.js` or `ch12-problems.js` as reference
+2. Author `js/practice/chXX-problems.js` per §6.3 — use `ch07-problems.js`, `ch12-problems.js`, or `ch15-problems.js` as reference
 3. Run `npm run validate -- js/practice/chXX-problems.js` — 0 failures required
 4. Clone `pages/practice/ch22.html` → `chXX.html` (swap title, description, script src)
 5. Clone `js/practice/ch22.js` → `chXX.js` (swap import + problems array name)

@@ -217,7 +217,7 @@ Tests:
 
 ## Practice Section -- Phase 6A Complete
 
-A third first-class section alongside Learn and Apply. Accessible from the main nav and the landing page. 25 randomized multi-step calculation problems across five chapters, with a domain-agnostic engine, scenario pool system, and automated validator.
+A third first-class section alongside Learn and Apply. Accessible from the main nav and the landing page. 30 randomized multi-step calculation problems across six chapters, with a domain-agnostic engine, scenario pool system, automated validator, and render-time option shuffling.
 
 ### Concept
 
@@ -225,7 +225,7 @@ Students receive randomized financial data and calculate answers step by step. N
 
 ### Engine
 
-`js/practice/practice-engine.js` (v3) is the state machine. SPEC.md at `js/practice/SPEC.md` is the authoritative contract.
+`js/practice/practice-engine.js` (v3+) is the state machine. SPEC.md at `js/practice/SPEC.md` is the authoritative contract.
 
 **Pass 2 features (locked May 2026):**
 
@@ -234,6 +234,7 @@ Students receive randomized financial data and calculate answers step by step. N
 - Carry-forward of correct values only -- student errors never cascade
 - "See Summary" button gate on final step -- no auto-advance after submission
 - Persistent show-work on all submitted steps, plus collapsible solutions in the summary
+- **Option-order shuffle at render time** -- Fisher-Yates shuffle per problem instance, cached in `state.shuffledOptions[stepId]`, stable across re-renders. Closes the position-based pattern-matching exploit. Authors don't need to do anything; just be aware that `options[0]` in source code is not what students see in the UI.
 
 ### Scenario Pool System
 
@@ -250,15 +251,16 @@ Categories: `manufacturing`, `process`, `service`, `retail`, `distribution`, `te
 
 ### Practice Problems Status
 
-| Chapter | Topic                 | Problems | Validator |
-| ------- | --------------------- | -------- | --------- |
-| Ch. 3   | CVP Analysis          | 5        | 0 fail    |
-| Ch. 7   | Direct Cost Variances | 5        | 0 fail    |
-| Ch. 8   | Overhead Variances    | 5        | 0 fail    |
-| Ch. 12  | Relevant Costs        | 5        | 0 fail    |
-| Ch. 22  | Capital Budgeting     | 5        | 0 fail    |
+| Chapter | Topic                            | Problems | Validator |
+| ------- | -------------------------------- | -------- | --------- |
+| Ch. 3   | CVP Analysis                     | 5        | 0 fail    |
+| Ch. 7   | Direct Cost Variances            | 5        | 0 fail    |
+| Ch. 8   | Overhead Variances               | 5        | 0 fail    |
+| Ch. 12  | Relevant Costs                   | 5        | 0 fail    |
+| Ch. 15  | Customer Profitability           | 5        | 0 fail    |
+| Ch. 22  | Capital Budgeting                | 5        | 0 fail    |
 
-**25 problems total. 1,760 validator checks passing. 0 failures, 0 warnings.**
+**30 problems total. 2,140 validator checks passing. 0 failures, 0 warnings.**
 
 ### Validator
 
@@ -279,8 +281,8 @@ Validator infrastructure (in `tests/`):
 
 | Problem                | Chapters         | Status                                   |
 | ---------------------- | ---------------- | ---------------------------------------- |
-| Profitability Analysis | Ch. 3 + 12 + 15  | Pending (Ch. 15 Practice not yet built)  |
-| Full Variance Analysis | Ch. 7 + 8        | Pending -- both source chapters live     |
+| Profitability Analysis | Ch. 3 + 12 + 15  | **Unblocked** -- all three chapters live |
+| Full Variance Analysis | Ch. 7 + 8        | **Unblocked** -- both source chapters live |
 | Make or Buy Decision   | Ch. 12 + 5 + 10  | Pending (Ch. 5 / Ch. 10 not yet built)   |
 | Capital Investment     | Ch. 22 + 12 + 24 | Pending (Ch. 24 Practice not yet built)  |
 
@@ -291,18 +293,20 @@ Validator infrastructure (in `tests/`):
     pages/practice/ch07.html          Direct variance picker page
     pages/practice/ch08.html          Overhead variance picker page
     pages/practice/ch12.html          Relevant cost picker page
+    pages/practice/ch15.html          Customer profitability picker page
     pages/practice/ch22.html          Capital budgeting picker page
     pages/practice/cross-chapter.html Cross-chapter picker -- empty stub for Phase 6B
 
     js/practice/SPEC.md               Authoritative engine + problem schema contract (Pass 2)
-    js/practice/practice-engine.js    Engine v3 -- scenario + choice + tolerance grading
+    js/practice/practice-engine.js    Engine v3+ -- scenario, choice, tolerance grading, option shuffle
     js/practice/scenario-pools.js     randomCompany() / randomProduct() helpers
     js/practice/index.js              Landing page picker
-    js/practice/ch03.js               Picker wiring (Ch. 3 -- 22 each)
+    js/practice/ch03.js               Picker wiring (one per chapter)
     js/practice/ch03-problems.js      5 CVP problem definitions
     js/practice/ch07-problems.js      5 direct-cost variance problem definitions
     js/practice/ch08-problems.js      5 overhead variance problem definitions
     js/practice/ch12-problems.js      5 relevant cost problem definitions
+    js/practice/ch15-problems.js      5 customer profitability problem definitions
     js/practice/ch22-problems.js      5 capital budgeting problem definitions
     js/practice/cross-chapter-problems.js  Empty stub -- Phase 6B
 
@@ -349,8 +353,8 @@ Phase 4C -- Simulation Engine -- Complete
 Phase 4D -- Breakeven Simulation (first simulation) -- Complete
 Phase 4E -- GitHub Pages deployment via Actions -- Complete
 Phase 5 -- Remaining 5 Simulations -- In Progress
-Phase 6A -- Practice Section chapter problems (Ch. 3 / 7 / 8 / 12 / 22) -- Complete
-Phase 6B -- Practice Section cross-chapter problems -- In Progress (some blocked on additional chapters)
+Phase 6A -- Practice Section chapter problems (Ch. 3 / 7 / 8 / 12 / 15 / 22) + engine v3 + validator + option shuffle -- Complete
+Phase 6B -- Practice Section cross-chapter problems -- In Progress (Full Variance + Profitability Analysis unblocked; Make-or-Buy and Capital Investment blocked on additional chapter Practice)
 
 ---
 
@@ -402,5 +406,6 @@ Token reference for JS output:
 - show-work not yet added to Ch. 1 (no numeric tools -- low priority)
 - formula-display.js, worked-example.js, term-tooltip.js not yet built
 - 5 remaining simulations to build (make-or-buy, pricing, investment, performance, quality)
-- Practice cross-chapter problems pending; Full Variance Analysis (Ch. 7 + 8) is unblocked, others wait on additional chapter Practice files
+- Practice cross-chapter problems pending; Full Variance Analysis (Ch. 7 + 8) and Profitability Analysis (Ch. 3 + 12 + 15) are unblocked; Make-or-Buy and Capital Investment wait on additional chapter Practice
+- Ch. 15 Problem 4 (Sales-Mix vs Sales-Quantity Variance) can land on a zero-total-variance edge case where the F/U direction step reads awkwardly. Tighten randomization ranges in polish pass.
 - breakeven-sim.js has duplicate stage definitions (overhead-allocation, demand-shock, year-end appear twice). The engine iterates the stages array and finds the first matching `id` for nextStage references, so the duplicates are dead code. This bloats apply-breakeven bundle by ~30 kB. Clean up in a polish pass.
