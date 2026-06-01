@@ -53,6 +53,15 @@ const CHAPTER_PROBLEMS = [
     available: true,
     href: `${BASE}pages/practice/ch22.html`,
   },
+  {
+    chapter: 15,
+    title: 'Customer Profitability',
+    desc: 'Customer-level operating income, ABC cost-to-serve, sales-mix/quantity variances, and drop decisions.',
+    problemCount: 5,
+    estimatedMinutes: 7,
+    available: true,
+    href: `${BASE}pages/practice/ch15.html`,
+  },
 ];
 
 const CROSS_CHAPTER_PROBLEMS = [
