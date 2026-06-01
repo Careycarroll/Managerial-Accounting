@@ -45,6 +45,15 @@ const CHAPTER_PROBLEMS = [
     href: `${BASE}pages/practice/ch08.html`,
   },
   {
+    chapter: 9,
+    title: 'Inventory Costing',
+    desc: 'Absorption vs variable costing, inventory build/draw income effects, capacity concepts, and denominator-level choice.',
+    problemCount: 5,
+    estimatedMinutes: 6,
+    available: true,
+    href: `${BASE}pages/practice/ch09.html`,
+  },
+  {
     chapter: 10,
     title: 'Cost Behavior',
     desc: 'High-low method, regression interpretation, learning curves, and cost estimation method selection.',
