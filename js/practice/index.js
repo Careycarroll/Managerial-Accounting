@@ -45,6 +45,15 @@ const CHAPTER_PROBLEMS = [
     href: `${BASE}pages/practice/ch08.html`,
   },
   {
+    chapter: 10,
+    title: 'Cost Behavior',
+    desc: 'High-low method, regression interpretation, learning curves, and cost estimation method selection.',
+    problemCount: 5,
+    estimatedMinutes: 6,
+    available: true,
+    href: `${BASE}pages/practice/ch10.html`,
+  },
+  {
     chapter: 12,
     title: 'Relevant Costs',
     desc: 'Special orders, make-or-buy, drop/keep, equipment replacement, and constrained product mix.',
@@ -52,6 +61,15 @@ const CHAPTER_PROBLEMS = [
     estimatedMinutes: 7,
     available: true,
     href: `${BASE}pages/practice/ch12.html`,
+  },
+  {
+    chapter: 15,
+    title: 'Customer Profitability',
+    desc: 'Customer-level operating income, ABC cost-to-serve, sales-mix/quantity variances, and drop decisions.',
+    problemCount: 5,
+    estimatedMinutes: 7,
+    available: true,
+    href: `${BASE}pages/practice/ch15.html`,
   },
   {
     chapter: 22,
@@ -63,13 +81,13 @@ const CHAPTER_PROBLEMS = [
     href: `${BASE}pages/practice/ch22.html`,
   },
   {
-    chapter: 15,
-    title: 'Customer Profitability',
-    desc: 'Customer-level operating income, ABC cost-to-serve, sales-mix/quantity variances, and drop decisions.',
+    chapter: 24,
+    title: 'Performance Measurement',
+    desc: 'ROI, residual income, EVA, investment-center decisions, and pay-for-performance design.',
     problemCount: 5,
     estimatedMinutes: 7,
     available: true,
-    href: `${BASE}pages/practice/ch15.html`,
+    href: `${BASE}pages/practice/ch24.html`,
   },
 ];
 
