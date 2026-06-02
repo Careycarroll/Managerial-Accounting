@@ -599,11 +599,21 @@ export const costHierarchyClassification = {
       if (selected.length === 3) break;
     }
 
+    // Add a small allocation scenario for the new application steps
+    const unitsPerBatch = roundToNearest(randomInRange(80, 200), 10);
+    const batchesProduced = roundToNearest(randomInRange(40, 120), 5);
+    const totalUnits = unitsPerBatch * batchesProduced;
+    const unitLevelRate = randomInRange(8, 18, 1);
+    const batchLevelRate = roundToNearest(randomInRange(200, 600), 25);
+    const productLevelCost = roundToNearest(randomInRange(15000, 40000), 1000);
+
     return {
       company,
       activity1: selected[0],
       activity2: selected[1],
       activity3: selected[2],
+      unitsPerBatch, batchesProduced, totalUnits,
+      unitLevelRate, batchLevelRate, productLevelCost,
     };
   },
 
@@ -623,6 +633,13 @@ export const costHierarchyClassification = {
     { label: "Activity 1", value: data.activity1.name },
     { label: "Activity 2", value: data.activity2.name },
     { label: "Activity 3", value: data.activity3.name },
+  
+    { label: 'Units per batch', value: `${data.unitsPerBatch.toLocaleString()}` },
+    { label: 'Batches produced', value: `${data.batchesProduced.toLocaleString()}` },
+    { label: 'Total units', value: `${data.totalUnits.toLocaleString()}` },
+    { label: 'Unit-level rate', value: `$${data.unitLevelRate} per unit` },
+    { label: 'Batch-level rate', value: `$${data.batchLevelRate} per batch` },
+    { label: 'Product-sustaining cost', value: `$${data.productLevelCost.toLocaleString()}` },
   ],
 
   steps: [
@@ -694,6 +711,69 @@ export const costHierarchyClassification = {
           note: "Correct classification matters because batch- and product-level costs are particularly susceptible to mis-allocation under traditional volume-based costing.",
         },
       ],
+    },
+    {
+      id: 'total-batch-level-cost',
+      question: 'Suppose the company\'s ABC system also assigns batch-level setup costs. Each batch incurs the batch-level rate shown in the given panel. What is the TOTAL batch-level cost for the period?',
+      resultType: 'money-medium',
+      unit: '$',
+      solve: (data) => data.batchesProduced * data.batchLevelRate,
+      showWork: (data, prior, studentAnswers, correctValue) => [
+        {
+          label: 'Total Batch-Level Cost',
+          formula: 'Batches Produced × Batch Rate',
+          values: `${data.batchesProduced} × $${data.batchLevelRate}`,
+          result: `$${correctValue.toLocaleString()}`,
+          highlight: true,
+          note: 'Batch-level costs scale with batches, NOT with units. A 200-unit batch and a 50-unit batch incur the same setup cost.',
+        },
+      ],
+    },
+    {
+      id: 'cost-per-unit-with-hierarchy',
+      question: 'What is the total cost per unit, including unit-level cost, batch-level cost, and product-sustaining cost?',
+      resultType: 'money-small',
+      unit: '$ per unit',
+      tolerance: { value: 0.50, type: 'absolute' },
+      solve: (data, prior) => {
+        const unitCost = data.unitLevelRate;
+        const batchCostPerUnit = (data.batchesProduced * data.batchLevelRate) / data.totalUnits;
+        const productCostPerUnit = data.productLevelCost / data.totalUnits;
+        return roundTo(unitCost + batchCostPerUnit + productCostPerUnit, 2);
+      },
+      showWork: (data, prior, studentAnswers, correctValue) => {
+        const batchTotal = data.batchesProduced * data.batchLevelRate;
+        const batchPerUnit = roundTo(batchTotal / data.totalUnits, 2);
+        const productPerUnit = roundTo(data.productLevelCost / data.totalUnits, 2);
+        return [
+          {
+            label: 'Unit-Level Cost',
+            formula: 'Per-unit rate (applies to every unit)',
+            values: `$${data.unitLevelRate}`,
+            result: `$${data.unitLevelRate} per unit`,
+          },
+          {
+            label: 'Batch-Level Cost Spread',
+            formula: 'Total batch cost ÷ Total units',
+            values: `$${batchTotal.toLocaleString()} ÷ ${data.totalUnits.toLocaleString()}`,
+            result: `$${batchPerUnit} per unit`,
+          },
+          {
+            label: 'Product-Sustaining Cost Spread',
+            formula: 'Product cost ÷ Total units',
+            values: `$${data.productLevelCost.toLocaleString()} ÷ ${data.totalUnits.toLocaleString()}`,
+            result: `$${productPerUnit} per unit`,
+          },
+          {
+            label: 'Total Cost per Unit',
+            formula: 'Unit + Batch/unit + Product/unit',
+            values: `$${data.unitLevelRate} + $${batchPerUnit} + $${productPerUnit}`,
+            result: `$${correctValue} per unit`,
+            highlight: true,
+            note: 'Hierarchy-based costing reveals what traditional unit-only costing hides — batch and product costs are real but get distorted when spread evenly across all units regardless of batch size.',
+          },
+        ];
+      },
     },
   ],
 };

@@ -517,11 +517,19 @@ export const capacityConcepts = {
 
     // Pick three definitions to ask about
     const shuffled = definitions.slice().sort(() => Math.random() - 0.5);
+
+    // Add a small denominator-rate scenario for the application step
+    const budgetedFOH = roundToNearest(randomInRange(180000, 400000), 5000);
+    const theoreticalCapacity = roundToNearest(randomInRange(14000, 22000), 500);
+    const practicalCapacity = roundToNearest(theoreticalCapacity * (randomInRange(75, 88, 1) / 100), 500);
+    const masterBudgetVolume = roundToNearest(practicalCapacity * (randomInRange(70, 85, 1) / 100), 500);
+
     return {
       company,
       def1: shuffled[0],
       def2: shuffled[1],
       def3: shuffled[2],
+      budgetedFOH, theoreticalCapacity, practicalCapacity, masterBudgetVolume,
     };
   },
 
@@ -536,6 +544,11 @@ export const capacityConcepts = {
     { label: "Definition 1", value: data.def1.label },
     { label: "Definition 2", value: data.def2.label },
     { label: "Definition 3", value: data.def3.label },
+  
+    { label: 'Budgeted fixed MOH', value: `$${data.budgetedFOH.toLocaleString()}` },
+    { label: 'Theoretical capacity', value: `${data.theoreticalCapacity.toLocaleString()} MH` },
+    { label: 'Practical capacity', value: `${data.practicalCapacity.toLocaleString()} MH` },
+    { label: 'Master-budget volume', value: `${data.masterBudgetVolume.toLocaleString()} MH` },
   ],
 
   steps: [
@@ -608,6 +621,39 @@ export const capacityConcepts = {
           note: "Capacity concept choice affects fixed MOH per unit, which affects unit costs, inventory valuations, and pricing decisions. Different choices for different purposes.",
         },
       ],
+    },
+    {
+      id: 'rate-comparison',
+      question: 'Using the budgeted FOH shown, what is the fixed-MOH rate per machine-hour under PRACTICAL capacity vs MASTER-BUDGET volume? (Enter the practical-capacity rate.)',
+      resultType: 'money-small',
+      unit: '$ per MH',
+      tolerance: { value: 0.05, type: 'absolute' },
+      solve: (data) => roundTo(data.budgetedFOH / data.practicalCapacity, 2),
+      showWork: (data, prior, studentAnswers, correctValue) => {
+        const masterRate = roundTo(data.budgetedFOH / data.masterBudgetVolume, 2);
+        return [
+          {
+            label: 'Practical-Capacity Rate',
+            formula: 'Budgeted FOH ÷ Practical Capacity',
+            values: `$${data.budgetedFOH.toLocaleString()} ÷ ${data.practicalCapacity.toLocaleString()}`,
+            result: `$${correctValue} per MH`,
+            highlight: true,
+          },
+          {
+            label: 'Master-Budget Rate (for comparison)',
+            formula: 'Budgeted FOH ÷ Master-Budget Volume',
+            values: `$${data.budgetedFOH.toLocaleString()} ÷ ${data.masterBudgetVolume.toLocaleString()}`,
+            result: `$${masterRate} per MH`,
+          },
+          {
+            label: 'Why the Rates Differ',
+            formula: 'Same total FOH, different denominators',
+            values: `Master-budget gives a ${roundTo((masterRate / correctValue - 1) * 100, 0)}% higher per-unit rate`,
+            result: 'Capacity-concept choice has real cost-per-unit consequences',
+            note: 'Practical-capacity rate isolates unused-capacity cost as a separate production-volume variance, signaling resource imbalances. Master-budget-volume buries that signal in unit costs.',
+          },
+        ];
+      },
     },
   ],
 };

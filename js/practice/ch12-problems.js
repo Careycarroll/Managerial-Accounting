@@ -548,6 +548,42 @@ export const dropOrKeepSegment = {
         },
       ],
     },
+    {
+      id: 'avoidable-cost-sensitivity',
+      question: 'If avoidable customer-sustaining costs decreased by 20% (better cost management), what would be the new change in firm operating income from dropping the segment? (Negative = decrease, positive = increase.)',
+      resultType: 'money-large',
+      unit: '$',
+      tolerance: { value: 1, type: 'percent' },
+      solve: (data) => Math.round(data.avoidableFixed * 0.80 - data.cm),
+      showWork: (data, prior, studentAnswers, correctValue) => {
+        const newAvoidable = Math.round(data.avoidableFixed * 0.80);
+        return [
+          {
+            label: 'Reduced Avoidable Costs',
+            formula: 'Original Avoidable × 80%',
+            values: `$${data.avoidableFixed.toLocaleString()} × 80%`,
+            result: `$${newAvoidable.toLocaleString()}`,
+          },
+          {
+            label: 'Lost CM from Dropping',
+            formula: 'Revenue − Variable Costs',
+            values: `$${data.revenue.toLocaleString()} − $${data.variableCosts.toLocaleString()}`,
+            result: `$${data.cm.toLocaleString()}`,
+          },
+          {
+            label: 'New Change in Firm OI',
+            formula: 'Reduced Avoidable − Lost CM',
+            values: `$${newAvoidable.toLocaleString()} − $${data.cm.toLocaleString()}`,
+            result: `$${correctValue.toLocaleString()}`,
+            highlight: true,
+            note: correctValue >= 0
+              ? 'With lower avoidable costs, dropping becomes MORE attractive — savings exceed lost CM.'
+              : 'Even with 20% lower avoidable costs, dropping still hurts firm income.',
+          },
+        ];
+      },
+    },
+
   ],
 };
 
