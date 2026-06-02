@@ -1,13 +1,13 @@
 
 > managerial-accounting@0.0.0 validate
-> node --import ./tests/_practice-register.mjs tests/validate-problem.js js/practice/ch23-problems.js
+> node --import ./tests/_practice-register.mjs tests/validate-problem.js js/practice/ch18-problems.js
 
-[1mValidating ch23-problems.js[0m
-[2m/Users/careycarroll/Github Projects/Managerial-Accounting/js/practice/ch23-problems.js[0m
+[1mValidating ch18-problems.js[0m
+[2m/Users/careycarroll/Github Projects/Managerial-Accounting/js/practice/ch18-problems.js[0m
 [2mFound 5 problems.[0m
 
 
-[1m━━━ Cost-Based Transfer Pricing (ch23-cost-based) ━━━[0m
+[1m━━━ Cost per Equivalent Unit (ch18-cost-per-eu) ━━━[0m
 
 [1m[36m1. Schema validation[0m
   [32m✓[0m id present
@@ -31,29 +31,35 @@
   [32m✓[0m scenario (when present) is function
 
 [1m[36m2. Step schema validation[0m
-  [32m✓[0m step[0] "variable-cost-tp": id present
-  [32m✓[0m step[0] "variable-cost-tp": question present
-  [32m✓[0m step[0] "variable-cost-tp": showWork is function
-  [32m✓[0m step[0] "variable-cost-tp": unit present (numeric)
-  [32m✓[0m step[0] "variable-cost-tp": numeric step has solve()
-  [32m✓[0m step[0] "variable-cost-tp": resultType is valid (money-small)
-  [32m✓[0m step[1] "full-cost-tp": id present
-  [32m✓[0m step[1] "full-cost-tp": question present
-  [32m✓[0m step[1] "full-cost-tp": showWork is function
-  [32m✓[0m step[1] "full-cost-tp": unit present (numeric)
-  [32m✓[0m step[1] "full-cost-tp": numeric step has solve()
-  [32m✓[0m step[1] "full-cost-tp": resultType is valid (money-small)
-  [32m✓[0m step[2] "cost-plus-tp": id present
-  [32m✓[0m step[2] "cost-plus-tp": question present
-  [32m✓[0m step[2] "cost-plus-tp": showWork is function
-  [32m✓[0m step[2] "cost-plus-tp": unit present (numeric)
-  [32m✓[0m step[2] "cost-plus-tp": numeric step has solve()
-  [32m✓[0m step[2] "cost-plus-tp": resultType is valid (money-small)
-  [32m✓[0m step[3] "cost-based-drawback": id present
-  [32m✓[0m step[3] "cost-based-drawback": question present
-  [32m✓[0m step[3] "cost-based-drawback": showWork is function
-  [32m✓[0m step[3] "cost-based-drawback": choice step has correctId()
-  [32m✓[0m step[3] "cost-based-drawback": choice step has options (array or function)
+  [32m✓[0m step[0] "cost-per-mat-eu": id present
+  [32m✓[0m step[0] "cost-per-mat-eu": question present
+  [32m✓[0m step[0] "cost-per-mat-eu": showWork is function
+  [32m✓[0m step[0] "cost-per-mat-eu": unit present (numeric)
+  [32m✓[0m step[0] "cost-per-mat-eu": numeric step has solve()
+  [32m✓[0m step[0] "cost-per-mat-eu": resultType is valid (money-small)
+  [32m✓[0m step[1] "cost-per-conv-eu": id present
+  [32m✓[0m step[1] "cost-per-conv-eu": question present
+  [32m✓[0m step[1] "cost-per-conv-eu": showWork is function
+  [32m✓[0m step[1] "cost-per-conv-eu": unit present (numeric)
+  [32m✓[0m step[1] "cost-per-conv-eu": numeric step has solve()
+  [32m✓[0m step[1] "cost-per-conv-eu": resultType is valid (money-small)
+  [32m✓[0m step[2] "cost-transferred-out": id present
+  [32m✓[0m step[2] "cost-transferred-out": question present
+  [32m✓[0m step[2] "cost-transferred-out": showWork is function
+  [32m✓[0m step[2] "cost-transferred-out": unit present (numeric)
+  [32m✓[0m step[2] "cost-transferred-out": numeric step has solve()
+  [32m✓[0m step[2] "cost-transferred-out": resultType is valid (money-large)
+  [32m✓[0m step[3] "cost-ending-wip": id present
+  [32m✓[0m step[3] "cost-ending-wip": question present
+  [32m✓[0m step[3] "cost-ending-wip": showWork is function
+  [32m✓[0m step[3] "cost-ending-wip": unit present (numeric)
+  [32m✓[0m step[3] "cost-ending-wip": numeric step has solve()
+  [32m✓[0m step[3] "cost-ending-wip": resultType is valid (money-medium)
+  [32m✓[0m step[4] "cost-assignment-rule": id present
+  [32m✓[0m step[4] "cost-assignment-rule": question present
+  [32m✓[0m step[4] "cost-assignment-rule": showWork is function
+  [32m✓[0m step[4] "cost-assignment-rule": choice step has correctId()
+  [32m✓[0m step[4] "cost-assignment-rule": choice step has options (array or function)
 
 [1m[36m3. randomize() stress test (100 runs)[0m
   [32m✓[0m 100 randomize() calls produced valid data
@@ -64,124 +70,41 @@
 [1m[36m5. given(data) shape[0m
   [32m✓[0m given() returns array
   [32m✓[0m given() returns non-empty array
-  [32m✓[0m 4 given() rows have {label: string, value: string}
+  [32m✓[0m 5 given() rows have {label: string, value: string}
 
 [1m[36m6. Solve/correctId determinism[0m
-  [32m✓[0m step "variable-cost-tp": solve() deterministic across 10 calls
-  [32m✓[0m step "variable-cost-tp": solve() returns finite number (23)
-  [32m✓[0m step "full-cost-tp": solve() deterministic across 10 calls
-  [32m✓[0m step "full-cost-tp": solve() returns finite number (48)
-  [32m✓[0m step "cost-plus-tp": solve() deterministic across 10 calls
-  [32m✓[0m step "cost-plus-tp": solve() returns finite number (60)
-  [32m✓[0m step "cost-based-drawback": correctId() deterministic across 10 calls
-  [32m✓[0m step "cost-based-drawback": correctId() returns non-empty string ("distorts-decisions")
+  [32m✓[0m step "cost-per-mat-eu": solve() deterministic across 10 calls
+  [32m✓[0m step "cost-per-mat-eu": solve() returns finite number (6.75)
+  [32m✓[0m step "cost-per-conv-eu": solve() deterministic across 10 calls
+  [32m✓[0m step "cost-per-conv-eu": solve() returns finite number (13.02)
+  [32m✓[0m step "cost-transferred-out": solve() deterministic across 10 calls
+  [32m✓[0m step "cost-transferred-out": solve() returns finite number (434940)
+  [32m✓[0m step "cost-ending-wip": solve() deterministic across 10 calls
+  [32m✓[0m step "cost-ending-wip": solve() returns finite number (36182)
+  [32m✓[0m step "cost-assignment-rule": correctId() deterministic across 10 calls
+  [32m✓[0m step "cost-assignment-rule": correctId() returns non-empty string ("different-completion")
 
 [1m[36m7. Full walkthrough — every step + showWork[0m
-  [32m✓[0m step "variable-cost-tp": showWork() returns array (1 entries)
-  [32m✓[0m step "variable-cost-tp": all show-work entries have .label
-  [32m✓[0m step "full-cost-tp": showWork() returns array (1 entries)
-  [32m✓[0m step "full-cost-tp": all show-work entries have .label
-  [32m✓[0m step "cost-plus-tp": showWork() returns array (1 entries)
-  [32m✓[0m step "cost-plus-tp": all show-work entries have .label
-  [32m✓[0m step "cost-based-drawback": showWork() returns array (1 entries)
-  [32m✓[0m step "cost-based-drawback": all show-work entries have .label
+  [32m✓[0m step "cost-per-mat-eu": showWork() returns array (1 entries)
+  [32m✓[0m step "cost-per-mat-eu": all show-work entries have .label
+  [32m✓[0m step "cost-per-conv-eu": showWork() returns array (1 entries)
+  [32m✓[0m step "cost-per-conv-eu": all show-work entries have .label
+  [32m✓[0m step "cost-transferred-out": showWork() returns array (2 entries)
+  [32m✓[0m step "cost-transferred-out": all show-work entries have .label
+  [32m✓[0m step "cost-ending-wip": showWork() returns array (3 entries)
+  [32m✓[0m step "cost-ending-wip": all show-work entries have .label
+  [32m✓[0m step "cost-assignment-rule": showWork() returns array (1 entries)
+  [32m✓[0m step "cost-assignment-rule": all show-work entries have .label
 
 [1m[36m8. Choice step distribution (50 runs)[0m
-  [32m✓[0m step "cost-based-drawback": distorts-decisions: 50
-  [32m✓[0m step "cost-based-drawback": intentional single-answer step (verified by author)
+  [32m✓[0m step "cost-assignment-rule": different-completion: 50
+  [32m✓[0m step "cost-assignment-rule": intentional single-answer step (verified by author)
 
 [1m[36m9. reviewChapters paths[0m
-  [32m✓[0m reviewChapter has label "Ch. 23 — Management Control Systems and Transfer Pricing"
-  [32m✓[0m reviewChapter href starts with '/' ("/pages/learn/ch23.html")
+  [32m✓[0m reviewChapter has label "Ch. 18 — Process Costing"
+  [32m✓[0m reviewChapter href starts with '/' ("/pages/learn/ch18.html")
 
-[1m━━━ The General Transfer Pricing Rule (ch23-general-rule) ━━━[0m
-
-[1m[36m1. Schema validation[0m
-  [32m✓[0m id present
-  [32m✓[0m title present
-  [32m✓[0m chapter present
-  [32m✓[0m difficulty present
-  [32m✓[0m estimatedMinutes present
-  [32m✓[0m reviewChapters present
-  [32m✓[0m randomize present
-  [32m✓[0m given present
-  [32m✓[0m steps present
-  [32m✓[0m id is non-empty string
-  [32m✓[0m title is string
-  [32m✓[0m chapter is number
-  [32m✓[0m difficulty is valid (intermediate)
-  [32m✓[0m estimatedMinutes is positive number
-  [32m✓[0m reviewChapters is non-empty array
-  [32m✓[0m randomize is function
-  [32m✓[0m given is function
-  [32m✓[0m steps is non-empty array
-  [32m✓[0m scenario (when present) is function
-
-[1m[36m2. Step schema validation[0m
-  [32m✓[0m step[0] "additional-outlay": id present
-  [32m✓[0m step[0] "additional-outlay": question present
-  [32m✓[0m step[0] "additional-outlay": showWork is function
-  [32m✓[0m step[0] "additional-outlay": unit present (numeric)
-  [32m✓[0m step[0] "additional-outlay": numeric step has solve()
-  [32m✓[0m step[0] "additional-outlay": resultType is valid (money-small)
-  [32m✓[0m step[1] "opp-cost": id present
-  [32m✓[0m step[1] "opp-cost": question present
-  [32m✓[0m step[1] "opp-cost": showWork is function
-  [32m✓[0m step[1] "opp-cost": unit present (numeric)
-  [32m✓[0m step[1] "opp-cost": numeric step has solve()
-  [32m✓[0m step[1] "opp-cost": resultType is valid (money-small)
-  [32m✓[0m step[2] "minimum-tp": id present
-  [32m✓[0m step[2] "minimum-tp": question present
-  [32m✓[0m step[2] "minimum-tp": showWork is function
-  [32m✓[0m step[2] "minimum-tp": unit present (numeric)
-  [32m✓[0m step[2] "minimum-tp": numeric step has solve()
-  [32m✓[0m step[2] "minimum-tp": resultType is valid (money-small)
-  [32m✓[0m step[3] "rule-elegance": id present
-  [32m✓[0m step[3] "rule-elegance": question present
-  [32m✓[0m step[3] "rule-elegance": showWork is function
-  [32m✓[0m step[3] "rule-elegance": choice step has correctId()
-  [32m✓[0m step[3] "rule-elegance": choice step has options (array or function)
-
-[1m[36m3. randomize() stress test (100 runs)[0m
-  [32m✓[0m 100 randomize() calls produced valid data
-
-[1m[36m4. scenario(data) renders[0m
-  [32m✓[0m scenario returns non-empty HTML string
-
-[1m[36m5. given(data) shape[0m
-  [32m✓[0m given() returns array
-  [32m✓[0m given() returns non-empty array
-  [32m✓[0m 4 given() rows have {label: string, value: string}
-
-[1m[36m6. Solve/correctId determinism[0m
-  [32m✓[0m step "additional-outlay": solve() deterministic across 10 calls
-  [32m✓[0m step "additional-outlay": solve() returns finite number (37)
-  [32m✓[0m step "opp-cost": solve() deterministic across 10 calls
-  [32m✓[0m step "opp-cost": solve() returns finite number (0)
-  [32m✓[0m step "minimum-tp": solve() deterministic across 10 calls
-  [32m✓[0m step "minimum-tp": solve() returns finite number (37)
-  [32m✓[0m step "rule-elegance": correctId() deterministic across 10 calls
-  [32m✓[0m step "rule-elegance": correctId() returns non-empty string ("one-rule")
-
-[1m[36m7. Full walkthrough — every step + showWork[0m
-  [32m✓[0m step "additional-outlay": showWork() returns array (1 entries)
-  [32m✓[0m step "additional-outlay": all show-work entries have .label
-  [32m✓[0m step "opp-cost": showWork() returns array (1 entries)
-  [32m✓[0m step "opp-cost": all show-work entries have .label
-  [32m✓[0m step "minimum-tp": showWork() returns array (1 entries)
-  [32m✓[0m step "minimum-tp": all show-work entries have .label
-  [32m✓[0m step "rule-elegance": showWork() returns array (1 entries)
-  [32m✓[0m step "rule-elegance": all show-work entries have .label
-
-[1m[36m8. Choice step distribution (50 runs)[0m
-  [32m✓[0m step "rule-elegance": one-rule: 50
-  [32m✓[0m step "rule-elegance": intentional single-answer step (verified by author)
-
-[1m[36m9. reviewChapters paths[0m
-  [32m✓[0m reviewChapter has label "Ch. 23 — Management Control Systems and Transfer Pricing"
-  [32m✓[0m reviewChapter href starts with '/' ("/pages/learn/ch23.html")
-
-[1m━━━ Market-Based Transfer Price (ch23-market-based) ━━━[0m
+[1m━━━ Equivalent Units — Weighted Average (ch18-eu-weighted-avg) ━━━[0m
 
 [1m[36m1. Schema validation[0m
   [32m✓[0m id present
@@ -205,219 +128,29 @@
   [32m✓[0m scenario (when present) is function
 
 [1m[36m2. Step schema validation[0m
-  [32m✓[0m step[0] "market-tp": id present
-  [32m✓[0m step[0] "market-tp": question present
-  [32m✓[0m step[0] "market-tp": showWork is function
-  [32m✓[0m step[0] "market-tp": unit present (numeric)
-  [32m✓[0m step[0] "market-tp": numeric step has solve()
-  [32m✓[0m step[0] "market-tp": resultType is valid (money-small)
-  [32m✓[0m step[1] "selling-div-contribution": id present
-  [32m✓[0m step[1] "selling-div-contribution": question present
-  [32m✓[0m step[1] "selling-div-contribution": showWork is function
-  [32m✓[0m step[1] "selling-div-contribution": unit present (numeric)
-  [32m✓[0m step[1] "selling-div-contribution": numeric step has solve()
-  [32m✓[0m step[1] "selling-div-contribution": resultType is valid (money-large)
-  [32m✓[0m step[2] "buying-div-savings": id present
-  [32m✓[0m step[2] "buying-div-savings": question present
-  [32m✓[0m step[2] "buying-div-savings": showWork is function
-  [32m✓[0m step[2] "buying-div-savings": unit present (numeric)
-  [32m✓[0m step[2] "buying-div-savings": numeric step has solve()
-  [32m✓[0m step[2] "buying-div-savings": resultType is valid (money-medium)
-  [32m✓[0m step[3] "why-market-works": id present
-  [32m✓[0m step[3] "why-market-works": question present
-  [32m✓[0m step[3] "why-market-works": showWork is function
-  [32m✓[0m step[3] "why-market-works": choice step has correctId()
-  [32m✓[0m step[3] "why-market-works": choice step has options (array or function)
-
-[1m[36m3. randomize() stress test (100 runs)[0m
-  [32m✓[0m 100 randomize() calls produced valid data
-
-[1m[36m4. scenario(data) renders[0m
-  [32m✓[0m scenario returns non-empty HTML string
-
-[1m[36m5. given(data) shape[0m
-  [32m✓[0m given() returns array
-  [32m✓[0m given() returns non-empty array
-  [32m✓[0m 5 given() rows have {label: string, value: string}
-
-[1m[36m6. Solve/correctId determinism[0m
-  [32m✓[0m step "market-tp": solve() deterministic across 10 calls
-  [32m✓[0m step "market-tp": solve() returns finite number (46)
-  [32m✓[0m step "selling-div-contribution": solve() deterministic across 10 calls
-  [32m✓[0m step "selling-div-contribution": solve() returns finite number (110000)
-  [32m✓[0m step "buying-div-savings": solve() deterministic across 10 calls
-  [32m✓[0m step "buying-div-savings": solve() returns finite number (5500)
-  [32m✓[0m step "why-market-works": correctId() deterministic across 10 calls
-  [32m✓[0m step "why-market-works": correctId() returns non-empty string ("opportunity-cost")
-
-[1m[36m7. Full walkthrough — every step + showWork[0m
-  [32m✓[0m step "market-tp": showWork() returns array (1 entries)
-  [32m✓[0m step "market-tp": all show-work entries have .label
-  [32m✓[0m step "selling-div-contribution": showWork() returns array (1 entries)
-  [32m✓[0m step "selling-div-contribution": all show-work entries have .label
-  [32m✓[0m step "buying-div-savings": showWork() returns array (1 entries)
-  [32m✓[0m step "buying-div-savings": all show-work entries have .label
-  [32m✓[0m step "why-market-works": showWork() returns array (1 entries)
-  [32m✓[0m step "why-market-works": all show-work entries have .label
-
-[1m[36m8. Choice step distribution (50 runs)[0m
-  [32m✓[0m step "why-market-works": opportunity-cost: 50
-  [32m✓[0m step "why-market-works": intentional single-answer step (verified by author)
-
-[1m[36m9. reviewChapters paths[0m
-  [32m✓[0m reviewChapter has label "Ch. 23 — Management Control Systems and Transfer Pricing"
-  [32m✓[0m reviewChapter href starts with '/' ("/pages/learn/ch23.html")
-
-[1m━━━ Multinational Transfer Pricing & Tax (ch23-multinational) ━━━[0m
-
-[1m[36m1. Schema validation[0m
-  [32m✓[0m id present
-  [32m✓[0m title present
-  [32m✓[0m chapter present
-  [32m✓[0m difficulty present
-  [32m✓[0m estimatedMinutes present
-  [32m✓[0m reviewChapters present
-  [32m✓[0m randomize present
-  [32m✓[0m given present
-  [32m✓[0m steps present
-  [32m✓[0m id is non-empty string
-  [32m✓[0m title is string
-  [32m✓[0m chapter is number
-  [32m✓[0m difficulty is valid (advanced)
-  [32m✓[0m estimatedMinutes is positive number
-  [32m✓[0m reviewChapters is non-empty array
-  [32m✓[0m randomize is function
-  [32m✓[0m given is function
-  [32m✓[0m steps is non-empty array
-  [32m✓[0m scenario (when present) is function
-
-[1m[36m2. Step schema validation[0m
-  [32m✓[0m step[0] "after-tax-low-tp": id present
-  [32m✓[0m step[0] "after-tax-low-tp": question present
-  [32m✓[0m step[0] "after-tax-low-tp": showWork is function
-  [32m✓[0m step[0] "after-tax-low-tp": unit present (numeric)
-  [32m✓[0m step[0] "after-tax-low-tp": numeric step has solve()
-  [32m✓[0m step[0] "after-tax-low-tp": resultType is valid (money-large)
-  [32m✓[0m step[1] "after-tax-high-tp": id present
-  [32m✓[0m step[1] "after-tax-high-tp": question present
-  [32m✓[0m step[1] "after-tax-high-tp": showWork is function
-  [32m✓[0m step[1] "after-tax-high-tp": unit present (numeric)
-  [32m✓[0m step[1] "after-tax-high-tp": numeric step has solve()
-  [32m✓[0m step[1] "after-tax-high-tp": resultType is valid (money-large)
-  [32m✓[0m step[2] "tax-savings": id present
-  [32m✓[0m step[2] "tax-savings": question present
-  [32m✓[0m step[2] "tax-savings": showWork is function
-  [32m✓[0m step[2] "tax-savings": unit present (numeric)
-  [32m✓[0m step[2] "tax-savings": numeric step has solve()
-  [32m✓[0m step[2] "tax-savings": resultType is valid (money-medium)
-  [32m✓[0m step[3] "tax-strategy-decision": id present
-  [32m✓[0m step[3] "tax-strategy-decision": question present
-  [32m✓[0m step[3] "tax-strategy-decision": showWork is function
-  [32m✓[0m step[3] "tax-strategy-decision": choice step has correctId()
-  [32m✓[0m step[3] "tax-strategy-decision": choice step has options (array or function)
-  [32m✓[0m step[4] "arms-length-constraint": id present
-  [32m✓[0m step[4] "arms-length-constraint": question present
-  [32m✓[0m step[4] "arms-length-constraint": showWork is function
-  [32m✓[0m step[4] "arms-length-constraint": choice step has correctId()
-  [32m✓[0m step[4] "arms-length-constraint": choice step has options (array or function)
-
-[1m[36m3. randomize() stress test (100 runs)[0m
-  [32m✓[0m 100 randomize() calls produced valid data
-
-[1m[36m4. scenario(data) renders[0m
-  [32m✓[0m scenario returns non-empty HTML string
-
-[1m[36m5. given(data) shape[0m
-  [32m✓[0m given() returns array
-  [32m✓[0m given() returns non-empty array
-  [32m✓[0m 5 given() rows have {label: string, value: string}
-
-[1m[36m6. Solve/correctId determinism[0m
-  [32m✓[0m step "after-tax-low-tp": solve() deterministic across 10 calls
-  [32m✓[0m step "after-tax-low-tp": solve() returns finite number (444600)
-  [32m✓[0m step "after-tax-high-tp": solve() deterministic across 10 calls
-  [32m✓[0m step "after-tax-high-tp": solve() returns finite number (553800)
-  [32m✓[0m step "tax-savings": solve() deterministic across 10 calls
-  [32m✓[0m step "tax-savings": solve() returns finite number (109200)
-  [32m✓[0m step "tax-strategy-decision": correctId() deterministic across 10 calls
-  [32m✓[0m step "tax-strategy-decision": correctId() returns non-empty string ("high-tp-to-low-tax")
-  [32m✓[0m step "arms-length-constraint": correctId() deterministic across 10 calls
-  [32m✓[0m step "arms-length-constraint": correctId() returns non-empty string ("arms-length")
-
-[1m[36m7. Full walkthrough — every step + showWork[0m
-  [32m✓[0m step "after-tax-low-tp": showWork() returns array (5 entries)
-  [32m✓[0m step "after-tax-low-tp": all show-work entries have .label
-  [32m✓[0m step "after-tax-high-tp": showWork() returns array (1 entries)
-  [32m✓[0m step "after-tax-high-tp": all show-work entries have .label
-  [32m✓[0m step "tax-savings": showWork() returns array (1 entries)
-  [32m✓[0m step "tax-savings": all show-work entries have .label
-  [32m✓[0m step "tax-strategy-decision": showWork() returns array (1 entries)
-  [32m✓[0m step "tax-strategy-decision": all show-work entries have .label
-  [32m✓[0m step "arms-length-constraint": showWork() returns array (1 entries)
-  [32m✓[0m step "arms-length-constraint": all show-work entries have .label
-
-[1m[36m8. Choice step distribution (50 runs)[0m
-  [32m✓[0m step "tax-strategy-decision": high-tp-to-low-tax: 50
-  [32m✓[0m step "tax-strategy-decision": intentional single-answer step (verified by author)
-  [32m✓[0m step "arms-length-constraint": arms-length: 50
-  [32m✓[0m step "arms-length-constraint": intentional single-answer step (verified by author)
-
-[1m[36m9. reviewChapters paths[0m
-  [32m✓[0m reviewChapter has label "Ch. 23 — Management Control Systems and Transfer Pricing"
-  [32m✓[0m reviewChapter href starts with '/' ("/pages/learn/ch23.html")
-
-[1m━━━ Negotiated Transfer Price — Constrained Capacity (ch23-negotiated) ━━━[0m
-
-[1m[36m1. Schema validation[0m
-  [32m✓[0m id present
-  [32m✓[0m title present
-  [32m✓[0m chapter present
-  [32m✓[0m difficulty present
-  [32m✓[0m estimatedMinutes present
-  [32m✓[0m reviewChapters present
-  [32m✓[0m randomize present
-  [32m✓[0m given present
-  [32m✓[0m steps present
-  [32m✓[0m id is non-empty string
-  [32m✓[0m title is string
-  [32m✓[0m chapter is number
-  [32m✓[0m difficulty is valid (advanced)
-  [32m✓[0m estimatedMinutes is positive number
-  [32m✓[0m reviewChapters is non-empty array
-  [32m✓[0m randomize is function
-  [32m✓[0m given is function
-  [32m✓[0m steps is non-empty array
-  [32m✓[0m scenario (when present) is function
-
-[1m[36m2. Step schema validation[0m
-  [32m✓[0m step[0] "opportunity-cost": id present
-  [32m✓[0m step[0] "opportunity-cost": question present
-  [32m✓[0m step[0] "opportunity-cost": showWork is function
-  [32m✓[0m step[0] "opportunity-cost": unit present (numeric)
-  [32m✓[0m step[0] "opportunity-cost": numeric step has solve()
-  [32m✓[0m step[0] "opportunity-cost": resultType is valid (money-small)
-  [32m✓[0m step[1] "min-transfer-price": id present
-  [32m✓[0m step[1] "min-transfer-price": question present
-  [32m✓[0m step[1] "min-transfer-price": showWork is function
-  [32m✓[0m step[1] "min-transfer-price": unit present (numeric)
-  [32m✓[0m step[1] "min-transfer-price": numeric step has solve()
-  [32m✓[0m step[1] "min-transfer-price": resultType is valid (money-small)
-  [32m✓[0m step[2] "max-transfer-price": id present
-  [32m✓[0m step[2] "max-transfer-price": question present
-  [32m✓[0m step[2] "max-transfer-price": showWork is function
-  [32m✓[0m step[2] "max-transfer-price": unit present (numeric)
-  [32m✓[0m step[2] "max-transfer-price": numeric step has solve()
-  [32m✓[0m step[2] "max-transfer-price": resultType is valid (money-small)
-  [32m✓[0m step[3] "transfer-feasibility": id present
-  [32m✓[0m step[3] "transfer-feasibility": question present
-  [32m✓[0m step[3] "transfer-feasibility": showWork is function
-  [32m✓[0m step[3] "transfer-feasibility": choice step has correctId()
-  [32m✓[0m step[3] "transfer-feasibility": choice step has options (array or function)
-  [32m✓[0m step[4] "who-benefits-most": id present
-  [32m✓[0m step[4] "who-benefits-most": question present
-  [32m✓[0m step[4] "who-benefits-most": showWork is function
-  [32m✓[0m step[4] "who-benefits-most": choice step has correctId()
-  [32m✓[0m step[4] "who-benefits-most": choice step has options (array or function)
+  [32m✓[0m step[0] "eu-materials": id present
+  [32m✓[0m step[0] "eu-materials": question present
+  [32m✓[0m step[0] "eu-materials": showWork is function
+  [32m✓[0m step[0] "eu-materials": unit present (numeric)
+  [32m✓[0m step[0] "eu-materials": numeric step has solve()
+  [32m✓[0m step[0] "eu-materials": resultType is valid (units)
+  [32m✓[0m step[1] "eu-conversion": id present
+  [32m✓[0m step[1] "eu-conversion": question present
+  [32m✓[0m step[1] "eu-conversion": showWork is function
+  [32m✓[0m step[1] "eu-conversion": unit present (numeric)
+  [32m✓[0m step[1] "eu-conversion": numeric step has solve()
+  [32m✓[0m step[1] "eu-conversion": resultType is valid (units)
+  [32m✓[0m step[2] "eu-difference": id present
+  [32m✓[0m step[2] "eu-difference": question present
+  [32m✓[0m step[2] "eu-difference": showWork is function
+  [32m✓[0m step[2] "eu-difference": unit present (numeric)
+  [32m✓[0m step[2] "eu-difference": numeric step has solve()
+  [32m✓[0m step[2] "eu-difference": resultType is valid (units)
+  [32m✓[0m step[3] "why-different-eu": id present
+  [32m✓[0m step[3] "why-different-eu": question present
+  [32m✓[0m step[3] "why-different-eu": showWork is function
+  [32m✓[0m step[3] "why-different-eu": choice step has correctId()
+  [32m✓[0m step[3] "why-different-eu": choice step has options (array or function)
 
 [1m[36m3. randomize() stress test (100 runs)[0m
   [32m✓[0m 100 randomize() calls produced valid data
@@ -431,38 +164,304 @@
   [32m✓[0m 4 given() rows have {label: string, value: string}
 
 [1m[36m6. Solve/correctId determinism[0m
-  [32m✓[0m step "opportunity-cost": solve() deterministic across 10 calls
-  [32m✓[0m step "opportunity-cost": solve() returns finite number (35)
-  [32m✓[0m step "min-transfer-price": solve() deterministic across 10 calls
-  [32m✓[0m step "min-transfer-price": solve() returns finite number (70)
-  [32m✓[0m step "max-transfer-price": solve() deterministic across 10 calls
-  [32m✓[0m step "max-transfer-price": solve() returns finite number (76)
-  [32m✓[0m step "transfer-feasibility": correctId() deterministic across 10 calls
-  [32m✓[0m step "transfer-feasibility": correctId() returns non-empty string ("yes-range-exists")
-  [32m✓[0m step "who-benefits-most": correctId() deterministic across 10 calls
-  [32m✓[0m step "who-benefits-most": correctId() returns non-empty string ("bargaining")
+  [32m✓[0m step "eu-materials": solve() deterministic across 10 calls
+  [32m✓[0m step "eu-materials": solve() returns finite number (38000)
+  [32m✓[0m step "eu-conversion": solve() deterministic across 10 calls
+  [32m✓[0m step "eu-conversion": solve() returns finite number (36200)
+  [32m✓[0m step "eu-difference": solve() deterministic across 10 calls
+  [32m✓[0m step "eu-difference": solve() returns finite number (1800)
+  [32m✓[0m step "why-different-eu": correctId() deterministic across 10 calls
+  [32m✓[0m step "why-different-eu": correctId() returns non-empty string ("different-completion")
 
 [1m[36m7. Full walkthrough — every step + showWork[0m
-  [32m✓[0m step "opportunity-cost": showWork() returns array (1 entries)
-  [32m✓[0m step "opportunity-cost": all show-work entries have .label
-  [32m✓[0m step "min-transfer-price": showWork() returns array (1 entries)
-  [32m✓[0m step "min-transfer-price": all show-work entries have .label
-  [32m✓[0m step "max-transfer-price": showWork() returns array (1 entries)
-  [32m✓[0m step "max-transfer-price": all show-work entries have .label
-  [32m✓[0m step "transfer-feasibility": showWork() returns array (1 entries)
-  [32m✓[0m step "transfer-feasibility": all show-work entries have .label
-  [32m✓[0m step "who-benefits-most": showWork() returns array (1 entries)
-  [32m✓[0m step "who-benefits-most": all show-work entries have .label
+  [32m✓[0m step "eu-materials": showWork() returns array (1 entries)
+  [32m✓[0m step "eu-materials": all show-work entries have .label
+  [32m✓[0m step "eu-conversion": showWork() returns array (3 entries)
+  [32m✓[0m step "eu-conversion": all show-work entries have .label
+  [32m✓[0m step "eu-difference": showWork() returns array (1 entries)
+  [32m✓[0m step "eu-difference": all show-work entries have .label
+  [32m✓[0m step "why-different-eu": showWork() returns array (1 entries)
+  [32m✓[0m step "why-different-eu": all show-work entries have .label
 
 [1m[36m8. Choice step distribution (50 runs)[0m
-  [32m✓[0m step "transfer-feasibility": yes-range-exists: 50
-  [32m✓[0m step "transfer-feasibility": intentional single-answer step (verified by author)
-  [32m✓[0m step "who-benefits-most": bargaining: 50
-  [32m✓[0m step "who-benefits-most": intentional single-answer step (verified by author)
+  [32m✓[0m step "why-different-eu": different-completion: 50
+  [32m✓[0m step "why-different-eu": intentional single-answer step (verified by author)
 
 [1m[36m9. reviewChapters paths[0m
-  [32m✓[0m reviewChapter has label "Ch. 23 — Management Control Systems and Transfer Pricing"
-  [32m✓[0m reviewChapter href starts with '/' ("/pages/learn/ch23.html")
+  [32m✓[0m reviewChapter has label "Ch. 18 — Process Costing"
+  [32m✓[0m reviewChapter href starts with '/' ("/pages/learn/ch18.html")
+
+[1m━━━ FIFO vs Weighted Average (ch18-fifo-vs-wa) ━━━[0m
+
+[1m[36m1. Schema validation[0m
+  [32m✓[0m id present
+  [32m✓[0m title present
+  [32m✓[0m chapter present
+  [32m✓[0m difficulty present
+  [32m✓[0m estimatedMinutes present
+  [32m✓[0m reviewChapters present
+  [32m✓[0m randomize present
+  [32m✓[0m given present
+  [32m✓[0m steps present
+  [32m✓[0m id is non-empty string
+  [32m✓[0m title is string
+  [32m✓[0m chapter is number
+  [32m✓[0m difficulty is valid (intermediate)
+  [32m✓[0m estimatedMinutes is positive number
+  [32m✓[0m reviewChapters is non-empty array
+  [32m✓[0m randomize is function
+  [32m✓[0m given is function
+  [32m✓[0m steps is non-empty array
+  [32m✓[0m scenario (when present) is function
+
+[1m[36m2. Step schema validation[0m
+  [32m✓[0m step[0] "wa-cost-per-conv": id present
+  [32m✓[0m step[0] "wa-cost-per-conv": question present
+  [32m✓[0m step[0] "wa-cost-per-conv": showWork is function
+  [32m✓[0m step[0] "wa-cost-per-conv": unit present (numeric)
+  [32m✓[0m step[0] "wa-cost-per-conv": numeric step has solve()
+  [32m✓[0m step[0] "wa-cost-per-conv": resultType is valid (money-small)
+  [32m✓[0m step[1] "fifo-cost-per-conv": id present
+  [32m✓[0m step[1] "fifo-cost-per-conv": question present
+  [32m✓[0m step[1] "fifo-cost-per-conv": showWork is function
+  [32m✓[0m step[1] "fifo-cost-per-conv": unit present (numeric)
+  [32m✓[0m step[1] "fifo-cost-per-conv": numeric step has solve()
+  [32m✓[0m step[1] "fifo-cost-per-conv": resultType is valid (money-small)
+  [32m✓[0m step[2] "cost-gap": id present
+  [32m✓[0m step[2] "cost-gap": question present
+  [32m✓[0m step[2] "cost-gap": showWork is function
+  [32m✓[0m step[2] "cost-gap": unit present (numeric)
+  [32m✓[0m step[2] "cost-gap": numeric step has solve()
+  [32m✓[0m step[2] "cost-gap": resultType is valid (money-small)
+  [32m✓[0m step[3] "when-methods-differ": id present
+  [32m✓[0m step[3] "when-methods-differ": question present
+  [32m✓[0m step[3] "when-methods-differ": showWork is function
+  [32m✓[0m step[3] "when-methods-differ": choice step has correctId()
+  [32m✓[0m step[3] "when-methods-differ": choice step has options (array or function)
+  [32m✓[0m step[4] "fifo-decision-advantage": id present
+  [32m✓[0m step[4] "fifo-decision-advantage": question present
+  [32m✓[0m step[4] "fifo-decision-advantage": showWork is function
+  [32m✓[0m step[4] "fifo-decision-advantage": choice step has correctId()
+  [32m✓[0m step[4] "fifo-decision-advantage": choice step has options (array or function)
+
+[1m[36m3. randomize() stress test (100 runs)[0m
+  [32m✓[0m 100 randomize() calls produced valid data
+
+[1m[36m4. scenario(data) renders[0m
+  [32m✓[0m scenario returns non-empty HTML string
+
+[1m[36m5. given(data) shape[0m
+  [32m✓[0m given() returns array
+  [32m✓[0m given() returns non-empty array
+  [32m✓[0m 5 given() rows have {label: string, value: string}
+
+[1m[36m6. Solve/correctId determinism[0m
+  [32m✓[0m step "wa-cost-per-conv": solve() deterministic across 10 calls
+  [32m✓[0m step "wa-cost-per-conv": solve() returns finite number (12.16)
+  [32m✓[0m step "fifo-cost-per-conv": solve() deterministic across 10 calls
+  [32m✓[0m step "fifo-cost-per-conv": solve() returns finite number (12.84)
+  [32m✓[0m step "cost-gap": solve() deterministic across 10 calls
+  [32m✓[0m step "cost-gap": solve() returns finite number (0.68)
+  [32m✓[0m step "when-methods-differ": correctId() deterministic across 10 calls
+  [32m✓[0m step "when-methods-differ": correctId() returns non-empty string ("cost-changes")
+  [32m✓[0m step "fifo-decision-advantage": correctId() deterministic across 10 calls
+  [32m✓[0m step "fifo-decision-advantage": correctId() returns non-empty string ("fifo-current")
+
+[1m[36m7. Full walkthrough — every step + showWork[0m
+  [32m✓[0m step "wa-cost-per-conv": showWork() returns array (1 entries)
+  [32m✓[0m step "wa-cost-per-conv": all show-work entries have .label
+  [32m✓[0m step "fifo-cost-per-conv": showWork() returns array (1 entries)
+  [32m✓[0m step "fifo-cost-per-conv": all show-work entries have .label
+  [32m✓[0m step "cost-gap": showWork() returns array (1 entries)
+  [32m✓[0m step "cost-gap": all show-work entries have .label
+  [32m✓[0m step "when-methods-differ": showWork() returns array (1 entries)
+  [32m✓[0m step "when-methods-differ": all show-work entries have .label
+  [32m✓[0m step "fifo-decision-advantage": showWork() returns array (1 entries)
+  [32m✓[0m step "fifo-decision-advantage": all show-work entries have .label
+
+[1m[36m8. Choice step distribution (50 runs)[0m
+  [32m✓[0m step "when-methods-differ": cost-changes: 50
+  [32m✓[0m step "when-methods-differ": intentional single-answer step (verified by author)
+  [32m✓[0m step "fifo-decision-advantage": fifo-current: 50
+  [32m✓[0m step "fifo-decision-advantage": intentional single-answer step (verified by author)
+
+[1m[36m9. reviewChapters paths[0m
+  [32m✓[0m reviewChapter has label "Ch. 18 — Process Costing"
+  [32m✓[0m reviewChapter href starts with '/' ("/pages/learn/ch18.html")
+
+[1m━━━ Physical Units Flow (ch18-physical-flow) ━━━[0m
+
+[1m[36m1. Schema validation[0m
+  [32m✓[0m id present
+  [32m✓[0m title present
+  [32m✓[0m chapter present
+  [32m✓[0m difficulty present
+  [32m✓[0m estimatedMinutes present
+  [32m✓[0m reviewChapters present
+  [32m✓[0m randomize present
+  [32m✓[0m given present
+  [32m✓[0m steps present
+  [32m✓[0m id is non-empty string
+  [32m✓[0m title is string
+  [32m✓[0m chapter is number
+  [32m✓[0m difficulty is valid (foundation)
+  [32m✓[0m estimatedMinutes is positive number
+  [32m✓[0m reviewChapters is non-empty array
+  [32m✓[0m randomize is function
+  [32m✓[0m given is function
+  [32m✓[0m steps is non-empty array
+  [32m✓[0m scenario (when present) is function
+
+[1m[36m2. Step schema validation[0m
+  [32m✓[0m step[0] "units-accounted": id present
+  [32m✓[0m step[0] "units-accounted": question present
+  [32m✓[0m step[0] "units-accounted": showWork is function
+  [32m✓[0m step[0] "units-accounted": unit present (numeric)
+  [32m✓[0m step[0] "units-accounted": numeric step has solve()
+  [32m✓[0m step[0] "units-accounted": resultType is valid (units)
+  [32m✓[0m step[1] "units-transferred": id present
+  [32m✓[0m step[1] "units-transferred": question present
+  [32m✓[0m step[1] "units-transferred": showWork is function
+  [32m✓[0m step[1] "units-transferred": unit present (numeric)
+  [32m✓[0m step[1] "units-transferred": numeric step has solve()
+  [32m✓[0m step[1] "units-transferred": resultType is valid (units)
+  [32m✓[0m step[2] "units-accounted-verification": id present
+  [32m✓[0m step[2] "units-accounted-verification": question present
+  [32m✓[0m step[2] "units-accounted-verification": showWork is function
+  [32m✓[0m step[2] "units-accounted-verification": unit present (numeric)
+  [32m✓[0m step[2] "units-accounted-verification": numeric step has solve()
+  [32m✓[0m step[2] "units-accounted-verification": resultType is valid (units)
+  [32m✓[0m step[3] "why-track-flow": id present
+  [32m✓[0m step[3] "why-track-flow": question present
+  [32m✓[0m step[3] "why-track-flow": showWork is function
+  [32m✓[0m step[3] "why-track-flow": choice step has correctId()
+  [32m✓[0m step[3] "why-track-flow": choice step has options (array or function)
+
+[1m[36m3. randomize() stress test (100 runs)[0m
+  [32m✓[0m 100 randomize() calls produced valid data
+
+[1m[36m4. scenario(data) renders[0m
+  [32m✓[0m scenario returns non-empty HTML string
+
+[1m[36m5. given(data) shape[0m
+  [32m✓[0m given() returns array
+  [32m✓[0m given() returns non-empty array
+  [32m✓[0m 3 given() rows have {label: string, value: string}
+
+[1m[36m6. Solve/correctId determinism[0m
+  [32m✓[0m step "units-accounted": solve() deterministic across 10 calls
+  [32m✓[0m step "units-accounted": solve() returns finite number (33200)
+  [32m✓[0m step "units-transferred": solve() deterministic across 10 calls
+  [32m✓[0m step "units-transferred": solve() returns finite number (23700)
+  [32m✓[0m step "units-accounted-verification": solve() deterministic across 10 calls
+  [32m✓[0m step "units-accounted-verification": solve() returns finite number (33200)
+  [32m✓[0m step "why-track-flow": correctId() deterministic across 10 calls
+  [32m✓[0m step "why-track-flow": correctId() returns non-empty string ("separate-then-combine")
+
+[1m[36m7. Full walkthrough — every step + showWork[0m
+  [32m✓[0m step "units-accounted": showWork() returns array (1 entries)
+  [32m✓[0m step "units-accounted": all show-work entries have .label
+  [32m✓[0m step "units-transferred": showWork() returns array (1 entries)
+  [32m✓[0m step "units-transferred": all show-work entries have .label
+  [32m✓[0m step "units-accounted-verification": showWork() returns array (1 entries)
+  [32m✓[0m step "units-accounted-verification": all show-work entries have .label
+  [32m✓[0m step "why-track-flow": showWork() returns array (1 entries)
+  [32m✓[0m step "why-track-flow": all show-work entries have .label
+
+[1m[36m8. Choice step distribution (50 runs)[0m
+  [32m✓[0m step "why-track-flow": separate-then-combine: 50
+  [32m✓[0m step "why-track-flow": intentional single-answer step (verified by author)
+
+[1m[36m9. reviewChapters paths[0m
+  [32m✓[0m reviewChapter has label "Ch. 18 — Process Costing"
+  [32m✓[0m reviewChapter href starts with '/' ("/pages/learn/ch18.html")
+
+[1m━━━ Process Costing with Spoilage (ch18-spoilage) ━━━[0m
+
+[1m[36m1. Schema validation[0m
+  [32m✓[0m id present
+  [32m✓[0m title present
+  [32m✓[0m chapter present
+  [32m✓[0m difficulty present
+  [32m✓[0m estimatedMinutes present
+  [32m✓[0m reviewChapters present
+  [32m✓[0m randomize present
+  [32m✓[0m given present
+  [32m✓[0m steps present
+  [32m✓[0m id is non-empty string
+  [32m✓[0m title is string
+  [32m✓[0m chapter is number
+  [32m✓[0m difficulty is valid (advanced)
+  [32m✓[0m estimatedMinutes is positive number
+  [32m✓[0m reviewChapters is non-empty array
+  [32m✓[0m randomize is function
+  [32m✓[0m given is function
+  [32m✓[0m steps is non-empty array
+  [32m✓[0m scenario (when present) is function
+
+[1m[36m2. Step schema validation[0m
+  [32m✓[0m step[0] "normal-spoilage-units": id present
+  [32m✓[0m step[0] "normal-spoilage-units": question present
+  [32m✓[0m step[0] "normal-spoilage-units": showWork is function
+  [32m✓[0m step[0] "normal-spoilage-units": unit present (numeric)
+  [32m✓[0m step[0] "normal-spoilage-units": numeric step has solve()
+  [32m✓[0m step[0] "normal-spoilage-units": resultType is valid (units)
+  [32m✓[0m step[1] "abnormal-spoilage-units": id present
+  [32m✓[0m step[1] "abnormal-spoilage-units": question present
+  [32m✓[0m step[1] "abnormal-spoilage-units": showWork is function
+  [32m✓[0m step[1] "abnormal-spoilage-units": unit present (numeric)
+  [32m✓[0m step[1] "abnormal-spoilage-units": numeric step has solve()
+  [32m✓[0m step[1] "abnormal-spoilage-units": resultType is valid (units)
+  [32m✓[0m step[2] "cost-to-good-units": id present
+  [32m✓[0m step[2] "cost-to-good-units": question present
+  [32m✓[0m step[2] "cost-to-good-units": showWork is function
+  [32m✓[0m step[2] "cost-to-good-units": unit present (numeric)
+  [32m✓[0m step[2] "cost-to-good-units": numeric step has solve()
+  [32m✓[0m step[2] "cost-to-good-units": resultType is valid (money-medium)
+  [32m✓[0m step[3] "spoilage-treatment": id present
+  [32m✓[0m step[3] "spoilage-treatment": question present
+  [32m✓[0m step[3] "spoilage-treatment": showWork is function
+  [32m✓[0m step[3] "spoilage-treatment": choice step has correctId()
+  [32m✓[0m step[3] "spoilage-treatment": choice step has options (array or function)
+
+[1m[36m3. randomize() stress test (100 runs)[0m
+  [32m✓[0m 100 randomize() calls produced valid data
+
+[1m[36m4. scenario(data) renders[0m
+  [32m✓[0m scenario returns non-empty HTML string
+
+[1m[36m5. given(data) shape[0m
+  [32m✓[0m given() returns array
+  [32m✓[0m given() returns non-empty array
+  [32m✓[0m 4 given() rows have {label: string, value: string}
+
+[1m[36m6. Solve/correctId determinism[0m
+  [32m✓[0m step "normal-spoilage-units": solve() deterministic across 10 calls
+  [32m✓[0m step "normal-spoilage-units": solve() returns finite number (690)
+  [32m✓[0m step "abnormal-spoilage-units": solve() deterministic across 10 calls
+  [32m✓[0m step "abnormal-spoilage-units": solve() returns finite number (2060)
+  [32m✓[0m step "cost-to-good-units": solve() deterministic across 10 calls
+  [32m✓[0m step "cost-to-good-units": solve() returns finite number (13013)
+  [32m✓[0m step "spoilage-treatment": correctId() deterministic across 10 calls
+  [32m✓[0m step "spoilage-treatment": correctId() returns non-empty string ("normal-absorbed-abnormal-loss")
+
+[1m[36m7. Full walkthrough — every step + showWork[0m
+  [32m✓[0m step "normal-spoilage-units": showWork() returns array (1 entries)
+  [32m✓[0m step "normal-spoilage-units": all show-work entries have .label
+  [32m✓[0m step "abnormal-spoilage-units": showWork() returns array (1 entries)
+  [32m✓[0m step "abnormal-spoilage-units": all show-work entries have .label
+  [32m✓[0m step "cost-to-good-units": showWork() returns array (1 entries)
+  [32m✓[0m step "cost-to-good-units": all show-work entries have .label
+  [32m✓[0m step "spoilage-treatment": showWork() returns array (1 entries)
+  [32m✓[0m step "spoilage-treatment": all show-work entries have .label
+
+[1m[36m8. Choice step distribution (50 runs)[0m
+  [32m✓[0m step "spoilage-treatment": normal-absorbed-abnormal-loss: 50
+  [32m✓[0m step "spoilage-treatment": intentional single-answer step (verified by author)
+
+[1m[36m9. reviewChapters paths[0m
+  [32m✓[0m reviewChapter has label "Ch. 18 — Process Costing"
+  [32m✓[0m reviewChapter href starts with '/' ("/pages/learn/ch18.html")
 
 [1m━━━ Summary ━━━[0m
 Checks: 350

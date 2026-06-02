@@ -81,6 +81,15 @@ const CHAPTER_PROBLEMS = [
     href: `${BASE}pages/practice/ch15.html`,
   },
   {
+    chapter: 18,
+    title: 'Process Costing',
+    desc: 'Physical-units flow, equivalent units, cost per EU, FIFO vs weighted-average, and spoilage accounting.',
+    problemCount: 5,
+    estimatedMinutes: 6,
+    available: true,
+    href: `${BASE}pages/practice/ch18.html`,
+  },
+  {
     chapter: 21,
     title: 'Inventory Management',
     desc: 'EOQ, safety stock, reorder point, JIT economics, and backflush costing.',
