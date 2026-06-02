@@ -81,6 +81,15 @@ const CHAPTER_PROBLEMS = [
     href: `${BASE}pages/practice/ch15.html`,
   },
   {
+    chapter: 21,
+    title: 'Inventory Management',
+    desc: 'EOQ, safety stock, reorder point, JIT economics, and backflush costing.',
+    problemCount: 5,
+    estimatedMinutes: 6,
+    available: true,
+    href: `${BASE}pages/practice/ch21.html`,
+  },
+  {
     chapter: 22,
     title: 'Capital Budgeting',
     desc: 'NPV, IRR, payback, and AARR calculations with tax effects and depreciation tax shields.',
@@ -88,6 +97,15 @@ const CHAPTER_PROBLEMS = [
     estimatedMinutes: 7,
     available: true,
     href: `${BASE}pages/practice/ch22.html`,
+  },
+  {
+    chapter: 23,
+    title: 'Transfer Pricing',
+    desc: 'Market-based, cost-based, and negotiated transfer pricing; general rule; multinational tax strategy.',
+    problemCount: 5,
+    estimatedMinutes: 7,
+    available: true,
+    href: `${BASE}pages/practice/ch23.html`,
   },
   {
     chapter: 24,
