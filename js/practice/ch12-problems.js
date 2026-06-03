@@ -14,6 +14,7 @@ import {
   randomInRange,
   roundToNearest,
   ensureGreaterThan,
+  roundTo,
 } from './practice-engine.js';
 import { randomCompany, randomProduct } from './scenario-pools.js';
 
@@ -989,10 +990,573 @@ export const productMixConstraint = {
 // Export all problems as an ordered array for the picker UI
 // ============================================================================
 
+
+// ============================================================================
+// Problem 6 — Special Order with Constrained Capacity
+// ============================================================================
+
+export const specialOrderConstrained = {
+  id: 'ch12-special-order-constrained',
+  title: 'Special Order — Constrained Capacity',
+  chapter: 12,
+  difficulty: 'intermediate',
+  estimatedMinutes: 7,
+  description:
+    'A special order arrives when the plant is at full capacity. Determine whether to accept by analyzing the opportunity cost of displaced sales.',
+  reviewChapters: CH12_REVIEW,
+
+  randomize: () => {
+    const company = randomCompany({ category: 'manufacturing' });
+    const product = randomProduct({ category: 'manufacturing' });
+
+    const price = randomInRange(80, 140, 5);
+    const variableCost = randomInRange(40, Math.floor(price * 0.65), 1);
+    const fixedCostPerUnit = randomInRange(15, 35, 1);
+    const regularCM = price - variableCost;
+
+    // Special order: lower price than regular, but specific unit count
+    const specialPrice = roundToNearest(price * (randomInRange(75, 95, 5) / 100), 1);
+    const specialUnits = roundToNearest(randomInRange(1000, 4000), 100);
+    const specialCM = specialPrice - variableCost;
+
+    // Displaced regular units = same count as special order (since at capacity)
+    const displacedUnits = specialUnits;
+    const opportunityCost = displacedUnits * regularCM;
+    const specialContribution = specialUnits * specialCM;
+    const netImpact = specialContribution - opportunityCost;
+
+    return {
+      company, product,
+      price, variableCost, fixedCostPerUnit, regularCM,
+      specialPrice, specialUnits, specialCM,
+      displacedUnits, opportunityCost, specialContribution, netImpact,
+    };
+  },
+
+  scenario: (data) => `
+    <p>${data.company.name} produces ${data.product.plural} at full capacity. Regular
+    sales generate <strong>$${data.price}</strong> per unit with variable cost of
+    <strong>$${data.variableCost}</strong>. The plant cannot produce additional
+    units without overtime — every unit dedicated to a special order displaces
+    one unit of regular sales.</p>
+    <p>A wholesale buyer has offered to purchase <strong>${data.specialUnits.toLocaleString()}
+    units at $${data.specialPrice} per unit</strong> on a one-time basis. The
+    company must decide whether to accept and displace regular customer orders.</p>
+  `,
+
+  given: (data) => [
+    { label: 'Regular selling price', value: `$${data.price}` },
+    { label: 'Variable cost per unit', value: `$${data.variableCost}` },
+    { label: 'Regular CM per unit', value: `$${data.regularCM}` },
+    { label: 'Special order price', value: `$${data.specialPrice}` },
+    { label: 'Special order quantity', value: `${data.specialUnits.toLocaleString()} units` },
+  ],
+
+  steps: [
+    {
+      id: 'special-cm-per-unit',
+      question: 'What is the contribution margin per unit on the special order?',
+      resultType: 'money-small',
+      unit: '$ per unit',
+      solve: (data) => data.specialPrice - data.variableCost,
+      showWork: (data, prior, studentAnswers, correctValue) => [
+        {
+          label: 'Special Order CM per Unit',
+          formula: 'Special Price − Variable Cost',
+          values: `$${data.specialPrice} − $${data.variableCost}`,
+          result: `$${correctValue} per unit`,
+          highlight: true,
+          note: 'Lower than regular CM because special price is discounted.',
+        },
+      ],
+    },
+    {
+      id: 'special-contribution',
+      question: 'What is the total contribution from accepting the special order?',
+      resultType: 'money-medium',
+      unit: '$',
+      solve: (data, prior) => prior['special-cm-per-unit'] * data.specialUnits,
+      showWork: (data, prior, studentAnswers, correctValue) => [
+        {
+          label: 'Special Order Contribution',
+          formula: 'Special CM × Quantity',
+          values: `$${prior['special-cm-per-unit']} × ${data.specialUnits.toLocaleString()}`,
+          result: `$${correctValue.toLocaleString()}`,
+          highlight: true,
+        },
+      ],
+    },
+    {
+      id: 'opportunity-cost',
+      question: 'What is the OPPORTUNITY COST of accepting (the contribution foregone from displaced regular sales)?',
+      resultType: 'money-medium',
+      unit: '$',
+      solve: (data) => data.regularCM * data.specialUnits,
+      showWork: (data, prior, studentAnswers, correctValue) => [
+        {
+          label: 'Opportunity Cost',
+          formula: 'Regular CM × Displaced Units',
+          values: `$${data.regularCM} × ${data.specialUnits.toLocaleString()}`,
+          result: `$${correctValue.toLocaleString()}`,
+          highlight: true,
+          note: 'At full capacity, every special-order unit displaces one regular-priced unit. The CM foregone is the opportunity cost.',
+        },
+      ],
+    },
+    {
+      id: 'net-impact',
+      question: 'What is the NET impact on operating income from accepting the special order?',
+      resultType: 'money-medium',
+      unit: '$',
+      tolerance: { value: 1, type: 'percent' },
+      solve: (data, prior) => prior['special-contribution'] - prior['opportunity-cost'],
+      showWork: (data, prior, studentAnswers, correctValue) => [
+        {
+          label: 'Net Impact',
+          formula: 'Special Contribution − Opportunity Cost',
+          values: `$${prior['special-contribution'].toLocaleString()} − $${prior['opportunity-cost'].toLocaleString()}`,
+          result: `$${correctValue.toLocaleString()}`,
+          highlight: true,
+          annotation: carryForwardNote('special-contribution', '2', prior, studentAnswers)
+            || carryForwardNote('opportunity-cost', '3', prior, studentAnswers),
+          note: correctValue >= 0
+            ? 'Positive — accepting increases operating income.'
+            : 'Negative — accepting reduces operating income.',
+        },
+      ],
+    },
+    {
+      id: 'accept-decision',
+      type: 'choice',
+      question: 'Should the company accept the special order?',
+      options: [
+        { id: 'accept-positive', label: 'Accept — special contribution exceeds opportunity cost, net income increases' },
+        { id: 'reject-negative', label: 'Reject — opportunity cost exceeds special contribution, net income decreases' },
+        { id: 'accept-positive-cm', label: 'Accept — the special CM is positive' },
+        { id: 'reject-below-regular', label: 'Reject — the special price is below the regular price' },
+      ],
+      correctId: (data, prior) => prior['net-impact'] >= 0 ? 'accept-positive' : 'reject-negative',
+      showWork: (data, prior, studentAnswers, correctId) => [
+        {
+          label: 'Decision Rule',
+          formula: 'Accept only if special CM > regular CM (or net impact > 0)',
+          values: `Special CM $${prior['special-cm-per-unit']} vs Regular CM $${data.regularCM}`,
+          result: correctId === 'accept-positive' ? 'Accept' : 'Reject',
+          highlight: true,
+          note: 'At constrained capacity, the special order must offer a CM per unit AT LEAST equal to the regular CM. Otherwise, displacing regular sales destroys value. Positive special CM is not enough — it must exceed the opportunity cost.',
+        },
+      ],
+    },
+    {
+      id: 'minimum-special-price',
+      question: 'What is the minimum special-order price that would keep the company indifferent between accepting and rejecting?',
+      resultType: 'money-small',
+      unit: '$ per unit',
+      solve: (data) => data.price,
+      showWork: (data, prior, studentAnswers, correctValue) => [
+        {
+          label: 'Minimum Acceptable Special Price',
+          formula: 'Variable Cost + Opportunity Cost per Unit',
+          values: `$${data.variableCost} + $${data.regularCM} (regular CM)`,
+          result: `$${correctValue} per unit`,
+          highlight: true,
+          note: `At full capacity, the minimum acceptable special price equals the regular price ($${data.price}) — anything below means the company is destroying value by displacing more profitable sales.`,
+        },
+      ],
+    },
+  ],
+};
+
+
+// ============================================================================
+// Problem 7 — Joint Cost: Sell-or-Process-Further
+// ============================================================================
+
+export const sellOrProcessFurther = {
+  id: 'ch12-sell-or-process',
+  title: 'Sell-or-Process-Further Decision',
+  chapter: 12,
+  difficulty: 'intermediate',
+  estimatedMinutes: 7,
+  description:
+    'Determine whether to sell a joint product at split-off or process it further into a higher-value form.',
+  reviewChapters: CH12_REVIEW,
+
+  randomize: () => {
+    const company = randomCompany({ category: 'process' });
+    const product = randomProduct({ category: 'process' });
+
+    const jointCost = roundToNearest(randomInRange(150000, 400000), 5000);
+    const splitOffUnits = roundToNearest(randomInRange(8000, 25000), 500);
+    const splitOffPrice = randomInRange(15, 45, 1);
+
+    // Further processing: yields fewer units (loss in conversion) at higher price
+    const yieldPct = randomInRange(85, 98, 1) / 100;
+    const furtherUnits = Math.round(splitOffUnits * yieldPct);
+    const furtherPrice = roundToNearest(splitOffPrice * (randomInRange(140, 200, 5) / 100), 1);
+    const additionalCostPerUnit = randomInRange(5, 18, 1);
+
+    return {
+      company, product,
+      jointCost,
+      splitOffUnits, splitOffPrice,
+      furtherUnits, furtherPrice, additionalCostPerUnit,
+    };
+  },
+
+  scenario: (data) => `
+    <p>${data.company.name} produces ${data.product.plural} through a joint
+    production process. The joint cost is <strong>$${data.jointCost.toLocaleString()}</strong>.
+    At split-off, the company has <strong>${data.splitOffUnits.toLocaleString()} units</strong>
+    that can be sold immediately at <strong>$${data.splitOffPrice} per unit</strong>.</p>
+    <p>Alternatively, the company can process the units further into a higher-grade
+    product. Further processing yields <strong>${data.furtherUnits.toLocaleString()} units</strong>
+    (some loss in conversion) that sell for <strong>$${data.furtherPrice} per unit</strong>.
+    Additional processing cost is <strong>$${data.additionalCostPerUnit} per unit
+    processed</strong> beyond split-off.</p>
+  `,
+
+  given: (data) => [
+    { label: 'Joint cost', value: `$${data.jointCost.toLocaleString()}` },
+    { label: 'Split-off: units / price', value: `${data.splitOffUnits.toLocaleString()} / $${data.splitOffPrice}` },
+    { label: 'Further: units / price', value: `${data.furtherUnits.toLocaleString()} / $${data.furtherPrice}` },
+    { label: 'Additional processing cost', value: `$${data.additionalCostPerUnit} per unit` },
+  ],
+
+  steps: [
+    {
+      id: 'split-off-revenue',
+      question: 'What is the total revenue if the units are sold at split-off (no further processing)?',
+      resultType: 'money-large',
+      unit: '$',
+      solve: (data) => data.splitOffUnits * data.splitOffPrice,
+      showWork: (data, prior, studentAnswers, correctValue) => [
+        {
+          label: 'Revenue at Split-Off',
+          formula: 'Split-off Units × Split-off Price',
+          values: `${data.splitOffUnits.toLocaleString()} × $${data.splitOffPrice}`,
+          result: `$${correctValue.toLocaleString()}`,
+          highlight: true,
+        },
+      ],
+    },
+    {
+      id: 'further-revenue',
+      question: 'What is the total revenue if the units are processed further?',
+      resultType: 'money-large',
+      unit: '$',
+      solve: (data) => data.furtherUnits * data.furtherPrice,
+      showWork: (data, prior, studentAnswers, correctValue) => [
+        {
+          label: 'Revenue After Further Processing',
+          formula: 'Further Units × Further Price',
+          values: `${data.furtherUnits.toLocaleString()} × $${data.furtherPrice}`,
+          result: `$${correctValue.toLocaleString()}`,
+          highlight: true,
+        },
+      ],
+    },
+    {
+      id: 'further-additional-cost',
+      question: 'What is the total additional processing cost?',
+      resultType: 'money-medium',
+      unit: '$',
+      solve: (data) => data.splitOffUnits * data.additionalCostPerUnit,
+      showWork: (data, prior, studentAnswers, correctValue) => [
+        {
+          label: 'Additional Processing Cost',
+          formula: 'Units Processed × Cost per Unit',
+          values: `${data.splitOffUnits.toLocaleString()} × $${data.additionalCostPerUnit}`,
+          result: `$${correctValue.toLocaleString()}`,
+          highlight: true,
+          note: 'Note: the additional cost applies to ALL units entering further processing, even those lost in conversion.',
+        },
+      ],
+    },
+    {
+      id: 'incremental-benefit',
+      question: 'What is the INCREMENTAL benefit (or cost) of further processing?',
+      resultType: 'money-large',
+      unit: '$',
+      tolerance: { value: 1, type: 'percent' },
+      solve: (data, prior) => prior['further-revenue'] - prior['split-off-revenue'] - prior['further-additional-cost'],
+      showWork: (data, prior, studentAnswers, correctValue) => [
+        {
+          label: 'Incremental Revenue',
+          formula: 'Further Revenue − Split-Off Revenue',
+          values: `$${prior['further-revenue'].toLocaleString()} − $${prior['split-off-revenue'].toLocaleString()}`,
+          result: `$${(prior['further-revenue'] - prior['split-off-revenue']).toLocaleString()}`,
+        },
+        {
+          label: 'Less: Additional Cost',
+          values: `$${prior['further-additional-cost'].toLocaleString()}`,
+          result: '',
+        },
+        {
+          label: 'Net Incremental Benefit',
+          formula: 'Incremental Revenue − Additional Cost',
+          values: `$${(prior['further-revenue'] - prior['split-off-revenue']).toLocaleString()} − $${prior['further-additional-cost'].toLocaleString()}`,
+          result: `$${correctValue.toLocaleString()}`,
+          highlight: true,
+          annotation: carryForwardNote('further-revenue', '2', prior, studentAnswers)
+            || carryForwardNote('further-additional-cost', '3', prior, studentAnswers),
+          note: 'The joint cost is IRRELEVANT — it has already been incurred regardless of which path is chosen.',
+        },
+      ],
+    },
+    {
+      id: 'process-decision',
+      type: 'choice',
+      question: 'Should the company process further or sell at split-off?',
+      options: [
+        { id: 'process-further', label: 'Process further — incremental revenue exceeds additional cost' },
+        { id: 'sell-split-off', label: 'Sell at split-off — additional cost exceeds incremental revenue' },
+        { id: 'process-recover-joint', label: 'Process further to better recover the joint cost' },
+        { id: 'sell-because-loss', label: 'Sell at split-off because further processing involves unit loss' },
+      ],
+      correctId: (data, prior) => prior['incremental-benefit'] > 0 ? 'process-further' : 'sell-split-off',
+      showWork: (data, prior, studentAnswers, correctId) => [
+        {
+          label: 'Decision Rule',
+          formula: 'Process further only if incremental revenue > additional cost',
+          values: `Net incremental benefit = $${prior['incremental-benefit'].toLocaleString()}`,
+          result: correctId === 'process-further' ? 'Process further' : 'Sell at split-off',
+          highlight: true,
+          note: 'Joint cost is sunk — it doesn\'t affect the decision. Unit loss in conversion is captured in the incremental analysis through the lower total further-processing revenue.',
+        },
+      ],
+    },
+    {
+      id: 'joint-cost-irrelevance',
+      type: 'choice',
+      intentionalSingleAnswer: true,
+      question: 'Why is the joint cost irrelevant to the sell-or-process-further decision?',
+      options: [
+        { id: 'sunk-already-incurred', label: 'It is sunk — already incurred regardless of which path is chosen, so it does not change between alternatives' },
+        { id: 'too-small-to-matter', label: 'It is too small compared to processing costs to matter' },
+        { id: 'gaap-excludes', label: 'GAAP requires joint costs to be excluded from product-level decisions' },
+        { id: 'tax-treatment', label: 'Tax rules disallow joint cost in incremental analysis' },
+      ],
+      correctId: () => 'sunk-already-incurred',
+      showWork: (data, prior, studentAnswers, correctId) => [
+        {
+          label: 'Why Joint Cost is Sunk',
+          formula: 'A cost incurred regardless of choice is irrelevant',
+          values: `Joint cost of $${data.jointCost.toLocaleString()} applies whether you sell at split-off OR process further. It cannot change.`,
+          result: 'Sunk cost — irrelevant to the incremental decision',
+          highlight: true,
+          note: 'This is the classic Horngren application of the sunk-cost principle to joint products. Allocated joint cost can mislead managers into accepting unprofitable further-processing decisions.',
+        },
+      ],
+    },
+  ],
+};
+
+
+// ============================================================================
+// Problem 8 — Opportunity-Cost Pricing
+// ============================================================================
+
+export const opportunityCostPricing = {
+  id: 'ch12-opp-cost-pricing',
+  title: 'Opportunity-Cost Pricing',
+  chapter: 12,
+  difficulty: 'advanced',
+  estimatedMinutes: 8,
+  description:
+    'Determine the minimum acceptable price for a special order under three different capacity conditions.',
+  reviewChapters: CH12_REVIEW,
+
+  randomize: () => {
+    const company = randomCompany({ category: 'manufacturing' });
+    const product = randomProduct({ category: 'manufacturing' });
+
+    const variableCost = randomInRange(35, 75, 1);
+    const regularPrice = roundToNearest(variableCost * (randomInRange(155, 220, 5) / 100), 1);
+    const regularCM = regularPrice - variableCost;
+
+    // Capacity scenarios
+    const totalCapacity = roundToNearest(randomInRange(10000, 20000), 500);
+    const currentUtilizationPct = randomInRange(40, 95, 5);
+    const currentUtilization = Math.round(totalCapacity * currentUtilizationPct / 100);
+    const idleCapacity = totalCapacity - currentUtilization;
+
+    const specialUnits = roundToNearest(randomInRange(1500, 4500), 100);
+
+    // Determine constraint level
+    let constraintType;
+    let displacedUnits;
+    let opportunityCostPerUnit;
+    if (specialUnits <= idleCapacity) {
+      constraintType = 'idle';
+      displacedUnits = 0;
+      opportunityCostPerUnit = 0;
+    } else if (specialUnits > totalCapacity) {
+      constraintType = 'full-overflow';
+      displacedUnits = specialUnits - idleCapacity;
+      opportunityCostPerUnit = roundTo(regularCM * displacedUnits / specialUnits, 2);
+    } else {
+      constraintType = 'partial';
+      displacedUnits = specialUnits - idleCapacity;
+      opportunityCostPerUnit = roundTo(regularCM * displacedUnits / specialUnits, 2);
+    }
+
+    const minAcceptablePrice = roundTo(variableCost + opportunityCostPerUnit, 2);
+
+    return {
+      company, product,
+      variableCost, regularPrice, regularCM,
+      totalCapacity, currentUtilization, idleCapacity, currentUtilizationPct,
+      specialUnits,
+      constraintType, displacedUnits, opportunityCostPerUnit, minAcceptablePrice,
+    };
+  },
+
+  scenario: (data) => `
+    <p>${data.company.name}'s ${data.product.singular} plant has a total capacity of
+    <strong>${data.totalCapacity.toLocaleString()} units</strong>. The company is
+    currently operating at <strong>${data.currentUtilizationPct}% utilization</strong>
+    (${data.currentUtilization.toLocaleString()} units of regular production).</p>
+    <p>Regular sales generate <strong>$${data.regularPrice}</strong> per unit with
+    variable cost of <strong>$${data.variableCost}</strong> per unit. A special-order
+    buyer is requesting <strong>${data.specialUnits.toLocaleString()} units</strong> on a
+    one-time basis. What is the minimum acceptable special-order price?</p>
+  `,
+
+  given: (data) => [
+    { label: 'Total capacity', value: `${data.totalCapacity.toLocaleString()} units` },
+    { label: 'Current utilization', value: `${data.currentUtilization.toLocaleString()} (${data.currentUtilizationPct}%)` },
+    { label: 'Idle capacity available', value: `${data.idleCapacity.toLocaleString()} units` },
+    { label: 'Special order quantity', value: `${data.specialUnits.toLocaleString()}` },
+    { label: 'Variable cost', value: `$${data.variableCost}` },
+    { label: 'Regular CM per unit', value: `$${data.regularCM}` },
+  ],
+
+  steps: [
+    {
+      id: 'capacity-needed',
+      question: 'How many units of regular production would be DISPLACED if the special order is accepted?',
+      resultType: 'units',
+      unit: 'units',
+      solve: (data) => Math.max(0, data.specialUnits - data.idleCapacity),
+      showWork: (data, prior, studentAnswers, correctValue) => [
+        {
+          label: 'Units Displaced',
+          formula: 'Max(0, Special Units − Idle Capacity)',
+          values: `Max(0, ${data.specialUnits.toLocaleString()} − ${data.idleCapacity.toLocaleString()})`,
+          result: `${correctValue.toLocaleString()} units`,
+          highlight: true,
+          note: correctValue === 0
+            ? 'All special-order units fit in idle capacity — no displacement.'
+            : 'Special order exceeds idle capacity by this much — these units displace regular sales.',
+        },
+      ],
+    },
+    {
+      id: 'opportunity-cost-total',
+      question: 'What is the total opportunity cost of accepting the special order (contribution foregone from displaced sales)?',
+      resultType: 'money-medium',
+      unit: '$',
+      solve: (data, prior) => Math.round(prior['capacity-needed'] * data.regularCM),
+      showWork: (data, prior, studentAnswers, correctValue) => [
+        {
+          label: 'Opportunity Cost',
+          formula: 'Displaced Units × Regular CM per Unit',
+          values: `${prior['capacity-needed'].toLocaleString()} × $${data.regularCM}`,
+          result: `$${correctValue.toLocaleString()}`,
+          highlight: true,
+          annotation: carryForwardNote('capacity-needed', '1', prior, studentAnswers, (v) => `${v.toLocaleString()} units`),
+        },
+      ],
+    },
+    {
+      id: 'opportunity-cost-per-unit',
+      question: 'What is the opportunity cost PER SPECIAL ORDER UNIT?',
+      resultType: 'money-small',
+      unit: '$ per unit',
+      tolerance: { value: 0.10, type: 'absolute' },
+      solve: (data, prior) => roundTo(prior['opportunity-cost-total'] / data.specialUnits, 2),
+      showWork: (data, prior, studentAnswers, correctValue) => [
+        {
+          label: 'Opportunity Cost per Unit',
+          formula: 'Total Opportunity Cost ÷ Special Order Units',
+          values: `$${prior['opportunity-cost-total'].toLocaleString()} ÷ ${data.specialUnits.toLocaleString()}`,
+          result: `$${correctValue} per unit`,
+          highlight: true,
+          note: 'This is what each special-order unit must "carry" to offset the lost regular contribution. Spread evenly across all special units.',
+        },
+      ],
+    },
+    {
+      id: 'minimum-price',
+      question: 'What is the minimum acceptable special-order price per unit?',
+      resultType: 'money-small',
+      unit: '$ per unit',
+      tolerance: { value: 0.10, type: 'absolute' },
+      solve: (data, prior) => roundTo(data.variableCost + prior['opportunity-cost-per-unit'], 2),
+      showWork: (data, prior, studentAnswers, correctValue) => [
+        {
+          label: 'Minimum Acceptable Price',
+          formula: 'Variable Cost + Opportunity Cost per Unit',
+          values: `$${data.variableCost} + $${prior['opportunity-cost-per-unit']}`,
+          result: `$${correctValue} per unit`,
+          highlight: true,
+          annotation: carryForwardNote('opportunity-cost-per-unit', '3', prior, studentAnswers, (v) => `$${v}`),
+          note: 'This is the floor — below this price, the special order destroys value at this capacity level.',
+        },
+      ],
+    },
+    {
+      id: 'capacity-effect',
+      type: 'choice',
+      question: 'How does the minimum acceptable price change as the company\'s capacity utilization increases?',
+      options: [
+        { id: 'rises-with-utilization', label: 'Rises — higher utilization means more displacement and higher opportunity cost' },
+        { id: 'unchanged', label: 'Unchanged — the minimum is always variable cost' },
+        { id: 'falls-with-utilization', label: 'Falls — higher utilization spreads fixed costs across more units' },
+        { id: 'depends-on-tax', label: 'Depends on tax treatment' },
+      ],
+      correctId: () => 'rises-with-utilization',
+      intentionalSingleAnswer: true,
+      showWork: (data, prior, studentAnswers, correctId) => [
+        {
+          label: 'Capacity-Utilization Effect',
+          formula: 'Min Price = VC + Opportunity Cost',
+          values: `When idle capacity is high, opp cost = $0 → min price = $${data.variableCost}. When at full capacity, opp cost = $${data.regularCM} per displaced unit → min price = $${data.regularPrice}.`,
+          result: 'Minimum price ranges from VC (idle) up to regular price (full)',
+          highlight: true,
+          note: 'This is why "minimum acceptable price" is a moving target. Capacity context is everything.',
+        },
+      ],
+    },
+    {
+      id: 'sensitivity-utilization',
+      question: 'If current utilization were 100% (full capacity), what would be the minimum acceptable special-order price?',
+      resultType: 'money-small',
+      unit: '$ per unit',
+      tolerance: { value: 0.10, type: 'absolute' },
+      solve: (data) => data.regularPrice,
+      showWork: (data, prior, studentAnswers, correctValue) => [
+        {
+          label: 'At 100% Utilization',
+          formula: 'Variable Cost + Regular CM per Unit',
+          values: `$${data.variableCost} + $${data.regularCM}`,
+          result: `$${correctValue} per unit (= Regular Price)`,
+          highlight: true,
+          note: 'At full capacity, every special-order unit displaces a regular unit. The minimum special price = regular price. Below this, the company is destroying value by trading higher-margin sales for lower-margin sales.',
+        },
+      ],
+    },
+  ],
+};
+
 export const ch12Problems = [
   specialOrderUnconstrained,
   makeOrBuy,
   dropOrKeepSegment,
   equipmentReplacement,
   productMixConstraint,
+  specialOrderConstrained,
+  sellOrProcessFurther,
+  opportunityCostPricing,
 ];

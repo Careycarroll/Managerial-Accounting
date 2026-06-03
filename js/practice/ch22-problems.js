@@ -1010,10 +1010,372 @@ export const afterTaxNPV = {
 // Exports
 // ============================================================================
 
+
+// ============================================================================
+// Problem 6 — Capital Rationing & Project Ranking by PI
+// ============================================================================
+
+export const capitalRationing = {
+  id: 'ch22-capital-rationing',
+  title: 'Capital Rationing — Profitability Index Ranking',
+  chapter: 22,
+  difficulty: 'advanced',
+  estimatedMinutes: 9,
+  description:
+    'When capital is limited, rank competing projects by profitability index to maximize total NPV within the budget.',
+  reviewChapters: CH22_REVIEW,
+
+  randomize: () => {
+    const company = randomCompany({ category: 'manufacturing' });
+    const requiredRate = randomChoice([0.10, 0.12, 0.14]);
+
+    // Three projects with different investment sizes and NPVs
+    const projA = {
+      cost: roundToNearest(randomInRange(80000, 150000), 5000),
+      annualCF: 0, life: randomChoice([4, 5, 6]),
+    };
+    const projB = {
+      cost: roundToNearest(randomInRange(120000, 220000), 5000),
+      annualCF: 0, life: randomChoice([4, 5, 6]),
+    };
+    const projC = {
+      cost: roundToNearest(randomInRange(180000, 320000), 5000),
+      annualCF: 0, life: randomChoice([4, 5, 6]),
+    };
+
+    // Set annual CF so each project has positive NPV with different PIs
+    const pvAnnuity = (r, n) => (1 - Math.pow(1 + r, -n)) / r;
+
+    // Make each project's PI different by design
+    // PI = (PV of inflows) / Initial cost
+    const piA = roundTo(randomInRange(120, 145, 5) / 100, 2);
+    const piB = roundTo(randomInRange(105, 125, 5) / 100, 2);
+    const piC = roundTo(randomInRange(110, 130, 5) / 100, 2);
+
+    const pvInflowsA = Math.round(projA.cost * piA);
+    const pvInflowsB = Math.round(projB.cost * piB);
+    const pvInflowsC = Math.round(projC.cost * piC);
+
+    projA.annualCF = Math.round(pvInflowsA / pvAnnuity(requiredRate, projA.life));
+    projB.annualCF = Math.round(pvInflowsB / pvAnnuity(requiredRate, projB.life));
+    projC.annualCF = Math.round(pvInflowsC / pvAnnuity(requiredRate, projC.life));
+
+    const npvA = pvInflowsA - projA.cost;
+    const npvB = pvInflowsB - projB.cost;
+    const npvC = pvInflowsC - projC.cost;
+
+    // Capital budget allows two of three projects
+    const totalCostAll = projA.cost + projB.cost + projC.cost;
+    const budget = roundToNearest(Math.round(totalCostAll * randomInRange(60, 75, 5) / 100), 10000);
+
+    return {
+      company, requiredRate, budget,
+      projA: { ...projA, pvInflows: pvInflowsA, npv: npvA, pi: piA },
+      projB: { ...projB, pvInflows: pvInflowsB, npv: npvB, pi: piB },
+      projC: { ...projC, pvInflows: pvInflowsC, npv: npvC, pi: piC },
+    };
+  },
+
+  scenario: (data) => `
+    <p>${data.company.name} has three competing capital projects but only
+    <strong>$${data.budget.toLocaleString()}</strong> available to invest this
+    year. The required rate of return is <strong>${(data.requiredRate * 100).toFixed(0)}%</strong>.
+    All three projects have positive NPV individually, but the company can only
+    fund a subset.</p>
+    <p><strong>Project A:</strong> Cost $${data.projA.cost.toLocaleString()},
+    annual CF $${data.projA.annualCF.toLocaleString()} for ${data.projA.life} years.</p>
+    <p><strong>Project B:</strong> Cost $${data.projB.cost.toLocaleString()},
+    annual CF $${data.projB.annualCF.toLocaleString()} for ${data.projB.life} years.</p>
+    <p><strong>Project C:</strong> Cost $${data.projC.cost.toLocaleString()},
+    annual CF $${data.projC.annualCF.toLocaleString()} for ${data.projC.life} years.</p>
+  `,
+
+  given: (data) => [
+    { label: 'Capital budget', value: `$${data.budget.toLocaleString()}` },
+    { label: 'Required rate', value: `${(data.requiredRate * 100).toFixed(0)}%` },
+    { label: 'Project A cost / NPV', value: `$${data.projA.cost.toLocaleString()} / $${data.projA.npv.toLocaleString()}` },
+    { label: 'Project B cost / NPV', value: `$${data.projB.cost.toLocaleString()} / $${data.projB.npv.toLocaleString()}` },
+    { label: 'Project C cost / NPV', value: `$${data.projC.cost.toLocaleString()} / $${data.projC.npv.toLocaleString()}` },
+  ],
+
+  steps: [
+    {
+      id: 'pi-projA',
+      question: 'What is the Profitability Index (PI) for Project A?',
+      resultType: 'money-small',
+      unit: 'PI',
+      tolerance: { value: 0.02, type: 'absolute' },
+      solve: (data) => roundTo(data.projA.pvInflows / data.projA.cost, 2),
+      showWork: (data, prior, studentAnswers, correctValue) => [
+        {
+          label: 'PI for Project A',
+          formula: 'PV of Inflows ÷ Initial Investment',
+          values: `$${data.projA.pvInflows.toLocaleString()} ÷ $${data.projA.cost.toLocaleString()}`,
+          result: `${correctValue}`,
+          highlight: true,
+          note: 'PI > 1.0 means the project creates value. Higher PI = more value per dollar invested.',
+        },
+      ],
+    },
+    {
+      id: 'pi-projB',
+      question: 'What is the Profitability Index for Project B?',
+      resultType: 'money-small',
+      unit: 'PI',
+      tolerance: { value: 0.02, type: 'absolute' },
+      solve: (data) => roundTo(data.projB.pvInflows / data.projB.cost, 2),
+      showWork: (data, prior, studentAnswers, correctValue) => [
+        {
+          label: 'PI for Project B',
+          formula: 'PV of Inflows ÷ Initial Investment',
+          values: `$${data.projB.pvInflows.toLocaleString()} ÷ $${data.projB.cost.toLocaleString()}`,
+          result: `${correctValue}`,
+          highlight: true,
+        },
+      ],
+    },
+    {
+      id: 'pi-projC',
+      question: 'What is the Profitability Index for Project C?',
+      resultType: 'money-small',
+      unit: 'PI',
+      tolerance: { value: 0.02, type: 'absolute' },
+      solve: (data) => roundTo(data.projC.pvInflows / data.projC.cost, 2),
+      showWork: (data, prior, studentAnswers, correctValue) => [
+        {
+          label: 'PI for Project C',
+          formula: 'PV of Inflows ÷ Initial Investment',
+          values: `$${data.projC.pvInflows.toLocaleString()} ÷ $${data.projC.cost.toLocaleString()}`,
+          result: `${correctValue}`,
+          highlight: true,
+        },
+      ],
+    },
+    {
+      id: 'optimal-combination',
+      type: 'choice',
+      question: 'Which combination of projects maximizes total NPV within the capital budget?',
+      options: (data) => {
+        // Build option labels dynamically based on PI ranking
+        const ranked = ['A', 'B', 'C'].sort((x, y) => {
+          const pis = { A: data.projA.pi, B: data.projB.pi, C: data.projC.pi };
+          return pis[y] - pis[x];
+        });
+        return [
+          { id: 'highest-pi', label: `Projects ${ranked[0]} and ${ranked[1]} — highest PI ranking within budget` },
+          { id: 'all-three', label: 'All three projects — they all have positive NPV' },
+          { id: 'highest-npv', label: 'Whichever two projects have the highest individual NPVs' },
+          { id: 'cheapest', label: 'The two cheapest projects to stay well under budget' },
+        ];
+      },
+      correctId: () => 'highest-pi',
+      intentionalSingleAnswer: true,
+      showWork: (data, prior, studentAnswers, correctId) => [
+        {
+          label: 'Capital Rationing Decision Rule',
+          formula: 'Rank by PI; select projects within budget',
+          values: `PI rankings — A: ${data.projA.pi}, B: ${data.projB.pi}, C: ${data.projC.pi}. Pick highest-PI projects that fit budget $${data.budget.toLocaleString()}.`,
+          result: 'Rank by PI, not by absolute NPV',
+          highlight: true,
+          note: 'When capital is limited, ranking by PI maximizes total NPV. A high-NPV but high-cost project may not be the best use of scarce capital — a smaller, higher-PI project might yield more total value.',
+        },
+      ],
+    },
+    {
+      id: 'why-pi-not-npv',
+      type: 'choice',
+      intentionalSingleAnswer: true,
+      question: 'In capital rationing, why is PI a better ranking tool than NPV alone?',
+      options: [
+        { id: 'efficiency', label: 'PI measures NPV per dollar invested — when capital is constrained, you want maximum value per scarce dollar' },
+        { id: 'simpler', label: 'PI is easier to calculate than NPV' },
+        { id: 'tax-favorable', label: 'PI produces a better tax outcome' },
+        { id: 'no-difference', label: 'PI and NPV always give the same ranking' },
+      ],
+      correctId: () => 'efficiency',
+      showWork: (data, prior, studentAnswers, correctId) => [
+        {
+          label: 'Why PI Wins Under Capital Rationing',
+          formula: 'PI = NPV efficiency per dollar of capital',
+          values: 'Without rationing, NPV alone is the right metric. WITH rationing, PI ensures the limited capital is allocated to highest-value-per-dollar projects.',
+          result: 'PI is the right rationing metric',
+          highlight: true,
+          note: 'Without capital constraints, the answer is always "accept all positive-NPV projects." Capital rationing is the case where this rule breaks down.',
+        },
+      ],
+    },
+  ],
+};
+
+
+// ============================================================================
+// Problem 7 — Discounted Payback (Modified Payback)
+// ============================================================================
+
+export const discountedPayback = {
+  id: 'ch22-discounted-payback',
+  title: 'Discounted Payback Period',
+  chapter: 22,
+  difficulty: 'intermediate',
+  estimatedMinutes: 7,
+  description:
+    'Calculate the discounted payback period — payback computed from present-value cash flows, addressing the time-value flaw of regular payback.',
+  reviewChapters: CH22_REVIEW,
+
+  randomize: () => {
+    const company = randomCompany({ category: 'manufacturing' });
+    const requiredRate = randomChoice([0.08, 0.10, 0.12]);
+
+    const investment = roundToNearest(randomInRange(100000, 250000), 5000);
+    const annualCF = roundToNearest(investment * randomInRange(20, 35, 1) / 100, 1000);
+    const projectLife = randomChoice([5, 6, 7]);
+
+    // Compute payback (regular)
+    const regularPayback = roundTo(investment / annualCF, 2);
+
+    // Compute discounted payback
+    let cumDiscCF = 0;
+    let discPaybackYear = projectLife;
+    for (let yr = 1; yr <= projectLife; yr++) {
+      const discCF = annualCF / Math.pow(1 + requiredRate, yr);
+      cumDiscCF += discCF;
+      if (cumDiscCF >= investment) {
+        const prevCum = cumDiscCF - discCF;
+        const remaining = investment - prevCum;
+        discPaybackYear = (yr - 1) + remaining / discCF;
+        break;
+      }
+    }
+    const discountedPaybackResult = roundTo(discPaybackYear, 2);
+
+    return {
+      company, requiredRate,
+      investment, annualCF, projectLife,
+      regularPayback,
+      discountedPayback: discountedPaybackResult,
+    };
+  },
+
+  scenario: (data) => `
+    <p>${data.company.name} is evaluating a project requiring an initial
+    investment of <strong>$${data.investment.toLocaleString()}</strong>. The
+    project generates <strong>$${data.annualCF.toLocaleString()}</strong> in
+    annual cash flow for <strong>${data.projectLife} years</strong>. The
+    required rate of return is <strong>${(data.requiredRate * 100).toFixed(0)}%</strong>.</p>
+    <p>Management wants to compare regular payback (ignoring time value) with
+    discounted payback (using discounted cash flows).</p>
+  `,
+
+  given: (data) => [
+    { label: 'Initial investment', value: `$${data.investment.toLocaleString()}` },
+    { label: 'Annual cash flow', value: `$${data.annualCF.toLocaleString()}` },
+    { label: 'Project life', value: `${data.projectLife} years` },
+    { label: 'Required rate of return', value: `${(data.requiredRate * 100).toFixed(0)}%` },
+  ],
+
+  steps: [
+    {
+      id: 'regular-payback',
+      question: 'What is the REGULAR payback period (undiscounted)?',
+      resultType: 'years',
+      unit: 'years',
+      tolerance: { value: 0.1, type: 'absolute' },
+      solve: (data) => roundTo(data.investment / data.annualCF, 2),
+      showWork: (data, prior, studentAnswers, correctValue) => [
+        {
+          label: 'Regular Payback',
+          formula: 'Initial Investment ÷ Annual Cash Flow',
+          values: `$${data.investment.toLocaleString()} ÷ $${data.annualCF.toLocaleString()}`,
+          result: `${correctValue} years`,
+          highlight: true,
+        },
+      ],
+    },
+    {
+      id: 'pv-year-1',
+      question: 'What is the PRESENT VALUE of the Year 1 cash flow?',
+      resultType: 'money-medium',
+      unit: '$',
+      tolerance: { value: 100, type: 'absolute' },
+      solve: (data) => Math.round(data.annualCF / (1 + data.requiredRate)),
+      showWork: (data, prior, studentAnswers, correctValue) => [
+        {
+          label: 'PV of Year 1 CF',
+          formula: 'CF ÷ (1 + r)¹',
+          values: `$${data.annualCF.toLocaleString()} ÷ ${(1 + data.requiredRate).toFixed(2)}`,
+          result: `$${correctValue.toLocaleString()}`,
+          highlight: true,
+          note: 'Each year\'s CF must be discounted before being applied to payback.',
+        },
+      ],
+    },
+    {
+      id: 'pv-year-2',
+      question: 'What is the PRESENT VALUE of the Year 2 cash flow?',
+      resultType: 'money-medium',
+      unit: '$',
+      tolerance: { value: 100, type: 'absolute' },
+      solve: (data) => Math.round(data.annualCF / Math.pow(1 + data.requiredRate, 2)),
+      showWork: (data, prior, studentAnswers, correctValue) => [
+        {
+          label: 'PV of Year 2 CF',
+          formula: 'CF ÷ (1 + r)²',
+          values: `$${data.annualCF.toLocaleString()} ÷ ${Math.pow(1 + data.requiredRate, 2).toFixed(2)}`,
+          result: `$${correctValue.toLocaleString()}`,
+          highlight: true,
+        },
+      ],
+    },
+    {
+      id: 'discounted-payback',
+      question: 'What is the DISCOUNTED payback period?',
+      resultType: 'years',
+      unit: 'years',
+      tolerance: { value: 0.15, type: 'absolute' },
+      solve: (data) => data.discountedPayback,
+      showWork: (data, prior, studentAnswers, correctValue) => [
+        {
+          label: 'Discounted Payback',
+          formula: 'Year when cumulative DISCOUNTED CF ≥ Investment',
+          values: `Tracking cumulative discounted CF year-by-year until it reaches $${data.investment.toLocaleString()}`,
+          result: `${correctValue} years`,
+          highlight: true,
+          note: 'Discounted payback is always LONGER than regular payback because each cash flow gets shrunk by the discount factor.',
+        },
+      ],
+    },
+    {
+      id: 'which-method-better',
+      type: 'choice',
+      intentionalSingleAnswer: true,
+      question: 'For management decision-making, which is more appropriate — regular payback or discounted payback?',
+      options: [
+        { id: 'discounted-better', label: 'Discounted payback — accounts for the time value of money, gives a more realistic break-even timeline' },
+        { id: 'regular-better', label: 'Regular payback — simpler and more intuitive' },
+        { id: 'same-result', label: 'Both produce the same answer' },
+        { id: 'irrelevant', label: 'Neither — only NPV matters for decisions' },
+      ],
+      correctId: () => 'discounted-better',
+      showWork: (data, prior, studentAnswers, correctId) => [
+        {
+          label: 'Why Discounted Payback Wins',
+          formula: 'Time value matters for capital decisions',
+          values: `Regular payback ${prior['regular-payback']} years vs Discounted ${prior['discounted-payback']} years. The gap reflects the time value penalty.`,
+          result: 'Discounted payback is theoretically superior',
+          highlight: true,
+          note: 'Both still have the same fundamental flaw — they ignore cash flows after payback. NPV remains the dominant method for capital decisions, but discounted payback adds value as a complementary metric for evaluating liquidity risk.',
+        },
+      ],
+    },
+  ],
+};
+
 export const ch22Problems = [
   npvEvenCashFlows,
   npvUnevenCashFlows,
   paybackPeriod,
   irrVsRequired,
   afterTaxNPV,
+  capitalRationing,
+  discountedPayback,
 ];
