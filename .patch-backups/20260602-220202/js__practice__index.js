@@ -7,53 +7,13 @@ import { initHeader } from '/js/components/header.js';
 
 const BASE = import.meta.env.BASE_URL;
 
-
-import { ch03Problems } from './ch03-problems.js';
-import { ch05Problems } from './ch05-problems.js';
-import { ch07Problems } from './ch07-problems.js';
-import { ch08Problems } from './ch08-problems.js';
-import { ch09Problems } from './ch09-problems.js';
-import { ch10Problems } from './ch10-problems.js';
-import { ch12Problems } from './ch12-problems.js';
-import { ch15Problems } from './ch15-problems.js';
-import { ch18Problems } from './ch18-problems.js';
-import { ch21Problems } from './ch21-problems.js';
-import { ch22Problems } from './ch22-problems.js';
-import { ch23Problems } from './ch23-problems.js';
-import { ch24Problems } from './ch24-problems.js';
-
-// Single source of truth for tile metadata derived from problem arrays.
-// Adding a problem to chXXProblems automatically updates the landing tile.
-function tileStats(problems) {
-  return {
-    problemCount: problems.length,
-    estimatedMinutes: problems.reduce((s, p) => s + (p.estimatedMinutes || 0), 0),
-  };
-}
-
-const STATS = {
-  3: tileStats(ch03Problems),
-  5: tileStats(ch05Problems),
-  7: tileStats(ch07Problems),
-  8: tileStats(ch08Problems),
-  9: tileStats(ch09Problems),
-  10: tileStats(ch10Problems),
-  12: tileStats(ch12Problems),
-  15: tileStats(ch15Problems),
-  18: tileStats(ch18Problems),
-  21: tileStats(ch21Problems),
-  22: tileStats(ch22Problems),
-  23: tileStats(ch23Problems),
-  24: tileStats(ch24Problems),
-};
-
 const CHAPTER_PROBLEMS = [
   {
     chapter: 3,
     title: 'CVP Analysis',
     desc: 'Breakeven, target profit, margin of safety, and price sensitivity.',
-    problemCount: STATS[3].problemCount,
-    estimatedMinutes: STATS[3].estimatedMinutes,
+    problemCount: 5,
+    estimatedMinutes: 5,
     available: true,
     href: `${BASE}pages/practice/ch03.html`,
   },
@@ -61,8 +21,8 @@ const CHAPTER_PROBLEMS = [
     chapter: 5,
     title: 'Activity-Based Costing',
     desc: 'Cost driver allocation, ABC vs traditional, cost hierarchy, TDABC, and ABM decisions.',
-    problemCount: STATS[5].problemCount,
-    estimatedMinutes: STATS[5].estimatedMinutes,
+    problemCount: 5,
+    estimatedMinutes: 7,
     available: true,
     href: `${BASE}pages/practice/ch05.html`,
   },
@@ -70,8 +30,8 @@ const CHAPTER_PROBLEMS = [
     chapter: 7,
     title: 'Direct-Cost Variances',
     desc: 'Price and efficiency variances for direct materials and labor, with favorable/unfavorable interpretation.',
-    problemCount: STATS[7].problemCount,
-    estimatedMinutes: STATS[7].estimatedMinutes,
+    problemCount: 5,
+    estimatedMinutes: 6,
     available: true,
     href: `${BASE}pages/practice/ch07.html`,
   },
@@ -79,8 +39,8 @@ const CHAPTER_PROBLEMS = [
     chapter: 8,
     title: 'Overhead Variances',
     desc: 'Variable and fixed overhead spending, efficiency, and production-volume variances with favorable/unfavorable interpretation.',
-    problemCount: STATS[8].problemCount,
-    estimatedMinutes: STATS[8].estimatedMinutes,
+    problemCount: 5,
+    estimatedMinutes: 7,
     available: true,
     href: `${BASE}pages/practice/ch08.html`,
   },
@@ -88,8 +48,8 @@ const CHAPTER_PROBLEMS = [
     chapter: 9,
     title: 'Inventory Costing',
     desc: 'Absorption vs variable costing, inventory build/draw income effects, capacity concepts, and denominator-level choice.',
-    problemCount: STATS[9].problemCount,
-    estimatedMinutes: STATS[9].estimatedMinutes,
+    problemCount: 5,
+    estimatedMinutes: 6,
     available: true,
     href: `${BASE}pages/practice/ch09.html`,
   },
@@ -97,8 +57,8 @@ const CHAPTER_PROBLEMS = [
     chapter: 10,
     title: 'Cost Behavior',
     desc: 'High-low method, regression interpretation, learning curves, and cost estimation method selection.',
-    problemCount: STATS[10].problemCount,
-    estimatedMinutes: STATS[10].estimatedMinutes,
+    problemCount: 5,
+    estimatedMinutes: 6,
     available: true,
     href: `${BASE}pages/practice/ch10.html`,
   },
@@ -106,8 +66,8 @@ const CHAPTER_PROBLEMS = [
     chapter: 12,
     title: 'Relevant Costs',
     desc: 'Special orders, make-or-buy, drop/keep, equipment replacement, and constrained product mix.',
-    problemCount: STATS[12].problemCount,
-    estimatedMinutes: STATS[12].estimatedMinutes,
+    problemCount: 5,
+    estimatedMinutes: 7,
     available: true,
     href: `${BASE}pages/practice/ch12.html`,
   },
@@ -115,8 +75,8 @@ const CHAPTER_PROBLEMS = [
     chapter: 15,
     title: 'Customer Profitability',
     desc: 'Customer-level operating income, ABC cost-to-serve, sales-mix/quantity variances, and drop decisions.',
-    problemCount: STATS[15].problemCount,
-    estimatedMinutes: STATS[15].estimatedMinutes,
+    problemCount: 5,
+    estimatedMinutes: 7,
     available: true,
     href: `${BASE}pages/practice/ch15.html`,
   },
@@ -124,8 +84,8 @@ const CHAPTER_PROBLEMS = [
     chapter: 18,
     title: 'Process Costing',
     desc: 'Physical-units flow, equivalent units, cost per EU, FIFO vs weighted-average, and spoilage accounting.',
-    problemCount: STATS[18].problemCount,
-    estimatedMinutes: STATS[18].estimatedMinutes,
+    problemCount: 5,
+    estimatedMinutes: 6,
     available: true,
     href: `${BASE}pages/practice/ch18.html`,
   },
@@ -133,8 +93,8 @@ const CHAPTER_PROBLEMS = [
     chapter: 21,
     title: 'Inventory Management',
     desc: 'EOQ, safety stock, reorder point, JIT economics, and backflush costing.',
-    problemCount: STATS[21].problemCount,
-    estimatedMinutes: STATS[21].estimatedMinutes,
+    problemCount: 5,
+    estimatedMinutes: 6,
     available: true,
     href: `${BASE}pages/practice/ch21.html`,
   },
@@ -142,8 +102,8 @@ const CHAPTER_PROBLEMS = [
     chapter: 22,
     title: 'Capital Budgeting',
     desc: 'NPV, IRR, payback, and AARR calculations with tax effects and depreciation tax shields.',
-    problemCount: STATS[22].problemCount,
-    estimatedMinutes: STATS[22].estimatedMinutes,
+    problemCount: 5,
+    estimatedMinutes: 7,
     available: true,
     href: `${BASE}pages/practice/ch22.html`,
   },
@@ -151,8 +111,8 @@ const CHAPTER_PROBLEMS = [
     chapter: 23,
     title: 'Transfer Pricing',
     desc: 'Market-based, cost-based, and negotiated transfer pricing; general rule; multinational tax strategy.',
-    problemCount: STATS[23].problemCount,
-    estimatedMinutes: STATS[23].estimatedMinutes,
+    problemCount: 5,
+    estimatedMinutes: 7,
     available: true,
     href: `${BASE}pages/practice/ch23.html`,
   },
@@ -160,8 +120,8 @@ const CHAPTER_PROBLEMS = [
     chapter: 24,
     title: 'Performance Measurement',
     desc: 'ROI, residual income, EVA, investment-center decisions, and pay-for-performance design.',
-    problemCount: STATS[24].problemCount,
-    estimatedMinutes: STATS[24].estimatedMinutes,
+    problemCount: 5,
+    estimatedMinutes: 7,
     available: true,
     href: `${BASE}pages/practice/ch24.html`,
   },

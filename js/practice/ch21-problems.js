@@ -8,6 +8,7 @@ import {
   roundTo,
   roundToNearest,
   ensureGreaterThan,
+  randomChoice,
 } from "./practice-engine.js";
 import { randomCompany, randomProduct } from "./scenario-pools.js";
 
@@ -886,10 +887,236 @@ export const backflushCosting = {
 // Export
 // ============================================================================
 
+
+// ============================================================================
+// Problem 6 — Quantity Discount Decision
+// ============================================================================
+
+export const quantityDiscount = {
+  id: 'ch21-quantity-discount',
+  title: 'Quantity Discount Decision',
+  chapter: 21,
+  difficulty: 'intermediate',
+  estimatedMinutes: 8,
+  description:
+    'A supplier offers a price discount for ordering in larger quantities. Compare total annual cost at EOQ vs at the discount break.',
+  reviewChapters: CH21_REVIEW,
+
+  randomize: () => {
+    const company = randomCompany({ category: 'retail' });
+
+    const annualDemand = roundToNearest(randomInRange(10000, 30000), 1000);
+    const orderingCost = randomInRange(40, 80, 5);
+    const carryingPctOfPrice = roundTo(randomInRange(15, 30, 1) / 100, 2);
+
+    // Regular price and discount tier
+    const regularPrice = randomInRange(20, 60, 5);
+    const discountPct = randomInRange(2, 6, 1) / 100;
+    const discountPrice = roundTo(regularPrice * (1 - discountPct), 2);
+
+    // Discount threshold (must be larger than EOQ to force the tradeoff)
+    const carryingPerUnit = regularPrice * carryingPctOfPrice;
+    const eoq = Math.round(Math.sqrt((2 * annualDemand * orderingCost) / carryingPerUnit));
+    const discountThreshold = roundToNearest(eoq * randomInRange(140, 180, 10) / 100, 100);
+
+    return {
+      company,
+      annualDemand, orderingCost, carryingPctOfPrice,
+      regularPrice, discountPct, discountPrice,
+      eoq, discountThreshold,
+    };
+  },
+
+  scenario: (data) => `
+    <p>${data.company.name} purchases an inventory item at a regular price of
+    <strong>$${data.regularPrice}</strong> per unit. The supplier offers a
+    <strong>${(data.discountPct * 100).toFixed(0)}% discount</strong> for orders
+    of at least <strong>${data.discountThreshold.toLocaleString()} units</strong>.
+    Annual demand is <strong>${data.annualDemand.toLocaleString()} units</strong>,
+    ordering cost is <strong>$${data.orderingCost}</strong>, and carrying cost is
+    <strong>${(data.carryingPctOfPrice * 100).toFixed(0)}% of unit price</strong>
+    per year.</p>
+  `,
+
+  given: (data) => [
+    { label: 'Annual demand', value: `${data.annualDemand.toLocaleString()} units` },
+    { label: 'Regular price', value: `$${data.regularPrice} per unit` },
+    { label: 'Discount price (orders ≥ threshold)', value: `$${data.discountPrice} per unit` },
+    { label: 'Discount threshold', value: `${data.discountThreshold.toLocaleString()} units` },
+    { label: 'Ordering cost', value: `$${data.orderingCost}` },
+    { label: 'Carrying cost rate', value: `${(data.carryingPctOfPrice * 100).toFixed(0)}% of price` },
+  ],
+
+  steps: [
+    {
+      id: 'eoq-no-discount',
+      question: 'What is the EOQ at the REGULAR price (no discount)?',
+      resultType: 'units',
+      unit: 'units',
+      tolerance: { value: 10, type: 'absolute' },
+      solve: (data) => {
+        const carryingPerUnit = data.regularPrice * data.carryingPctOfPrice;
+        return Math.round(Math.sqrt((2 * data.annualDemand * data.orderingCost) / carryingPerUnit));
+      },
+      showWork: (data, prior, studentAnswers, correctValue) => {
+        const carryingPerUnit = roundTo(data.regularPrice * data.carryingPctOfPrice, 2);
+        return [
+          {
+            label: 'Carrying Cost per Unit (regular price)',
+            formula: 'Price × Carrying %',
+            values: `$${data.regularPrice} × ${(data.carryingPctOfPrice * 100).toFixed(0)}%`,
+            result: `$${carryingPerUnit}`,
+          },
+          {
+            label: 'EOQ',
+            formula: '√(2DP ÷ C)',
+            values: `√(2 × ${data.annualDemand.toLocaleString()} × $${data.orderingCost} ÷ $${carryingPerUnit})`,
+            result: `${correctValue.toLocaleString()} units`,
+            highlight: true,
+          },
+        ];
+      },
+    },
+    {
+      id: 'cost-at-eoq',
+      question: 'What is the TOTAL annual cost if ordering at EOQ (regular price)? Include purchase cost, ordering cost, and carrying cost.',
+      resultType: 'money-large',
+      unit: '$',
+      tolerance: { value: 1, type: 'percent' },
+      solve: (data, prior) => {
+        const carryingPerUnit = data.regularPrice * data.carryingPctOfPrice;
+        const purchase = data.annualDemand * data.regularPrice;
+        const ordering = (data.annualDemand / prior['eoq-no-discount']) * data.orderingCost;
+        const carrying = (prior['eoq-no-discount'] / 2) * carryingPerUnit;
+        return Math.round(purchase + ordering + carrying);
+      },
+      showWork: (data, prior, studentAnswers, correctValue) => {
+        const carryingPerUnit = roundTo(data.regularPrice * data.carryingPctOfPrice, 2);
+        const purchase = Math.round(data.annualDemand * data.regularPrice);
+        const ordering = Math.round((data.annualDemand / prior['eoq-no-discount']) * data.orderingCost);
+        const carrying = Math.round((prior['eoq-no-discount'] / 2) * carryingPerUnit);
+        return [
+          {
+            label: 'Annual Purchase Cost',
+            values: `${data.annualDemand.toLocaleString()} × $${data.regularPrice}`,
+            result: `$${purchase.toLocaleString()}`,
+          },
+          {
+            label: 'Annual Ordering Cost',
+            values: `(${data.annualDemand.toLocaleString()} ÷ ${prior['eoq-no-discount'].toLocaleString()}) × $${data.orderingCost}`,
+            result: `$${ordering.toLocaleString()}`,
+          },
+          {
+            label: 'Annual Carrying Cost',
+            values: `(${prior['eoq-no-discount'].toLocaleString()} ÷ 2) × $${carryingPerUnit}`,
+            result: `$${carrying.toLocaleString()}`,
+          },
+          {
+            label: 'Total Annual Cost @ EOQ',
+            formula: 'Purchase + Ordering + Carrying',
+            values: `$${purchase.toLocaleString()} + $${ordering.toLocaleString()} + $${carrying.toLocaleString()}`,
+            result: `$${correctValue.toLocaleString()}`,
+            highlight: true,
+          },
+        ];
+      },
+    },
+    {
+      id: 'cost-at-discount',
+      question: 'What is the TOTAL annual cost if ordering AT the discount threshold (capturing the discount)?',
+      resultType: 'money-large',
+      unit: '$',
+      tolerance: { value: 1, type: 'percent' },
+      solve: (data) => {
+        const carryingPerUnit = data.discountPrice * data.carryingPctOfPrice;
+        const purchase = data.annualDemand * data.discountPrice;
+        const ordering = (data.annualDemand / data.discountThreshold) * data.orderingCost;
+        const carrying = (data.discountThreshold / 2) * carryingPerUnit;
+        return Math.round(purchase + ordering + carrying);
+      },
+      showWork: (data, prior, studentAnswers, correctValue) => {
+        const carryingPerUnit = roundTo(data.discountPrice * data.carryingPctOfPrice, 2);
+        const purchase = Math.round(data.annualDemand * data.discountPrice);
+        const ordering = Math.round((data.annualDemand / data.discountThreshold) * data.orderingCost);
+        const carrying = Math.round((data.discountThreshold / 2) * carryingPerUnit);
+        return [
+          {
+            label: 'Annual Purchase Cost (discounted)',
+            values: `${data.annualDemand.toLocaleString()} × $${data.discountPrice}`,
+            result: `$${purchase.toLocaleString()}`,
+          },
+          {
+            label: 'Annual Ordering Cost (fewer orders)',
+            values: `(${data.annualDemand.toLocaleString()} ÷ ${data.discountThreshold.toLocaleString()}) × $${data.orderingCost}`,
+            result: `$${ordering.toLocaleString()}`,
+          },
+          {
+            label: 'Annual Carrying Cost (more inventory)',
+            values: `(${data.discountThreshold.toLocaleString()} ÷ 2) × $${carryingPerUnit}`,
+            result: `$${carrying.toLocaleString()}`,
+          },
+          {
+            label: 'Total Annual Cost @ Discount',
+            formula: 'Purchase + Ordering + Carrying (all at discount terms)',
+            values: 'Sum of above',
+            result: `$${correctValue.toLocaleString()}`,
+            highlight: true,
+            note: 'Note: Ordering cost falls (fewer orders) but carrying cost rises (larger batches).',
+          },
+        ];
+      },
+    },
+    {
+      id: 'savings',
+      question: 'What are the NET annual savings of accepting the discount? (Cost @ EOQ − Cost @ Discount. Positive = savings, negative = extra cost.)',
+      resultType: 'money-medium',
+      unit: '$',
+      tolerance: { value: 1, type: 'percent' },
+      solve: (data, prior) => prior['cost-at-eoq'] - prior['cost-at-discount'],
+      showWork: (data, prior, studentAnswers, correctValue) => [
+        {
+          label: 'Net Annual Savings',
+          formula: 'Cost @ EOQ − Cost @ Discount',
+          values: `$${prior['cost-at-eoq'].toLocaleString()} − $${prior['cost-at-discount'].toLocaleString()}`,
+          result: `$${correctValue.toLocaleString()}`,
+          highlight: true,
+          note: correctValue > 0
+            ? 'Positive — discount savings outweigh extra carrying cost.'
+            : 'Negative — extra carrying cost from larger batches exceeds the discount savings.',
+        },
+      ],
+    },
+    {
+      id: 'decision',
+      type: 'choice',
+      intentionalSingleAnswer: true,
+      question: 'Should the company accept the quantity discount?',
+      options: [
+        { id: 'accept-positive', label: 'Accept — total cost drops despite higher carrying cost' },
+        { id: 'reject-negative', label: 'Reject — extra carrying cost from larger batches exceeds discount savings' },
+        { id: 'accept-purchase-discount', label: 'Accept — any purchase discount is worth taking' },
+        { id: 'reject-larger-orders', label: 'Reject — larger orders increase risk regardless of cost' },
+      ],
+      correctId: (data, prior) => prior['savings'] > 0 ? 'accept-positive' : 'reject-negative',
+      showWork: (data, prior, studentAnswers, correctId) => [
+        {
+          label: 'Decision Rule',
+          formula: 'Accept discount only if total annual cost falls',
+          values: `Net change: $${prior['savings'].toLocaleString()}`,
+          result: correctId === 'accept-positive' ? 'Accept' : 'Reject',
+          highlight: true,
+          note: 'Quantity discounts are tempting because the purchase price falls, but they always come with higher carrying cost. The right comparison is total annual cost.',
+        },
+      ],
+    },
+  ],
+};
+
 export const ch21Problems = [
   eoqCalculation,
   reorderPoint,
   eoqSensitivity,
   jitComparison,
   backflushCosting,
+  quantityDiscount,
 ];

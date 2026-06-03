@@ -1064,27 +1064,9 @@ export const capitalRationing = {
     const npvB = pvInflowsB - projB.cost;
     const npvC = pvInflowsC - projC.cost;
 
-    // Capital budget must accommodate the top-2-PI pair (with 2-12% headroom)
-    // and must exclude all three projects. This keeps "rank by PI" the
-    // unambiguously correct strategy regardless of which project lands as the
-    // highest-PI one.
+    // Capital budget allows two of three projects
     const totalCostAll = projA.cost + projB.cost + projC.cost;
-    const projects = [
-      { cost: projA.cost, pi: piA },
-      { cost: projB.cost, pi: piB },
-      { cost: projC.cost, pi: piC },
-    ];
-    const sortedByPI = [...projects].sort((a, b) => b.pi - a.pi);
-    const topTwoCost = sortedByPI[0].cost + sortedByPI[1].cost;
-
-    let budget = roundToNearest(
-      Math.round(topTwoCost * randomInRange(102, 112, 1) / 100),
-      10000
-    );
-    // Floor: must at least fit the top-2-PI pair
-    if (budget < topTwoCost) budget = roundToNearest(topTwoCost + 5000, 5000);
-    // Ceiling: must exclude all three
-    if (budget >= totalCostAll) budget = roundToNearest(totalCostAll - 10000, 5000);
+    const budget = roundToNearest(Math.round(totalCostAll * randomInRange(60, 75, 5) / 100), 10000);
 
     return {
       company, requiredRate, budget,

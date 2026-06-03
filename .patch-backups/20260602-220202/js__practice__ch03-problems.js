@@ -1106,10 +1106,9 @@ export const cvpGraphInterpretation = {
   `,
 
   given: (data) => [
-    { label: 'Selling price', value: `${data.price}` },
-    { label: 'Variable cost per unit', value: `${data.variableCost}` },
-    { label: 'Total fixed costs', value: `${data.fixedCosts.toLocaleString()}` },
-    { label: 'Operating volume to evaluate', value: `${data.operatingUnits.toLocaleString()} units` },
+    { label: 'Selling price', value: `$${data.price}` },
+    { label: 'Variable cost per unit', value: `$${data.variableCost}` },
+    { label: 'Total fixed costs', value: `$${data.fixedCosts.toLocaleString()}` },
   ],
 
   steps: [
@@ -1165,7 +1164,7 @@ export const cvpGraphInterpretation = {
     },
     {
       id: 'profit-at-volume',
-      question: 'What is the operating profit at the operating volume shown above? (On the graph this is the vertical gap between the revenue and total cost lines at that volume.)',
+      question: `What is the operating profit at ${data => data.operatingUnits} units? (Visible on graph as the vertical gap between revenue and total cost at that volume.)`,
       resultType: 'money-medium',
       unit: '$',
       tolerance: { value: 1, type: 'percent' },

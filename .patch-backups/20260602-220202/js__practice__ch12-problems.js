@@ -1014,9 +1014,8 @@ export const specialOrderConstrained = {
     const fixedCostPerUnit = randomInRange(15, 35, 1);
     const regularCM = price - variableCost;
 
-    // Special order: priced 75-115% of regular — sometimes accretive, sometimes not.
-    // Forces the student to actually compute net impact rather than memorize "always reject."
-    const specialPrice = roundToNearest(price * (randomInRange(75, 115, 5) / 100), 1);
+    // Special order: lower price than regular, but specific unit count
+    const specialPrice = roundToNearest(price * (randomInRange(75, 95, 5) / 100), 1);
     const specialUnits = roundToNearest(randomInRange(1000, 4000), 100);
     const specialCM = specialPrice - variableCost;
 
@@ -1133,7 +1132,7 @@ export const specialOrderConstrained = {
       options: [
         { id: 'accept-positive', label: 'Accept — special contribution exceeds opportunity cost, net income increases' },
         { id: 'reject-negative', label: 'Reject — opportunity cost exceeds special contribution, net income decreases' },
-        { id: 'accept-positive-cm', label: 'Accept — the special CM is positive, so the order is profitable on its own' },
+        { id: 'accept-positive-cm', label: 'Accept — the special CM is positive' },
         { id: 'reject-below-regular', label: 'Reject — the special price is below the regular price' },
       ],
       correctId: (data, prior) => prior['net-impact'] >= 0 ? 'accept-positive' : 'reject-negative',
