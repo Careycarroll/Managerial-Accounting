@@ -9,7 +9,7 @@ You are a code agent working on the Managerial Accounting Interactive project. T
 A Vite-based multi-page web app that teaches Horngren's Cost Accounting (17th Edition) through interactive tools. Three sections:
 
 - **Learn** — 24 chapter pages with interactive calculators, show-work panels, key terms
-- **Practice** — 30 randomized multi-step calculation problems across 6 chapters, engine v3+ with scenario + choice step support + render-time option shuffling
+- **Practice** — 74 randomized multi-step calculation problems across 13 chapters, engine v3+ with scenario + choice step support + render-time option shuffling
 - **Apply** — 12 business decision scenarios with three depth levels (Concept / Analysis / Simulation)
 
 **Repo:** `~/Github Projects/Managerial-Accounting/`
@@ -182,7 +182,7 @@ After deploy succeeds, **hard-refresh** the live site (Cmd+Shift+R) or test in a
     index.html                      Landing page
     pages/learn/                    24 chapter HTML files (ch01.html — ch24.html) + index.html
     pages/apply/                    12 scenario HTML files + index.html
-    pages/practice/                 8 HTML files (index + 6 chapter pickers live, cross-chapter stub empty)
+    pages/practice/                 15 HTML files (index + 13 chapter pickers + cross-chapter stub)
     pages/glossary.html             Glossary page
     js/core/                        main.js, progress-tracker.js
     js/components/                  randomizer, journal-entry, show-work, settings-panel, header
@@ -190,7 +190,7 @@ After deploy succeeds, **hard-refresh** the live site (Cmd+Shift+R) or test in a
     js/engine/                      scenario-engine.js + scenarios/breakeven-sim.js
     js/learn/                       ch01.js — ch24.js, index.js, glossary.js
     js/apply/                       12 scenario JS files + index.js
-    js/practice/                    Engine v3+, SPEC.md, scenario-pools, 6 chapter problem files, pickers
+    js/practice/                    Engine v3+, SPEC.md, scenario-pools, 13 chapter problem files, pickers
     js/practice/data/               4 JSON pool files (names, industries, suffixes, products)
     js/data/                        managerial-terms.js (337 terms)
     css/base.css                    Custom property design system
@@ -371,9 +371,9 @@ Run before any simulation commit.
 
 ---
 
-## 6. Practice Section — Phase 6A Complete
+## 6. Practice Section — Phase 6A + Phase A Depth + Phase B Tier 1 Complete
 
-30 randomized problems across 6 chapters (Ch. 3, 7, 8, 12, 15, 22). Engine v3+ supports scenario narrative wrappers, choice steps for accept/reject and fav/unfav decisions, and render-time option shuffling. **`js/practice/SPEC.md` is the authoritative contract** — read it before changing engine code or authoring new problems.
+**74 randomized problems across 13 chapters.** Engine v3+ supports scenario narrative wrappers, choice steps for accept/reject and fav/unfav decisions, and render-time option shuffling. **`js/practice/SPEC.md` is the authoritative contract** — read it before changing engine code or authoring new problems.
 
 ### 6.1 Architecture
 
@@ -383,10 +383,10 @@ Run before any simulation commit.
 | `js/practice/practice-engine.js` | Engine v3+ — state machine, tolerance grading, choice grading, option shuffle |
 | `js/practice/scenario-pools.js` | `randomCompany()` / `randomProduct()` helpers |
 | `js/practice/data/*.json` | 4 pool files (names 325, industries 50, suffixes 10, products 46) |
-| `js/practice/index.js` | Landing page picker (chapter + cross-chapter grids) |
-| `js/practice/chXX.js` | Per-chapter picker wiring |
-| `js/practice/chXX-problems.js` | Per-chapter problem definitions |
-| `pages/practice/*.html` | Picker pages |
+| `js/practice/index.js` | Landing page picker (tile stats derived from problem arrays — single source of truth) |
+| `js/practice/chXX.js` | Per-chapter picker wiring (13 files: ch03, ch05, ch07, ch08, ch09, ch10, ch12, ch15, ch18, ch21, ch22, ch23, ch24) |
+| `js/practice/chXX-problems.js` | Per-chapter problem definitions (13 files) |
+| `pages/practice/*.html` | Picker pages (index + 13 chapter pickers + cross-chapter stub) |
 | `css/practice.css` | Picker tiles, step cards, scenario card, summary |
 | `tests/_practice-hook.mjs` | Node loader hook for Vite-style imports |
 | `tests/_practice-register.mjs` | Hook registrar |
@@ -396,14 +396,21 @@ Run before any simulation commit.
 
 | Chapter | Problems | Validator |
 | --- | --- | --- |
-| Ch. 3 — CVP Analysis | 5 | clean |
+| Ch. 3 — CVP Analysis | 8 | clean |
+| Ch. 5 — Activity-Based Costing & ABM | 5 | clean |
 | Ch. 7 — Direct-Cost Variances | 5 | clean |
 | Ch. 8 — Overhead Variances | 5 | clean |
-| Ch. 12 — Relevant Costs | 5 | clean |
+| Ch. 9 — Inventory Costing & Capacity | 5 | clean |
+| Ch. 10 — Cost Behavior | 5 | clean |
+| Ch. 12 — Relevant Costs | 8 | clean |
 | Ch. 15 — Customer Profitability | 5 | clean |
-| Ch. 22 — Capital Budgeting | 5 | clean |
+| Ch. 18 — Process Costing | 5 | clean |
+| Ch. 21 — Inventory Management / JIT | 6 | clean |
+| Ch. 22 — Capital Budgeting | 7 | clean (1 known warning) |
+| Ch. 23 — Transfer Pricing | 5 | clean |
+| Ch. 24 — Performance Measurement | 5 | clean |
 
-2,140 total validator checks passing, 0 failures, 0 warnings as of Phase 6A close.
+5,264 total validator checks passing as of Phase B Tier 1 close, 0 failures, 1 warning (Ch. 22 `payback` shorter-payback step always resolves to Project B — pedagogically intentional, candidate for `intentionalSingleAnswer: true`).
 
 ### 6.2 SPEC.md is Authoritative
 
@@ -487,7 +494,7 @@ Choice steps render radio buttons and grade by exact `correctId(data, prior)` ma
 
 If a choice step has a fixed correct answer for pedagogical reasons (e.g. "book value IS the sunk cost"), opt into `intentionalSingleAnswer: true` to suppress the validator's coverage warning. This signals the test "yes, this is by design." Several Ch. 12 and Ch. 15 steps use this flag; Make-or-Buy deliberately doesn't (it should split both directions, and currently does).
 
-Function-form options are supported when option labels need to reference randomized data (e.g. customer names):
+Function-form options are supported when option labels need to reference randomized data (e.g. customer names, ranked project lists):
 
     options: (data) => [
       { id: 'a', label: `${data.custAName} — reason A` },
@@ -552,7 +559,15 @@ Validator runs 10 checks per problem (see SPEC.md §12 and `tests/validate-probl
       "validate:all": "for f in js/practice/ch*-problems.js; do [ -s \"$f\" ] && node --import ./tests/_practice-register.mjs tests/validate-problem.js \"$f\" || true; done"
     }
 
-### 6.9 Authoring Checklist — New Chapter Problem File
+### 6.9 Landing Page — Single Source of Truth Pattern
+
+`js/practice/index.js` imports each chapter's problem array and uses a `tileStats(problems)` helper to derive `problemCount` and `estimatedMinutes` from the array length and per-problem `estimatedMinutes`. Adding a new problem to any `chXX-problems.js` automatically updates its landing-page tile.
+
+**Do NOT hardcode `problemCount` in landing tiles.** That pattern caused multi-chapter drift in Phase B Tier 1 (every tile showed "5 problems" while actual counts ranged 5–8).
+
+Cross-chapter tiles (Phase 6B stubs) currently hardcode counts since their problem arrays are empty — convert them to `tileStats()` when their problem arrays start filling.
+
+### 6.10 Authoring Checklist — New Chapter Problem File
 
 1. Write `js/practice/chXX-problems.js` following the schema in §6.3 (use Ch. 7, Ch. 12, or Ch. 15 as a reference for scenario + choice patterns)
 2. Use `randomCompany()` / `randomProduct()` for narrative wrappers
@@ -562,11 +577,11 @@ Validator runs 10 checks per problem (see SPEC.md §12 and `tests/validate-probl
 6. Run `npm run validate -- js/practice/chXX-problems.js` — must show 0 failures
 7. Write `pages/practice/chXX.html` (clone an existing picker page, swap title/description/script src)
 8. Write `js/practice/chXX.js` (clone an existing picker wiring, swap import + array name)
-9. Activate the tile in `js/practice/index.js` (set `available: true`, `problemCount`, `estimatedMinutes`, `href`)
+9. Activate the tile in `js/practice/index.js` — import the problem array, add it to `STATS`, set `available: true`, `problemCount: STATS[XX].problemCount`, `estimatedMinutes: STATS[XX].estimatedMinutes`, `href`
 10. Hard-refresh, manual browser test each problem twice — once correct, once with distractors
 11. Commit message format: `feat: Practice Ch. XX — Topic (N problems)` with detail bullets
 
-### 6.10 Anti-Patterns Specific to Practice
+### 6.11 Anti-Patterns Specific to Practice
 
 - **Hardcoded paths in `reviewChapters`** — always use `${BASE}pages/learn/chXX.html`, never `/pages/learn/chXX.html`
 - **Hex colors in show-work** — use only the CSS custom property tokens; the show-work component handles styling
@@ -575,18 +590,22 @@ Validator runs 10 checks per problem (see SPEC.md §12 and `tests/validate-probl
 - **Static answers in choice steps** — `correctId` must be a function of data, not a constant (unless `intentionalSingleAnswer: true`)
 - **Calling pool helpers in `scenario()` or `showWork()`** — would re-randomize per render; pool helpers belong only in `randomize()`
 - **Missing `unit` field on numeric steps** — required even if cosmetic; the engine renders it next to the input
-- **Arrow-function template-literal interpolation in question/option label strings** — `${data => data.foo}` is a function expression in a template string, not a value reference. Renders as literal text. Use plain strings for questions, or function-form options when you need data references in labels.
+- **Arrow-function template-literal interpolation in question/option label strings** — `${data => data.foo}` is a function expression in a template string, not a value reference. Renders as literal text. Use plain strings for questions, or function-form options when you need data references in labels. (This exact bug was caught in the Phase B Tier 1 review on Ch. 3 `cvpGraphInterpretation` and fixed.)
+- **Hardcoding `problemCount` in landing tiles** — derive from `chXXProblems.length` via the `STATS` table in `index.js`. Adding a problem must auto-update the tile.
+- **Randomization that makes the answer constant** — when a choice step's `correctId` depends on `prior` values that are themselves bounded such that one branch is always taken (e.g., special-order price always below regular price → always reject), the problem stops teaching the decision rule. Validator flags this with a single-answer warning across 50 runs. Either widen ranges (preferred) or opt into `intentionalSingleAnswer: true` if the lesson really is fixed.
 
-### 6.11 What's Left in Practice
+### 6.12 What's Left in Practice
 
-**Phase 6B — Cross-chapter problems:**
+**Phase B Tier 2 — 6 additional breadth problems remaining**
 
-| Problem                | Chapters         | Status                              |
-| ---------------------- | ---------------- | ----------------------------------- |
-| Profitability Analysis | Ch. 3 + 12 + 15  | **Unblocked** — all three live      |
-| Full Variance Analysis | Ch. 7 + 8        | **Unblocked** — both source live    |
-| Make or Buy Decision   | Ch. 12 + 5 + 10  | Blocked — Ch. 5 / 10 not yet built  |
-| Capital Investment     | Ch. 22 + 12 + 24 | Blocked — Ch. 24 not yet built      |
+**Phase 6B — Cross-chapter problems (all unblocked):**
+
+| Problem                | Chapters         | Status                                       |
+| ---------------------- | ---------------- | -------------------------------------------- |
+| Profitability Analysis | Ch. 3 + 12 + 15  | **Unblocked** — all three live               |
+| Full Variance Analysis | Ch. 7 + 8        | **Unblocked** — both source live             |
+| Make or Buy Decision   | Ch. 12 + 5 + 10  | **Unblocked** — Ch. 5 + Ch. 10 Practice live |
+| Capital Investment     | Ch. 22 + 12 + 24 | **Unblocked** — Ch. 24 Practice live         |
 
 Cross-chapter problems live in `js/practice/cross-chapter-problems.js` (currently empty stub) and `pages/practice/cross-chapter.html` (also empty). Schema and engine support are identical to chapter problems — the only difference is that cross-chapter problems span topics from multiple chapters in a single carry-forward chain.
 
@@ -630,7 +649,9 @@ Examples:
     feat: Learn Ch. 14 — Pricing decisions calculator with cost-plus + target costing
     fix: Apply breakeven — review chapter hrefs now use import.meta.env.BASE_URL
     feat: Practice Ch. 22 — Capital Budgeting (5 problems)
+    feat: Practice Phase B Tier 1 — 8 new problems across Ch. 3, 12, 22
     feat: Practice engine — shuffle choice option order at render time
+    fix: Practice — patch broken CVP interpolation, widen Ch. 12 special-order range, derive Ch. 22 capital-rationing budget, single-source landing-page tile stats
     test: Practice problem validator
     ci: Enable GitHub Pages deployment via Actions
     refactor: simulation engine — extract bell-curve option generator
@@ -647,12 +668,15 @@ Examples:
 - **Phase 4C** — Simulation engine + test suite (May 2026)
 - **Phase 4D** — Breakeven simulation, 5 stages, all answer types (May 2026)
 - **Phase 4E** — GitHub Pages deployment via Actions (May 2026)
-- **Phase 6A** — Practice section chapter problems (Ch. 3 / 7 / 8 / 12 / 15 / 22) + engine v3+ + validator + scenario pool + render-time option shuffle (May 2026)
+- **Phase 6A** — Practice section chapter problems (Ch. 3 / 7 / 8 / 12 / 15 / 22, 30 problems) + engine v3+ + validator + scenario pool + render-time option shuffle (May 2026)
+- **Phase A (Sub-step depth)** — Extended depth on 6 existing problems across Ch. 5 / 9 / 10 / 12 (Jun 2026)
+- **Phase B Tier 1** — 8 new problems across Ch. 3 (sales-mix CVP, operating leverage, CVP graph), Ch. 12 (constrained special order, sell-or-process-further, opportunity-cost pricing), Ch. 22 (capital rationing, discounted payback); plus expansion of Practice into Ch. 5 / 9 / 10 / 18 / 21 / 23 / 24 brings total to 74 problems across 13 chapters (Jun 2026)
 
 ## 10. In Progress
 
 - **Phase 5** — Remaining 5 simulations (make-or-buy, pricing, investment, performance, quality)
-- **Phase 6B** — Practice cross-chapter problems (Full Variance + Profitability Analysis unblocked; Make-or-Buy + Capital Investment blocked on additional chapter Practice)
+- **Phase B Tier 2** — 6 additional breadth Practice problems
+- **Phase 6B** — Practice cross-chapter problems (Full Variance, Profitability Analysis, Make-or-Buy, Capital Investment — all four unblocked)
 
 ---
 
@@ -662,10 +686,12 @@ Examples:
 - show-work not added to Ch. 1 (no numeric tools — low priority)
 - `formula-display.js`, `worked-example.js`, `term-tooltip.js` referenced in planning but not yet built
 - 5 remaining simulations to build
-- 4 Practice cross-chapter problems pending (2 unblocked, 2 blocked on additional chapter Practice)
+- Phase 6B cross-chapter Practice problems pending (all four unblocked)
+- Phase B Tier 2 (6 additional breadth problems) remaining
 - Ch. 15 Problem 4 (Sales-Mix vs Sales-Quantity Variance) can land on a zero-total-variance edge case where the F/U direction step reads awkwardly. Tighten randomization ranges in polish pass.
+- Ch. 22 `payback` Problem — `shorter-payback` step always resolves to Project B (1 validator warning). Pedagogically intentional but should either widen Project A's CF range or opt into `intentionalSingleAnswer: true`.
 - `js/engine/scenarios/breakeven-sim.js` contains duplicate stage definitions (overhead-allocation, demand-shock, year-end appear twice) — engine ignores duplicates after first match by id, but bundle includes ~30KB of dead code. Clean up in polish pass.
-- Pass 2 Practice schema is battle-tested across 6 chapters; future authors should mirror the scenario + choice patterns from `ch07-problems.js` (fav/unfav direction), `ch12-problems.js` (accept/reject decisions), and `ch15-problems.js` (function-form options with `data` reference) as reference implementations.
+- Pass 2 Practice schema is battle-tested across 13 chapters and 74 problems; future authors should mirror the scenario + choice patterns from `ch07-problems.js` (fav/unfav direction), `ch12-problems.js` (accept/reject decisions), and `ch15-problems.js` (function-form options with `data` reference) as reference implementations.
 
 ---
 
@@ -696,7 +722,7 @@ Examples:
 3. Run `npm run validate -- js/practice/chXX-problems.js` — 0 failures required
 4. Clone `pages/practice/ch22.html` → `chXX.html` (swap title, description, script src)
 5. Clone `js/practice/ch22.js` → `chXX.js` (swap import + problems array name)
-6. Activate the tile in `js/practice/index.js` (`available: true`, `problemCount`, `estimatedMinutes`, `href`)
+6. Activate the tile in `js/practice/index.js` — import the array into STATS, then read `STATS[XX].problemCount` / `STATS[XX].estimatedMinutes` from the tile definition (§6.9). Do not hardcode counts.
 7. Hard-refresh, manually test every problem twice (correct path, distractor path)
 8. Commit: `feat: Practice Ch. XX — Topic (N problems)`
 9. Update the README status table for Practice

@@ -215,9 +215,9 @@ Tests:
 
 ---
 
-## Practice Section -- Phase 6A Complete
+## Practice Section -- Phase 6A + Phase A Depth + Phase B Tier 1 Complete
 
-A third first-class section alongside Learn and Apply. Accessible from the main nav and the landing page. 30 randomized multi-step calculation problems across six chapters, with a domain-agnostic engine, scenario pool system, automated validator, and render-time option shuffling.
+A third first-class section alongside Learn and Apply. Accessible from the main nav and the landing page. **74 randomized multi-step calculation problems across 13 chapters**, with a domain-agnostic engine, scenario pool system, automated validator, and render-time option shuffling.
 
 ### Concept
 
@@ -253,14 +253,21 @@ Categories: `manufacturing`, `process`, `service`, `retail`, `distribution`, `te
 
 | Chapter | Topic                            | Problems | Validator |
 | ------- | -------------------------------- | -------- | --------- |
-| Ch. 3   | CVP Analysis                     | 5        | 0 fail    |
+| Ch. 3   | CVP Analysis                     | 8        | 0 fail    |
+| Ch. 5   | Activity-Based Costing & ABM     | 5        | 0 fail    |
 | Ch. 7   | Direct Cost Variances            | 5        | 0 fail    |
 | Ch. 8   | Overhead Variances               | 5        | 0 fail    |
-| Ch. 12  | Relevant Costs                   | 5        | 0 fail    |
+| Ch. 9   | Inventory Costing & Capacity     | 5        | 0 fail    |
+| Ch. 10  | Cost Behavior                    | 5        | 0 fail    |
+| Ch. 12  | Relevant Costs                   | 8        | 0 fail    |
 | Ch. 15  | Customer Profitability           | 5        | 0 fail    |
-| Ch. 22  | Capital Budgeting                | 5        | 0 fail    |
+| Ch. 18  | Process Costing                  | 5        | 0 fail    |
+| Ch. 21  | Inventory Management / JIT       | 6        | 0 fail    |
+| Ch. 22  | Capital Budgeting                | 7        | 0 fail    |
+| Ch. 23  | Transfer Pricing                 | 5        | 0 fail    |
+| Ch. 24  | Performance Measurement          | 5        | 0 fail    |
 
-**30 problems total. 2,140 validator checks passing. 0 failures, 0 warnings.**
+**74 problems total. 5,264 validator checks passing. 0 failures, 1 warning (Ch. 22 `payback` shorter-payback always Project B -- pedagogically intentional, candidate for `intentionalSingleAnswer: true`).**
 
 ### Validator
 
@@ -277,37 +284,65 @@ Validator infrastructure (in `tests/`):
 - `_practice-register.mjs` -- hook registrar (separate file required by Node's hooks API)
 - `validate-problem.js` -- the actual validator
 
-### Planned Cross-Chapter Problems
+### Planned Cross-Chapter Problems (Phase 6B)
 
-| Problem                | Chapters         | Status                                   |
-| ---------------------- | ---------------- | ---------------------------------------- |
-| Profitability Analysis | Ch. 3 + 12 + 15  | **Unblocked** -- all three chapters live |
-| Full Variance Analysis | Ch. 7 + 8        | **Unblocked** -- both source chapters live |
-| Make or Buy Decision   | Ch. 12 + 5 + 10  | Pending (Ch. 5 / Ch. 10 not yet built)   |
-| Capital Investment     | Ch. 22 + 12 + 24 | Pending (Ch. 24 Practice not yet built)  |
+| Problem                | Chapters         | Status                                                |
+| ---------------------- | ---------------- | ----------------------------------------------------- |
+| Profitability Analysis | Ch. 3 + 12 + 15  | **Unblocked** -- all three chapters live              |
+| Full Variance Analysis | Ch. 7 + 8        | **Unblocked** -- both source chapters live            |
+| Make or Buy Decision   | Ch. 12 + 5 + 10  | **Unblocked** -- Ch. 5 + Ch. 10 Practice now live     |
+| Capital Investment     | Ch. 22 + 12 + 24 | **Unblocked** -- Ch. 24 Practice now live             |
+
+All four cross-chapter problems are unblocked. Phase 6B authoring is the next Practice milestone.
 
 ### File Structure
 
     pages/practice/index.html         Landing page (chapter + cross-chapter grids)
     pages/practice/ch03.html          CVP picker page
+    pages/practice/ch05.html          ABC & ABM picker page
     pages/practice/ch07.html          Direct variance picker page
     pages/practice/ch08.html          Overhead variance picker page
+    pages/practice/ch09.html          Inventory costing & capacity picker page
+    pages/practice/ch10.html          Cost behavior picker page
     pages/practice/ch12.html          Relevant cost picker page
     pages/practice/ch15.html          Customer profitability picker page
+    pages/practice/ch18.html          Process costing picker page
+    pages/practice/ch21.html          Inventory management / JIT picker page
     pages/practice/ch22.html          Capital budgeting picker page
+    pages/practice/ch23.html          Transfer pricing picker page
+    pages/practice/ch24.html          Performance measurement picker page
     pages/practice/cross-chapter.html Cross-chapter picker -- empty stub for Phase 6B
 
     js/practice/SPEC.md               Authoritative engine + problem schema contract (Pass 2)
     js/practice/practice-engine.js    Engine v3+ -- scenario, choice, tolerance grading, option shuffle
     js/practice/scenario-pools.js     randomCompany() / randomProduct() helpers
-    js/practice/index.js              Landing page picker
+    js/practice/index.js              Landing page picker (tile stats derived from problem arrays)
     js/practice/ch03.js               Picker wiring (one per chapter)
-    js/practice/ch03-problems.js      5 CVP problem definitions
-    js/practice/ch07-problems.js      5 direct-cost variance problem definitions
-    js/practice/ch08-problems.js      5 overhead variance problem definitions
-    js/practice/ch12-problems.js      5 relevant cost problem definitions
-    js/practice/ch15-problems.js      5 customer profitability problem definitions
-    js/practice/ch22-problems.js      5 capital budgeting problem definitions
+    js/practice/ch05.js
+    js/practice/ch07.js
+    js/practice/ch08.js
+    js/practice/ch09.js
+    js/practice/ch10.js
+    js/practice/ch12.js
+    js/practice/ch15.js
+    js/practice/ch18.js
+    js/practice/ch21.js
+    js/practice/ch22.js
+    js/practice/ch23.js
+    js/practice/ch24.js
+    js/practice/ch03-problems.js      8 CVP problems
+    js/practice/ch05-problems.js      5 ABC & ABM problems
+    js/practice/ch07-problems.js      5 direct-cost variance problems
+    js/practice/ch08-problems.js      5 overhead variance problems
+    js/practice/ch09-problems.js      5 inventory costing & capacity problems
+    js/practice/ch10-problems.js      5 cost behavior problems
+    js/practice/ch12-problems.js      8 relevant cost problems
+    js/practice/ch15-problems.js      5 customer profitability problems
+    js/practice/ch18-problems.js      5 process costing problems
+    js/practice/ch21-problems.js      6 inventory management / JIT problems
+    js/practice/ch22-problems.js      7 capital budgeting problems
+    js/practice/ch23-problems.js      5 transfer pricing problems
+    js/practice/ch24-problems.js      5 performance measurement problems
     js/practice/cross-chapter-problems.js  Empty stub -- Phase 6B
 
     js/practice/data/names.json       325 base company names
@@ -354,7 +389,10 @@ Phase 4D -- Breakeven Simulation (first simulation) -- Complete
 Phase 4E -- GitHub Pages deployment via Actions -- Complete
 Phase 5 -- Remaining 5 Simulations -- In Progress
 Phase 6A -- Practice Section chapter problems (Ch. 3 / 7 / 8 / 12 / 15 / 22) + engine v3 + validator + option shuffle -- Complete
-Phase 6B -- Practice Section cross-chapter problems -- In Progress (Full Variance + Profitability Analysis unblocked; Make-or-Buy and Capital Investment blocked on additional chapter Practice)
+Phase A (Sub-step depth) -- Extended depth on 6 existing problems across Ch. 5 / 9 / 10 / 12 -- Complete
+Phase B Tier 1 -- 8 new problems across Ch. 3 (sales-mix CVP, operating leverage, CVP graph interpretation), Ch. 12 (constrained special order, sell-or-process-further, opportunity-cost pricing), Ch. 22 (capital rationing, discounted payback) -- Complete
+Phase B Tier 2 -- 6 additional breadth problems -- Remaining
+Phase 6B -- Practice Section cross-chapter problems (Full Variance, Profitability Analysis, Make-or-Buy, Capital Investment) -- All four unblocked, authoring not yet started
 
 ---
 
@@ -406,6 +444,8 @@ Token reference for JS output:
 - show-work not yet added to Ch. 1 (no numeric tools -- low priority)
 - formula-display.js, worked-example.js, term-tooltip.js not yet built
 - 5 remaining simulations to build (make-or-buy, pricing, investment, performance, quality)
-- Practice cross-chapter problems pending; Full Variance Analysis (Ch. 7 + 8) and Profitability Analysis (Ch. 3 + 12 + 15) are unblocked; Make-or-Buy and Capital Investment wait on additional chapter Practice
+- Phase 6B cross-chapter Practice problems pending (all four scenarios now unblocked)
+- Phase B Tier 2 (6 additional breadth problems) remaining
 - Ch. 15 Problem 4 (Sales-Mix vs Sales-Quantity Variance) can land on a zero-total-variance edge case where the F/U direction step reads awkwardly. Tighten randomization ranges in polish pass.
+- Ch. 22 `payback` Problem -- `shorter-payback` step always resolves to Project B (validator warning). Pedagogically intentional but should either widen Project A's CF range or opt into `intentionalSingleAnswer: true`.
 - breakeven-sim.js has duplicate stage definitions (overhead-allocation, demand-shock, year-end appear twice). The engine iterates the stages array and finds the first matching `id` for nextStage references, so the duplicates are dead code. This bloats apply-breakeven bundle by ~30 kB. Clean up in a polish pass.
